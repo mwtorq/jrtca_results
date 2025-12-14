@@ -723,6 +723,40 @@ def main():
                 target_conn.commit()
                 print("    ✓ Added FK_Class_Section foreign key")
         
+        # Ensure CatalogEntry table exists (may not be in source schema)
+        print("\nEnsuring CatalogEntry table exists...")
+        cursor.execute("""
+            SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_SCHEMA = 'sResults' AND TABLE_NAME = 'CatalogEntry'
+        """)
+        if cursor.fetchone()[0] == 0:
+            print("  Creating CatalogEntry table...")
+            cursor.execute("""
+                CREATE TABLE [sResults].[CatalogEntry] (
+                    [CatalogEntryID] INT IDENTITY(1,1) PRIMARY KEY,
+                    [Year] NVARCHAR(4) NOT NULL,
+                    [EntryNumber] NVARCHAR(50) NULL,
+                    [DogID] INT NULL,
+                    [DogName] NVARCHAR(255) NOT NULL,
+                    [OwnerID] INT NULL,
+                    [Sire] NVARCHAR(255) NULL,
+                    [Dam] NVARCHAR(255) NULL,
+                    [Sex] NVARCHAR(10) NULL,
+                    [ClassID] INT NULL,
+                    [ClassName] NVARCHAR(255) NULL,
+                    CONSTRAINT [FK_CatalogEntry_Dog] FOREIGN KEY ([DogID])
+                        REFERENCES [sResults].[Dog]([DogID]),
+                    CONSTRAINT [FK_CatalogEntry_Owner] FOREIGN KEY ([OwnerID])
+                        REFERENCES [sResults].[Owner]([OwnerID]),
+                    CONSTRAINT [FK_CatalogEntry_Class] FOREIGN KEY ([ClassID])
+                        REFERENCES [sResults].[Class]([ClassID])
+                );
+            """)
+            target_conn.commit()
+            print("    ✓ CatalogEntry table created")
+        else:
+            print("  CatalogEntry table already exists")
+        
         # Ensure Relationship table exists (may not be in source schema)
         print("\nEnsuring Relationship table exists...")
         cursor.execute("""

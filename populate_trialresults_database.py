@@ -106,10 +106,11 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
     placeholders = ", ".join(["?" for _ in create_columns])
     values = list(create_columns.values())
     
-    # Final safety check: ensure no None or empty values
-    for col, val in zip(create_columns.keys(), values):
-        if val is None or (isinstance(val, str) and not val.strip()):
-            print(f"  ERROR: NULL or empty value for column {col} in {table}! Value: {repr(val)}")
+    # Final safety check: ensure name_column is not None or empty (other columns can be NULL)
+    if name_column in create_columns:
+        name_val = create_columns[name_column]
+        if name_val is None or (isinstance(name_val, str) and not name_val.strip()):
+            print(f"  ERROR: NULL or empty value for name column {name_column} in {table}! Value: {repr(name_val)}")
             return None
     
     insert_query = f"INSERT INTO [sResults].[{table}] ({columns}) VALUES ({placeholders})"
@@ -246,8 +247,8 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                     if normalized_div_name and normalized_div_name.strip():
                         div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
                                                  normalized_div_name)
-                        if div_id:
-                            division_name_to_id[class_info.division] = div_id
+                    if div_id:
+                        division_name_to_id[class_info.division] = div_id
                     # If normalized_div_name is None or empty, div_id remains None
                 
                 # Get or create section
@@ -520,9 +521,9 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
                 if dog_id:
                     dog_name_to_id[normalized_dog_name] = dog_id
                     dog_name_to_id[dog.name] = dog_id  # Also store original name
-            else:
+                else:
                 # Update dog if we have more complete information
-                update_columns = []
+                    update_columns = []
                 update_values = []
                 if dog.sire and dog.sire.strip():
                     update_columns.append('Sire = ?')
@@ -571,23 +572,23 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
                                     owner_id = owner_name_to_id.get(dog.owner.strip())
                                 
                                 # Check if entry already exists
-                                check_query = """
+                check_query = """
                                     SELECT CatalogEntryID FROM [sResults].[CatalogEntry]
                                     WHERE Year = ? AND DogID = ? AND ClassID = ?
                                 """
-                                cursor.execute(check_query, class_info.year, dog_id, class_id)
-                                if cursor.fetchone():
-                                    continue  # Already exists
-                                
-                                insert_query = """
+                cursor.execute(check_query, class_info.year, dog_id, class_id)
+                if cursor.fetchone():
+                    continue  # Already exists
+                
+                insert_query = """
                                     INSERT INTO [sResults].[CatalogEntry]
                                     (Year, EntryNumber, DogID, DogName, OwnerID, Sire, Dam, Sex, ClassID, ClassName)
                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                                """
-                                cursor.execute(insert_query,
+                """
+                cursor.execute(insert_query,
                                              class_info.year,
                                              dog.number,
-                                             dog_id,
+                             dog_id,
                                              dog.name,
                                              owner_id,
                                              dog.sire,
@@ -743,7 +744,7 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                 
                 relationship_count += 1
                 operations_count += 1
-                
+        
                 # Commit periodically
                 if operations_count % commit_interval == 0:
                     conn.commit()
@@ -788,7 +789,7 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
             trial_name_to_id = {}
         if division_name_to_id is None:
             division_name_to_id = {}
-        section_name_to_id = {}  # Always create new for this function
+            section_name_to_id = {}  # Always create new for this function
         if class_name_to_id is None:
             class_name_to_id = {}  # (normalized_class_name, div_id, section) -> class_id
         if owner_name_to_id is None:
@@ -1379,7 +1380,7 @@ def load_trial_results_data(conn: Optional[pyodbc.Connection] = None) -> List[Tr
         return []  # Already written, return empty list
     else:
         print(f"  Loaded {len(all_results)} trial results total")
-        return all_results
+    return all_results
 
 
 def main():
