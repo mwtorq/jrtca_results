@@ -984,7 +984,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                     processed_lines.append(before_division)
                 processed_lines.append(division_text)
                 division_found = True
-                                break
+                break
         
         if not division_found:
             # Check for section headers
@@ -1001,7 +1001,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                     if before_section:
                         processed_lines.append(before_section)
                     division_found = True
-                                break
+                    break
         
         if not division_found:
             # Pattern 6: Class numbers that appear inline (e.g., "162:", "172:", "238:")
@@ -1024,7 +1024,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                     elif parts[i].strip():
                         # Just a class number at the end
                         processed_lines.append(parts[i].strip())
-                else:
+            else:
                 processed_lines.append(line)
     
     lines = [l for l in processed_lines if l.strip()]  # Remove empty lines
@@ -1198,7 +1198,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                 # Update the date string to include the day
                 page_date_str = f"{current_day} ({date_in_parens.group(1)})"
             i += 1
-                    continue
+            continue
             
         # Check if line contains day-specific class names (e.g., "SUNDAY LURE COURSING CHAMPION")
         if re.search(r'\b(FRIDAY|SATURDAY|SUNDAY)\s+', line_upper):
@@ -1219,7 +1219,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
             current_class = None
             # Class numbers will be assigned during report generation
             i += 1
-                continue
+            continue
         
         # Check if this is a championship class name
         if line_upper in championship_names_set:
@@ -1227,7 +1227,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
             current_class = None  # Will be set when we see placements
             # Class numbers will be assigned during report generation
             i += 1
-                    continue
+            continue
         
         # Check if this is a placement line first (SQL: @Result LIKE '1st%' OR LIKE '2nd%' OR LIKE '%Best:%' etc.)
         # SQL: @Result NOT LIKE '1st%' AND @Result NOT LIKE '2nd%' ... AND @Result NOT LIKE '%Best:%' etc.
@@ -1240,7 +1240,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
         if re.match(r'^Entries?\s*:?\s*\d+', line, re.IGNORECASE):
             # This is just an entry count line - skip it (class name should be on previous line)
             i += 1
-                    continue
+            continue
             
         # If not a placement line, check if it's a class name
         if not is_placement_line:
@@ -1249,7 +1249,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
             if line_upper in section_header_names_set:
                 # This is just an organizational header - skip it, don't reset class numbering
                 i += 1
-                    continue
+                continue
                 
             # Check if this is a championship class name (pattern-based check)
             # Championship class names typically contain "CHAMPIONSHIP" or "CHAMPION & RESERVE" or "CHAMPION AND RESERVE"
@@ -1295,7 +1295,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                             # This removes " – " (en-dash + space + space) before "Entries"
                             if entries_pos >= 4:
                                 class_name_raw = line[:entries_pos - 4].strip()
-            else:
+                            else:
                                 # Fallback: just remove trailing dash/spaces
                                 class_name_raw = class_name_rtrimmed.rstrip('–- \t').strip()
                         else:
@@ -1367,8 +1367,8 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                     current_class = None
                     current_entry_count = None
                 
-                i += 1
-                        continue
+                    i += 1
+                    continue
                 
             class_name = None
             entry_count = None
@@ -1415,7 +1415,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                 class_name = line.strip()
             
             # Process class_name if we found one from any pattern
-                if class_name:
+            if class_name:
                 # Remove URLs from class name (http://, https://, www.)
                 class_name = re.sub(r'https?://[^\s]+', '', class_name)
                 class_name = re.sub(r'www\.[^\s]+', '', class_name)
@@ -1657,7 +1657,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                 dog_name=dog_name,
                 owner=owner
             )
-                results.append(result)
+            results.append(result)
     
         i += 1
     
@@ -2192,7 +2192,7 @@ def generate_trial_results_report(trial_results: List[TrialResult],
                         # Regular class - use normalize_class_name
                         normalized_class_name = normalize_class_name(result.class_name)
                     result.class_name = normalized_class_name  # Update result to use normalized name for display
-                    else:
+                else:
                     normalized_class_name = ""
                 
                 # Use normalized class name for grouping (normalization preserves height/age distinctions)
@@ -2413,8 +2413,8 @@ def generate_trial_results_report(trial_results: List[TrialResult],
                     if is_handler_class:
                         report.append(f"        {placement_str}: {dog_str}")
                     else:
-                    owner_str = result.owner or "N/A"
-                    report.append(f"        {placement_str}: {dog_str} - Owner: {owner_str}")
+                        owner_str = result.owner or "N/A"
+                        report.append(f"        {placement_str}: {dog_str} - Owner: {owner_str}")
         
     # Results summary by dog
     report.append("")
@@ -2519,8 +2519,8 @@ def generate_trial_results_report(trial_results: List[TrialResult],
             if is_handler_class:
                 report.append(f"    {result.year} - {result.trial_name} ({result.date}): {placement_str} in {class_str}")
             else:
-            owner_str = result.owner or "N/A"
-            report.append(f"    {result.year} - {result.trial_name} ({result.date}): {placement_str} in {class_str} - Owner: {owner_str}")
+                owner_str = result.owner or "N/A"
+                report.append(f"    {result.year} - {result.trial_name} ({result.date}): {placement_str} in {class_str} - Owner: {owner_str}")
     
     return '\n'.join(report)
 
