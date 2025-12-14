@@ -1192,36 +1192,32 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
             all_classes.update(classes)
             all_dogs_by_year[year] = dogs
             
-            # Periodically find relationships for accumulated dogs and write them (every 2 years for more frequent updates)
-            # Also write on the last file to ensure all relationships are captured
-            is_last_file = (file_idx == len(catalog_files) - 1)
-            should_find_relationships = (len(all_dogs_by_year) % 2 == 0) or is_last_file
+            # Find and write relationships immediately after processing each year's data
+            # This ensures relationships are written at the same time they would be displayed in the report
+            print(f"  Finding relationships for accumulated dogs ({len(all_merged_dogs)} dogs)...")
+            batch_relationships = find_relationships(all_merged_dogs)
+            # Find new relationships (not already in all_relationships)
+            new_relationships = {}
+            for key, rels in batch_relationships.items():
+                existing_rels = set(all_relationships.get(key, []))
+                new_rels = [r for r in rels if r not in existing_rels]
+                if new_rels:
+                    new_relationships[key] = new_rels
+                    if key not in all_relationships:
+                        all_relationships[key] = []
+                    all_relationships[key].extend(new_rels)
             
-            if should_find_relationships:
-                print(f"  Finding relationships for accumulated dogs ({len(all_merged_dogs)} dogs)...")
-                batch_relationships = find_relationships(all_merged_dogs)
-                # Find new relationships (not already in all_relationships)
-                new_relationships = {}
-                for key, rels in batch_relationships.items():
-                    existing_rels = set(all_relationships.get(key, []))
-                    new_rels = [r for r in rels if r not in existing_rels]
-                    if new_rels:
-                        new_relationships[key] = new_rels
-                        if key not in all_relationships:
-                            all_relationships[key] = []
-                        all_relationships[key].extend(new_rels)
-                
-                # Write new relationships to database immediately
-                if new_relationships:
-                    total_new = sum(len(rels) for rels in new_relationships.values())
-                    print(f"  Writing {total_new} new relationships to database...")
-                    populate_relationships(conn, new_relationships, all_merged_dogs)
-                    print(f"  ✓ Relationships for {len(new_relationships)} dogs written to database")
-                else:
-                    print(f"  No new relationships found (all {sum(len(rels) for rels in batch_relationships.values())} relationships already written)")
-                
-                # Infer sex from relationships
-                infer_sex_from_relationships(all_merged_dogs)
+            # Write new relationships to database immediately
+            if new_relationships:
+                total_new = sum(len(rels) for rels in new_relationships.values())
+                print(f"  Writing {total_new} new relationships to database...")
+                populate_relationships(conn, new_relationships, all_merged_dogs)
+                print(f"  ✓ Relationships for {len(new_relationships)} dogs written to database")
+            else:
+                print(f"  No new relationships found (all {sum(len(rels) for rels in batch_relationships.values())} relationships already written)")
+            
+            # Infer sex from relationships
+            infer_sex_from_relationships(all_merged_dogs)
         else:
             # Legacy mode: collect all data first
             all_classes.update(classes)
