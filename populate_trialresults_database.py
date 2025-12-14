@@ -56,7 +56,10 @@ def get_connection():
 
 def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str, 
                      name: str, id_column: str = None, create_columns: Dict = None) -> Optional[int]:
-    """Get existing ID or create new record and return ID."""
+    """Get existing ID or create new record and return ID.
+    
+    Note: Assumes id_column is an IDENTITY column and should NOT be included in INSERT.
+    """
     if not name or not name.strip():
         return None
     
@@ -71,25 +74,131 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
         return row[0]
     
     # Create new record
+    # Ensure we don't include the IDENTITY column in the INSERT
+    name_stripped = name.strip()
+    if not name_stripped:
+        return None  # Double-check: name should not be empty at this point
+    
     if create_columns is None:
-        create_columns = {name_column: name.strip()}
+        create_columns = {name_column: name_stripped}
     else:
         create_columns = create_columns.copy()
-        create_columns[name_column] = name.strip()
+        create_columns[name_column] = name_stripped
     
-    columns = ", ".join([f"[{k}]" for k in create_columns.keys()])
+    # Remove id_column from create_columns if it's present (shouldn't be, but just in case)
+    if id_column in create_columns:
+        del create_columns[id_column]
+    
+    # Ensure we have at least one column to insert and that name_column has a non-empty value
+    if not create_columns or not create_columns.get(name_column, '').strip():
+        return None
+    
+    # Final safety check: ensure id_column is NOT in the column list
+    column_names = list(create_columns.keys())
+    if id_column in column_names:
+        print(f"  ERROR: {id_column} found in INSERT columns for {table}! Column names: {column_names}")
+        raise ValueError(f"Cannot include IDENTITY column {id_column} in INSERT statement")
+    
+    columns = ", ".join([f"[{k}]" for k in column_names])
     placeholders = ", ".join(["?" for _ in create_columns])
     values = list(create_columns.values())
     
-    insert_query = f"INSERT INTO [sResults].[{table}] ({columns}) VALUES ({placeholders})"
-    cursor.execute(insert_query, *values)
+    # Final safety check: ensure no None or empty values
+    for col, val in zip(create_columns.keys(), values):
+        if val is None or (isinstance(val, str) and not val.strip()):
+            print(f"  ERROR: NULL or empty value for column {col} in {table}! Value: {repr(val)}")
+            return None
     
-    # Get the generated ID
-    cursor.execute(f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?", name.strip())
-    row = cursor.fetchone()
-    if row:
-        return row[0]
-    return None
+    insert_query = f"INSERT INTO [sResults].[{table}] ({columns}) VALUES ({placeholders})"
+    
+    # Debug logging before INSERT
+    if table == 'Division':
+        print(f"  DEBUG: About to INSERT into Division")
+        print(f"    Columns: {columns}")
+        print(f"    Values: {values}")
+        print(f"    ID column (should NOT be present): {id_column}")
+        print(f"    Name value: {repr(name_stripped)}")
+        
+        # Check if DivisionID is actually IDENTITY
+        try:
+            check_identity_query = """
+                SELECT is_identity 
+                FROM sys.columns 
+                WHERE object_id = OBJECT_ID('sResults.Division') 
+                AND name = 'DivisionID'
+            """
+            cursor.execute(check_identity_query)
+            identity_row = cursor.fetchone()
+            if identity_row:
+                is_identity = identity_row[0]
+                print(f"    DivisionID is_identity: {is_identity}")
+                if not is_identity:
+                    print(f"    WARNING: DivisionID is NOT IDENTITY! This may cause issues.")
+        except Exception as schema_check_error:
+            print(f"    Could not check DivisionID schema: {schema_check_error}")
+    
+    try:
+        # Always use tuple for parameter passing with pyodbc for consistency and reliability
+        cursor.execute(insert_query, tuple(values))
+        
+        # Get the generated ID using SCOPE_IDENTITY() for better reliability
+        cursor.execute("SELECT SCOPE_IDENTITY()")
+        row = cursor.fetchone()
+        if row and row[0] is not None:
+            return int(row[0])
+        
+        # Fallback: query by name
+        cursor.execute(f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?", name.strip())
+        row = cursor.fetchone()
+        if row:
+            return row[0]
+        return None
+    except Exception as e:
+        # Log the error for debugging
+        error_msg = str(e)
+        print(f"  ERROR inserting into {table}: {e}")
+        print(f"    Query: {insert_query}")
+        print(f"    Columns being inserted: {list(create_columns.keys())}")
+        print(f"    Values: {values}")
+        print(f"    ID column (should NOT be in INSERT): {id_column}")
+        print(f"    Name column: {name_column}")
+        
+        # Check if the error is about NULL in IDENTITY column
+        if 'NULL' in error_msg and id_column in error_msg:
+            print(f"\n    POSSIBLE ISSUE: {id_column} may not be set as IDENTITY in the table.")
+            print(f"    The table '{table}' needs {id_column} to be defined as IDENTITY(1,1) NOT NULL")
+            print(f"    Please check the table creation script and ensure {id_column} is IDENTITY.")
+            print(f"    Example: {id_column} INT IDENTITY(1,1) NOT NULL PRIMARY KEY")
+            
+            # Try to check the actual table definition
+            try:
+                check_def_query = f"""
+                    SELECT 
+                        c.name AS column_name,
+                        c.is_identity,
+                        c.is_nullable,
+                        ty.name AS data_type
+                    FROM sys.columns c
+                    INNER JOIN sys.types ty ON c.user_type_id = ty.user_type_id
+                    WHERE c.object_id = OBJECT_ID('sResults.{table}')
+                    AND c.name = '{id_column}'
+                """
+                cursor.execute(check_def_query)
+                def_row = cursor.fetchone()
+                if def_row:
+                    col_name, is_identity, is_nullable, data_type = def_row
+                    print(f"\n    ACTUAL TABLE DEFINITION:")
+                    print(f"      Column: {col_name}")
+                    print(f"      Data Type: {data_type}")
+                    print(f"      Is IDENTITY: {is_identity}")
+                    print(f"      Is Nullable: {is_nullable}")
+                    if not is_identity:
+                        print(f"\n    *** {id_column} is NOT IDENTITY! This is the problem. ***")
+                        print(f"    The table needs to be altered or recreated with {id_column} as IDENTITY.")
+            except Exception as def_error:
+                print(f"    Could not check table definition: {def_error}")
+        
+        raise
 
 
 def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo], 
@@ -121,13 +230,17 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
         print("  Processing divisions and classes...")
         for class_key, class_info in classes.items():
             # Get or create division
+            div_id = None
             if class_info.division:
                 div_id = division_name_to_id.get(class_info.division)
                 if div_id is None:
-                    div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
-                                             normalize_division_name(class_info.division))
-                    if div_id:
-                        division_name_to_id[class_info.division] = div_id
+                    normalized_div_name = normalize_division_name(class_info.division)
+                    if normalized_div_name and normalized_div_name.strip():
+                        div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
+                                                 normalized_div_name)
+                        if div_id:
+                            division_name_to_id[class_info.division] = div_id
+                    # If normalized_div_name is None or empty, div_id remains None
                 
                 # Get or create class
                 normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
@@ -256,6 +369,10 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                                 if cursor.fetchone():
                                     continue  # Already exists
                                 
+                                # Year and DogName are NOT NULL
+                                if not class_info.year or not dog.name or not dog.name.strip():
+                                    continue  # Skip if required fields are missing
+                                
                                 insert_query = """
                                     INSERT INTO [sResults].[CatalogEntry]
                                     (Year, EntryNumber, DogID, DogName, OwnerID, Sire, Dam, Sex, ClassID, ClassName)
@@ -309,10 +426,12 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
             if class_info.division:
                 div_id = division_name_to_id.get(class_info.division)
                 if div_id is None:
-                    div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
-                                             normalize_division_name(class_info.division))
-                    if div_id:
-                        division_name_to_id[class_info.division] = div_id
+                    normalized_div_name = normalize_division_name(class_info.division)
+                    if normalized_div_name and normalized_div_name.strip():
+                        div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
+                                                 normalized_div_name)
+                        if div_id:
+                            division_name_to_id[class_info.division] = div_id
                 
                 # Get or create class
                 normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
@@ -572,18 +691,26 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                     continue  # Already exists
                 
                 # Insert relationship
+                # DogID, RelatedDogName, and RelationshipType are NOT NULL
+                if dog_id is None:
+                    continue  # Skip if dog_id is None
+                if not related_dog_name or not related_dog_name.strip():
+                    continue  # Skip if RelatedDogName is empty
+                if not relationship_type or not relationship_type.strip():
+                    continue  # Skip if RelationshipType is empty
+                
                 insert_query = """
                     INSERT INTO [sResults].[Relationship]
                     (DogID, RelatedDogID, RelatedDogName, RelationshipType, ViaDogName, RelatedDogSex)
                     VALUES (?, ?, ?, ?, ?, ?)
                 """
                 cursor.execute(insert_query,
-                             dog_id,
+                             (dog_id,
                              related_dog_id,
                              related_dog_name,
                              relationship_type,
                              via_dog_name,
-                             related_dog_sex)
+                             related_dog_sex))
                 
                 relationship_count += 1
                 operations_count += 1
@@ -678,7 +805,7 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                 # Normalize division
                 division = normalize_division_name(result.division) if result.division else None
                 div_id = None
-                if division:
+                if division and division.strip():
                     div_id = division_name_to_id.get(division)
                     if div_id is None:
                         div_id = get_or_create_id(cursor, 'Division', 'DivisionName', division)
@@ -787,13 +914,18 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                                 dog_name_to_id[dog_name] = dog_id
                     
                     # Insert placement
+                    # TrialClassID is NOT NULL, so ensure it's not None
+                    if trialclass_id is None:
+                        print(f"  WARNING: Skipping TrialPlacements insert - trialclass_id is None")
+                        continue
+                    
                     insert_query = """
                         INSERT INTO [sResults].[TrialPlacements]
                         (TrialClassID, DogID, DogName, Result, OwnerID)
                         VALUES (?, ?, ?, ?, ?)
                     """
-                    cursor.execute(insert_query, trialclass_id, dog_id, result.dog_name, 
-                                 result.placement, owner_id)
+                    cursor.execute(insert_query, (trialclass_id, dog_id, result.dog_name, 
+                                 result.placement, owner_id))
                     operations_count += 1
                     if operations_count % commit_interval == 0:
                         conn.commit()
