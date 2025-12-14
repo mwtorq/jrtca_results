@@ -1,0 +1,92 @@
+﻿@import url("boxes/contentbox.css");
+@import url("boxes/box1.css");
+@import url("boxes/box2.css");
+@import url("boxes/box3.css");
+@import url("boxes/box4.css");
+@import url("boxes/menu.css");
+@import url("menu.css");
+@import url("fonts.css");
+
+body 				{}
+
+/*components*/
+#indexseo_1 h1				{visibility:visible; /*visibility:visible;*/}/*index page: Welcome or Title;*/
+#indexseo_2 h2 				{visibility:visible; /*visibility:visible;*/}/*index page: Page description goes here!;*/
+#templateseo_1 h1 			{visibility:visible; /*visibility:visible;*/}/*template page: Welcome or Title;*/
+#templateseo_2 h2 			{visibility:visible; /*visibility:visible;*/}/*template page: Page description goes here!;*/
+
+#header						{visibility:visible; /*visibility:visible;*/}/*template page themed image: top left;*/
+
+#header_image_left			{visibility:visible; /*visibility:visible;*/}/*template page themed image: top left;*/
+#header_image_right			{visibility:visible; /*visibility:visible;*/}/*template page themed image: top right;*/
+#themed_image				{visibility:visible; /*visibility:visible;*/}/*all pages themed object*/
+
+#logo						{visibility:visible; /*visibility:visible;*/}/*flash animated logo*/
+#logo_graphic				{visibility:hidden; /*visibility:visible;*/}/*static logo*/
+
+#icons						{visibility:visible; /*visibility:hidden;*/}/*3 small icons*/
+#tabmenu					{visibility:visible; /*visibility:hidden;*/}/*horizontal menu*/
+#contact_bookmark			{visibility:visible; /*visibility:hidden;*/}/*contact and bookmark icons*/
+#copyright_links			{visibility:visible; /*visibility:hidden;*/}/*coppyright and links: bottom*/
+#timedate					{visibility:visible; /*visibility:hidden;*/}/*coppyright and links: bottom*/
+
+/*common*/
+body 						{margin:0px;}
+p							{margin:0px;}
+h6 							{ }
+
+.cleaner 					{clear:both;height:1px;font-size:1px;border:none;margin:0; padding:0;background:transparent;}
+.divider					{display:block; height:25px; width:227px; margin: -7px 0px 1px 11px; background-image:url('../graphics/divider.png');}
+.divider_menu				{display:block; height:25px; width:227px; margin: -7px 0px 1px 11px; background-image:url('../graphics/divider.png');}
+
+ 
+#header_image				{text-align:center; margin:0px; padding:0px;}
+
+#copyright_links			{margin-left:auto; margin-right:auto; width:100%; text-align:center;}
+
+#contact_bookmark			{margin-left:auto; margin-right:auto; width:200px;}
+ .favorites_button			{margin-left:auto; margin-right:auto; border-width: 0px;float:right;  /*margin: 0px 0px 0px 80px;*/}
+ .contact_button			{margin-left:auto; margin-right:auto; border-width: 0px;float:left; /**/}
+	
+.icon1						{margin:0px; padding:0px 0px 0px 0px; vertical-align:top; text-align:left;}
+.icon2						{margin:0px; padding:0px 0px 0px 0px; vertical-align:top; text-align:left;}
+.icon3						{margin:0px; padding:0px 0px 0px 0px; vertical-align:top; text-align:left;}
+
+.wrapper_faq				{text-indent:10px;}
+
+/*alternate flash*/
+.alternate_flash 			{width:810px; vertical-align:top; margin-left:auto; margin-right:auto; text-align:center; font-size:20px;}
+.alternate_flash a:visited 	{color:#ff0000; font-size:20px; font-style:italic; font-weight:bold;}						
+.alternate_flash a:link 	{color:#ff0000; font-size:20px; font-style:italic; font-weight:bold;}		
+.alternate_flash a:hover 	{color:#ff0000; font-size:20px; font-style:italic; font-weight:bold;}
+.alternate_flash a:active 	{color:#ff0000; font-size:20px; font-style:italic; font-weight:bold;}					
+.alternate_flash a			{color:#ff0000; font-size:20px; font-style:italic; font-weight:bold;} 		
+					
+/*catalog page*/
+.wrapper_catalog 			{margin:10px 0px 20px 0px; border-style:solid; border-color:#171E16; border-width:1px; background-color:#3B532F; padding: 5px 5px 5px 5px;}
+.catalog_image 				{width:150px; vertical-align:top; background-color:#ffffff;}
+.catalog_description1 		{width:150px; vertical-align:top; background-color:#ffffff; text-indent:5px;}
+.catalog_backtotop 			{width:150px; vertical-align:top;text-indent:5px; padding-top:3px;}
+.catalog_learnmore 			{width:150px; vertical-align:top; background-color:#ffffff;}
+.catalog_description2 		{width:100%; vertical-align:top; background-color:#ffffff;}
+.catalog_price 				{width:100%; vertical-align:middle; background-color:#F7F7F7}
+.catalog_divider hr 		{width:100%; height:1px; color:#C0C0C0; vertical-align:top; background-color:#ffffff;}
+.catalog_addtocart 			{width:100%; vertical-align:top; background-color:#ffffff;}
+
+.wrapper_catalog 			{color:#303419;}
+.wrapper_catalog h2			{color:#303419;}
+.catalog_image 				{color:#303419;}
+.catalog_description1 		{color:#303419;}
+.catalog_backtotop 			{color:#303419;}
+.catalog_learnmore 			{color:#303419;}
+.catalog_description2 		{color:#303419;}
+.catalog_price 				{color:#303419;}
+.catalog_divider hr 		{color:#303419;}
+.catalog_addtocart 			{color:#303419;}
+
+
+button, input.button {width:auto !important; margin-right:2px; margin-left:3px; border:1px solid #688358; border-right-color:#908d8d; border-bottom-color:#908d8d; padding:1px .5em; background:#e1e1e1 url(../graphics/default-button-bg.jpg) left center repeat-x; color:#000;}
+button:active, input.button:active {border:1px solid #688358; border-right-color:#688358; border-bottom-color:#688358;}
+button:hover, input.button:hover {cursor:pointer;}
+button.primary, input.button.primary {border:1px solid #688358; border-right-color:#908d8d; border-bottom-color: #908d8d; background:#C76D00 url(../graphics/submit-button-bg.jpg) right center repeat-x;}
+button.primary:active, input.button.primary:active {border:1px solid #6A3300; border-right-color:#D9BA76; border-bottom-color:#D9BA76;}
