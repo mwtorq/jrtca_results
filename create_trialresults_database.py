@@ -402,6 +402,64 @@ def create_schema_if_not_exists(target_conn: pyodbc.Connection, schema: str):
     print(f"Schema [{schema}] ensured.")
 
 
+def drop_all_tables_in_schema(target_conn: pyodbc.Connection, schema: str):
+    """Drop ALL tables in the specified schema, handling foreign key constraints."""
+    cursor = target_conn.cursor()
+    
+    print(f"\nDropping all existing tables in [{schema}] schema...")
+    
+    # First, disable foreign key constraints by dropping them
+    # Get all foreign key constraints
+    fk_query = """
+        SELECT 
+            t.name AS table_name,
+            fk.name AS constraint_name
+        FROM sys.foreign_keys fk
+        INNER JOIN sys.tables t ON fk.parent_object_id = t.object_id
+        INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+        WHERE s.name = ?
+        ORDER BY t.name, fk.name
+    """
+    
+    cursor.execute(fk_query, schema)
+    foreign_keys = cursor.fetchall()
+    
+    # Drop all foreign key constraints
+    for table_name, constraint_name in foreign_keys:
+        try:
+            cursor.execute(f"ALTER TABLE [{schema}].[{table_name}] DROP CONSTRAINT [{constraint_name}]")
+            print(f"  Dropped FK constraint {constraint_name} from {table_name}")
+        except pyodbc.Error as e:
+            print(f"  Warning: Could not drop FK {constraint_name} from {table_name}: {e}")
+    
+    target_conn.commit()
+    
+    # Get all tables in the schema
+    tables_query = """
+        SELECT TABLE_NAME
+        FROM INFORMATION_SCHEMA.TABLES
+        WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'
+        ORDER BY TABLE_NAME
+    """
+    
+    cursor.execute(tables_query, schema)
+    all_tables = [row[0] for row in cursor.fetchall()]
+    
+    # Drop all tables
+    for table_name in all_tables:
+        try:
+            cursor.execute(f"DROP TABLE IF EXISTS [{schema}].[{table_name}]")
+            print(f"  Dropped {table_name}")
+        except pyodbc.Error as e:
+            print(f"  Warning: Could not drop {table_name}: {e}")
+    
+    target_conn.commit()
+    if all_tables:
+        print(f"  ✓ All {len(all_tables)} tables in [{schema}] schema cleared")
+    else:
+        print(f"  ✓ No tables found in [{schema}] schema (already empty)")
+
+
 def drop_existing_tables(target_conn: pyodbc.Connection, schema: str, table_defs: Dict):
     """Drop existing tables in reverse dependency order."""
     cursor = target_conn.cursor()
@@ -483,6 +541,11 @@ def main():
         if not table_defs:
             print("WARNING: No tables found in sJRTCA schema.")
             print("This script will create tables based on the data model from the Python scripts.")
+            # Create schema
+            print("\nCreating sResults schema...")
+            create_schema_if_not_exists(target_conn, 'sResults')
+            # Drop ALL existing tables in sResults schema (clear everything)
+            drop_all_tables_in_schema(target_conn, 'sResults')
             # Create minimal schema based on Python data models
             create_basic_schema(target_conn)
             return
@@ -491,8 +554,8 @@ def main():
         print("\nCreating sResults schema...")
         create_schema_if_not_exists(target_conn, 'sResults')
         
-        # Drop existing tables
-        drop_existing_tables(target_conn, 'sResults', table_defs)
+        # Drop ALL existing tables in sResults schema (clear everything)
+        drop_all_tables_in_schema(target_conn, 'sResults')
         
         # Determine table creation order (tables without foreign keys first)
         # Build dependency graph

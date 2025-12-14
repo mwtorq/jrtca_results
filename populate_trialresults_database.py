@@ -702,26 +702,7 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                         actual_related_name = dogs[normalized_related_name].name
                         related_dog_id = dog_name_to_id.get(actual_related_name)
                 
-                # Check if relationship already exists in database
-                check_query = """
-                    SELECT RelationshipID FROM [sResults].[Relationship]
-                    WHERE DogID = ? AND RelationshipType = ? AND RelatedDogName = ?
-                """
-                if via_dog_name:
-                    check_query += " AND ViaDogName = ?"
-                else:
-                    check_query += " AND ViaDogName IS NULL"
-                
-                check_params = [dog_id, relationship_type, related_dog_name]
-                if via_dog_name:
-                    check_params.append(via_dog_name)
-                
-                cursor.execute(check_query, *check_params)
-                if cursor.fetchone():
-                    continue  # Already exists
-                
-                # Insert relationship
-                # DogID, RelatedDogName, and RelationshipType are NOT NULL
+                # Skip if required fields are missing
                 if dog_id is None:
                     continue  # Skip if dog_id is None
                 if not related_dog_name or not related_dog_name.strip():
@@ -729,26 +710,144 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                 if not relationship_type or not relationship_type.strip():
                     continue  # Skip if RelationshipType is empty
                 
+                # Define relationship priority (lower number = more direct/important)
+                # Direct relationships have highest priority
+                relationship_priority = {
+                    'Sire': 1, 'Dam': 1,
+                    'Sibling': 2, 'Half-sibling': 2,
+                    'Offspring': 3, 'Son': 3, 'Daughter': 3,
+                    'Grandsire': 4, 'Granddam': 4,
+                    'Grandchild': 5, 'Grandson': 5, 'Granddaughter': 5,
+                    'Great-grandsire': 6, 'Great-granddam': 6,
+                    'Great-grandchild': 7, 'Great-grandson': 7, 'Great-granddaughter': 7,
+                    'Great-great-grandsire': 8, 'Great-great-granddam': 8,
+                    'Great-great-grandchild': 9,
+                    'Great-great-great-grandsire': 10, 'Great-great-great-granddam': 10,
+                    'Great-great-great-grandchild': 11,
+                    'Nephew': 12, 'Niece': 12, 'Nephew/Niece': 12,
+                    'Uncle': 13, 'Aunt': 13,
+                }
+                current_priority = relationship_priority.get(relationship_type, 99)  # Unknown types get low priority
+                
+                # Check if ANY relationship already exists between these two dogs
+                # If a more direct relationship exists, skip this less direct one
+                existing_rel_query = """
+                    SELECT RelationshipType FROM [sResults].[Relationship]
+                    WHERE DogID = ? AND RelatedDogName = ?
+                """
+                if related_dog_id:
+                    # Also check by RelatedDogID for more precise matching
+                    existing_rel_query += " AND (RelatedDogID = ? OR RelatedDogID IS NULL)"
+                    existing_params = [dog_id, related_dog_name, related_dog_id]
+                else:
+                    existing_params = [dog_id, related_dog_name]
+                
+                cursor.execute(existing_rel_query, tuple(existing_params))
+                existing_rels = cursor.fetchall()
+                
+                # Check if a relationship already exists between these two dogs
+                # Only keep the most direct relationship (lowest priority number)
+                should_skip = False
+                should_delete_existing = False
+                
+                if existing_rels:
+                    for (existing_rel_type,) in existing_rels:
+                        existing_priority = relationship_priority.get(existing_rel_type, 99)
+                        
+                        if existing_priority < current_priority:
+                            # A more direct relationship already exists, skip this less direct one
+                            should_skip = True
+                            break
+                        elif existing_priority == current_priority and existing_rel_type == relationship_type:
+                            # Exact same relationship type already exists
+                            should_skip = True
+                            break
+                        elif existing_priority > current_priority:
+                            # This relationship is more direct than an existing one
+                            # Mark that we should delete the less direct existing relationship(s)
+                            should_delete_existing = True
+                
+                # Delete less direct relationships if this one is more direct
+                # Only delete relationships with priority > current_priority
+                if should_delete_existing and not should_skip:
+                    # Build list of relationship types to delete (those with higher priority numbers)
+                    types_to_delete = []
+                    for (existing_rel_type,) in existing_rels:
+                        existing_priority = relationship_priority.get(existing_rel_type, 99)
+                        if existing_priority > current_priority:
+                            types_to_delete.append(existing_rel_type)
+                    
+                    if types_to_delete:
+                        # Delete all less direct relationships
+                        placeholders = ','.join(['?' for _ in types_to_delete])
+                        delete_query = f"""
+                            DELETE FROM [sResults].[Relationship]
+                            WHERE DogID = ? AND RelatedDogName = ? AND RelationshipType IN ({placeholders})
+                        """
+                        delete_params = [dog_id, related_dog_name] + types_to_delete
+                        if related_dog_id:
+                            delete_query += " AND (RelatedDogID = ? OR RelatedDogID IS NULL)"
+                            delete_params.append(related_dog_id)
+                        try:
+                            cursor.execute(delete_query, tuple(delete_params))
+                            # Count deletions for logging
+                            deleted_count = cursor.rowcount if hasattr(cursor, 'rowcount') else 0
+                            if deleted_count > 0:
+                                print(f"    Deleted {deleted_count} less direct relationship(s) ({', '.join(types_to_delete)}) for {related_dog_name}")
+                        except pyodbc.Error as e:
+                            print(f"  Warning: Could not delete less direct relationships: {e}")
+                
+                if should_skip:
+                    continue  # Skip this relationship - more direct one exists or exact duplicate
+                
+                # Check if this exact relationship already exists (same type, same via)
+                exact_check_query = """
+                    SELECT RelationshipID FROM [sResults].[Relationship]
+                    WHERE DogID = ? AND RelationshipType = ? AND RelatedDogName = ?
+                """
+                exact_check_params = [dog_id, relationship_type, related_dog_name]
+                
+                if via_dog_name:
+                    exact_check_query += " AND ViaDogName = ?"
+                    exact_check_params.append(via_dog_name)
+                else:
+                    exact_check_query += " AND (ViaDogName IS NULL OR ViaDogName = '')"
+                
+                cursor.execute(exact_check_query, tuple(exact_check_params))
+                if cursor.fetchone():
+                    continue  # Exact duplicate already exists, skip
+                
+                # Insert relationship
                 insert_query = """
                     INSERT INTO [sResults].[Relationship]
                     (DogID, RelatedDogID, RelatedDogName, RelationshipType, ViaDogName, RelatedDogSex)
                     VALUES (?, ?, ?, ?, ?, ?)
                 """
-                cursor.execute(insert_query,
-                             (dog_id,
-                             related_dog_id,
-                             related_dog_name,
-                             relationship_type,
-                             via_dog_name,
-                             related_dog_sex))
-                
-                relationship_count += 1
-                operations_count += 1
-        
-                # Commit periodically
-                if operations_count % commit_interval == 0:
-                    conn.commit()
-                    print(f"    Committed {operations_count} relationships so far...")
+                try:
+                    cursor.execute(insert_query,
+                                 (dog_id,
+                                 related_dog_id,
+                                 related_dog_name,
+                                 relationship_type,
+                                 via_dog_name,
+                                 related_dog_sex))
+                    
+                    relationship_count += 1
+                    operations_count += 1
+                    
+                    # Commit periodically
+                    if operations_count % commit_interval == 0:
+                        conn.commit()
+                        print(f"    Committed {operations_count} relationships so far...")
+                except pyodbc.IntegrityError as e:
+                    # Handle unique constraint violations (duplicate key errors)
+                    error_msg = str(e)
+                    if 'duplicate' in error_msg.lower() or 'unique' in error_msg.lower() or 'PRIMARY KEY' in error_msg:
+                        # Duplicate detected - skip this insert
+                        continue
+                    else:
+                        # Some other integrity error - re-raise
+                        raise
         
         # Final commit
         if operations_count % commit_interval != 0:
@@ -1182,7 +1281,11 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
             all_dogs_by_year[year] = dogs
             
             # Periodically find relationships for accumulated dogs and write them (every 2 years for more frequent updates)
-            if len(all_dogs_by_year) % 2 == 0:
+            # Also write on the last file to ensure all relationships are captured
+            is_last_file = (file_idx == len(catalog_files) - 1)
+            should_find_relationships = (len(all_dogs_by_year) % 2 == 0) or is_last_file
+            
+            if should_find_relationships:
                 print(f"  Finding relationships for accumulated dogs ({len(all_merged_dogs)} dogs)...")
                 batch_relationships = find_relationships(all_merged_dogs)
                 # Find new relationships (not already in all_relationships)
@@ -1199,9 +1302,11 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
                 # Write new relationships to database immediately
                 if new_relationships:
                     total_new = sum(len(rels) for rels in new_relationships.values())
-                    print(f"  Writing {total_new} new relationships to database (as each relationship is found)...")
+                    print(f"  Writing {total_new} new relationships to database...")
                     populate_relationships(conn, new_relationships, all_merged_dogs)
                     print(f"  ✓ Relationships for {len(new_relationships)} dogs written to database")
+                else:
+                    print(f"  No new relationships found (all {sum(len(rels) for rels in batch_relationships.values())} relationships already written)")
                 
                 # Infer sex from relationships
                 infer_sex_from_relationships(all_merged_dogs)
@@ -1259,6 +1364,27 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
     
     print("\nFinding relationships...")
     relationships = find_relationships(merged_dogs)
+    total_relationships = sum(len(rels) for rels in relationships.values())
+    print(f"  Found {total_relationships} total relationships for {len(relationships)} dogs")
+    
+    # If writing incrementally, write any remaining relationships that weren't written yet
+    if conn:
+        # Find relationships that haven't been written yet
+        remaining_relationships = {}
+        for key, rels in relationships.items():
+            existing_rels = set(all_relationships.get(key, []))
+            new_rels = [r for r in rels if r not in existing_rels]
+            if new_rels:
+                remaining_relationships[key] = new_rels
+        
+        if remaining_relationships:
+            total_remaining = sum(len(rels) for rels in remaining_relationships.values())
+            print(f"\nWriting {total_remaining} remaining relationships to database...")
+            print(f"  (Already written: {total_relationships - total_remaining} relationships)")
+            populate_relationships(conn, remaining_relationships, merged_dogs)
+            print(f"  ✓ Final relationships written to database")
+        else:
+            print(f"\nAll {total_relationships} relationships already written to database")
     
     # Infer sex again after finding relationships (in case new relationships were found)
     print("\nRe-inferring sex from relationships after relationship finding...")
