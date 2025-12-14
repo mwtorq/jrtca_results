@@ -76,7 +76,8 @@ def get_table_definitions(source_conn: pyodbc.Connection, schema: str) -> Dict[s
     table_defs = {}
     
     for table_name in table_names:
-        # Get columns
+        # Get columns with IDENTITY information
+        # First get basic column info
         columns_query = """
         SELECT 
             COLUMN_NAME,
@@ -93,7 +94,37 @@ def get_table_definitions(source_conn: pyodbc.Connection, schema: str) -> Dict[s
         """
         
         cursor.execute(columns_query, schema, table_name)
-        columns = cursor.fetchall()
+        base_columns = cursor.fetchall()
+        
+        # Get IDENTITY information from sys.columns and sys.identity_columns
+        # seed_value and increment_value are sql_variant, so we cast them to numeric
+        identity_query = """
+        SELECT 
+            c.name AS COLUMN_NAME,
+            ISNULL(CAST(c.is_identity AS INT), 0) AS is_identity,
+            ISNULL(CAST(ic.seed_value AS NUMERIC(18,0)), 1) AS seed_value,
+            ISNULL(CAST(ic.increment_value AS NUMERIC(18,0)), 1) AS increment_value
+        FROM sys.columns c
+        INNER JOIN sys.tables t ON c.object_id = t.object_id
+        INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+        LEFT JOIN sys.identity_columns ic ON c.object_id = ic.object_id AND c.column_id = ic.column_id
+        WHERE s.name = ? AND t.name = ?
+        """
+        
+        cursor.execute(identity_query, schema, table_name)
+        identity_info = {row[0]: (row[1], row[2], row[3]) for row in cursor.fetchall()}
+        
+        # Combine column info with IDENTITY info
+        columns = []
+        for col in base_columns:
+            col_name = col[0]
+            identity_data = identity_info.get(col_name, (0, 1, 1))
+            is_identity = identity_data[0]
+            seed_value = identity_data[1]
+            increment_value = identity_data[2]
+            # Convert pyodbc.Row to tuple and append IDENTITY info
+            col_tuple = tuple(col) + (is_identity, seed_value, increment_value)
+            columns.append(col_tuple)
         
         # Get primary keys
         pk_query = """
@@ -194,18 +225,95 @@ def create_table_sql(table_name: str, table_def: Dict, schema: str = 'sResults')
     
     column_defs = []
     for col in table_def['columns']:
-        col_name, data_type, max_length, precision, scale, is_nullable, default, ordinal = col
+        # Unpack column info (now includes IDENTITY fields)
+        if len(col) >= 11:
+            col_name, data_type, max_length, precision, scale, is_nullable, default, ordinal, is_identity, identity_seed, identity_increment = col
+        else:
+            # Fallback for old format (no IDENTITY info)
+            col_name, data_type, max_length, precision, scale, is_nullable, default, ordinal = col[:8]
+            is_identity = 0
+            identity_seed = 1
+            identity_increment = 1
         
         sql_type = sql_type_from_info_schema(data_type, max_length, precision, scale)
         
+        # Check if this is an ID column (ends with 'ID' and is likely primary key)
+        is_id_column = col_name.upper().endswith('ID')
+        is_pk = col_name in table_def.get('primary_key', [])
+        
+        # Check if this is the table's OWN ID column (pattern: {TableName}ID)
+        # This is the only ID column that should be IDENTITY
+        table_name_upper = table_name.upper()
+        is_table_own_id = (col_name.upper() == f"{table_name_upper}ID")
+        
+        # Check if this column is a foreign key (FK columns should NOT be IDENTITY)
+        is_fk = False
+        for fk_def in table_def.get('foreign_keys', {}).values():
+            if col_name in fk_def.get('columns', []):
+                is_fk = True
+                break
+        
+        # Additional check: if column name matches pattern {ReferencedTable}ID, it's likely a FK
+        # This catches cases where FK detection might have failed
+        if not is_fk and is_id_column:
+            for fk_def in table_def.get('foreign_keys', {}).values():
+                ref_table = fk_def.get('referenced_table', '')
+                # Check if column name matches the referenced table's ID pattern
+                if ref_table and col_name.upper() == f"{ref_table.upper()}ID":
+                    is_fk = True
+                    break
+        
+        # Stricter check: if column ends with 'ID' but is NOT the table's own ID column,
+        # it's likely a foreign key and should NOT be IDENTITY
+        if not is_fk and is_id_column and not is_table_own_id:
+            # This is an ID column but not the table's own ID - treat as potential FK
+            # Only make it IDENTITY if it was already IDENTITY in source AND we confirmed it's not a FK
+            # But to be safe, if it's not the table's own ID, don't force it to be IDENTITY
+            pass  # Will be handled in the logic below
+        
+        # Ensure ID columns that are primary keys are IDENTITY
+        # BUT: Only the table's OWN ID column should be IDENTITY
+        # Foreign key columns should NEVER be IDENTITY, even if they end with 'ID'
+        if is_fk:
+            # Foreign key columns should NEVER be IDENTITY, regardless of source setting
+            should_be_identity = False
+        elif is_table_own_id and is_pk:
+            # This is the table's own primary key ID column - should be IDENTITY
+            if bool(is_identity):
+                # Already IDENTITY in source, use source values
+                seed = int(identity_seed) if identity_seed else 1
+                increment = int(identity_increment) if identity_increment else 1
+                should_be_identity = True
+            else:
+                # Not IDENTITY in source, but should be - make it IDENTITY
+                seed = 1
+                increment = 1
+                should_be_identity = True
+        elif is_id_column and not is_table_own_id:
+            # This is an ID column but NOT the table's own ID column
+            # It's likely a foreign key - do NOT make it IDENTITY
+            should_be_identity = False
+        else:
+            # Not an ID column or not primary key - use source setting
+            # But if source has it as IDENTITY and it's not a FK, preserve that
+            should_be_identity = bool(is_identity) and not is_fk
+            if should_be_identity:
+                seed = int(identity_seed) if identity_seed else 1
+                increment = int(identity_increment) if identity_increment else 1
+        
         col_def = f"    [{col_name}] {sql_type}"
+        
+        # Add IDENTITY if needed
+        if should_be_identity:
+            col_def += f" IDENTITY({seed},{increment})"
         
         if is_nullable == 'NO':
             col_def += " NOT NULL"
         elif is_nullable == 'YES':
             col_def += " NULL"
         
-        if default:
+        # Don't add DEFAULT for IDENTITY columns
+        if default and not should_be_identity:
             # Clean up default value (remove parentheses if wrapped)
             default_str = str(default).strip()
             if default_str.startswith('(') and default_str.endswith(')'):

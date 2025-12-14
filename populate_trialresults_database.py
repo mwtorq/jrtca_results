@@ -56,7 +56,10 @@ def get_connection():
 
 def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str, 
                      name: str, id_column: str = None, create_columns: Dict = None) -> Optional[int]:
-    """Get existing ID or create new record and return ID."""
+    """Get existing ID or create new record and return ID.
+    
+    Note: Assumes id_column is an IDENTITY column and should NOT be included in INSERT.
+    """
     if not name or not name.strip():
         return None
     
@@ -71,25 +74,131 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
         return row[0]
     
     # Create new record
+    # Ensure we don't include the IDENTITY column in the INSERT
+    name_stripped = name.strip()
+    if not name_stripped:
+        return None  # Double-check: name should not be empty at this point
+    
     if create_columns is None:
-        create_columns = {name_column: name.strip()}
+        create_columns = {name_column: name_stripped}
     else:
         create_columns = create_columns.copy()
-        create_columns[name_column] = name.strip()
+        create_columns[name_column] = name_stripped
     
-    columns = ", ".join([f"[{k}]" for k in create_columns.keys()])
+    # Remove id_column from create_columns if it's present (shouldn't be, but just in case)
+    if id_column in create_columns:
+        del create_columns[id_column]
+    
+    # Ensure we have at least one column to insert and that name_column has a non-empty value
+    if not create_columns or not create_columns.get(name_column, '').strip():
+        return None
+    
+    # Final safety check: ensure id_column is NOT in the column list
+    column_names = list(create_columns.keys())
+    if id_column in column_names:
+        print(f"  ERROR: {id_column} found in INSERT columns for {table}! Column names: {column_names}")
+        raise ValueError(f"Cannot include IDENTITY column {id_column} in INSERT statement")
+    
+    columns = ", ".join([f"[{k}]" for k in column_names])
     placeholders = ", ".join(["?" for _ in create_columns])
     values = list(create_columns.values())
     
-    insert_query = f"INSERT INTO [sResults].[{table}] ({columns}) VALUES ({placeholders})"
-    cursor.execute(insert_query, *values)
+    # Final safety check: ensure no None or empty values
+    for col, val in zip(create_columns.keys(), values):
+        if val is None or (isinstance(val, str) and not val.strip()):
+            print(f"  ERROR: NULL or empty value for column {col} in {table}! Value: {repr(val)}")
+            return None
     
-    # Get the generated ID
-    cursor.execute(f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?", name.strip())
-    row = cursor.fetchone()
-    if row:
-        return row[0]
-    return None
+    insert_query = f"INSERT INTO [sResults].[{table}] ({columns}) VALUES ({placeholders})"
+    
+    # Debug logging before INSERT
+    if table == 'Division':
+        print(f"  DEBUG: About to INSERT into Division")
+        print(f"    Columns: {columns}")
+        print(f"    Values: {values}")
+        print(f"    ID column (should NOT be present): {id_column}")
+        print(f"    Name value: {repr(name_stripped)}")
+        
+        # Check if DivisionID is actually IDENTITY
+        try:
+            check_identity_query = """
+                SELECT is_identity 
+                FROM sys.columns 
+                WHERE object_id = OBJECT_ID('sResults.Division') 
+                AND name = 'DivisionID'
+            """
+            cursor.execute(check_identity_query)
+            identity_row = cursor.fetchone()
+            if identity_row:
+                is_identity = identity_row[0]
+                print(f"    DivisionID is_identity: {is_identity}")
+                if not is_identity:
+                    print(f"    WARNING: DivisionID is NOT IDENTITY! This may cause issues.")
+        except Exception as schema_check_error:
+            print(f"    Could not check DivisionID schema: {schema_check_error}")
+    
+    try:
+        # Always use tuple for parameter passing with pyodbc for consistency and reliability
+        cursor.execute(insert_query, tuple(values))
+        
+        # Get the generated ID using SCOPE_IDENTITY() for better reliability
+        cursor.execute("SELECT SCOPE_IDENTITY()")
+        row = cursor.fetchone()
+        if row and row[0] is not None:
+            return int(row[0])
+        
+        # Fallback: query by name
+        cursor.execute(f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?", name.strip())
+        row = cursor.fetchone()
+        if row:
+            return row[0]
+        return None
+    except Exception as e:
+        # Log the error for debugging
+        error_msg = str(e)
+        print(f"  ERROR inserting into {table}: {e}")
+        print(f"    Query: {insert_query}")
+        print(f"    Columns being inserted: {list(create_columns.keys())}")
+        print(f"    Values: {values}")
+        print(f"    ID column (should NOT be in INSERT): {id_column}")
+        print(f"    Name column: {name_column}")
+        
+        # Check if the error is about NULL in IDENTITY column
+        if 'NULL' in error_msg and id_column in error_msg:
+            print(f"\n    POSSIBLE ISSUE: {id_column} may not be set as IDENTITY in the table.")
+            print(f"    The table '{table}' needs {id_column} to be defined as IDENTITY(1,1) NOT NULL")
+            print(f"    Please check the table creation script and ensure {id_column} is IDENTITY.")
+            print(f"    Example: {id_column} INT IDENTITY(1,1) NOT NULL PRIMARY KEY")
+            
+            # Try to check the actual table definition
+            try:
+                check_def_query = f"""
+                    SELECT 
+                        c.name AS column_name,
+                        c.is_identity,
+                        c.is_nullable,
+                        ty.name AS data_type
+                    FROM sys.columns c
+                    INNER JOIN sys.types ty ON c.user_type_id = ty.user_type_id
+                    WHERE c.object_id = OBJECT_ID('sResults.{table}')
+                    AND c.name = '{id_column}'
+                """
+                cursor.execute(check_def_query)
+                def_row = cursor.fetchone()
+                if def_row:
+                    col_name, is_identity, is_nullable, data_type = def_row
+                    print(f"\n    ACTUAL TABLE DEFINITION:")
+                    print(f"      Column: {col_name}")
+                    print(f"      Data Type: {data_type}")
+                    print(f"      Is IDENTITY: {is_identity}")
+                    print(f"      Is Nullable: {is_nullable}")
+                    if not is_identity:
+                        print(f"\n    *** {id_column} is NOT IDENTITY! This is the problem. ***")
+                        print(f"    The table needs to be altered or recreated with {id_column} as IDENTITY.")
+            except Exception as def_error:
+                print(f"    Could not check table definition: {def_error}")
+        
+        raise
 
 
 def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo], 
@@ -121,13 +230,17 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
         print("  Processing divisions and classes...")
         for class_key, class_info in classes.items():
             # Get or create division
+            div_id = None
             if class_info.division:
                 div_id = division_name_to_id.get(class_info.division)
                 if div_id is None:
-                    div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
-                                             normalize_division_name(class_info.division))
-                    if div_id:
-                        division_name_to_id[class_info.division] = div_id
+                    normalized_div_name = normalize_division_name(class_info.division)
+                    if normalized_div_name and normalized_div_name.strip():
+                        div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
+                                                 normalized_div_name)
+                        if div_id:
+                            division_name_to_id[class_info.division] = div_id
+                    # If normalized_div_name is None or empty, div_id remains None
                 
                 # Get or create class
                 normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
@@ -256,6 +369,10 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                                 if cursor.fetchone():
                                     continue  # Already exists
                                 
+                                # Year and DogName are NOT NULL
+                                if not class_info.year or not dog.name or not dog.name.strip():
+                                    continue  # Skip if required fields are missing
+                                
                                 insert_query = """
                                     INSERT INTO [sResults].[CatalogEntry]
                                     (Year, EntryNumber, DogID, DogName, OwnerID, Sire, Dam, Sex, ClassID, ClassName)
@@ -309,10 +426,12 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
             if class_info.division:
                 div_id = division_name_to_id.get(class_info.division)
                 if div_id is None:
-                    div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
-                                             normalize_division_name(class_info.division))
-                    if div_id:
-                        division_name_to_id[class_info.division] = div_id
+                    normalized_div_name = normalize_division_name(class_info.division)
+                    if normalized_div_name and normalized_div_name.strip():
+                        div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
+                                                 normalized_div_name)
+                        if div_id:
+                            division_name_to_id[class_info.division] = div_id
                 
                 # Get or create class
                 normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
@@ -459,10 +578,22 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
         raise
 
 
-def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, List[str]], dogs: Dict[str, Dog]):
-    """Populate relationship data into database."""
-    print("\nPopulating relationship data...")
+def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, List[str]], dogs: Dict[str, Dog],
+                          commit_interval: int = 100):
+    """Populate relationship data into database incrementally.
+    
+    Args:
+        conn: Database connection
+        relationships: Dictionary mapping dog canonical keys to relationship strings
+        dogs: Dictionary of dogs (for lookup)
+        commit_interval: Commit after this many relationships are inserted
+    """
+    if not relationships:
+        return
+    
     cursor = conn.cursor()
+    relationship_count = 0
+    operations_count = 0
     
     try:
         import re
@@ -477,11 +608,6 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
             dog_id, dog_name = row
             dog_name_to_id[dog_name] = dog_id
             normalized_name_to_id[normalize_name(dog_name)] = dog_id
-        
-        # Track processed relationships to avoid duplicates
-        processed_relationships = set()
-        
-        relationship_count = 0
         
         for canonical_key, rel_list in relationships.items():
             # Get dog ID for this dog (using normalized name)
@@ -546,12 +672,6 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                         actual_related_name = dogs[normalized_related_name].name
                         related_dog_id = dog_name_to_id.get(actual_related_name)
                 
-                # Create unique key for this relationship to avoid duplicates
-                rel_key = (dog_id, relationship_type, related_dog_name, via_dog_name)
-                if rel_key in processed_relationships:
-                    continue
-                processed_relationships.add(rel_key)
-                
                 # Check if relationship already exists in database
                 check_query = """
                     SELECT RelationshipID FROM [sResults].[Relationship]
@@ -571,161 +691,43 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                     continue  # Already exists
                 
                 # Insert relationship
+                # DogID, RelatedDogName, and RelationshipType are NOT NULL
+                if dog_id is None:
+                    continue  # Skip if dog_id is None
+                if not related_dog_name or not related_dog_name.strip():
+                    continue  # Skip if RelatedDogName is empty
+                if not relationship_type or not relationship_type.strip():
+                    continue  # Skip if RelationshipType is empty
+                
                 insert_query = """
                     INSERT INTO [sResults].[Relationship]
                     (DogID, RelatedDogID, RelatedDogName, RelationshipType, ViaDogName, RelatedDogSex)
                     VALUES (?, ?, ?, ?, ?, ?)
                 """
                 cursor.execute(insert_query,
-                             dog_id,
+                             (dog_id,
                              related_dog_id,
                              related_dog_name,
                              relationship_type,
                              via_dog_name,
-                             related_dog_sex)
+                             related_dog_sex))
                 
                 relationship_count += 1
+                operations_count += 1
+                
+                # Commit periodically
+                if operations_count % commit_interval == 0:
+                    conn.commit()
+                    print(f"    Committed {operations_count} relationships so far...")
         
-        conn.commit()
-        print(f"  Relationships populated: {relationship_count} relationships")
+        # Final commit
+        if operations_count % commit_interval != 0:
+            conn.commit()
         
-    except Exception as e:
-        print(f"  ERROR populating relationships: {e}")
-        import traceback
-        traceback.print_exc()
-        conn.rollback()
-        raise
-
-
-def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, List[str]], dogs: Dict[str, Dog]):
-    """Populate relationship data into database."""
-    print("\nPopulating relationship data...")
-    cursor = conn.cursor()
-    
-    try:
-        import re
-        
-        # Build mapping of normalized dog names to dog IDs
-        dog_name_to_id = {}
-        normalized_name_to_id = {}
-        
-        # First, get all dogs from database
-        cursor.execute("SELECT DogID, DogName FROM [sResults].[Dog]")
-        for row in cursor.fetchall():
-            dog_id, dog_name = row
-            dog_name_to_id[dog_name] = dog_id
-            normalized_name_to_id[normalize_name(dog_name)] = dog_id
-        
-        # Track processed relationships to avoid duplicates
-        processed_relationships = set()
-        
-        relationship_count = 0
-        
-        for canonical_key, rel_list in relationships.items():
-            # Get dog ID for this dog (using normalized name)
-            dog_id = normalized_name_to_id.get(canonical_key)
-            if not dog_id:
-                # Try to find in dogs dict to get the actual name
-                if canonical_key in dogs:
-                    actual_name = dogs[canonical_key].name
-                    dog_id = dog_name_to_id.get(actual_name)
-                    if dog_id:
-                        # Also add to normalized mapping for future lookups
-                        normalized_name_to_id[canonical_key] = dog_id
-            
-            if not dog_id:
-                continue  # Dog not found in database, skip
-            
-            # Parse each relationship string
-            for rel_str in rel_list:
-                # Parse relationship string format: "RelationshipType: RelatedDogName (sex)" 
-                # or "RelationshipType (via Intermediary): RelatedDogName (sex)"
-                
-                # Extract relationship type (everything before the first colon)
-                if ':' not in rel_str:
-                    continue
-                
-                type_and_via, rest = rel_str.split(':', 1)
-                rest = rest.strip()
-                
-                # Check for "via" in relationship type
-                via_dog_name = None
-                if ' (via ' in type_and_via:
-                    type_parts = type_and_via.split(' (via ', 1)
-                    relationship_type = type_parts[0].strip()
-                    via_dog_name = type_parts[1].rstrip(')').strip()
-                else:
-                    relationship_type = type_and_via.strip()
-                
-                # Extract related dog name and sex from rest
-                # Format: "RelatedDogName (sex)" or just "RelatedDogName"
-                related_dog_name = rest
-                related_dog_sex = None
-                
-                # Check if sex is in parentheses at the end
-                sex_match = re.match(r'^(.+?)\s+\(([^)]+)\)\s*$', rest)
-                if sex_match:
-                    related_dog_name = sex_match.group(1).strip()
-                    related_dog_sex = sex_match.group(2).strip()
-                
-                # Try to find related dog ID
-                related_dog_id = None
-                
-                # First try exact name match
-                related_dog_id = dog_name_to_id.get(related_dog_name)
-                
-                # If not found, try normalized name match
-                if not related_dog_id:
-                    normalized_related_name = normalize_name(related_dog_name)
-                    related_dog_id = normalized_name_to_id.get(normalized_related_name)
-                    
-                    # Also check in dogs dict
-                    if not related_dog_id and normalized_related_name in dogs:
-                        actual_related_name = dogs[normalized_related_name].name
-                        related_dog_id = dog_name_to_id.get(actual_related_name)
-                
-                # Create unique key for this relationship to avoid duplicates
-                rel_key = (dog_id, relationship_type, related_dog_name, via_dog_name)
-                if rel_key in processed_relationships:
-                    continue
-                processed_relationships.add(rel_key)
-                
-                # Check if relationship already exists in database
-                check_query = """
-                    SELECT RelationshipID FROM [sResults].[Relationship]
-                    WHERE DogID = ? AND RelationshipType = ? AND RelatedDogName = ?
-                """
-                if via_dog_name:
-                    check_query += " AND ViaDogName = ?"
-                else:
-                    check_query += " AND ViaDogName IS NULL"
-                
-                check_params = [dog_id, relationship_type, related_dog_name]
-                if via_dog_name:
-                    check_params.append(via_dog_name)
-                
-                cursor.execute(check_query, *check_params)
-                if cursor.fetchone():
-                    continue  # Already exists
-                
-                # Insert relationship
-                insert_query = """
-                    INSERT INTO [sResults].[Relationship]
-                    (DogID, RelatedDogID, RelatedDogName, RelationshipType, ViaDogName, RelatedDogSex)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                """
-                cursor.execute(insert_query,
-                             dog_id,
-                             related_dog_id,
-                             related_dog_name,
-                             relationship_type,
-                             via_dog_name,
-                             related_dog_sex)
-                
-                relationship_count += 1
-        
-        conn.commit()
-        print(f"  Relationships populated: {relationship_count} relationships")
+        if relationship_count > 0:
+            print(f"  ✓ Relationships populated: {relationship_count} relationships written to database")
+        else:
+            print(f"  No new relationships to write (all already exist in database)")
         
     except Exception as e:
         print(f"  ERROR populating relationships: {e}")
@@ -803,7 +805,7 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                 # Normalize division
                 division = normalize_division_name(result.division) if result.division else None
                 div_id = None
-                if division:
+                if division and division.strip():
                     div_id = division_name_to_id.get(division)
                     if div_id is None:
                         div_id = get_or_create_id(cursor, 'Division', 'DivisionName', division)
@@ -912,13 +914,18 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                                 dog_name_to_id[dog_name] = dog_id
                     
                     # Insert placement
+                    # TrialClassID is NOT NULL, so ensure it's not None
+                    if trialclass_id is None:
+                        print(f"  WARNING: Skipping TrialPlacements insert - trialclass_id is None")
+                        continue
+                    
                     insert_query = """
                         INSERT INTO [sResults].[TrialPlacements]
                         (TrialClassID, DogID, DogName, Result, OwnerID)
                         VALUES (?, ?, ?, ?, ?)
                     """
-                    cursor.execute(insert_query, trialclass_id, dog_id, result.dog_name, 
-                                 result.placement, owner_id)
+                    cursor.execute(insert_query, (trialclass_id, dog_id, result.dog_name, 
+                                 result.placement, owner_id))
                     operations_count += 1
                     if operations_count % commit_interval == 0:
                         conn.commit()
@@ -1102,9 +1109,63 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
             print("Skipping this file...")
             continue
         
-        # Store classes and dogs by year
-        all_classes.update(classes)
-        all_dogs_by_year[year] = dogs
+        # If writing incrementally, process and write this year's data now
+        if conn:
+            print(f"\nWriting year {year} data to database...")
+            # Process this year's data
+            process_year_catalog_data(conn, classes, dogs, year,
+                                     dog_name_to_id, owner_name_to_id,
+                                     division_name_to_id, class_name_to_id)
+            
+            # Merge with existing dogs (update all_merged_dogs)
+            for dog_key, dog in dogs.items():
+                normalized_name_key = normalize_name(dog.name)
+                if normalized_name_key not in all_merged_dogs:
+                    all_merged_dogs[normalized_name_key] = dog
+                else:
+                    # Merge: update with more complete information
+                    existing_dog = all_merged_dogs[normalized_name_key]
+                    if dog.sire and not existing_dog.sire:
+                        existing_dog.sire = dog.sire
+                    if dog.dam and not existing_dog.dam:
+                        existing_dog.dam = dog.dam
+                    if dog.sex and dog.sex != 'unknown' and (not existing_dog.sex or existing_dog.sex == 'unknown'):
+                        existing_dog.sex = dog.sex
+                    if dog.owner and not existing_dog.owner:
+                        existing_dog.owner = dog.owner
+            
+            # Store classes for later relationship processing
+            all_classes.update(classes)
+            all_dogs_by_year[year] = dogs
+            
+            # Periodically find relationships for accumulated dogs and write them (every 2 years for more frequent updates)
+            if len(all_dogs_by_year) % 2 == 0:
+                print(f"  Finding relationships for accumulated dogs ({len(all_merged_dogs)} dogs)...")
+                batch_relationships = find_relationships(all_merged_dogs)
+                # Find new relationships (not already in all_relationships)
+                new_relationships = {}
+                for key, rels in batch_relationships.items():
+                    existing_rels = set(all_relationships.get(key, []))
+                    new_rels = [r for r in rels if r not in existing_rels]
+                    if new_rels:
+                        new_relationships[key] = new_rels
+                        if key not in all_relationships:
+                            all_relationships[key] = []
+                        all_relationships[key].extend(new_rels)
+                
+                # Write new relationships to database immediately
+                if new_relationships:
+                    total_new = sum(len(rels) for rels in new_relationships.values())
+                    print(f"  Writing {total_new} new relationships to database (as each relationship is found)...")
+                    populate_relationships(conn, new_relationships, all_merged_dogs)
+                    print(f"  ✓ Relationships for {len(new_relationships)} dogs written to database")
+                
+                # Infer sex from relationships
+                infer_sex_from_relationships(all_merged_dogs)
+        else:
+            # Legacy mode: collect all data first
+            all_classes.update(classes)
+            all_dogs_by_year[year] = dogs
     
     # Print summary of dogs collected per year
     print(f"\n{'=' * 80}")
@@ -1296,12 +1357,8 @@ def main():
     
     try:
         # Load catalog data and write incrementally to database
+        # Relationships are already written incrementally during load_catalog_data
         classes, dogs, relationships, years = load_catalog_data(conn)
-        
-        # Write relationships incrementally (if not already written)
-        if relationships:
-            print("\nWriting relationships to database...")
-            populate_relationships(conn, relationships, dogs)
         
         # Load trial results data and write incrementally to database
         trial_results = load_trial_results_data(conn)
