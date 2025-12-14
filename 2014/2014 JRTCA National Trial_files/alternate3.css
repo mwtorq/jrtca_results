@@ -1,0 +1,17 @@
+﻿/* 3 columns (fullpage) */
+
+	.column1		{width:260px; 	vertical-align:top; padding: 0px 0px 20px 0px; margin:0px 0px 0px 0px; }
+	.column2		{width:40px; 	vertical-align:top; padding: 0px 0px 20px 0px; margin:0px 0px 0px 0px;}
+	.column3		{min-width:200px;     	vertical-align:top; padding: 0px 0px 20px 0px; margin:0px 0px 0px 0px;}
+	.column4		{
+	width:10px;
+	vertical-align:top;
+	padding: 0px 0px 20px 0px;
+	margin:0px 0px 0px 0px;
+}
+	.column5		{width:200px;  	vertical-align:top; padding: 0px 0px 20px 0px; margin:0px 0px 0px 0px;}
+		
+	.menu_container		{margin:0px 0px 0px 0px;}
+	
+#header_image_left			{visibility:visible; /*visibility:visible;*/}/*template page themed image: top right;*/
+#header_image_right			{visibility:visible; /*visibility:visible;*/}/*template page themed image: top right;*/
