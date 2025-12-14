@@ -1633,7 +1633,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Grandsire (dam's sire)
                     if dam_dog.sire:
                         grandsire_normalized = normalize_name(dam_dog.sire)
-                        grandsire_dog_keys = find_dog_keys_with_similar_matching(sire_dog.sire, dogs, normalized_name_to_dog_nums)
+                        grandsire_dog_keys = find_dog_keys_with_similar_matching(dam_dog.sire, dogs, normalized_name_to_dog_nums)
                         for grandsire_dog_key in grandsire_dog_keys:
                             if grandsire_dog_key != canonical_key:
                                 grandsire_dog = dogs[grandsire_dog_key]
@@ -1642,7 +1642,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Granddam (dam's dam)
                     if dam_dog.dam:
                         granddam_normalized = normalize_name(dam_dog.dam)
-                        granddam_dog_keys = find_dog_keys_with_similar_matching(sire_dog.dam, dogs, normalized_name_to_dog_nums)
+                        granddam_dog_keys = find_dog_keys_with_similar_matching(dam_dog.dam, dogs, normalized_name_to_dog_nums)
                         for granddam_dog_key in granddam_dog_keys:
                             if granddam_dog_key != canonical_key:
                                 granddam_dog = dogs[granddam_dog_key]
@@ -1710,7 +1710,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Great-grandsire (dam's sire's sire/dam)
                     if dam_dog.sire:
                         grandsire_normalized = normalize_name(dam_dog.sire)
-                        grandsire_dog_keys = find_dog_keys_with_similar_matching(sire_dog.sire, dogs, normalized_name_to_dog_nums)
+                        grandsire_dog_keys = find_dog_keys_with_similar_matching(dam_dog.sire, dogs, normalized_name_to_dog_nums)
                         for grandsire_dog_key in grandsire_dog_keys:
                             if grandsire_dog_key != canonical_key:
                                 grandsire_dog = dogs[grandsire_dog_key]
@@ -1733,7 +1733,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Great-grandsire (dam's dam's sire/dam)
                     if dam_dog.dam:
                         granddam_normalized = normalize_name(dam_dog.dam)
-                        granddam_dog_keys = find_dog_keys_with_similar_matching(sire_dog.dam, dogs, normalized_name_to_dog_nums)
+                        granddam_dog_keys = find_dog_keys_with_similar_matching(dam_dog.dam, dogs, normalized_name_to_dog_nums)
                         for granddam_dog_key in granddam_dog_keys:
                             if granddam_dog_key != canonical_key:
                                 granddam_dog = dogs[granddam_dog_key]
@@ -1872,7 +1872,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Great-great-grandsire (dam's great-grandparents) - similar logic
                     if dam_dog.sire:
                         grandsire_normalized = normalize_name(dam_dog.sire)
-                        grandsire_dog_keys = find_dog_keys_with_similar_matching(sire_dog.sire, dogs, normalized_name_to_dog_nums)
+                        grandsire_dog_keys = find_dog_keys_with_similar_matching(dam_dog.sire, dogs, normalized_name_to_dog_nums)
                         for grandsire_dog_key in grandsire_dog_keys:
                             if grandsire_dog_key != canonical_key:
                                 grandsire_dog = dogs[grandsire_dog_key]
@@ -1922,7 +1922,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                                                         relationships[canonical_key].append(f"Great-great-granddam: {ggg_dam_dog.name} ({ggg_sex})")
                     if dam_dog.dam:
                         granddam_normalized = normalize_name(dam_dog.dam)
-                        granddam_dog_keys = find_dog_keys_with_similar_matching(sire_dog.dam, dogs, normalized_name_to_dog_nums)
+                        granddam_dog_keys = find_dog_keys_with_similar_matching(dam_dog.dam, dogs, normalized_name_to_dog_nums)
                         for granddam_dog_key in granddam_dog_keys:
                             if granddam_dog_key != canonical_key:
                                 granddam_dog = dogs[granddam_dog_key]
@@ -2199,7 +2199,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     dam_dog = dogs[dam_dog_key]
                     if dam_dog.sire:
                         grandsire_normalized = normalize_name(dam_dog.sire)
-                        grandsire_dog_keys = find_dog_keys_with_similar_matching(sire_dog.sire, dogs, normalized_name_to_dog_nums)
+                        grandsire_dog_keys = find_dog_keys_with_similar_matching(dam_dog.sire, dogs, normalized_name_to_dog_nums)
                         for grandsire_dog_key in grandsire_dog_keys:
                             if grandsire_dog_key != canonical_key:
                                 grandsire_dog = dogs[grandsire_dog_key]
@@ -2305,7 +2305,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                                                                     relationships[canonical_key].append(f"Great-great-great-granddam: {gggg_dam_dog.name} ({gggg_sex})")
                     if dam_dog.dam:
                         granddam_normalized = normalize_name(dam_dog.dam)
-                        granddam_dog_keys = find_dog_keys_with_similar_matching(sire_dog.dam, dogs, normalized_name_to_dog_nums)
+                        granddam_dog_keys = find_dog_keys_with_similar_matching(dam_dog.dam, dogs, normalized_name_to_dog_nums)
                         for granddam_dog_key in granddam_dog_keys:
                             if granddam_dog_key != canonical_key:
                                 granddam_dog = dogs[granddam_dog_key]
@@ -2551,7 +2551,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Check grandsire's siblings
                     if dam_dog.sire:
                         grandsire_normalized = normalize_name(dam_dog.sire)
-                        grandsire_dog_keys = find_dog_keys_with_similar_matching(sire_dog.sire, dogs, normalized_name_to_dog_nums)
+                        grandsire_dog_keys = find_dog_keys_with_similar_matching(dam_dog.sire, dogs, normalized_name_to_dog_nums)
                         for grandsire_dog_key in grandsire_dog_keys:
                             if grandsire_dog_key != canonical_key:
                                 grandsire_dog = dogs[grandsire_dog_key]
@@ -2793,7 +2793,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Check grandsire's siblings
                     if dam_dog.sire:
                         grandsire_normalized = normalize_name(dam_dog.sire)
-                        grandsire_dog_keys = find_dog_keys_with_similar_matching(sire_dog.sire, dogs, normalized_name_to_dog_nums)
+                        grandsire_dog_keys = find_dog_keys_with_similar_matching(dam_dog.sire, dogs, normalized_name_to_dog_nums)
                         for grandsire_dog_key in grandsire_dog_keys:
                             if grandsire_dog_key != canonical_key:
                                 grandsire_dog = dogs[grandsire_dog_key]
@@ -2826,7 +2826,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Check granddam's siblings
                     if dam_dog.dam:
                         granddam_normalized = normalize_name(dam_dog.dam)
-                        granddam_dog_keys = find_dog_keys_with_similar_matching(sire_dog.dam, dogs, normalized_name_to_dog_nums)
+                        granddam_dog_keys = find_dog_keys_with_similar_matching(dam_dog.dam, dogs, normalized_name_to_dog_nums)
                         for granddam_dog_key in granddam_dog_keys:
                             if granddam_dog_key != canonical_key:
                                 granddam_dog = dogs[granddam_dog_key]

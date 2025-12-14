@@ -7,7 +7,7 @@ Uses the logic from parse_catalog.py and scrape_trial_results.py to extract and 
 import pyodbc
 import sys
 import os
-from typing import List, Dict, Optional, Set
+from typing import List, Dict, Optional, Set, Tuple
 from collections import defaultdict
 
 # Import from existing scripts
@@ -92,9 +92,206 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
     return None
 
 
+def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo], 
+                               dogs: Dict[str, Dog], year: str,
+                               dog_name_to_id: Dict[str, int],
+                               owner_name_to_id: Dict[str, int],
+                               division_name_to_id: Dict[str, int],
+                               class_name_to_id: Dict[tuple, int],
+                               commit_interval: int = 100):
+    """Process and write a single year's catalog data to database incrementally.
+    
+    Args:
+        conn: Database connection
+        classes: Classes for this year
+        dogs: Dogs for this year
+        year: Year being processed
+        dog_name_to_id: Dict mapping normalized dog names to IDs (updated in place)
+        owner_name_to_id: Dict mapping owner names to IDs (updated in place)
+        division_name_to_id: Dict mapping division names to IDs (updated in place)
+        class_name_to_id: Dict mapping (class_name, div_id, section) to class IDs (updated in place)
+        commit_interval: Commit after this many operations
+    """
+    cursor = conn.cursor()
+    operations_count = 0
+    
+    try:
+        
+        # Process divisions and classes first
+        print("  Processing divisions and classes...")
+        for class_key, class_info in classes.items():
+            # Get or create division
+            if class_info.division:
+                div_id = division_name_to_id.get(class_info.division)
+                if div_id is None:
+                    div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
+                                             normalize_division_name(class_info.division))
+                    if div_id:
+                        division_name_to_id[class_info.division] = div_id
+                
+                # Get or create class
+                normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
+                if normalized_class_name:
+                    class_lookup_key = (normalized_class_name, div_id, class_info.section or None)
+                    class_id = class_name_to_id.get(class_lookup_key)
+                    if class_id is None:
+                        class_id = get_or_create_id(
+                            cursor, 'Class', 'ClassName', normalized_class_name,
+                            create_columns={
+                                'DivisionID': div_id,
+                                'Section': class_info.section
+                            }
+                        )
+                        if class_id:
+                            class_name_to_id[class_lookup_key] = class_id
+                            operations_count += 1
+                            if operations_count % commit_interval == 0:
+                                conn.commit()
+        
+        if operations_count % commit_interval != 0:
+            conn.commit()
+        
+        # Process owners
+        for dog_key, dog in dogs.items():
+            if dog.owner and dog.owner.strip():
+                owner_name = dog.owner.strip()
+                if owner_name not in owner_name_to_id:
+                    owner_id = get_or_create_id(cursor, 'Owner', 'OwnerName', owner_name)
+                    if owner_id:
+                        owner_name_to_id[owner_name] = owner_id
+                        operations_count += 1
+                        if operations_count % commit_interval == 0:
+                            conn.commit()
+        
+        if operations_count % commit_interval != 0:
+            conn.commit()
+        
+        # Process dogs
+        for dog_key, dog in dogs.items():
+            # Get or create owner
+            owner_id = None
+            if dog.owner and dog.owner.strip():
+                owner_id = owner_name_to_id.get(dog.owner.strip())
+            
+            # Normalize dog name for lookup
+            normalized_dog_name = normalize_name(dog.name)
+            
+            # Check if we already have this dog (by normalized name)
+            dog_id = dog_name_to_id.get(normalized_dog_name)
+            
+            if dog_id is None:
+                # Create new dog
+                dog_id = get_or_create_id(
+                    cursor, 'Dog', 'DogName', dog.name,
+                    create_columns={
+                        'OwnerID': owner_id,
+                        'Sire': dog.sire,
+                        'Dam': dog.dam,
+                        'Sex': dog.sex
+                    }
+                )
+                if dog_id:
+                    dog_name_to_id[normalized_dog_name] = dog_id
+                    dog_name_to_id[dog.name] = dog_id  # Also store original name
+            else:
+                # Update dog if we have more complete information
+                update_columns = []
+                update_values = []
+                if dog.sire and dog.sire.strip():
+                    update_columns.append('Sire = ?')
+                    update_values.append(dog.sire.strip())
+                if dog.dam and dog.dam.strip():
+                    update_columns.append('Dam = ?')
+                    update_values.append(dog.dam.strip())
+                if dog.sex and dog.sex != 'unknown':
+                    update_columns.append('Sex = ?')
+                    update_values.append(dog.sex)
+                if owner_id:
+                    update_columns.append('OwnerID = ?')
+                    update_values.append(owner_id)
+                
+                if update_columns:
+                    update_values.append(dog_id)
+                    update_query = f"""
+                        UPDATE [sResults].[Dog]
+                        SET {', '.join(update_columns)}
+                        WHERE [DogID] = ?
+                    """
+                    cursor.execute(update_query, *update_values)
+                    operations_count += 1
+                    if operations_count % commit_interval == 0:
+                        conn.commit()
+        
+        if operations_count % commit_interval != 0:
+            conn.commit()
+        
+        # Process catalog entries (dog-class relationships)
+        print("  Processing catalog entries...")
+        for class_key, class_info in classes.items():
+            # Get class ID
+            if class_info.division and class_info.name:
+                div_id = division_name_to_id.get(class_info.division)
+                if div_id:
+                    normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
+                    if normalized_class_name:
+                        class_lookup_key = (normalized_class_name, div_id, class_info.section or None)
+                        class_id = class_name_to_id.get(class_lookup_key)
+                        
+                        if class_id:
+                            # Insert catalog entries for each dog in this class
+                            for dog in class_info.entries:
+                                normalized_dog_name = normalize_name(dog.name)
+                                dog_id = dog_name_to_id.get(normalized_dog_name) or dog_name_to_id.get(dog.name)
+                                
+                                owner_id = None
+                                if dog.owner and dog.owner.strip():
+                                    owner_id = owner_name_to_id.get(dog.owner.strip())
+                                
+                                # Check if entry already exists
+                                check_query = """
+                                    SELECT CatalogEntryID FROM [sResults].[CatalogEntry]
+                                    WHERE Year = ? AND DogID = ? AND ClassID = ?
+                                """
+                                cursor.execute(check_query, class_info.year, dog_id, class_id)
+                                if cursor.fetchone():
+                                    continue  # Already exists
+                                
+                                insert_query = """
+                                    INSERT INTO [sResults].[CatalogEntry]
+                                    (Year, EntryNumber, DogID, DogName, OwnerID, Sire, Dam, Sex, ClassID, ClassName)
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                """
+                                cursor.execute(insert_query,
+                                             class_info.year,
+                                             dog.number,
+                                             dog_id,
+                                             dog.name,
+                                             owner_id,
+                                             dog.sire,
+                                             dog.dam,
+                                             dog.sex,
+                                             class_id,
+                                             class_info.name)
+                                operations_count += 1
+                                if operations_count % commit_interval == 0:
+                                    conn.commit()
+        
+        if operations_count % commit_interval != 0:
+            conn.commit()
+        
+        print(f"  Year {year}: {len(dogs)} dogs, {len(classes)} classes written to database")
+        
+    except Exception as e:
+        print(f"  ERROR processing year {year} catalog data: {e}")
+        import traceback
+        traceback.print_exc()
+        conn.rollback()
+        raise
+
+
 def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo], 
                          dogs: Dict[str, Dog], years: List[str]):
-    """Populate catalog data into database."""
+    """Populate catalog data into database (legacy function - kept for compatibility)."""
     print("\nPopulating catalog data...")
     cursor = conn.cursor()
     
@@ -538,19 +735,38 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
         raise
 
 
-def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[TrialResult]):
-    """Populate trial results data into database."""
+def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[TrialResult],
+                                trial_name_to_id: Optional[Dict[str, int]] = None,
+                                division_name_to_id: Optional[Dict[str, int]] = None,
+                                class_name_to_id: Optional[Dict[tuple, int]] = None,
+                                owner_name_to_id: Optional[Dict[str, int]] = None,
+                                dog_name_to_id: Optional[Dict[str, int]] = None,
+                                class_key_to_id: Optional[Dict[tuple, int]] = None,
+                                commit_interval: int = 50):
+    """Populate trial results data into database.
+    
+    If tracking dictionaries are provided, they are reused across calls (for incremental processing).
+    Otherwise, new dictionaries are created (for bulk processing).
+    """
     print("\nPopulating trial results data...")
     cursor = conn.cursor()
     
     try:
-        # Track inserted records
-        trial_name_to_id = {}
-        owner_name_to_id = {}
-        division_name_to_id = {}
-        class_name_to_id = {}  # (normalized_class_name, div_id, section) -> class_id
-        class_key_to_id = {}  # (trial_id, class_id, class_number) -> trialclass_id
-        dog_name_to_id = {}
+        # Initialize tracking dictionaries if not provided
+        if trial_name_to_id is None:
+            trial_name_to_id = {}
+        if division_name_to_id is None:
+            division_name_to_id = {}
+        if class_name_to_id is None:
+            class_name_to_id = {}  # (normalized_class_name, div_id, section) -> class_id
+        if owner_name_to_id is None:
+            owner_name_to_id = {}
+        if dog_name_to_id is None:
+            dog_name_to_id = {}
+        if class_key_to_id is None:
+            class_key_to_id = {}  # (trial_id, class_id, class_number) -> trialclass_id
+        
+        operations_count = 0
         
         # Group results by trial
         by_trial = defaultdict(list)
@@ -614,13 +830,14 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                         )
                         if class_id:
                             class_name_to_id[class_lookup_key] = class_id
+                            operations_count += 1
+                            if operations_count % commit_interval == 0:
+                                conn.commit()
                 
                 # Group by class for this trial
                 if class_id:
                     class_key = (trial_id, class_id, result.class_number)
                     by_class[class_key].append(result)
-            
-            conn.commit()
             
             # Process classes and placements for this trial
             for class_key, class_results in by_class.items():
@@ -641,6 +858,7 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                         VALUES (?, ?, ?, ?)
                     """
                     cursor.execute(insert_query, trial_id, class_id, class_number, entry_count)
+                    operations_count += 1
                     
                     # Get generated ID
                     cursor.execute("""
@@ -651,6 +869,9 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                     if row:
                         trialclass_id = row[0]
                         class_key_to_id[trialclass_key] = trialclass_id
+                    
+                    if operations_count % commit_interval == 0:
+                        conn.commit()
                 
                 # Process placements for this class
                 for result in class_results:
@@ -663,6 +884,9 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                             owner_id = get_or_create_id(cursor, 'Owner', 'OwnerName', owner_name)
                             if owner_id:
                                 owner_name_to_id[owner_name] = owner_id
+                                operations_count += 1
+                                if operations_count % commit_interval == 0:
+                                    conn.commit()
                     
                     # Get or create dog
                     dog_id = None
@@ -695,7 +919,11 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                     """
                     cursor.execute(insert_query, trialclass_id, dog_id, result.dog_name, 
                                  result.placement, owner_id)
-            
+                    operations_count += 1
+                    if operations_count % commit_interval == 0:
+                        conn.commit()
+        
+        if operations_count % commit_interval != 0:
             conn.commit()
         
         print(f"  Trial results populated: {len(trial_results)} results, {len(by_trial)} trials")
@@ -708,8 +936,12 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
         raise
 
 
-def load_catalog_data() -> tuple:
-    """Load catalog data using parse_catalog.py logic - same as main() function."""
+def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
+    """Load catalog data using parse_catalog.py logic and write incrementally to database.
+    
+    If conn is provided, data is written to database as each year is processed.
+    Otherwise, data is collected and returned for bulk processing (legacy mode).
+    """
     import glob
     import os
     import re
@@ -717,6 +949,15 @@ def load_catalog_data() -> tuple:
     print("=" * 80)
     print("FINDING CATALOG FILES")
     print("=" * 80)
+    
+    # Track IDs across all years if writing incrementally
+    if conn:
+        dog_name_to_id = {}
+        owner_name_to_id = {}
+        division_name_to_id = {}
+        class_name_to_id = {}
+        all_merged_dogs = {}  # Track merged dogs across years
+        all_relationships = {}  # Accumulate relationships
     
     # Use same file finding logic as parse_catalog.py
     doc_files = sorted(glob.glob("*Entries_Catalog*.doc") + glob.glob("*entries_catalog*.doc") + 
@@ -938,8 +1179,12 @@ def load_catalog_data() -> tuple:
     return all_classes, merged_dogs, relationships, years_processed
 
 
-def load_trial_results_data() -> List[TrialResult]:
-    """Load trial results data using scrape_trial_results.py logic."""
+def load_trial_results_data(conn: Optional[pyodbc.Connection] = None) -> List[TrialResult]:
+    """Load trial results data using scrape_trial_results.py logic.
+    
+    If conn is provided, results are written to database as each file is processed.
+    Otherwise, results are collected and returned for bulk processing (legacy mode).
+    """
     print("Loading trial results data...")
     
     import glob
@@ -974,6 +1219,15 @@ def load_trial_results_data() -> List[TrialResult]:
     
     print(f"  Found {len(trial_files)} trial files")
     
+    # If writing incrementally, set up tracking dictionaries
+    if conn:
+        trial_name_to_id = {}
+        division_name_to_id = {}
+        class_name_to_id = {}
+        owner_name_to_id = {}
+        dog_name_to_id = {}
+        class_key_to_id = {}
+    
     for filepath in trial_files:
         if filepath in seen_files:
             continue
@@ -997,7 +1251,17 @@ def load_trial_results_data() -> List[TrialResult]:
             print(f"    Processing {filepath}...")
             results, _ = parse_local_trial_file(filepath, year=year, source_folder=source_folder)
             
-            all_results.extend(results)
+            if conn and results:
+                # Write this file's results immediately
+                print(f"      Writing {len(results)} results to database...")
+                populate_trial_results_data(conn, results, 
+                                           trial_name_to_id, division_name_to_id,
+                                           class_name_to_id, owner_name_to_id,
+                                           dog_name_to_id, class_key_to_id)
+            else:
+                # Collect for later
+                all_results.extend(results)
+            
             if results:
                 print(f"      Extracted {len(results)} results")
             
@@ -1007,8 +1271,12 @@ def load_trial_results_data() -> List[TrialResult]:
             traceback.print_exc()
             continue
     
-    print(f"  Loaded {len(all_results)} trial results total")
-    return all_results
+    if conn:
+        print(f"  Processed {len(trial_files)} trial files (written incrementally)")
+        return []  # Already written, return empty list
+    else:
+        print(f"  Loaded {len(all_results)} trial results total")
+        return all_results
 
 
 def main():
@@ -1027,18 +1295,18 @@ def main():
         sys.exit(1)
     
     try:
-        # Load catalog data
-        classes, dogs, relationships, years = load_catalog_data()
+        # Load catalog data and write incrementally to database
+        classes, dogs, relationships, years = load_catalog_data(conn)
         
-        # Load trial results data
-        trial_results = load_trial_results_data()
+        # Write relationships incrementally (if not already written)
+        if relationships:
+            print("\nWriting relationships to database...")
+            populate_relationships(conn, relationships, dogs)
         
-        # Populate database
-        if classes or dogs:
-            populate_catalog_data(conn, classes, dogs, years)
-            if relationships:
-                populate_relationships(conn, relationships, dogs)
+        # Load trial results data and write incrementally to database
+        trial_results = load_trial_results_data(conn)
         
+        # If any trial results weren't written incrementally, write them now
         if trial_results:
             populate_trial_results_data(conn, trial_results)
         
