@@ -608,6 +608,121 @@ def main():
         else:
             print("  Dog table already exists")
         
+        # Ensure Section table exists (may not be in source schema)
+        print("\nEnsuring Section table exists...")
+        cursor.execute("""
+            SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_SCHEMA = 'sResults' AND TABLE_NAME = 'Section'
+        """)
+        if cursor.fetchone()[0] == 0:
+            print("  Creating Section table...")
+            cursor.execute("""
+                CREATE TABLE [sResults].[Section] (
+                    [SectionID] INT IDENTITY(1,1) PRIMARY KEY,
+                    [SectionName] NVARCHAR(255) NOT NULL
+                );
+            """)
+            target_conn.commit()
+            print("    ✓ Section table created")
+        else:
+            print("  Section table already exists")
+        
+        # Check if Class table has Section column and update it to use SectionID
+        print("\nChecking Class table structure...")
+        cursor.execute("""
+            SELECT COLUMN_NAME 
+            FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE TABLE_SCHEMA = 'sResults' 
+            AND TABLE_NAME = 'Class' 
+            AND COLUMN_NAME = 'Section'
+        """)
+        if cursor.fetchone():
+            print("  Class table has 'Section' column - updating to use SectionID...")
+            # Check if SectionID column already exists
+            cursor.execute("""
+                SELECT COLUMN_NAME 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_SCHEMA = 'sResults' 
+                AND TABLE_NAME = 'Class' 
+                AND COLUMN_NAME = 'SectionID'
+            """)
+            if not cursor.fetchone():
+                # Add SectionID column
+                cursor.execute("""
+                    ALTER TABLE [sResults].[Class]
+                    ADD [SectionID] INT NULL;
+                """)
+                print("    ✓ Added SectionID column")
+            
+            # Add foreign key constraint if it doesn't exist
+            cursor.execute("""
+                SELECT CONSTRAINT_NAME 
+                FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
+                WHERE TABLE_SCHEMA = 'sResults' 
+                AND TABLE_NAME = 'Class' 
+                AND CONSTRAINT_NAME = 'FK_Class_Section'
+            """)
+            if not cursor.fetchone():
+                cursor.execute("""
+                    ALTER TABLE [sResults].[Class]
+                    ADD CONSTRAINT [FK_Class_Section] FOREIGN KEY ([SectionID])
+                        REFERENCES [sResults].[Section]([SectionID]);
+                """)
+                print("    ✓ Added FK_Class_Section foreign key")
+            
+            # Drop the old Section column
+            cursor.execute("""
+                ALTER TABLE [sResults].[Class]
+                DROP COLUMN [Section];
+            """)
+            print("    ✓ Removed old Section column")
+            target_conn.commit()
+        else:
+            # Check if SectionID exists
+            cursor.execute("""
+                SELECT COLUMN_NAME 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_SCHEMA = 'sResults' 
+                AND TABLE_NAME = 'Class' 
+                AND COLUMN_NAME = 'SectionID'
+            """)
+            if cursor.fetchone():
+                # SectionID exists, just ensure FK exists
+                cursor.execute("""
+                    SELECT CONSTRAINT_NAME 
+                    FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
+                    WHERE TABLE_SCHEMA = 'sResults' 
+                    AND TABLE_NAME = 'Class' 
+                    AND CONSTRAINT_NAME = 'FK_Class_Section'
+                """)
+                if not cursor.fetchone():
+                    cursor.execute("""
+                        ALTER TABLE [sResults].[Class]
+                        ADD CONSTRAINT [FK_Class_Section] FOREIGN KEY ([SectionID])
+                            REFERENCES [sResults].[Section]([SectionID]);
+                    """)
+                    target_conn.commit()
+                    print("    ✓ Added FK_Class_Section foreign key")
+                else:
+                    print("    ✓ FK_Class_Section foreign key already exists")
+            else:
+                # SectionID doesn't exist - add it
+                print("  Class table missing SectionID column - adding it...")
+                cursor.execute("""
+                    ALTER TABLE [sResults].[Class]
+                    ADD [SectionID] INT NULL;
+                """)
+                print("    ✓ Added SectionID column")
+                
+                # Add foreign key constraint
+                cursor.execute("""
+                    ALTER TABLE [sResults].[Class]
+                    ADD CONSTRAINT [FK_Class_Section] FOREIGN KEY ([SectionID])
+                        REFERENCES [sResults].[Section]([SectionID]);
+                """)
+                target_conn.commit()
+                print("    ✓ Added FK_Class_Section foreign key")
+        
         # Ensure Relationship table exists (may not be in source schema)
         print("\nEnsuring Relationship table exists...")
         cursor.execute("""
@@ -667,15 +782,25 @@ def create_basic_schema(target_conn: pyodbc.Connection):
         );
     """)
     
+    # Section table
+    cursor.execute("""
+        CREATE TABLE [sResults].[Section] (
+            [SectionID] INT IDENTITY(1,1) PRIMARY KEY,
+            [SectionName] NVARCHAR(255) NOT NULL
+        );
+    """)
+    
     # Class table
     cursor.execute("""
         CREATE TABLE [sResults].[Class] (
             [ClassID] INT IDENTITY(1,1) PRIMARY KEY,
             [DivisionID] INT NULL,
+            [SectionID] INT NULL,
             [ClassName] NVARCHAR(255) NOT NULL,
-            [Section] NVARCHAR(100) NULL,
             CONSTRAINT [FK_Class_Division] FOREIGN KEY ([DivisionID])
-                REFERENCES [sResults].[Division]([DivisionID])
+                REFERENCES [sResults].[Division]([DivisionID]),
+            CONSTRAINT [FK_Class_Section] FOREIGN KEY ([SectionID])
+                REFERENCES [sResults].[Section]([SectionID])
         );
     """)
     

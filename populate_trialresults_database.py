@@ -64,7 +64,10 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
         return None
     
     if id_column is None:
-        id_column = table.rstrip('s') + 'ID'  # e.g., Division -> DivisionID
+        # Generate ID column name by simply adding 'ID' to the table name
+        # This matches the standard SQL Server convention: TableName -> TableNameID
+        # e.g., 'Class' -> 'ClassID', 'Division' -> 'DivisionID'
+        id_column = table + 'ID'
     
     # Try to find existing record
     query = f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?"
@@ -207,6 +210,7 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                                owner_name_to_id: Dict[str, int],
                                division_name_to_id: Dict[str, int],
                                class_name_to_id: Dict[tuple, int],
+                               section_name_to_id: Dict[str, int] = None,
                                commit_interval: int = 100):
     """Process and write a single year's catalog data to database incrementally.
     
@@ -219,8 +223,12 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
         owner_name_to_id: Dict mapping owner names to IDs (updated in place)
         division_name_to_id: Dict mapping division names to IDs (updated in place)
         class_name_to_id: Dict mapping (class_name, div_id, section) to class IDs (updated in place)
+        section_name_to_id: Dict mapping section names to IDs (updated in place, optional)
         commit_interval: Commit after this many operations
     """
+    if section_name_to_id is None:
+        section_name_to_id = {}
+    
     cursor = conn.cursor()
     operations_count = 0
     
@@ -242,6 +250,16 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                             division_name_to_id[class_info.division] = div_id
                     # If normalized_div_name is None or empty, div_id remains None
                 
+                # Get or create section
+                section_id = None
+                if class_info.section and class_info.section.strip():
+                    section_name = class_info.section.strip()
+                    section_id = section_name_to_id.get(section_name)
+                    if section_id is None:
+                        section_id = get_or_create_id(cursor, 'Section', 'SectionName', section_name)
+                        if section_id:
+                            section_name_to_id[section_name] = section_id
+                
                 # Get or create class
                 normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
                 if normalized_class_name:
@@ -252,7 +270,7 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                             cursor, 'Class', 'ClassName', normalized_class_name,
                             create_columns={
                                 'DivisionID': div_id,
-                                'Section': class_info.section
+                                'SectionID': section_id
                             }
                         )
                         if class_id:
@@ -417,6 +435,7 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
         dog_name_to_id = {}
         owner_name_to_id = {}
         division_name_to_id = {}
+        section_name_to_id = {}
         class_name_to_id = {}  # (normalized_class_name, div_id, section) -> class_id
         
         # Process divisions and classes first
@@ -433,6 +452,16 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
                         if div_id:
                             division_name_to_id[class_info.division] = div_id
                 
+                # Get or create section
+                section_id = None
+                if class_info.section and class_info.section.strip():
+                    section_name = class_info.section.strip()
+                    section_id = section_name_to_id.get(section_name)
+                    if section_id is None:
+                        section_id = get_or_create_id(cursor, 'Section', 'SectionName', section_name)
+                        if section_id:
+                            section_name_to_id[section_name] = section_id
+                
                 # Get or create class
                 normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
                 if normalized_class_name:
@@ -443,7 +472,7 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
                             cursor, 'Class', 'ClassName', normalized_class_name,
                             create_columns={
                                 'DivisionID': div_id,
-                                'Section': class_info.section
+                                'SectionID': section_id
                             }
                         )
                         if class_id:
@@ -759,6 +788,7 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
             trial_name_to_id = {}
         if division_name_to_id is None:
             division_name_to_id = {}
+        section_name_to_id = {}  # Always create new for this function
         if class_name_to_id is None:
             class_name_to_id = {}  # (normalized_class_name, div_id, section) -> class_id
         if owner_name_to_id is None:
@@ -812,6 +842,16 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                         if div_id:
                             division_name_to_id[division] = div_id
                 
+                # Get or create section
+                section_id = None
+                if result.section and result.section.strip():
+                    section_name = result.section.strip()
+                    section_id = section_name_to_id.get(section_name)
+                    if section_id is None:
+                        section_id = get_or_create_id(cursor, 'Section', 'SectionName', section_name)
+                        if section_id:
+                            section_name_to_id[section_name] = section_id
+                
                 # Normalize class name
                 normalized_class_name = None
                 if result.class_name:
@@ -827,7 +867,7 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                             cursor, 'Class', 'ClassName', normalized_class_name,
                             create_columns={
                                 'DivisionID': div_id,
-                                'Section': result.section
+                                'SectionID': section_id
                             }
                         )
                         if class_id:
@@ -962,6 +1002,7 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
         dog_name_to_id = {}
         owner_name_to_id = {}
         division_name_to_id = {}
+        section_name_to_id = {}
         class_name_to_id = {}
         all_merged_dogs = {}  # Track merged dogs across years
         all_relationships = {}  # Accumulate relationships
@@ -1115,7 +1156,8 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
             # Process this year's data
             process_year_catalog_data(conn, classes, dogs, year,
                                      dog_name_to_id, owner_name_to_id,
-                                     division_name_to_id, class_name_to_id)
+                                     division_name_to_id, class_name_to_id,
+                                     section_name_to_id)
             
             # Merge with existing dogs (update all_merged_dogs)
             for dog_key, dog in dogs.items():

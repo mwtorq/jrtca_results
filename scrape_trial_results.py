@@ -2762,7 +2762,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
                                  catalog_dogs: Dict[str, Dog]) -> str:
     """Generate a comprehensive report of trial results with catalog data integration."""
 
@@ -3918,3 +3917,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
