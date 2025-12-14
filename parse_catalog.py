@@ -1519,33 +1519,27 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                                 grandchildren.append(grandchild)
         
         # Find great-grandchildren (grandchildren's children)
-        # Use indexes, but need to check all possible name variations
+        # Use indexes to find children of each grandchild
         great_grandchildren = []
         for grandchild in grandchildren:
             grandchild_canonical_key = normalize_name(grandchild.name)
-            # Find all possible keys for this grandchild (to handle name variations in sire/dam fields)
-            grandchild_sire_keys = find_dog_keys_with_similar_matching(grandchild.name, dogs, normalized_name_to_dog_nums)
-            grandchild_lookup_keys = set([grandchild_canonical_key])
-            for key in grandchild_sire_keys:
-                grandchild_lookup_keys.add(normalize_name(dogs[key].name) if key in dogs else normalize_name(grandchild.name))
             
-            # Find children of this grandchild using indexes (check all name variations)
-            for lookup_key in grandchild_lookup_keys:
-                if lookup_key in sire_to_dogs:
-                    for gg_child_key, gg_child in sire_to_dogs[lookup_key]:
-                        if gg_child_key != canonical_key:
-                            gg_child_sex = gg_child.sex or 'unknown'
-                            relationships[canonical_key].append(f"Great-grandchild (via {grandchild.name}): {gg_child.name} ({gg_child_sex})")
-                            if gg_child not in great_grandchildren:
-                                great_grandchildren.append(gg_child)
-                
-                if lookup_key in dam_to_dogs:
-                    for gg_child_key, gg_child in dam_to_dogs[lookup_key]:
-                        if gg_child_key != canonical_key:
-                            gg_child_sex = gg_child.sex or 'unknown'
-                            relationships[canonical_key].append(f"Great-grandchild (via {grandchild.name}): {gg_child.name} ({gg_child_sex})")
-                            if gg_child not in great_grandchildren:
-                                great_grandchildren.append(gg_child)
+            # Find children of this grandchild using indexes
+            if grandchild_canonical_key in sire_to_dogs:
+                for gg_child_key, gg_child in sire_to_dogs[grandchild_canonical_key]:
+                    if gg_child_key != canonical_key:
+                        gg_child_sex = gg_child.sex or 'unknown'
+                        relationships[canonical_key].append(f"Great-grandchild (via {grandchild.name}): {gg_child.name} ({gg_child_sex})")
+                        if gg_child not in great_grandchildren:
+                            great_grandchildren.append(gg_child)
+            
+            if grandchild_canonical_key in dam_to_dogs:
+                for gg_child_key, gg_child in dam_to_dogs[grandchild_canonical_key]:
+                    if gg_child_key != canonical_key:
+                        gg_child_sex = gg_child.sex or 'unknown'
+                        relationships[canonical_key].append(f"Great-grandchild (via {grandchild.name}): {gg_child.name} ({gg_child_sex})")
+                        if gg_child not in great_grandchildren:
+                            great_grandchildren.append(gg_child)
         
         # Find great-great-grandchildren (great-grandchildren's children)
         # Use indexes, but need to check all possible name variations

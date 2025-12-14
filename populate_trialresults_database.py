@@ -459,10 +459,22 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
         raise
 
 
-def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, List[str]], dogs: Dict[str, Dog]):
-    """Populate relationship data into database."""
-    print("\nPopulating relationship data...")
+def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, List[str]], dogs: Dict[str, Dog],
+                          commit_interval: int = 100):
+    """Populate relationship data into database incrementally.
+    
+    Args:
+        conn: Database connection
+        relationships: Dictionary mapping dog canonical keys to relationship strings
+        dogs: Dictionary of dogs (for lookup)
+        commit_interval: Commit after this many relationships are inserted
+    """
+    if not relationships:
+        return
+    
     cursor = conn.cursor()
+    relationship_count = 0
+    operations_count = 0
     
     try:
         import re
@@ -477,11 +489,6 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
             dog_id, dog_name = row
             dog_name_to_id[dog_name] = dog_id
             normalized_name_to_id[normalize_name(dog_name)] = dog_id
-        
-        # Track processed relationships to avoid duplicates
-        processed_relationships = set()
-        
-        relationship_count = 0
         
         for canonical_key, rel_list in relationships.items():
             # Get dog ID for this dog (using normalized name)
@@ -546,12 +553,6 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                         actual_related_name = dogs[normalized_related_name].name
                         related_dog_id = dog_name_to_id.get(actual_related_name)
                 
-                # Create unique key for this relationship to avoid duplicates
-                rel_key = (dog_id, relationship_type, related_dog_name, via_dog_name)
-                if rel_key in processed_relationships:
-                    continue
-                processed_relationships.add(rel_key)
-                
                 # Check if relationship already exists in database
                 check_query = """
                     SELECT RelationshipID FROM [sResults].[Relationship]
@@ -585,147 +586,21 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                              related_dog_sex)
                 
                 relationship_count += 1
+                operations_count += 1
+                
+                # Commit periodically
+                if operations_count % commit_interval == 0:
+                    conn.commit()
+                    print(f"    Committed {operations_count} relationships so far...")
         
-        conn.commit()
-        print(f"  Relationships populated: {relationship_count} relationships")
+        # Final commit
+        if operations_count % commit_interval != 0:
+            conn.commit()
         
-    except Exception as e:
-        print(f"  ERROR populating relationships: {e}")
-        import traceback
-        traceback.print_exc()
-        conn.rollback()
-        raise
-
-
-def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, List[str]], dogs: Dict[str, Dog]):
-    """Populate relationship data into database."""
-    print("\nPopulating relationship data...")
-    cursor = conn.cursor()
-    
-    try:
-        import re
-        
-        # Build mapping of normalized dog names to dog IDs
-        dog_name_to_id = {}
-        normalized_name_to_id = {}
-        
-        # First, get all dogs from database
-        cursor.execute("SELECT DogID, DogName FROM [sResults].[Dog]")
-        for row in cursor.fetchall():
-            dog_id, dog_name = row
-            dog_name_to_id[dog_name] = dog_id
-            normalized_name_to_id[normalize_name(dog_name)] = dog_id
-        
-        # Track processed relationships to avoid duplicates
-        processed_relationships = set()
-        
-        relationship_count = 0
-        
-        for canonical_key, rel_list in relationships.items():
-            # Get dog ID for this dog (using normalized name)
-            dog_id = normalized_name_to_id.get(canonical_key)
-            if not dog_id:
-                # Try to find in dogs dict to get the actual name
-                if canonical_key in dogs:
-                    actual_name = dogs[canonical_key].name
-                    dog_id = dog_name_to_id.get(actual_name)
-                    if dog_id:
-                        # Also add to normalized mapping for future lookups
-                        normalized_name_to_id[canonical_key] = dog_id
-            
-            if not dog_id:
-                continue  # Dog not found in database, skip
-            
-            # Parse each relationship string
-            for rel_str in rel_list:
-                # Parse relationship string format: "RelationshipType: RelatedDogName (sex)" 
-                # or "RelationshipType (via Intermediary): RelatedDogName (sex)"
-                
-                # Extract relationship type (everything before the first colon)
-                if ':' not in rel_str:
-                    continue
-                
-                type_and_via, rest = rel_str.split(':', 1)
-                rest = rest.strip()
-                
-                # Check for "via" in relationship type
-                via_dog_name = None
-                if ' (via ' in type_and_via:
-                    type_parts = type_and_via.split(' (via ', 1)
-                    relationship_type = type_parts[0].strip()
-                    via_dog_name = type_parts[1].rstrip(')').strip()
-                else:
-                    relationship_type = type_and_via.strip()
-                
-                # Extract related dog name and sex from rest
-                # Format: "RelatedDogName (sex)" or just "RelatedDogName"
-                related_dog_name = rest
-                related_dog_sex = None
-                
-                # Check if sex is in parentheses at the end
-                sex_match = re.match(r'^(.+?)\s+\(([^)]+)\)\s*$', rest)
-                if sex_match:
-                    related_dog_name = sex_match.group(1).strip()
-                    related_dog_sex = sex_match.group(2).strip()
-                
-                # Try to find related dog ID
-                related_dog_id = None
-                
-                # First try exact name match
-                related_dog_id = dog_name_to_id.get(related_dog_name)
-                
-                # If not found, try normalized name match
-                if not related_dog_id:
-                    normalized_related_name = normalize_name(related_dog_name)
-                    related_dog_id = normalized_name_to_id.get(normalized_related_name)
-                    
-                    # Also check in dogs dict
-                    if not related_dog_id and normalized_related_name in dogs:
-                        actual_related_name = dogs[normalized_related_name].name
-                        related_dog_id = dog_name_to_id.get(actual_related_name)
-                
-                # Create unique key for this relationship to avoid duplicates
-                rel_key = (dog_id, relationship_type, related_dog_name, via_dog_name)
-                if rel_key in processed_relationships:
-                    continue
-                processed_relationships.add(rel_key)
-                
-                # Check if relationship already exists in database
-                check_query = """
-                    SELECT RelationshipID FROM [sResults].[Relationship]
-                    WHERE DogID = ? AND RelationshipType = ? AND RelatedDogName = ?
-                """
-                if via_dog_name:
-                    check_query += " AND ViaDogName = ?"
-                else:
-                    check_query += " AND ViaDogName IS NULL"
-                
-                check_params = [dog_id, relationship_type, related_dog_name]
-                if via_dog_name:
-                    check_params.append(via_dog_name)
-                
-                cursor.execute(check_query, *check_params)
-                if cursor.fetchone():
-                    continue  # Already exists
-                
-                # Insert relationship
-                insert_query = """
-                    INSERT INTO [sResults].[Relationship]
-                    (DogID, RelatedDogID, RelatedDogName, RelationshipType, ViaDogName, RelatedDogSex)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                """
-                cursor.execute(insert_query,
-                             dog_id,
-                             related_dog_id,
-                             related_dog_name,
-                             relationship_type,
-                             via_dog_name,
-                             related_dog_sex)
-                
-                relationship_count += 1
-        
-        conn.commit()
-        print(f"  Relationships populated: {relationship_count} relationships")
+        if relationship_count > 0:
+            print(f"  ✓ Relationships populated: {relationship_count} relationships written to database")
+        else:
+            print(f"  No new relationships to write (all already exist in database)")
         
     except Exception as e:
         print(f"  ERROR populating relationships: {e}")
@@ -1102,9 +977,63 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
             print("Skipping this file...")
             continue
         
-        # Store classes and dogs by year
-        all_classes.update(classes)
-        all_dogs_by_year[year] = dogs
+        # If writing incrementally, process and write this year's data now
+        if conn:
+            print(f"\nWriting year {year} data to database...")
+            # Process this year's data
+            process_year_catalog_data(conn, classes, dogs, year,
+                                     dog_name_to_id, owner_name_to_id,
+                                     division_name_to_id, class_name_to_id)
+            
+            # Merge with existing dogs (update all_merged_dogs)
+            for dog_key, dog in dogs.items():
+                normalized_name_key = normalize_name(dog.name)
+                if normalized_name_key not in all_merged_dogs:
+                    all_merged_dogs[normalized_name_key] = dog
+                else:
+                    # Merge: update with more complete information
+                    existing_dog = all_merged_dogs[normalized_name_key]
+                    if dog.sire and not existing_dog.sire:
+                        existing_dog.sire = dog.sire
+                    if dog.dam and not existing_dog.dam:
+                        existing_dog.dam = dog.dam
+                    if dog.sex and dog.sex != 'unknown' and (not existing_dog.sex or existing_dog.sex == 'unknown'):
+                        existing_dog.sex = dog.sex
+                    if dog.owner and not existing_dog.owner:
+                        existing_dog.owner = dog.owner
+            
+            # Store classes for later relationship processing
+            all_classes.update(classes)
+            all_dogs_by_year[year] = dogs
+            
+            # Periodically find relationships for accumulated dogs and write them (every 2 years for more frequent updates)
+            if len(all_dogs_by_year) % 2 == 0:
+                print(f"  Finding relationships for accumulated dogs ({len(all_merged_dogs)} dogs)...")
+                batch_relationships = find_relationships(all_merged_dogs)
+                # Find new relationships (not already in all_relationships)
+                new_relationships = {}
+                for key, rels in batch_relationships.items():
+                    existing_rels = set(all_relationships.get(key, []))
+                    new_rels = [r for r in rels if r not in existing_rels]
+                    if new_rels:
+                        new_relationships[key] = new_rels
+                        if key not in all_relationships:
+                            all_relationships[key] = []
+                        all_relationships[key].extend(new_rels)
+                
+                # Write new relationships to database immediately
+                if new_relationships:
+                    total_new = sum(len(rels) for rels in new_relationships.values())
+                    print(f"  Writing {total_new} new relationships to database (as each relationship is found)...")
+                    populate_relationships(conn, new_relationships, all_merged_dogs)
+                    print(f"  ✓ Relationships for {len(new_relationships)} dogs written to database")
+                
+                # Infer sex from relationships
+                infer_sex_from_relationships(all_merged_dogs)
+        else:
+            # Legacy mode: collect all data first
+            all_classes.update(classes)
+            all_dogs_by_year[year] = dogs
     
     # Print summary of dogs collected per year
     print(f"\n{'=' * 80}")
@@ -1296,12 +1225,8 @@ def main():
     
     try:
         # Load catalog data and write incrementally to database
+        # Relationships are already written incrementally during load_catalog_data
         classes, dogs, relationships, years = load_catalog_data(conn)
-        
-        # Write relationships incrementally (if not already written)
-        if relationships:
-            print("\nWriting relationships to database...")
-            populate_relationships(conn, relationships, dogs)
         
         # Load trial results data and write incrementally to database
         trial_results = load_trial_results_data(conn)
