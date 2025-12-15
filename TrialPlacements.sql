@@ -1,0 +1,6 @@
+SELECT TOP (1000) [TrialPlacementsID]
+      ,[TrialListID]
+      ,[TrialClassID]
+      ,[DogID]
+      ,[Result]
+  FROM [TrialResults].[sResults].[TrialPlacements]
