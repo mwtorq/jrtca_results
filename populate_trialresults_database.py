@@ -710,24 +710,45 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
                 if not relationship_type or not relationship_type.strip():
                     continue  # Skip if RelationshipType is empty
                 
-                # Check if this exact relationship already exists in database
-                # Insert relationships exactly as displayed in the report - only prevent exact duplicates
-                # Check all key identifying fields: DogID, RelationshipType, RelatedDogName, and ViaDogName (if present)
-                check_query = """
+                # Check if ANY relationship already exists between these two dogs
+                # Prevent conflicting relationships - only one relationship per pair of dogs
+                # This prevents cases like "Grandsire" and "Great-granddam" for the same pair
+                existing_rel_query = """
+                    SELECT RelationshipID FROM [sResults].[Relationship]
+                    WHERE DogID = ? AND RelatedDogName = ?
+                """
+                existing_params = [dog_id, related_dog_name]
+                
+                if related_dog_id:
+                    # Also check by RelatedDogID for more precise matching
+                    existing_rel_query += " AND (RelatedDogID = ? OR RelatedDogID IS NULL)"
+                    existing_params.append(related_dog_id)
+                
+                cursor.execute(existing_rel_query, tuple(existing_params))
+                existing_rel = cursor.fetchone()
+                
+                # If a relationship already exists between these two dogs, skip this one
+                # This prevents conflicting relationships
+                if existing_rel:
+                    continue  # Relationship already exists between these two dogs, skip
+                
+                # Also check if this exact relationship already exists (same type, same via)
+                # This catches exact duplicates
+                exact_check_query = """
                     SELECT RelationshipID FROM [sResults].[Relationship]
                     WHERE DogID = ? AND RelationshipType = ? AND RelatedDogName = ?
                 """
-                check_params = [dog_id, relationship_type, related_dog_name]
+                exact_check_params = [dog_id, relationship_type, related_dog_name]
                 
                 if via_dog_name:
-                    check_query += " AND ViaDogName = ?"
-                    check_params.append(via_dog_name)
+                    exact_check_query += " AND ViaDogName = ?"
+                    exact_check_params.append(via_dog_name)
                 else:
-                    check_query += " AND (ViaDogName IS NULL OR ViaDogName = '')"
+                    exact_check_query += " AND (ViaDogName IS NULL OR ViaDogName = '')"
                 
-                cursor.execute(check_query, tuple(check_params))
+                cursor.execute(exact_check_query, tuple(exact_check_params))
                 if cursor.fetchone():
-                    continue  # Already exists, skip duplicate
+                    continue  # Exact duplicate already exists, skip
                 
                 # Insert relationship
                 insert_query = """
