@@ -1,0 +1,6 @@
+SELECT [TrialClassID]
+      ,[ClassID]
+      ,[TrialListID]
+      ,[EntriesOnly]
+      ,[EntryCount]
+  FROM [TrialResults].[sResults].[TrialClass]
