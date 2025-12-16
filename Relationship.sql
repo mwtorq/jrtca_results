@@ -41,3 +41,5 @@ SELECT r.[DogID]
 WHERE r.RelatedDogID IS NOT NULL
 GROUP BY r.DogID,r.RelatedDogID--,r.[RelationshipType]
 HAVING COUNT(*)>1
+
+--delete [TrialResults].[sResults].[Relationship]

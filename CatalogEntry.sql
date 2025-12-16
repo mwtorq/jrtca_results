@@ -10,3 +10,5 @@ SELECT [CatalogEntryID]
       ,[ClassID]
       ,[ClassName]
   FROM [TrialResults].[sResults].[CatalogEntry]
+
+  --delete [TrialResults].[sResults].[CatalogEntry]

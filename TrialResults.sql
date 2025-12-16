@@ -1,4 +1,4 @@
-SELECT TOP (1000) [TrialResultsID]
+SELECT [TrialResultsID]
       ,[TrialListID]
       ,[Results]
   FROM [TrialResults].[sResults].[TrialResults]

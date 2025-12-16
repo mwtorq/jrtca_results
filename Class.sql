@@ -3,3 +3,5 @@ SELECT [ClassID]
       ,[ClassName]
       ,[SectionID]
   FROM [TrialResults].[sResults].[Class]
+
+  --delete [TrialResults].[sResults].[Class]

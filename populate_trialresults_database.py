@@ -157,6 +157,17 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
         if row:
             return row[0]
         return None
+    except pyodbc.IntegrityError as e:
+        # Handle duplicate key violations - record may have been inserted by another process
+        error_msg = str(e).lower()
+        if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
+            # Try to get the existing ID
+            cursor.execute(f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?", name.strip())
+            row = cursor.fetchone()
+            if row:
+                return row[0]
+        # Re-raise if we can't handle it
+        raise
     except Exception as e:
         # Log the error for debugging
         error_msg = str(e)
@@ -397,20 +408,29 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                                     (Year, EntryNumber, DogID, DogName, OwnerID, Sire, Dam, Sex, ClassID, ClassName)
                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                                 """
-                                cursor.execute(insert_query,
-                                             class_info.year,
-                                             dog.number,
-                                             dog_id,
-                                             dog.name,
-                                             owner_id,
-                                             dog.sire,
-                                             dog.dam,
-                                             dog.sex,
-                                             class_id,
-                                             class_info.name)
-                                operations_count += 1
-                                if operations_count % commit_interval == 0:
-                                    conn.commit()
+                                try:
+                                    cursor.execute(insert_query,
+                                                 class_info.year,
+                                                 dog.number,
+                                                 dog_id,
+                                                 dog.name,
+                                                 owner_id,
+                                                 dog.sire,
+                                                 dog.dam,
+                                                 dog.sex,
+                                                 class_id,
+                                                 class_info.name)
+                                    operations_count += 1
+                                    if operations_count % commit_interval == 0:
+                                        conn.commit()
+                                except pyodbc.IntegrityError as e:
+                                    # Handle duplicate - may have been inserted by another process
+                                    error_msg = str(e).lower()
+                                    if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
+                                        # Duplicate detected - skip this insert
+                                        continue
+                                    else:
+                                        raise
         
         if operations_count % commit_interval != 0:
             conn.commit()
@@ -923,30 +943,54 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                 trialclass_id = class_key_to_id.get(trialclass_key)
                 
                 if trialclass_id is None:
-                    # Calculate entry count
-                    entry_count = len(set((r.dog_name or '', r.owner or '') for r in class_results))
-                    
-                    # Insert TrialClass
-                    insert_query = """
-                        INSERT INTO [sResults].[TrialClass]
-                        (TrialListID, ClassID, ClassNumber, EntryCount)
-                        VALUES (?, ?, ?, ?)
-                    """
-                    cursor.execute(insert_query, trial_id, class_id, class_number, entry_count)
-                    operations_count += 1
-                    
-                    # Get generated ID
-                    cursor.execute("""
+                    # Check if TrialClass already exists
+                    check_query = """
                         SELECT TrialClassID FROM [sResults].[TrialClass]
                         WHERE TrialListID = ? AND ClassID = ? AND ClassNumber = ?
-                    """, trial_id, class_id, class_number)
+                    """
+                    cursor.execute(check_query, trial_id, class_id, class_number)
                     row = cursor.fetchone()
                     if row:
                         trialclass_id = row[0]
                         class_key_to_id[trialclass_key] = trialclass_id
-                    
-                    if operations_count % commit_interval == 0:
-                        conn.commit()
+                    else:
+                        # Calculate entry count
+                        entry_count = len(set((r.dog_name or '', r.owner or '') for r in class_results))
+                        
+                        # Insert TrialClass
+                        insert_query = """
+                            INSERT INTO [sResults].[TrialClass]
+                            (TrialListID, ClassID, ClassNumber, EntryCount)
+                            VALUES (?, ?, ?, ?)
+                        """
+                        try:
+                            cursor.execute(insert_query, trial_id, class_id, class_number, entry_count)
+                            operations_count += 1
+                            
+                            # Get generated ID
+                            cursor.execute("""
+                                SELECT TrialClassID FROM [sResults].[TrialClass]
+                                WHERE TrialListID = ? AND ClassID = ? AND ClassNumber = ?
+                            """, trial_id, class_id, class_number)
+                            row = cursor.fetchone()
+                            if row:
+                                trialclass_id = row[0]
+                                class_key_to_id[trialclass_key] = trialclass_id
+                        except pyodbc.IntegrityError as e:
+                            # Handle duplicate - may have been inserted by another process
+                            error_msg = str(e).lower()
+                            if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
+                                # Try to get the existing ID
+                                cursor.execute(check_query, trial_id, class_id, class_number)
+                                row = cursor.fetchone()
+                                if row:
+                                    trialclass_id = row[0]
+                                    class_key_to_id[trialclass_key] = trialclass_id
+                            else:
+                                raise
+                        
+                        if operations_count % commit_interval == 0:
+                            conn.commit()
                 
                 # Process placements for this class
                 for result in class_results:
@@ -992,16 +1036,34 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                         print(f"  WARNING: Skipping TrialPlacements insert - trialclass_id is None")
                         continue
                     
+                    # Check if placement already exists
+                    check_query = """
+                        SELECT TrialPlacementID FROM [sResults].[TrialPlacements]
+                        WHERE TrialClassID = ? AND DogID = ? AND Result = ?
+                    """
+                    cursor.execute(check_query, trialclass_id, dog_id, result.placement)
+                    if cursor.fetchone():
+                        continue  # Already exists, skip duplicate
+                    
                     insert_query = """
                         INSERT INTO [sResults].[TrialPlacements]
                         (TrialClassID, DogID, DogName, Result, OwnerID)
                         VALUES (?, ?, ?, ?, ?)
                     """
-                    cursor.execute(insert_query, (trialclass_id, dog_id, result.dog_name, 
-                                 result.placement, owner_id))
-                    operations_count += 1
-                    if operations_count % commit_interval == 0:
-                        conn.commit()
+                    try:
+                        cursor.execute(insert_query, (trialclass_id, dog_id, result.dog_name, 
+                                     result.placement, owner_id))
+                        operations_count += 1
+                        if operations_count % commit_interval == 0:
+                            conn.commit()
+                    except pyodbc.IntegrityError as e:
+                        # Handle duplicate - may have been inserted by another process
+                        error_msg = str(e).lower()
+                        if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
+                            # Duplicate detected - skip this insert
+                            continue
+                        else:
+                            raise
         
         if operations_count % commit_interval != 0:
             conn.commit()
@@ -1016,11 +1078,37 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
         raise
 
 
-def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
+def is_year_processed(conn: pyodbc.Connection, year: str) -> bool:
+    """Check if a catalog year has already been processed by checking if entries exist."""
+    if not conn:
+        return False
+    
+    try:
+        cursor = conn.cursor()
+        check_query = """
+            SELECT COUNT(*) FROM [sResults].[Entry]
+            WHERE Year = ?
+        """
+        cursor.execute(check_query, year)
+        count = cursor.fetchone()[0]
+        return count > 0
+    except pyodbc.Error as e:
+        print(f"  Warning: Could not check if year {year} is processed: {e}")
+        return False
+
+
+def load_catalog_data(conn: Optional[pyodbc.Connection] = None, 
+                     skip_years: Optional[Set[str]] = None,
+                     auto_skip_processed: bool = False) -> tuple:
     """Load catalog data using parse_catalog.py logic and write incrementally to database.
     
-    If conn is provided, data is written to database as each year is processed.
-    Otherwise, data is collected and returned for bulk processing (legacy mode).
+    Args:
+        conn: Database connection. If provided, data is written to database as each year is processed.
+        skip_years: Set of years to skip (e.g., {'2020', '2021'}). If None, no years are skipped.
+        auto_skip_processed: If True, automatically skip years that are already in the database.
+    
+    Returns:
+        Tuple of (classes, dogs, relationships, years)
     """
     import glob
     import os
@@ -1067,6 +1155,24 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None) -> tuple:
     for file_idx, filepath in enumerate(catalog_files):
         # Extract year from filename
         year = extract_year_from_filename(filepath)
+        
+        # Check if this year should be skipped
+        should_skip = False
+        skip_reason = None
+        
+        if skip_years and year in skip_years:
+            should_skip = True
+            skip_reason = "explicitly in skip_years"
+        elif auto_skip_processed and conn and is_year_processed(conn, year):
+            should_skip = True
+            skip_reason = "already processed in database"
+        
+        if should_skip:
+            print(f"\n{'=' * 80}")
+            print(f"Skipping {filepath} (Year: {year}) - {skip_reason}")
+            print("=" * 80)
+            continue
+        
         years_processed.append(year)
         
         print(f"\n{'=' * 80}")
@@ -1439,7 +1545,30 @@ def load_trial_results_data(conn: Optional[pyodbc.Connection] = None) -> List[Tr
 
 
 def main():
-    """Main function to populate database."""
+    """Main function to populate database.
+    
+    Command-line arguments:
+        --skip-years YEAR1,YEAR2,...  : Skip processing these catalog years (comma-separated)
+        --auto-skip-processed         : Automatically skip catalog years already in database
+    """
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Populate sResults schema tables')
+    parser.add_argument('--skip-years', type=str, default=None,
+                       help='Comma-separated list of catalog years to skip (e.g., "2020,2021,2022")')
+    parser.add_argument('--auto-skip-processed', action='store_true',
+                       help='Automatically skip catalog years that are already in the database')
+    args = parser.parse_args()
+    
+    # Parse skip_years if provided
+    skip_years = None
+    if args.skip_years:
+        skip_years = set(year.strip() for year in args.skip_years.split(','))
+        print(f"Will skip catalog years: {', '.join(sorted(skip_years))}")
+    
+    if args.auto_skip_processed:
+        print("Will automatically skip catalog years already in database")
+    
     print("=" * 80)
     print("Populating sResults schema tables")
     print("=" * 80)
@@ -1456,9 +1585,21 @@ def main():
     try:
         # Load catalog data and write incrementally to database
         # Relationships are already written incrementally during load_catalog_data
-        classes, dogs, relationships, years = load_catalog_data(conn)
+        # Note: skip_years and auto_skip_processed only affect catalog processing
+        classes, dogs, relationships, years = load_catalog_data(
+            conn, 
+            skip_years=skip_years,
+            auto_skip_processed=args.auto_skip_processed
+        )
         
         # Load trial results data and write incrementally to database
+        # Always process ALL trial results files, regardless of catalog skip settings
+        print("\n" + "=" * 80)
+        print("PROCESSING TRIAL RESULTS")
+        print("=" * 80)
+        print("Note: Processing ALL trial results files for all years")
+        print("      (catalog skip settings do not affect trial results)")
+        print("=" * 80)
         trial_results = load_trial_results_data(conn)
         
         # If any trial results weren't written incrementally, write them now
