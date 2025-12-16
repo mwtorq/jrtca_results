@@ -1,4 +1,4 @@
-SELECT TOP (1000) [TrialPlacementsID]
+SELECT [TrialPlacementsID]
       ,[TrialListID]
       ,[TrialClassID]
       ,[DogID]
