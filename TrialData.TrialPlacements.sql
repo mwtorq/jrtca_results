@@ -1,0 +1,6 @@
+SELECT [TrialPlacementsID]
+      ,[TrialListID]
+      ,[TrialClassID]
+      ,[DogID]
+      ,[Result]
+  FROM [TrialData].[sJRTCA].[TrialPlacements]
