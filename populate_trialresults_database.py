@@ -7,8 +7,10 @@ Uses the logic from parse_catalog.py and scrape_trial_results.py to extract and 
 import pyodbc
 import sys
 import os
+import re
 from typing import List, Dict, Optional, Set, Tuple
 from collections import defaultdict
+from datetime import datetime
 
 # Import from existing scripts
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +22,7 @@ from parse_catalog import (
 )
 from scrape_trial_results import (
     TrialResult, normalize_division_name, normalize_class_name,
-    parse_local_trial_file
+    parse_local_trial_file, scan_local_subfolders, is_duplicate_trial, extract_text_from_pdf
 )
 
 # Connection string
@@ -53,6 +55,108 @@ def get_connection():
             continue
     return None
 
+def clear_trial_results_tables(conn: pyodbc.Connection):
+    """Clear TrialPlacements, TrialClass, and TrialList tables.
+    
+    Tables are cleared in order to respect foreign key constraints:
+    1. TrialPlacements (references TrialClass)
+    2. TrialClass (references TrialList)
+    3. TrialList
+    """
+    cursor = conn.cursor()
+    
+    print("\n" + "=" * 80)
+    print("CLEARING TRIAL RESULTS TABLES")
+    print("=" * 80)
+    
+    try:
+        # Clear TrialPlacements first (has foreign key to TrialClass)
+        print("Clearing TrialPlacements table...")
+        cursor.execute("DELETE FROM [sResults].[TrialPlacements]")
+        placements_count = cursor.rowcount
+        print(f"  Deleted {placements_count} records from TrialPlacements")
+        
+        # Clear TrialClass (has foreign key to TrialList)
+        print("Clearing TrialClass table...")
+        cursor.execute("DELETE FROM [sResults].[TrialClass]")
+        class_count = cursor.rowcount
+        print(f"  Deleted {class_count} records from TrialClass")
+        
+        # Clear TrialList last
+        print("Clearing TrialList table...")
+        cursor.execute("DELETE FROM [sResults].[TrialList]")
+        trial_count = cursor.rowcount
+        print(f"  Deleted {trial_count} records from TrialList")
+        
+        conn.commit()
+        print(f"\nCleared {placements_count} placements, {class_count} classes, and {trial_count} trials")
+        print("=" * 80)
+        
+    except Exception as e:
+        conn.rollback()
+        print(f"ERROR: Failed to clear trial results tables: {e}")
+        raise
+
+def normalize_date_for_sql(date_str: str, year: int) -> str:
+    """Normalize a date string to SQL Server format (YYYY-MM-DD).
+    
+    Handles various date formats and invalid dates.
+    Returns a date in YYYY-MM-DD format, or a default date if parsing fails.
+    """
+    if not date_str or not date_str.strip():
+        return f"{year}-01-01"
+    
+    date_str = date_str.strip()
+    
+    # Check if it's already in YYYY-MM-DD format
+    if re.match(r'^\d{4}-\d{2}-\d{2}$', date_str):
+        try:
+            datetime.strptime(date_str, '%Y-%m-%d')
+            return date_str
+        except ValueError:
+            pass
+    
+    # Try common date formats
+    date_formats = [
+        '%B %d, %Y',      # October 10, 1996
+        '%b %d, %Y',      # Oct 10, 1996
+        '%m/%d/%Y',       # 10/10/1996
+        '%m-%d-%Y',       # 10-10-1996
+        '%d/%m/%Y',       # 10/10/1996 (European)
+        '%Y-%m-%d',       # 1996-10-10
+        '%B %d %Y',       # October 10 1996
+        '%b %d %Y',       # Oct 10 1996
+        '%m/%d/%y',       # 10/10/96
+        '%d %B %Y',       # 10 October 1996
+        '%d %b %Y',       # 10 Oct 1996
+    ]
+    
+    for fmt in date_formats:
+        try:
+            parsed_date = datetime.strptime(date_str, fmt)
+            return parsed_date.strftime('%Y-%m-%d')
+        except ValueError:
+            continue
+    
+    # Try to extract date components from malformed dates
+    # Handle cases like "and 10, 1996" -> "October 10, 1996" or use year
+    month_match = re.search(r'(\w+)\s+(\d+),?\s+(\d{4})', date_str)
+    if month_match:
+        month_str, day_str, year_str = month_match.groups()
+        # Try to fix common issues
+        if month_str.lower() in ['and', 'the']:
+            # Invalid month, use January as default
+            try:
+                day = int(day_str)
+                year_val = int(year_str)
+                if 1 <= day <= 31 and 1900 <= year_val <= 2100:
+                    return f"{year_val}-01-{day:02d}"
+            except ValueError:
+                pass
+    
+    # If all parsing fails, return default date for the year
+    print(f"  WARNING: Could not parse date '{date_str}', using default date for year {year}")
+    return f"{year}-01-01"
 
 def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str, 
                      name: str, id_column: str = None, create_columns: Dict = None) -> Optional[int]:
@@ -68,6 +172,23 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
         # This matches the standard SQL Server convention: TableName -> TableNameID
         # e.g., 'Class' -> 'ClassID', 'Division' -> 'DivisionID'
         id_column = table + 'ID'
+    
+    # Check if id_column is actually an IDENTITY column
+    is_identity = False
+    try:
+        # Use string formatting for schema.table since it's not user input
+        cursor.execute(f"""
+            SELECT is_identity 
+            FROM sys.columns 
+            WHERE object_id = OBJECT_ID('sResults.[{table}]') 
+            AND name = ?
+        """, id_column)
+        row = cursor.fetchone()
+        if row:
+            is_identity = bool(row[0])
+    except Exception:
+        # If we can't check, assume it's IDENTITY (safer default)
+        is_identity = True
     
     # Try to find existing record
     query = f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?"
@@ -92,13 +213,29 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
     if id_column in create_columns:
         del create_columns[id_column]
     
+    # If id_column is NOT an IDENTITY column, we need to provide a value for it
+    # Get the next available ID value
+    if not is_identity:
+        try:
+            cursor.execute(f"SELECT ISNULL(MAX([{id_column}]), 0) + 1 FROM [sResults].[{table}]")
+            row = cursor.fetchone()
+            if row and row[0] is not None:
+                next_id = int(row[0])
+                create_columns[id_column] = next_id
+                # Only print for TrialListID to avoid excessive output
+                if id_column == 'TrialListID':
+                    print(f"  Note: {id_column} is not IDENTITY, using next available ID: {next_id}")
+        except Exception as e:
+            print(f"  WARNING: Could not get next ID for {id_column}: {e}")
+            # Try to continue anyway - might work if there's a default or trigger
+    
     # Ensure we have at least one column to insert and that name_column has a non-empty value
     if not create_columns or not create_columns.get(name_column, '').strip():
         return None
     
-    # Final safety check: ensure id_column is NOT in the column list
+    # Final safety check: ensure id_column is NOT in the column list if it's IDENTITY
     column_names = list(create_columns.keys())
-    if id_column in column_names:
+    if is_identity and id_column in column_names:
         print(f"  ERROR: {id_column} found in INSERT columns for {table}! Column names: {column_names}")
         raise ValueError(f"Cannot include IDENTITY column {id_column} in INSERT statement")
     
@@ -113,6 +250,8 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
             print(f"  ERROR: NULL or empty value for name column {name_column} in {table}! Value: {repr(name_val)}")
             return None
     
+    # Use fully qualified table name - ensure we're using the correct database
+    # The error message format suggests there might be a database name prefix issue
     insert_query = f"INSERT INTO [sResults].[{table}] ({columns}) VALUES ({placeholders})"
     
     # Debug logging before INSERT
@@ -158,14 +297,29 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
             return row[0]
         return None
     except pyodbc.IntegrityError as e:
-        # Handle duplicate key violations - record may have been inserted by another process
         error_msg = str(e).lower()
+        error_str_full = str(e)
+        
+        # For TrialList with TrialListID errors, try to get existing record first
+        # This handles cases where there might be database triggers or constraints
+        # Check both lowercase and original case for TrialListID
+        if table == 'TrialList' and ('triallistid' in error_msg or 'TrialListID' in error_str_full or 'cannot insert' in error_msg):
+            try:
+                cursor.execute(f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?", name.strip())
+                row = cursor.fetchone()
+                if row:
+                    return row[0]
+            except Exception:
+                pass  # If lookup fails, continue with normal error handling
+        
+        # Handle duplicate key violations - record may have been inserted by another process
         if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
             # Try to get the existing ID
             cursor.execute(f"SELECT [{id_column}] FROM [sResults].[{table}] WHERE [{name_column}] = ?", name.strip())
             row = cursor.fetchone()
             if row:
                 return row[0]
+        
         # Re-raise if we can't handle it
         raise
     except Exception as e:
@@ -841,7 +995,9 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
             trial_name_to_id = {}
         if division_name_to_id is None:
             division_name_to_id = {}
-            section_name_to_id = {}  # Always create new for this function
+        # Always create section_name_to_id (matching scrape_trial_results.py behavior)
+        # This must be initialized regardless of whether division_name_to_id was provided
+        section_name_to_id = {}
         if class_name_to_id is None:
             class_name_to_id = {}  # (normalized_class_name, div_id, section) -> class_id
         if owner_name_to_id is None:
@@ -865,20 +1021,74 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
             if trial_count % 10 == 0:
                 print(f"  Processing trial {trial_count}/{len(by_trial)}: {trial_name}")
             
-            # Get or create trial
+            # Get date and year from results first (needed for checking if trial exists)
+            # Collect all unique dates from results
+            unique_dates = set()
+            year = None
+            for result in results:
+                if result.date and result.date.strip():
+                    unique_dates.add(result.date.strip())
+                if result.year:
+                    year = result.year
+            
+            # TrialList table has StartDate and EndDate, not TrialDate
+            # Year is required, so ensure we have it and convert to int if needed
+            if year is None:
+                print(f"  WARNING: No year found for trial '{trial_name}', skipping...")
+                continue
+            
+            # Ensure Year is an integer (database expects INT, not VARCHAR)
+            try:
+                year_int = int(year) if not isinstance(year, int) else year
+            except (ValueError, TypeError):
+                print(f"  WARNING: Invalid year '{year}' for trial '{trial_name}', skipping...")
+                continue
+            
+            # Get or create trial - check using both name and year
+            trial_key = (trial_name, year_int)
             trial_id = trial_name_to_id.get(trial_name)
             if trial_id is None:
-                # Get date and year from first result
-                date_str = results[0].date if results else None
-                year = results[0].year if results else None
+                # Check if trial already exists in database (to avoid re-loading)
+                # Use both TrialName and Year to uniquely identify a trial
+                cursor.execute("SELECT TrialListID FROM [sResults].[TrialList] WHERE TrialName = ? AND Year = ?", trial_name, year_int)
+                row = cursor.fetchone()
+                if row:
+                    trial_id = row[0]
+                    trial_name_to_id[trial_name] = trial_id
+                    print(f"  Trial '{trial_name}' (Year {year_int}) already exists in database (ID: {trial_id}), skipping...")
+                    continue
+            
+            if trial_id is None:
                 
-                trial_id = get_or_create_id(
-                    cursor, 'TrialList', 'TrialName', trial_name,
-                    create_columns={
-                        'TrialDate': date_str,
-                        'Year': year
-                    }
-                )
+                # StartDate is required (NOT NULL), so we must provide a value
+                create_cols = {'Year': year_int}
+                
+                if len(unique_dates) == 1:
+                    # Only one date available - use it for both StartDate and EndDate
+                    date_str = unique_dates.pop()
+                    normalized_date = normalize_date_for_sql(date_str, year_int)
+                    create_cols['StartDate'] = normalized_date
+                    create_cols['EndDate'] = normalized_date
+                elif len(unique_dates) > 1:
+                    # Multiple dates available - normalize and use first and last (sorted)
+                    normalized_dates = [normalize_date_for_sql(d, year_int) for d in unique_dates]
+                    sorted_dates = sorted(normalized_dates)
+                    create_cols['StartDate'] = sorted_dates[0]
+                    create_cols['EndDate'] = sorted_dates[-1]
+                else:
+                    # No date available - use January 1st of the year as a default date
+                    default_date = f"{year_int}-01-01"
+                    create_cols['StartDate'] = default_date
+                    create_cols['EndDate'] = default_date
+                
+                try:
+                    trial_id = get_or_create_id(
+                        cursor, 'TrialList', 'TrialName', trial_name,
+                        create_columns=create_cols
+                    )
+                except Exception as e:
+                    print(f"  ERROR: Failed to create/get trial '{trial_name}': {e}")
+                    raise  # Quit on error as requested
                 if trial_id:
                     trial_name_to_id[trial_name] = trial_id
             
@@ -894,6 +1104,19 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                         div_id = get_or_create_id(cursor, 'Division', 'DivisionName', division)
                         if div_id:
                             division_name_to_id[division] = div_id
+                            # Commit after creating Division to ensure it's visible
+                            conn.commit()
+                    
+                    # Verify div_id exists in database before using it
+                    if div_id:
+                        try:
+                            cursor.execute("SELECT DivisionID FROM [sResults].[Division] WHERE DivisionID = ?", div_id)
+                            if not cursor.fetchone():
+                                print(f"  WARNING: DivisionID {div_id} for '{division}' does not exist in database, skipping class creation")
+                                div_id = None
+                        except Exception as e:
+                            print(f"  WARNING: Could not verify DivisionID {div_id}: {e}")
+                            div_id = None
                 
                 # Get or create section
                 section_id = None
@@ -916,12 +1139,14 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                     class_lookup_key = (normalized_class_name, div_id, result.section or None)
                     class_id = class_name_to_id.get(class_lookup_key)
                     if class_id is None:
+                        # Only include SectionID if it's not None (NULL is allowed but let's be explicit)
+                        create_cols = {'DivisionID': div_id}
+                        if section_id:
+                            create_cols['SectionID'] = section_id
+                        
                         class_id = get_or_create_id(
                             cursor, 'Class', 'ClassName', normalized_class_name,
-                            create_columns={
-                                'DivisionID': div_id,
-                                'SectionID': section_id
-                            }
+                            create_columns=create_cols
                         )
                         if class_id:
                             class_name_to_id[class_lookup_key] = class_id
@@ -957,39 +1182,87 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                         # Calculate entry count
                         entry_count = len(set((r.dog_name or '', r.owner or '') for r in class_results))
                         
-                        # Insert TrialClass
-                        insert_query = """
-                            INSERT INTO [sResults].[TrialClass]
-                            (TrialListID, ClassID, ClassNumber, EntryCount)
-                            VALUES (?, ?, ?, ?)
-                        """
+                        # Check if TrialClassID is IDENTITY, if not get next available ID
+                        trialclass_id_value = None
                         try:
-                            cursor.execute(insert_query, trial_id, class_id, class_number, entry_count)
-                            operations_count += 1
-                            
-                            # Get generated ID
                             cursor.execute("""
-                                SELECT TrialClassID FROM [sResults].[TrialClass]
-                                WHERE TrialListID = ? AND ClassID = ? AND ClassNumber = ?
-                            """, trial_id, class_id, class_number)
+                                SELECT is_identity 
+                                FROM sys.columns 
+                                WHERE object_id = OBJECT_ID('sResults.TrialClass') 
+                                AND name = 'TrialClassID'
+                            """)
                             row = cursor.fetchone()
-                            if row:
-                                trialclass_id = row[0]
+                            is_identity = bool(row[0]) if row else True  # Default to True if can't check
+                            
+                            if not is_identity:
+                                # Get next available TrialClassID
+                                cursor.execute("SELECT ISNULL(MAX([TrialClassID]), 0) + 1 FROM [sResults].[TrialClass]")
+                                row = cursor.fetchone()
+                                if row and row[0] is not None:
+                                    trialclass_id_value = int(row[0])
+                        except Exception as e:
+                            # If we can't check, assume it's IDENTITY
+                            pass
+                        
+                        # Insert TrialClass (includes ClassNumber column)
+                        if trialclass_id_value is not None:
+                            # TrialClassID is not IDENTITY, include it in INSERT
+                            insert_query = """
+                                INSERT INTO [sResults].[TrialClass]
+                                (TrialClassID, TrialListID, ClassID, ClassNumber, EntryCount)
+                                VALUES (?, ?, ?, ?, ?)
+                            """
+                            try:
+                                cursor.execute(insert_query, trialclass_id_value, trial_id, class_id, class_number, entry_count)
+                                operations_count += 1
+                                trialclass_id = trialclass_id_value
                                 class_key_to_id[trialclass_key] = trialclass_id
-                        except pyodbc.IntegrityError as e:
-                            # Handle duplicate - may have been inserted by another process
-                            error_msg = str(e).lower()
-                            if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
-                                # Try to get the existing ID
-                                cursor.execute(check_query, trial_id, class_id, class_number)
+                            except pyodbc.IntegrityError as e:
+                                # Handle duplicate - may have been inserted by another process
+                                error_msg = str(e).lower()
+                                if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
+                                    # Try to get the existing ID
+                                    cursor.execute(check_query, trial_id, class_id, class_number)
+                                    row = cursor.fetchone()
+                                    if row:
+                                        trialclass_id = row[0]
+                                        class_key_to_id[trialclass_key] = trialclass_id
+                                else:
+                                    raise
+                        else:
+                            # TrialClassID is IDENTITY, don't include it in INSERT
+                            insert_query = """
+                                INSERT INTO [sResults].[TrialClass]
+                                (TrialListID, ClassID, ClassNumber, EntryCount)
+                                VALUES (?, ?, ?, ?)
+                            """
+                            try:
+                                cursor.execute(insert_query, trial_id, class_id, class_number, entry_count)
+                                operations_count += 1
+                                
+                                # Get generated ID
+                                cursor.execute("""
+                                    SELECT TrialClassID FROM [sResults].[TrialClass]
+                                    WHERE TrialListID = ? AND ClassID = ? AND ClassNumber = ?
+                                """, trial_id, class_id, class_number)
                                 row = cursor.fetchone()
                                 if row:
                                     trialclass_id = row[0]
                                     class_key_to_id[trialclass_key] = trialclass_id
-                            else:
-                                raise
+                            except pyodbc.IntegrityError as e:
+                                # Handle duplicate - may have been inserted by another process
+                                error_msg = str(e).lower()
+                                if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
+                                    # Try to get the existing ID
+                                    cursor.execute(check_query, trial_id, class_id, class_number)
+                                    row = cursor.fetchone()
+                                    if row:
+                                        trialclass_id = row[0]
+                                        class_key_to_id[trialclass_key] = trialclass_id
+                                else:
+                                    raise
                         
-                        if operations_count % commit_interval == 0:
+                        if trialclass_id and operations_count % commit_interval == 0:
                             conn.commit()
                 
                 # Process placements for this class
@@ -1037,33 +1310,79 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
                         continue
                     
                     # Check if placement already exists
+                    # Note: Column name is TrialPlacementsID (with 's'), not TrialPlacementID
                     check_query = """
-                        SELECT TrialPlacementID FROM [sResults].[TrialPlacements]
+                        SELECT TrialPlacementsID FROM [sResults].[TrialPlacements]
                         WHERE TrialClassID = ? AND DogID = ? AND Result = ?
                     """
                     cursor.execute(check_query, trialclass_id, dog_id, result.placement)
                     if cursor.fetchone():
                         continue  # Already exists, skip duplicate
                     
-                    insert_query = """
-                        INSERT INTO [sResults].[TrialPlacements]
-                        (TrialClassID, DogID, DogName, Result, OwnerID)
-                        VALUES (?, ?, ?, ?, ?)
-                    """
+                    # Check if TrialPlacementsID is IDENTITY, if not get next available ID
+                    trialplacement_id_value = None
                     try:
-                        cursor.execute(insert_query, (trialclass_id, dog_id, result.dog_name, 
-                                     result.placement, owner_id))
-                        operations_count += 1
-                        if operations_count % commit_interval == 0:
-                            conn.commit()
-                    except pyodbc.IntegrityError as e:
-                        # Handle duplicate - may have been inserted by another process
-                        error_msg = str(e).lower()
-                        if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
-                            # Duplicate detected - skip this insert
-                            continue
-                        else:
-                            raise
+                        cursor.execute("""
+                            SELECT is_identity 
+                            FROM sys.columns 
+                            WHERE object_id = OBJECT_ID('sResults.TrialPlacements') 
+                            AND name = 'TrialPlacementsID'
+                        """)
+                        row = cursor.fetchone()
+                        is_identity = bool(row[0]) if row else True  # Default to True if can't check
+                        
+                        if not is_identity:
+                            # Get next available TrialPlacementsID
+                            cursor.execute("SELECT ISNULL(MAX([TrialPlacementsID]), 0) + 1 FROM [sResults].[TrialPlacements]")
+                            row = cursor.fetchone()
+                            if row and row[0] is not None:
+                                trialplacement_id_value = int(row[0])
+                    except Exception as e:
+                        # If we can't check, assume it's IDENTITY
+                        pass
+                    
+                    # Insert TrialPlacements (schema: TrialPlacementsID, TrialListID, TrialClassID, DogID, Result)
+                    # Note: TrialListID is required, not optional
+                    if trialplacement_id_value is not None:
+                        # TrialPlacementsID is not IDENTITY, include it in INSERT
+                        insert_query = """
+                            INSERT INTO [sResults].[TrialPlacements]
+                            (TrialPlacementsID, TrialListID, TrialClassID, DogID, Result)
+                            VALUES (?, ?, ?, ?, ?)
+                        """
+                        try:
+                            cursor.execute(insert_query, (trialplacement_id_value, trial_id, trialclass_id, dog_id, result.placement))
+                            operations_count += 1
+                            if operations_count % commit_interval == 0:
+                                conn.commit()
+                        except pyodbc.IntegrityError as e:
+                            # Handle duplicate - may have been inserted by another process
+                            error_msg = str(e).lower()
+                            if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
+                                # Duplicate detected - skip this insert
+                                continue
+                            else:
+                                raise
+                    else:
+                        # TrialPlacementsID is IDENTITY, don't include it in INSERT
+                        insert_query = """
+                            INSERT INTO [sResults].[TrialPlacements]
+                            (TrialListID, TrialClassID, DogID, Result)
+                            VALUES (?, ?, ?, ?)
+                        """
+                        try:
+                            cursor.execute(insert_query, (trial_id, trialclass_id, dog_id, result.placement))
+                            operations_count += 1
+                            if operations_count % commit_interval == 0:
+                                conn.commit()
+                        except pyodbc.IntegrityError as e:
+                            # Handle duplicate - may have been inserted by another process
+                            error_msg = str(e).lower()
+                            if 'duplicate' in error_msg or 'unique' in error_msg or 'primary key' in error_msg:
+                                # Duplicate detected - skip this insert
+                                continue
+                            else:
+                                raise
         
         if operations_count % commit_interval != 0:
             conn.commit()
@@ -1079,20 +1398,105 @@ def populate_trial_results_data(conn: pyodbc.Connection, trial_results: List[Tri
 
 
 def is_year_processed(conn: pyodbc.Connection, year: str) -> bool:
-    """Check if a catalog year has already been processed by checking if entries exist."""
+    """Check if a trial results year has already been processed by checking trial results tables.
+    
+    Checks trial results tables (NOT catalog entries):
+    - TrialList (trial list) - has Year column, where trials are inserted
+    - TrialClass (trial classes) - linked to TrialList via TrialListID
+    - TrialPlacements (trial placements) - linked to TrialClass via TrialClassID
+    
+    Returns True if any of these tables have data for this year.
+    Note: CatalogEntry is NOT checked - that's for catalog entries only.
+    Note: TrialResults table is NOT checked - trial results are inserted into TrialList, TrialClass, and TrialPlacements.
+    """
     if not conn:
         return False
     
     try:
         cursor = conn.cursor()
-        check_query = """
-            SELECT COUNT(*) FROM [sResults].[Entry]
-            WHERE Year = ?
-        """
-        cursor.execute(check_query, year)
-        count = cursor.fetchone()[0]
-        return count > 0
+        
+        # Check TrialList table (trial results - parent table where trials are inserted)
+        trial_list_processed = False
+        try:
+            table_check_query = """
+                SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES 
+                WHERE TABLE_SCHEMA = 'sResults' AND TABLE_NAME = 'TrialList'
+            """
+            cursor.execute(table_check_query)
+            table_exists = cursor.fetchone()[0] > 0
+            
+            if table_exists:
+                check_query = """
+                    SELECT COUNT(*) FROM [sResults].[TrialList]
+                    WHERE Year = ?
+                """
+                cursor.execute(check_query, year)
+                count = cursor.fetchone()[0]
+                trial_list_processed = count > 0
+        except pyodbc.Error:
+            # TrialList table doesn't exist or error - assume not processed
+            trial_list_processed = False
+        
+        # Check TrialClass table (linked to TrialList)
+        trial_class_processed = False
+        try:
+            table_check_query = """
+                SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES 
+                WHERE TABLE_SCHEMA = 'sResults' AND TABLE_NAME = 'TrialClass'
+            """
+            cursor.execute(table_check_query)
+            table_exists = cursor.fetchone()[0] > 0
+            
+            if table_exists:
+                # Join with TrialList to check Year
+                check_query = """
+                    SELECT COUNT(*) FROM [sResults].[TrialClass] tc
+                    INNER JOIN [sResults].[TrialList] tl ON tc.TrialListID = tl.TrialListID
+                    WHERE tl.Year = ?
+                """
+                cursor.execute(check_query, year)
+                count = cursor.fetchone()[0]
+                trial_class_processed = count > 0
+        except pyodbc.Error:
+            # TrialClass table doesn't exist or error - assume not processed
+            trial_class_processed = False
+        
+        # Check TrialPlacements table (linked to TrialClass -> TrialList)
+        trial_placements_processed = False
+        try:
+            table_check_query = """
+                SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES 
+                WHERE TABLE_SCHEMA = 'sResults' AND TABLE_NAME = 'TrialPlacements'
+            """
+            cursor.execute(table_check_query)
+            table_exists = cursor.fetchone()[0] > 0
+            
+            if table_exists:
+                # Join through TrialClass to TrialList to check Year
+                check_query = """
+                    SELECT COUNT(*) FROM [sResults].[TrialPlacements] tp
+                    INNER JOIN [sResults].[TrialClass] tc ON tp.TrialClassID = tc.TrialClassID
+                    INNER JOIN [sResults].[TrialList] tl ON tc.TrialListID = tl.TrialListID
+                    WHERE tl.Year = ?
+                """
+                cursor.execute(check_query, year)
+                count = cursor.fetchone()[0]
+                trial_placements_processed = count > 0
+        except pyodbc.Error:
+            # TrialPlacements table doesn't exist or error - assume not processed
+            trial_placements_processed = False
+        
+        # Year is processed if any trial results tables have data for this year
+        # (TrialList, TrialClass, or TrialPlacements - NOT CatalogEntry which is for catalog entries only)
+        return trial_list_processed or trial_class_processed or trial_placements_processed
+        
     except pyodbc.Error as e:
+        # If there's an error (table doesn't exist, permission issue, etc.), 
+        # assume year is not processed and continue
+        if 'Invalid object name' in str(e) or '42S02' in str(e):
+            # Table doesn't exist - this is fine, just means schema hasn't been created yet
+            return False
+        # For other errors, log a warning but assume not processed
         print(f"  Warning: Could not check if year {year} is processed: {e}")
         return False
 
@@ -1444,45 +1848,48 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None,
     return all_classes, merged_dogs, relationships, years_processed
 
 
-def load_trial_results_data(conn: Optional[pyodbc.Connection] = None) -> List[TrialResult]:
+def load_trial_results_data(conn: Optional[pyodbc.Connection] = None,
+                            skip_files: Optional[Set[str]] = None,
+                            file_timeout: Optional[int] = None,
+                            skip_years: Optional[Set[str]] = None) -> List[TrialResult]:
     """Load trial results data using scrape_trial_results.py logic.
     
-    If conn is provided, results are written to database as each file is processed.
-    Otherwise, results are collected and returned for bulk processing (legacy mode).
+    Args:
+        conn: Database connection. If provided, results are written to database as each file is processed.
+        skip_files: Set of filenames (basenames) to skip (e.g., {'Battleborn Bonanza IX.txt'})
+        file_timeout: Maximum seconds to wait for a file to process before skipping (None = no timeout)
+        skip_years: Set of years to skip (e.g., {'2020', '2021'}). If None, no years are skipped.
+    
+    Returns:
+        List of TrialResult objects
     """
     print("Loading trial results data...")
     
-    import glob
     import re
-    from pathlib import Path
+    import time
     
-    # Find trial result files in year directories and root
-    trial_files = []
+    # Check for PDF support (matching scrape_trial_results.py logic)
+    # Initialize both variables first to avoid NameError if PyPDF2 succeeds
+    HAS_PYPDF2 = False
+    HAS_PDFPLUMBER = False
+    try:
+        import PyPDF2
+        HAS_PYPDF2 = True
+    except ImportError:
+        # Try pdfplumber as alternative
+        try:
+            import pdfplumber
+            HAS_PDFPLUMBER = True
+        except ImportError:
+            pass
     
-    # Look in year directories
-    for year_dir in sorted(glob.glob("[0-9][0-9][0-9][0-9]"), reverse=True):
-        if os.path.isdir(year_dir):
-            trial_files.extend(glob.glob(os.path.join(year_dir, "*.html")))
-            trial_files.extend(glob.glob(os.path.join(year_dir, "*.htm")))
-            trial_files.extend(glob.glob(os.path.join(year_dir, "*.txt")))
-            trial_files.extend(glob.glob(os.path.join(year_dir, "*.pdf")))
-    
-    # Also check root directory
-    trial_files.extend(glob.glob("*.html"))
-    trial_files.extend(glob.glob("*.htm"))
-    
-    # Filter out catalog files and reports
-    trial_files = [f for f in trial_files 
-                   if 'catalog' not in f.lower() and 
-                      'report' not in f.lower() and
-                      'debug' not in f.lower() and
-                      not f.endswith('_files') and
-                      os.path.isfile(f)]
+    # Scan local subfolders for trial result files (matching scrape_trial_results.py)
+    print("Scanning local subfolders for trial result files...")
+    local_files = scan_local_subfolders(".")
+    print(f"Found {len(local_files)} local trial result files")
     
     all_results = []
-    seen_files = set()
-    
-    print(f"  Found {len(trial_files)} trial files")
+    seen_trials = set()  # (trial_name, date) tuples for duplicate checking
     
     # If writing incrementally, set up tracking dictionaries
     if conn:
@@ -1493,51 +1900,144 @@ def load_trial_results_data(conn: Optional[pyodbc.Connection] = None) -> List[Tr
         dog_name_to_id = {}
         class_key_to_id = {}
     
-    for filepath in trial_files:
-        if filepath in seen_files:
+    start_time = time.time()
+    processed_count = 0
+    
+    # Initialize skip_files set if not provided
+    if skip_files is None:
+        skip_files = set()
+    
+    # Process local files first (matching scrape_trial_results.py logic exactly)
+    for file_path, year, source_folder in local_files:
+        # Check if this year should be skipped
+        if skip_years and year in skip_years:
+            print(f"  Skipping {os.path.basename(file_path)} from year {year} (in skip_years list)")
             continue
-        seen_files.add(filepath)
+        
+        # Check if this file should be skipped (populate_trialresults_database.py specific)
+        file_basename = os.path.basename(file_path)
+        if file_basename in skip_files:
+            print(f"  Skipping {file_basename} (in skip list)")
+            continue
+        
+        # Extract trial name and date from file to check for duplicates
+        # This works for both text/HTML and PDF files (matching scrape_trial_results.py)
+        trial_name = None
+        date = ""
+        
+        # First, try to extract trial name from filename as a fallback
+        filename_base = os.path.splitext(os.path.basename(file_path))[0]
+        # Clean up filename (remove common prefixes, replace underscores with spaces)
+        filename_trial_name = filename_base.replace('_', ' ').replace('-', ' ')
+        filename_trial_name = re.sub(r'^(debug_trial_|debug_)', '', filename_trial_name, flags=re.IGNORECASE)
         
         try:
-            # Extract year from filepath or directory
-            year = None
-            year_match = re.search(r'(\d{4})', filepath)
-            if year_match:
-                year = year_match.group(1)
-            
-            # Determine source folder from path
-            source_folder = None
-            path_parts = Path(filepath).parts
-            if len(path_parts) > 1:
-                parent_dir = path_parts[-2]
-                if re.match(r'^\d{4}$', parent_dir):
-                    source_folder = parent_dir
-            
-            print(f"    Processing {filepath}...")
-            results, _ = parse_local_trial_file(filepath, year=year, source_folder=source_folder)
-            
-            if conn and results:
-                # Write this file's results immediately
-                print(f"      Writing {len(results)} results to database...")
-                populate_trial_results_data(conn, results, 
-                                           trial_name_to_id, division_name_to_id,
-                                           class_name_to_id, owner_name_to_id,
-                                           dog_name_to_id, class_key_to_id)
+            # For PDF files, extract text first
+            content = None
+            if file_path.lower().endswith('.pdf'):
+                if HAS_PYPDF2 or HAS_PDFPLUMBER:
+                    page_text = extract_text_from_pdf(file_path)
+                    if page_text and page_text.strip():
+                        # Read first 2000 chars to get trial name/date (PDFs may have more header text)
+                        content = page_text[:2000]
+                    else:
+                        # PDF extraction returned empty - still process it via parse_local_trial_file
+                        # which will handle PDF extraction internally
+                        content = ""
+                else:
+                    print(f"  Skipping PDF {file_path}: No PDF library available")
+                    continue
             else:
-                # Collect for later
+                # For text/HTML files, read normally
+                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    content = f.read(2000)  # Read first 2000 chars to get trial name/date
+            
+            # Ensure content is set (should always be set by now, but safety check)
+            if content is None:
+                content = ""
+            
+            # Try to extract trial name and date
+            trial_match = re.search(r'([A-Z][^0-9]+(?:I|II|III|IV|V|VI|VII|VIII|IX|X)?)', content)
+            date_match = re.search(r'(\w+\s+\d{1,2},?\s+\d{4})', content)
+            trial_name = trial_match.group(1).strip() if trial_match else None
+            date = date_match.group(1).strip() if date_match else ""
+            
+            # Validate trial name - skip if it contains HTML/JavaScript code markers
+            if trial_name:
+                if any(marker in trial_name for marker in ['/*', '*/', '<script', '</script>', 'function(', 'http://', 'https://', 'Dynamic Drive', 'DHTML', 'code library']):
+                    trial_name = None  # Reject malformed trial name
+            
+            # If we didn't get trial name from content, try filename (but be more lenient)
+            if not trial_name and filename_trial_name and len(filename_trial_name) > 3:
+                # Use filename as trial name if it looks reasonable
+                trial_name = filename_trial_name
+            
+            # Check for duplicates using trial name (from content or filename) and date
+            # Also check using just the filename base (for cases where date extraction fails)
+            if trial_name:
+                # Check by trial name + date
+                if date:
+                    if is_duplicate_trial(trial_name, date, seen_trials):
+                        print(f"  Skipping duplicate trial: {trial_name} ({date}) from {source_folder} ({file_basename})")
+                        continue
+                    seen_trials.add((normalize_name(trial_name), date))
+                else:
+                    # If no date, check by normalized filename (for files with same base name)
+                    normalized_filename = normalize_name(filename_trial_name)
+                    # Check if we've seen this filename before (without date)
+                    filename_key = (normalized_filename, "")
+                    if filename_key in seen_trials:
+                        print(f"  Skipping duplicate trial (by filename): {trial_name} from {source_folder} ({file_basename})")
+                        continue
+                    seen_trials.add(filename_key)
+        except Exception as e:
+            print(f"  Warning: Could not check for duplicates in {file_path}: {e}")
+            # Try filename-based duplicate check as fallback
+            normalized_filename = normalize_name(filename_trial_name)
+            filename_key = (normalized_filename, "")
+            if filename_key in seen_trials:
+                print(f"  Skipping duplicate trial (by filename): {filename_trial_name} from {source_folder} ({os.path.basename(file_path)})")
+                continue
+            seen_trials.add(filename_key)
+        
+        print(f"\nProcessing local file: {os.path.basename(file_path)} from {source_folder} ({year})")
+        results, judges_info = parse_local_trial_file(file_path, year, source_folder)
+        if results:
+            # If we didn't get trial name/date from the preview, try to get it from results
+            if not trial_name and results:
+                trial_name = results[0].trial_name if results[0].trial_name else "Unknown Trial"
+                date = results[0].date if results[0].date else ""
+                if trial_name and date and trial_name != "Unknown Trial":
+                    # Check again for duplicates with the extracted name/date
+                    if is_duplicate_trial(trial_name, date, seen_trials):
+                        print(f"  Skipping duplicate trial (from results): {trial_name} ({date}) from {source_folder} ({os.path.basename(file_path)})")
+                        continue
+                    # Add to seen_trials to prevent processing duplicate files
+                    seen_trials.add((normalize_name(trial_name), date))
+            
+            # Store judge information for this trial (matching scrape_trial_results.py)
+            # Note: In populate_trialresults_database.py, we write to database instead of collecting
+            if conn:
+                try:
+                    populate_trial_results_data(conn, results, 
+                                               trial_name_to_id, division_name_to_id,
+                                               class_name_to_id, owner_name_to_id,
+                                               dog_name_to_id, class_key_to_id)
+                except Exception as e:
+                    print(f"  ✗ Error writing to database: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    continue
+            else:
+                # Collect for later (matching scrape_trial_results.py behavior when no conn)
                 all_results.extend(results)
             
-            if results:
-                print(f"      Extracted {len(results)} results")
-            
-        except Exception as e:
-            print(f"    Error processing {filepath}: {e}")
-            import traceback
-            traceback.print_exc()
-            continue
+            print(f"  Extracted {len(results)} results")
+        
+        processed_count += 1
     
     if conn:
-        print(f"  Processed {len(trial_files)} trial files (written incrementally)")
+        print(f"  Processed {len(local_files)} trial files (written incrementally)")
         return []  # Already written, return empty list
     else:
         print(f"  Loaded {len(all_results)} trial results total")
@@ -1548,8 +2048,11 @@ def main():
     """Main function to populate database.
     
     Command-line arguments:
-        --skip-years YEAR1,YEAR2,...  : Skip processing these catalog years (comma-separated)
-        --auto-skip-processed         : Automatically skip catalog years already in database
+        --skip-years YEAR1,YEAR2,...     : Skip processing these years for both catalog and trial results (comma-separated)
+        --auto-skip-processed            : Automatically skip catalog years already in database
+        --skip-catalog                   : Completely skip catalog entry processing (only process trial results)
+        --skip-trial-files FILE1,FILE2   : Skip processing these trial files (comma-separated filenames)
+        --trial-file-timeout SECONDS     : Maximum seconds to wait per trial file before skipping (prevents hangs)
     """
     import argparse
     
@@ -1558,16 +2061,36 @@ def main():
                        help='Comma-separated list of catalog years to skip (e.g., "2020,2021,2022")')
     parser.add_argument('--auto-skip-processed', action='store_true',
                        help='Automatically skip catalog years that are already in the database')
+    parser.add_argument('--skip-trial-files', type=str, default=None,
+                       help='Comma-separated list of trial filenames to skip (e.g., "file1.txt,file2.html")')
+    parser.add_argument('--trial-file-timeout', type=int, default=None,
+                       help='Maximum seconds to wait for a trial file to process before skipping (default: no timeout)')
+    parser.add_argument('--skip-catalog', action='store_true',
+                       help='Completely skip catalog entry processing (only process trial results)')
+    parser.add_argument('--clear-trialresults', action='store_true',
+                       help='Clear existing trial results data (TrialPlacements, TrialClass, TrialList) before loading. By default, existing data is preserved.')
     args = parser.parse_args()
     
     # Parse skip_years if provided
     skip_years = None
     if args.skip_years:
         skip_years = set(year.strip() for year in args.skip_years.split(','))
-        print(f"Will skip catalog years: {', '.join(sorted(skip_years))}")
+        print(f"Will skip years (catalog and trial results): {', '.join(sorted(skip_years))}")
     
     if args.auto_skip_processed:
         print("Will automatically skip catalog years already in database")
+    
+    if args.skip_catalog:
+        print("Will completely skip catalog entry processing")
+    
+    # Parse skip_trial_files if provided
+    skip_trial_files = None
+    if args.skip_trial_files:
+        skip_trial_files = set(f.strip() for f in args.skip_trial_files.split(','))
+        print(f"Will skip trial files: {', '.join(sorted(skip_trial_files))}")
+    
+    if args.trial_file_timeout:
+        print(f"Trial file timeout: {args.trial_file_timeout} seconds per file")
     
     print("=" * 80)
     print("Populating sResults schema tables")
@@ -1583,24 +2106,47 @@ def main():
         sys.exit(1)
     
     try:
+        # Clear trial results tables only if --clear-trialresults is specified
+        if args.clear_trialresults:
+            clear_trial_results_tables(conn)
+        else:
+            print("\n" + "=" * 80)
+            print("KEEPING EXISTING TRIAL RESULTS DATA")
+            print("=" * 80)
+            print("(Use --clear-trialresults to clear existing data)")
+            print("=" * 80)
+        
         # Load catalog data and write incrementally to database
         # Relationships are already written incrementally during load_catalog_data
         # Note: skip_years and auto_skip_processed only affect catalog processing
-        classes, dogs, relationships, years = load_catalog_data(
-            conn, 
-            skip_years=skip_years,
-            auto_skip_processed=args.auto_skip_processed
-        )
+        if args.skip_catalog:
+            print("\n" + "=" * 80)
+            print("SKIPPING CATALOG PROCESSING")
+            print("=" * 80)
+            print("Catalog entry processing is disabled (--skip-catalog)")
+            print("=" * 80)
+            classes, dogs, relationships, years = {}, {}, {}, []
+        else:
+            classes, dogs, relationships, years = load_catalog_data(
+                conn, 
+                skip_years=skip_years,
+                auto_skip_processed=args.auto_skip_processed
+            )
         
         # Load trial results data and write incrementally to database
         # Always process ALL trial results files, regardless of catalog skip settings
         print("\n" + "=" * 80)
         print("PROCESSING TRIAL RESULTS")
         print("=" * 80)
-        print("Note: Processing ALL trial results files for all years")
-        print("      (catalog skip settings do not affect trial results)")
+        if skip_years:
+            print(f"Note: Skipping years: {', '.join(sorted(skip_years))}")
+        else:
+            print("Note: Processing ALL trial results files for all years")
         print("=" * 80)
-        trial_results = load_trial_results_data(conn)
+        trial_results = load_trial_results_data(conn, 
+                                                skip_files=skip_trial_files,
+                                                file_timeout=args.trial_file_timeout,
+                                                skip_years=skip_years)
         
         # If any trial results weren't written incrementally, write them now
         if trial_results:

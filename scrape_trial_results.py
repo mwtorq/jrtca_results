@@ -352,7 +352,9 @@ def clean_trial_text(text: str) -> str:
         return ""
     
     # Strip HTML tags first - use BeautifulSoup if available for better HTML parsing
-    if HAS_REQUESTS:
+    # Skip BeautifulSoup for plain text (no HTML tags) to improve performance
+    if '<' in text and '>' in text and HAS_REQUESTS and len(text) < 10000:  # Only use BeautifulSoup for reasonable-sized HTML
+        # Likely contains HTML, use BeautifulSoup
         try:
             # Use BeautifulSoup to properly strip HTML tags and decode entities
             soup = BeautifulSoup(text, 'html.parser')
@@ -361,8 +363,8 @@ def clean_trial_text(text: str) -> str:
             # Fallback to regex if BeautifulSoup fails
             cleaned = re.sub(r'<[^>]+>', '', text)
     else:
-        # No BeautifulSoup available, use regex
-        cleaned = re.sub(r'<[^>]+>', '', text)
+        # Plain text (no HTML tags), skip BeautifulSoup for performance
+        cleaned = text
     
     # Decode HTML entities (e.g., &amp; -> &, &lt; -> <, &gt; -> >, &nbsp; -> space)
     try:
@@ -859,6 +861,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
     Based on spParseTrialResults stored procedure logic.
     """
     # Clean up raw text: remove excessive newlines, normalize spaces
+    print(f"        parse_individual_trial_page_content: Starting with {len(page_text)} chars")
     cleaned_lines = []
     for line in page_text.split('\n'):
         stripped_line = line.strip()
@@ -884,147 +887,219 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
     # Split long concatenated lines that contain multiple classes or results
     # Look for patterns like "Class \d+:" or division names that indicate new sections
     # Split on these patterns to break up concatenated content
+    print(f"        Splitting and processing lines...")
     lines = []
+    line_count = 0
     for line in page_text.split('\n'):
-        cleaned_line = clean_trial_text(line)
+        line_count += 1
+        # Skip extremely long lines that might cause hangs (likely corrupted or malformed)
+        if len(line) > 50000:
+            print(f"        WARNING: Skipping line {line_count} - too long ({len(line)} chars), likely corrupted")
+            continue
+        
+        try:
+            cleaned_line = clean_trial_text(line)
+        except Exception as e:
+            print(f"        ERROR in clean_trial_text for line {line_count}: {e}")
+            continue
         if not cleaned_line:
             continue
         
+        # Limit cleaned_line length to prevent hangs in regex operations
+        if len(cleaned_line) > 10000:
+            print(f"        WARNING: Truncating line {line_count} from {len(cleaned_line)} to 10000 chars")
+            cleaned_line = cleaned_line[:10000]
+        
         # If line is very long and contains multiple "Class" markers, split it
-        if len(cleaned_line) > 200:
-            # Count how many "Class \d+:" patterns are in this line
-            class_matches = list(re.finditer(r'Class\s+\d+[.:]', cleaned_line, re.IGNORECASE))
-            if len(class_matches) > 1:
-                # Split on "Class \d+:" patterns, keeping the marker with the following content
-                parts = re.split(r'(Class\s+\d+[.:])', cleaned_line, flags=re.IGNORECASE)
-                # Recombine: each "Class N:" should be with the content that follows it
-                current_part = ""
-                for i, part in enumerate(parts):
-                    if re.match(r'Class\s+\d+[.:]', part, re.IGNORECASE):
-                        # If we have accumulated content, save it
-                        if current_part.strip():
-                            lines.append(current_part.strip())
-                        current_part = part
-                else:
-                        current_part += part
-                # Don't forget the last part
-                if current_part.strip():
-                    lines.append(current_part.strip())
-            else:
-                # Also split on "Entries:" markers which often indicate new classes
-                entries_matches = list(re.finditer(r'\bEntries?\s*:?\s*\d+', cleaned_line, re.IGNORECASE))
-                if len(entries_matches) > 1:
-                    # Split on "Entries:" patterns
-                    parts = re.split(r'(\bEntries?\s*:?\s*\d+)', cleaned_line, flags=re.IGNORECASE)
-                    # Group each "Entries: N" with the content before it
+        try:
+            if len(cleaned_line) > 200:
+                # Count how many "Class \d+:" patterns are in this line
+                # Limit search to first 10000 chars to avoid hangs on extremely long lines
+                search_text = cleaned_line[:10000] if len(cleaned_line) > 10000 else cleaned_line
+                class_matches = list(re.finditer(r'Class\s+\d+[.:]', search_text, re.IGNORECASE))
+                if len(class_matches) > 1:
+                    # Split on "Class \d+:" patterns, keeping the marker with the following content
+                    # Limit to first 10000 chars to avoid hangs on extremely long lines
+                    split_text = cleaned_line[:10000] if len(cleaned_line) > 10000 else cleaned_line
+                    parts = re.split(r'(Class\s+\d+[.:])', split_text, flags=re.IGNORECASE)
+                    # Recombine: each "Class N:" should be with the content that follows it
                     current_part = ""
                     for i, part in enumerate(parts):
-                        if re.match(r'\bEntries?\s*:?\s*\d+', part, re.IGNORECASE):
-                            # Save previous content + entries marker as a line
+                        if re.match(r'Class\s+\d+[.:]', part, re.IGNORECASE):
+                            # If we have accumulated content, save it
                             if current_part.strip():
-                                lines.append((current_part + part).strip())
-                            current_part = ""
+                                lines.append(current_part.strip())
+                            current_part = part
                         else:
                             current_part += part
-                    # Don't forget any remaining content
+                    # Don't forget the last part
                     if current_part.strip():
                         lines.append(current_part.strip())
                 else:
-                    # Also split on division names if present
-                    division_pattern = r'(' + '|'.join(re.escape(d) for d in ['FLAT RACES', 'STEEPLECHASE', 'GO-TO-GROUND', 'GTG', 'CONFORMATION', 'TRAILING', 'YOUTH', 'SUPER EARTH', 'AGILITY', 'NOSE WORK']) + r')\s*(?:DIVISION)?'
-                    division_matches = list(re.finditer(division_pattern, cleaned_line, re.IGNORECASE))
-                    if len(division_matches) > 1:
-                        # Split on division boundaries
-                        parts = re.split(division_pattern, cleaned_line, flags=re.IGNORECASE)
-                        for i in range(0, len(parts), 3):
-                            if i + 1 < len(parts):
-                                combined = (parts[i] + parts[i+1] + (parts[i+2] if i+2 < len(parts) else '')).strip()
-                                if combined:
-                                    lines.append(combined)
-                            elif parts[i].strip():
-                                lines.append(parts[i].strip())
+                    # Also split on "Entries:" markers which often indicate new classes
+                    # Limit search to first 10000 chars to avoid hangs
+                    search_text = cleaned_line[:10000] if len(cleaned_line) > 10000 else cleaned_line
+                    entries_matches = list(re.finditer(r'\bEntries?\s*:?\s*\d+', search_text, re.IGNORECASE))
+                    if len(entries_matches) > 1:
+                        # Split on "Entries:" patterns
+                        # Limit to first 10000 chars to avoid hangs
+                        split_text = cleaned_line[:10000] if len(cleaned_line) > 10000 else cleaned_line
+                        parts = re.split(r'(\bEntries?\s*:?\s*\d+)', split_text, flags=re.IGNORECASE)
+                        # Group each "Entries: N" with the content before it
+                        current_part = ""
+                        for i, part in enumerate(parts):
+                            if re.match(r'\bEntries?\s*:?\s*\d+', part, re.IGNORECASE):
+                                # Save previous content + entries marker as a line
+                                if current_part.strip():
+                                    lines.append((current_part + part).strip())
+                                current_part = ""
+                            else:
+                                current_part += part
+                        # Don't forget any remaining content
+                        if current_part.strip():
+                            lines.append(current_part.strip())
                     else:
-                        lines.append(cleaned_line)
-        else:
-            lines.append(cleaned_line)
+                        # Also split on division names if present (only for very long lines to avoid performance issues)
+                        if len(cleaned_line) > 500:  # Only check for divisions in very long lines
+                            print(f"        Line {line_count}: Checking for division patterns in long line...")
+                            # Limit search to first 10000 chars to avoid hangs
+                            search_text = cleaned_line[:10000] if len(cleaned_line) > 10000 else cleaned_line
+                            division_pattern = r'(' + '|'.join(re.escape(d) for d in ['FLAT RACES', 'STEEPLECHASE', 'GO-TO-GROUND', 'GTG', 'CONFORMATION', 'TRAILING', 'YOUTH', 'SUPER EARTH', 'AGILITY', 'NOSE WORK']) + r')\s*(?:DIVISION)?'
+                            division_matches = list(re.finditer(division_pattern, search_text, re.IGNORECASE))
+                            print(f"        Line {line_count}: Found {len(division_matches)} division patterns")
+                            if len(division_matches) > 1:
+                                # Split on division boundaries
+                                # Limit to first 10000 chars to avoid hangs
+                                split_text = cleaned_line[:10000] if len(cleaned_line) > 10000 else cleaned_line
+                                parts = re.split(division_pattern, split_text, flags=re.IGNORECASE)
+                                for i in range(0, len(parts), 3):
+                                    if i + 1 < len(parts):
+                                        combined = (parts[i] + parts[i+1] + (parts[i+2] if i+2 < len(parts) else '')).strip()
+                                        if combined:
+                                            lines.append(combined)
+                                    elif parts[i].strip():
+                                        lines.append(parts[i].strip())
+                            else:
+                                lines.append(cleaned_line)
+                        else:
+                            lines.append(cleaned_line)
+            else:
+                lines.append(cleaned_line)
+        except Exception as e:
+            print(f"        ERROR processing line {line_count} (length: {len(cleaned_line) if 'cleaned_line' in locals() else 'unknown'}): {e}")
+            # Still append the cleaned line if we have it, or skip if there was an error
+            if 'cleaned_line' in locals() and cleaned_line:
+                lines.append(cleaned_line)
+            continue
     
     # Post-process lines to split concatenated text and separate division names
     # This handles cases like "DivisionTunnellers", "2019)Judges:", "Super Earth Division" at end of line
     processed_lines = []
-    for line in lines:
-        # First, split on patterns where text is concatenated without spaces
-        # Pattern 1: "Division" followed by capital letter (e.g., "DivisionTunnellers")
-        line = re.sub(r'Division([A-Z])', r'Division \1', line)
-        # Pattern 2: ")" followed by capital letter (e.g., "2019)Judges:")
-        line = re.sub(r'\)([A-Z])', r') \1', line)
-        # Pattern 3: Lowercase letter followed by capital letter (e.g., "KymDavis")
-        line = re.sub(r'([a-z])([A-Z])', r'\1 \2', line)
-        # Pattern 4: Date followed by text (e.g., "10/31/2019TrialVault")
-        line = re.sub(r'(\d{1,2}/\d{1,2}/\d{4})([A-Za-z])', r'\1 \2', line)
+    for line_idx, line in enumerate(lines):
+        # Skip extremely long lines to prevent regex hangs
+        if len(line) > 10000:
+            print(f"        WARNING: Skipping post-processing for line {line_idx} (length: {len(line)})")
+            processed_lines.append(line)
+            continue
         
-        # Pattern 5: Division names and section headers at the end of lines
-        # Check if line ends with a division name or section header
-        division_end_patterns = [
-            r'\s+(Super Earth Division|Agility Division|Conformation Division|Lure Coursing.*Division|Brush Hunt.*Division|Rumble Tunnel.*Division|Rally Obedience Division|Trailing.*Division|Nose Work Division|Go-To-Ground Division|GTG Division|Barn Hunt.*Division|Barn Hunt Rat Dash.*)\s*$',
-            r'\s+(SUPER EARTH|AGILITY|CONFORMATION|LURE COURSING|BRUSH HUNT|RUMBLE TUNNEL|RALLY OBEDIENCE|TRAILING|NOSE WORK|GO-TO-GROUND|GTG|BARN HUNT)\s*(?:DIVISION)?\s*$',
-        ]
-        # Section headers that appear at end of lines
-        section_header_patterns = [
-            r'\s+(6 up to 12 Month Puppy|JRTCC Working Terrier|Suitability.*Judge.*Choice|Miscellaneous.*Veteran|Miscellaneous.*Spayed/Neutered|Open Adult|Family Classes|Foreign Bred Classes|Canadian Bred Classes|VETERAN\s*/\s*SENIOR|Rumble Tunnel|Senior|TALL SENIOR|TALL|SMALL)\s*$',
-            r'\s+((?:Working Terrier|Open Adult|Family|Foreign Bred|Canadian Bred|Miscellaneous|Suitability|Judge.*Choice|Veteran|Spayed|Neutered|Senior|Puppy|Adult|VETERAN|SENIOR|Rumble Tunnel|TALL|SMALL).*?)\s*$',
-        ]
-        division_found = False
-        for pattern in division_end_patterns:
-            match = re.search(pattern, line, re.IGNORECASE)
-            if match:
-                # Split the line: everything before the division name, then the division name separately
-                division_text = match.group(1)
-                before_division = line[:match.start()].strip()
-                if before_division:
-                    processed_lines.append(before_division)
-                processed_lines.append(division_text)
-                division_found = True
-                break
-        
-        if not division_found:
-            # Check for section headers
-            for pattern in section_header_patterns:
-                match = re.search(pattern, line, re.IGNORECASE)
+        try:
+            # First, split on patterns where text is concatenated without spaces
+            # Pattern 1: "Division" followed by capital letter (e.g., "DivisionTunnellers")
+            line = re.sub(r'Division([A-Z])', r'Division \1', line)
+            # Pattern 2: ")" followed by capital letter (e.g., "2019)Judges:")
+            line = re.sub(r'\)([A-Z])', r') \1', line)
+            # Pattern 3: Lowercase letter followed by capital letter (e.g., "KymDavis")
+            # Limit to prevent hangs on very long lines with many matches
+            if len(line) > 1000:
+                # For long lines, only process first 1000 chars to prevent hangs
+                line_start = re.sub(r'([a-z])([A-Z])', r'\1 \2', line[:1000])
+                line = line_start + line[1000:]
+            else:
+                line = re.sub(r'([a-z])([A-Z])', r'\1 \2', line)
+            # Pattern 4: Date followed by text (e.g., "10/31/2019TrialVault")
+            line = re.sub(r'(\d{1,2}/\d{1,2}/\d{4})([A-Za-z])', r'\1 \2', line)
+            
+            # Pattern 5: Division names and section headers at the end of lines
+            # Check if line ends with a division name or section header
+            division_end_patterns = [
+                r'\s+(Super Earth Division|Agility Division|Conformation Division|Lure Coursing.*Division|Brush Hunt.*Division|Rumble Tunnel.*Division|Rally Obedience Division|Trailing.*Division|Nose Work Division|Go-To-Ground Division|GTG Division|Barn Hunt.*Division|Barn Hunt Rat Dash.*)\s*$',
+                r'\s+(SUPER EARTH|AGILITY|CONFORMATION|LURE COURSING|BRUSH HUNT|RUMBLE TUNNEL|RALLY OBEDIENCE|TRAILING|NOSE WORK|GO-TO-GROUND|GTG|BARN HUNT)\s*(?:DIVISION)?\s*$',
+            ]
+            # Section headers that appear at end of lines
+            section_header_patterns = [
+                r'\s+(6 up to 12 Month Puppy|JRTCC Working Terrier|Suitability.*Judge.*Choice|Miscellaneous.*Veteran|Miscellaneous.*Spayed/Neutered|Open Adult|Family Classes|Foreign Bred Classes|Canadian Bred Classes|VETERAN\s*/\s*SENIOR|Rumble Tunnel|Senior|TALL SENIOR|TALL|SMALL)\s*$',
+                r'\s+((?:Working Terrier|Open Adult|Family|Foreign Bred|Canadian Bred|Miscellaneous|Suitability|Judge.*Choice|Veteran|Spayed|Neutered|Senior|Puppy|Adult|VETERAN|SENIOR|Rumble Tunnel|TALL|SMALL).*?)\s*$',
+            ]
+            division_found = False
+            for pattern_idx, pattern in enumerate(division_end_patterns):
+                # Limit search to last 500 chars to prevent catastrophic backtracking
+                search_line = line[-500:] if len(line) > 500 else line
+                match = re.search(pattern, search_line, re.IGNORECASE)
                 if match:
-                    # Split the line: everything before the section header, then the section header separately
-                    section_text = match.group(1)
-                    before_section = line[:match.start()].strip()
-                    if before_section:
-                        processed_lines.append(before_section)
-                    # Don't add section headers as separate lines - they're organizational only
-                    # Just remove them from the line and keep the content before
-                    if before_section:
-                        processed_lines.append(before_section)
+                    # Split the line: everything before the division name, then the division name separately
+                    division_text = match.group(1)
+                    # Adjust match.start() if we searched a truncated line
+                    match_start = match.start() + (len(line) - len(search_line)) if len(line) > 500 else match.start()
+                    before_division = line[:match_start].strip()
+                    if before_division:
+                        processed_lines.append(before_division)
+                    processed_lines.append(division_text)
                     division_found = True
                     break
-        
-        if not division_found:
-            # Pattern 6: Class numbers that appear inline (e.g., "162:", "172:", "238:")
-            # Split on standalone class numbers (3+ digits) followed by colon
-            # But not if it's part of "Class N:" pattern
-            # Simple approach: find "NNN: " patterns and split on them
-            parts = re.split(r'(\b\d{3,}:\s+)', line)
-            if len(parts) > 1:
-                # Parts will alternate: [text_before, class_num, text_after_class_num, class_num2, ...]
-                # First part might be text before any class number
-                if parts[0].strip():
-                    processed_lines.append(parts[0].strip())
-                # Then process pairs: (class_num, text_after)
-                for i in range(1, len(parts), 2):
-                    if i + 1 < len(parts):
-                        # Combine class number with its content
-                        class_line = (parts[i] + parts[i+1]).strip()
-                        if class_line:
-                            processed_lines.append(class_line)
-                    elif parts[i].strip():
-                        # Just a class number at the end
-                        processed_lines.append(parts[i].strip())
-            else:
+            
+            if not division_found:
+                # Check for section headers
+                for pattern_idx, pattern in enumerate(section_header_patterns):
+                    # Limit search to last 500 chars to prevent catastrophic backtracking
+                    search_line = line[-500:] if len(line) > 500 else line
+                    match = re.search(pattern, search_line, re.IGNORECASE)
+                    if match:
+                        # Split the line: everything before the section header, then the section header separately
+                        section_text = match.group(1)
+                        # Adjust match.start() if we searched a truncated line
+                        match_start = match.start() + (len(line) - len(search_line)) if len(line) > 500 else match.start()
+                        before_section = line[:match_start].strip()
+                        if before_section:
+                            processed_lines.append(before_section)
+                        # Don't add section headers as separate lines - they're organizational only
+                        # Just remove them from the line and keep the content before
+                        if before_section:
+                            processed_lines.append(before_section)
+                        division_found = True
+                        break
+            
+            if not division_found:
+                # Pattern 6: Class numbers that appear inline (e.g., "162:", "172:", "238:")
+                # Split on standalone class numbers (3+ digits) followed by colon
+                # But not if it's part of "Class N:" pattern
+                # Simple approach: find "NNN: " patterns and split on them
+                # Limit to first 10000 chars to prevent hangs
+                split_line = line[:10000] if len(line) > 10000 else line
+                parts = re.split(r'(\b\d{3,}:\s+)', split_line)
+                if len(line) > 10000:
+                    # If we truncated, append the rest
+                    parts.append(line[10000:])
+                if len(parts) > 1:
+                    # Parts will alternate: [text_before, class_num, text_after_class_num, class_num2, ...]
+                    # First part might be text before any class number
+                    if parts[0].strip():
+                        processed_lines.append(parts[0].strip())
+                    # Then process pairs: (class_num, text_after)
+                    for i in range(1, len(parts), 2):
+                        if i + 1 < len(parts):
+                            # Combine class number with its content
+                            class_line = (parts[i] + parts[i+1]).strip()
+                            if class_line:
+                                processed_lines.append(class_line)
+                        elif parts[i].strip():
+                            # Just a class number at the end
+                            processed_lines.append(parts[i].strip())
+                else:
+                    processed_lines.append(line)
+        except Exception as e:
+            print(f"        ERROR in post-processing line {line_idx} (length: {len(line) if 'line' in locals() else 'unknown'}): {e}")
+            # Still append the line if we have it
+            if 'line' in locals() and line:
                 processed_lines.append(line)
     
     lines = [l for l in processed_lines if l.strip()]  # Remove empty lines
@@ -1033,6 +1108,9 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
     clean_trial_name = (trial_name or "Unknown Trial").strip()
     clean_trial_name = clean_trial_name.replace('\ufeff', '').replace('\u200b', '').strip()
     # Remove URLs from trial name
+    # Limit trial name length to prevent regex hangs
+    if len(clean_trial_name) > 1000:
+        clean_trial_name = clean_trial_name[:1000]
     clean_trial_name = re.sub(r'https?://[^\s]+', '', clean_trial_name)
     clean_trial_name = re.sub(r'www\.[^\s]+', '', clean_trial_name)
     clean_trial_name = re.sub(r'[A-Za-z0-9-]+\.(com|org|net|edu|gov|html|htm)[^\s]*', '', clean_trial_name, flags=re.IGNORECASE)
@@ -1077,6 +1155,9 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                 continue
             
             # Split by semicolon first to get individual judge assignments
+            # Limit judge_text length to prevent hangs
+            if len(judge_text) > 1000:
+                judge_text = judge_text[:1000]
             judge_sections = re.split(r';\s*', judge_text)
             for section in judge_sections:
                 section = section.strip()
@@ -1182,18 +1263,27 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
             i += 1
             continue
         
+        # Skip extremely long lines to prevent hangs
+        if len(line) > 10000:
+            i += 1
+            continue
+        
         line_upper = line.upper().strip()
         
         # Check for day markers (Friday, Saturday, Sunday) - these indicate a new day of a multi-day trial
         # Pattern: "Friday (Date)", "Saturday (Date)", "Sunday (Date)", or just "Friday", "Saturday", "Sunday"
-        day_match = re.match(r'^(Friday|Saturday|Sunday)(?:\s*\([^)]+\))?', line, re.IGNORECASE)
+        # Limit search to first 200 chars to prevent hangs
+        search_line = line[:200] if len(line) > 200 else line
+        day_match = re.match(r'^(Friday|Saturday|Sunday)(?:\s*\([^)]+\))?', search_line, re.IGNORECASE)
         if day_match:
             current_day = day_match.group(1).title()  # Capitalize: Friday, Saturday, Sunday
             # Update trial name to include day for separation in report
             if current_day and current_day not in clean_trial_name:
                 clean_trial_name = f"{clean_trial_name} - {current_day}"
             # Also check if there's a date in parentheses
-            date_in_parens = re.search(r'\(([^)]+)\)', line)
+            # Limit search to first 200 chars to prevent hangs
+            search_line = line[:200] if len(line) > 200 else line
+            date_in_parens = re.search(r'\(([^)]+)\)', search_line)
             if date_in_parens:
                 # Update the date string to include the day
                 page_date_str = f"{current_day} ({date_in_parens.group(1)})"
@@ -1201,8 +1291,10 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
             continue
             
         # Check if line contains day-specific class names (e.g., "SUNDAY LURE COURSING CHAMPION")
-        if re.search(r'\b(FRIDAY|SATURDAY|SUNDAY)\s+', line_upper):
-            day_in_class = re.search(r'\b(FRIDAY|SATURDAY|SUNDAY)\s+', line_upper)
+        # Limit search to first 200 chars to prevent hangs
+        search_line_upper = line_upper[:200] if len(line_upper) > 200 else line_upper
+        if re.search(r'\b(FRIDAY|SATURDAY|SUNDAY)\s+', search_line_upper):
+            day_in_class = re.search(r'\b(FRIDAY|SATURDAY|SUNDAY)\s+', search_line_upper)
             if day_in_class:
                 current_day = day_in_class.group(1).title()
                 # Update trial name to include day for separation in report
@@ -1212,14 +1304,14 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
         # Check if this is a division name (SQL: IF RTRIM(LTRIM(@Result)) in (...))
         # Use exact match (case-insensitive)
         if line_upper in division_names_set:
-            # Normalize division name
-            normalized_division = normalize_division_name(line_upper)
-            current_division = normalized_division
-            current_championship = None
-            current_class = None
-            # Class numbers will be assigned during report generation
-            i += 1
-            continue
+                # Normalize division name
+                normalized_division = normalize_division_name(line_upper)
+                current_division = normalized_division
+                current_championship = None
+                current_class = None
+                # Class numbers will be assigned during report generation
+                i += 1
+                continue
         
         # Check if this is a championship class name
         if line_upper in championship_names_set:
@@ -1231,9 +1323,11 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
         
         # Check if this is a placement line first (SQL: @Result LIKE '1st%' OR LIKE '2nd%' OR LIKE '%Best:%' etc.)
         # SQL: @Result NOT LIKE '1st%' AND @Result NOT LIKE '2nd%' ... AND @Result NOT LIKE '%Best:%' etc.
+        # Limit search to first 200 chars to prevent hangs
+        search_line = line[:200] if len(line) > 200 else line
         is_placement_line = (
-            re.match(r'^\d+(?:st|nd|rd|th)?\s*:', line, re.IGNORECASE) or
-            re.search(r'\b(Best|Champ|Champion|Reserve|High\s+Score)\s*:', line, re.IGNORECASE)
+            re.match(r'^\d+(?:st|nd|rd|th)?\s*:', search_line, re.IGNORECASE) or
+            re.search(r'\b(Best|Champ|Champion|Reserve|High\s+Score)\s*:', search_line, re.IGNORECASE)
         )
         
         # Check if this is just "Entries: N" on its own line
@@ -1257,17 +1351,20 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
             # Examples of championship classes: 
             #   - "UP TO 12½" PUPPY RACING CHAMPIONSHIP" (no Entries)
             #   - "10 up to 12½" Adult Championship Certificate – Entries: 26" (has Entries, but still championship)
+            # Limit search to first 500 chars to prevent hangs
+            search_line = line[:500] if len(line) > 500 else line
+            search_line_upper = line_upper[:500] if len(line_upper) > 500 else line_upper
             is_championship_class = (
                 line_upper in championship_names_set or
                 # "Championship Certificate" classes are championship classes (even with Entries)
                 'CHAMPIONSHIP CERTIFICATE' in line_upper or
                 # Other championship patterns (without Entries check for these)
-                ('CHAMPIONSHIP' in line_upper and not re.search(r'Entries', line, re.IGNORECASE)) or
+                ('CHAMPIONSHIP' in line_upper and not re.search(r'Entries', search_line, re.IGNORECASE)) or
                 (('CHAMPION' in line_upper or 'CHAMP' in line_upper) and 
                  ('RESERVE' in line_upper or 'AND RESERVE' in line_upper) and
-                 not re.search(r'Entries', line, re.IGNORECASE)) or
+                 not re.search(r'Entries', search_line, re.IGNORECASE)) or
                 # Pattern: "UP TO 12½" PUPPY RACING CHAMPIONSHIP" or "OVER 12½" UP TO 15″ PUPPY RACING CHAMPIONSHIP"
-                (re.search(r'(UP TO|OVER).*RACING CHAMPIONSHIP', line_upper) and not re.search(r'Entries', line, re.IGNORECASE))
+                (re.search(r'(UP TO|OVER).*RACING CHAMPIONSHIP', search_line_upper) and not re.search(r'Entries', search_line, re.IGNORECASE))
             )
             
             # If it's a championship class name, treat it as a championship
@@ -1415,9 +1512,9 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                 class_name = line.strip()
             
             # Process class_name if we found one from any pattern
-                if class_name:
+            if class_name:
                 # Remove URLs from class name (http://, https://, www.)
-                    class_name = re.sub(r'https?://[^\s]+', '', class_name)
+                class_name = re.sub(r'https?://[^\s]+', '', class_name)
                 class_name = re.sub(r'www\.[^\s]+', '', class_name)
                 
                 # Normalize class name (SQL: multiple REPLACE operations)
@@ -1468,7 +1565,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                     # Invalid or incomplete class name - skip this line
                     # If it looks like a section header, don't treat as class
                     i += 1
-                continue
+                    continue
                 
                 # Check if this is actually a division name (not a class)
                 if class_name_upper in division_names_set:
@@ -1478,7 +1575,7 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                     current_championship = None
                     current_class = None
                     i += 1
-                continue
+                    continue
                 
                 # If class name contains GTG or go-to-ground, assign to GO-TO-GROUND division
                 if 'GTG' in class_name_upper or 'GO-TO-GROUND' in class_name_upper or 'GO TO GROUND' in class_name_upper:
@@ -1510,6 +1607,10 @@ def parse_individual_trial_page_content(page_text: str, trial_name: str, date_st
                         else:
                             current_entry_count = None
                     # If class_name matches current_class, keep the same class
+                i += 1
+                continue
+            else:
+                # No class name found - skip this line
                 i += 1
                 continue
             
@@ -1824,7 +1925,9 @@ def parse_local_trial_file(file_path: str, year: str = None, source_folder: str 
         trial_name = trial_name.replace('_', ' ').replace('-', ' ')
     
     # Use the extracted parsing logic
+    print(f"        Calling parse_individual_trial_page_content...")
     results, judges_info = parse_individual_trial_page_content(page_text, trial_name, date_str or "", year)
+    print(f"        parse_individual_trial_page_content returned {len(results)} results")
     
     if results:
         print(f"        Extracted {len(results)} results from {os.path.basename(file_path)}")
@@ -1936,24 +2039,31 @@ def parse_individual_trial_page(url: str, trial_name: str, date_str: str, year: 
 def scan_local_subfolders(base_dir: str = ".") -> List[Tuple[str, str, str]]:
     """Scan local subfolders for trial result files.
     
+    Scans all directories that look like year folders (4-digit numbers).
+    
     Returns:
         List of (file_path, year, source_folder) tuples
     """
     files_to_process = []
     
-    # Year folders (1984-2018)
-    for year in range(1984, 2019):
-        year_folder = os.path.join(base_dir, str(year))
-        if os.path.isdir(year_folder):
+    # Scan all directories in base_dir
+    if not os.path.isdir(base_dir):
+        return files_to_process
+    
+    # Find all year folders (directories with 4-digit names that look like years)
+    year_folder_pattern = re.compile(r'^\d{4}$')
+    for item in os.listdir(base_dir):
+        item_path = os.path.join(base_dir, item)
+        if os.path.isdir(item_path) and year_folder_pattern.match(item):
+            # This looks like a year folder
+            year = item
+            year_folder = item_path
             for filename in os.listdir(year_folder):
                 file_path = os.path.join(year_folder, filename)
                 if os.path.isfile(file_path):
-                    # Skip debug files
-                    if filename.startswith('debug_'):
-                        continue
-                    # Process .txt, .html, .htm, and .pdf files
+                    # Process .txt, .html, .htm, and .pdf files (including debug_ files)
                     if filename.lower().endswith(('.txt', '.html', '.htm', '.pdf')):
-                        files_to_process.append((file_path, str(year), str(year)))
+                        files_to_process.append((file_path, year, year))
     
     # Special folders
     special_folders = ['Gold Coast', 'JRTCC', 'MO Earthdogs']
@@ -1963,10 +2073,7 @@ def scan_local_subfolders(base_dir: str = ".") -> List[Tuple[str, str, str]]:
             for filename in os.listdir(folder_path):
                 file_path = os.path.join(folder_path, filename)
                 if os.path.isfile(file_path):
-                    # Skip debug files
-                    if filename.startswith('debug_'):
-                        continue
-                    # Process .txt, .html, .htm, and .pdf files
+                    # Process .txt, .html, .htm, and .pdf files (including debug_ files)
                     if filename.lower().endswith(('.txt', '.html', '.htm', '.pdf')):
                         # Try to extract year from filename or folder
                         year = "Unknown"

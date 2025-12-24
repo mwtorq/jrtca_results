@@ -12,7 +12,5 @@ SELECT [TrialListID]
       ,[JRTCA]
       ,[CreateUser]
       ,[CreateDateTime]
-  FROM [TrialResults].[sResults].[TrialList]
-  ORDER BY StartDate
-
-  --delete [TrialResults].[sResults].[TrialList]
+  FROM [TrialData].[sJRTCA].[TrialList]
+  ORDER BY Year,StartDate
