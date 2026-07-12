@@ -579,6 +579,17 @@ def create_basic_schema(target_conn: pyodbc.Connection):
                 REFERENCES [sResults].[Owner]([OwnerID])
         );
     """)
+
+    # Placement event times (racing, GTG, etc.)
+    cursor.execute("""
+        CREATE TABLE [sResults].[TrialPlacements_Times] (
+            [TrialPlacements_TimesID] INT IDENTITY(1,1) PRIMARY KEY,
+            [TrialPlacementsID] INT NOT NULL,
+            [Time] VARCHAR(255) NULL,
+            CONSTRAINT [FK_TrialPlacements_Times_TrialPlacementsID] FOREIGN KEY ([TrialPlacementsID])
+                REFERENCES [sResults].[TrialPlacements]([TrialPlacementsID])
+        );
+    """)
     
     # CatalogEntry table (for entries catalog data)
     cursor.execute("""

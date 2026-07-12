@@ -1,0 +1,228 @@
+{
+  "year": 2015,
+  "format": "merged",
+  "entries": [
+    {
+      "day_start": "2015-01-17",
+      "day_end": "2015-01-18",
+      "name": "Thaw Your Paws I & II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-03-14",
+      "day_end": "2015-03-14",
+      "name": "Texas Two Step XVIII",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-03-15",
+      "day_end": "2015-03-15",
+      "name": "Texas Two Step XIX",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-03-28",
+      "day_end": "2015-03-29",
+      "name": "Sunshine Showdown I & II",
+      "source_ts": "20150103155735"
+    },
+    {
+      "day_start": "2015-04-11",
+      "day_end": "2015-04-11",
+      "name": "Spring Fever I",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-04-12",
+      "day_end": "2015-04-12",
+      "name": "Spring Fever II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-04-18",
+      "day_end": "2015-04-19",
+      "name": "Spring Fox Frolic XI & XII",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-05-02",
+      "day_end": "2015-05-03",
+      "name": "Carolinas Spring Classic I & II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-05-16",
+      "day_end": "2015-05-17",
+      "name": "Yankee I & II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-05-23",
+      "day_end": "2015-05-24",
+      "name": "JRTCA Memorial Weekend Trial XI & XII",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-06-06",
+      "day_end": "2015-06-07",
+      "name": "Terrier Olympics I & II",
+      "source_ts": "20150205091427"
+    },
+    {
+      "day_start": "2015-06-06",
+      "day_end": "2015-06-07",
+      "name": "Terrier Olympics I & II (Cancelled)",
+      "source_ts": "20150221141452"
+    },
+    {
+      "day_start": "2015-06-20",
+      "day_end": "2015-06-21",
+      "name": "Bob's Birthday Bash I & II",
+      "source_ts": "20150415073116"
+    },
+    {
+      "day_start": "2015-06-21",
+      "day_end": "2015-06-21",
+      "name": "Bob's Birthday Bash I & II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-06-27",
+      "day_end": "2015-06-28",
+      "name": "Mid-America Working Terrier Trial I & II",
+      "source_ts": "20150415073116"
+    },
+    {
+      "day_start": "2015-06-28",
+      "day_end": "2015-06-28",
+      "name": "Mid-America Working Terrier Trial I & II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-07-11",
+      "day_end": "2015-07-11",
+      "name": "Buckingham Blitz I",
+      "source_ts": "20150103155735"
+    },
+    {
+      "day_start": "2015-07-12",
+      "day_end": "2015-07-12",
+      "name": "Buckingham Blitz II",
+      "source_ts": "20150103155735"
+    },
+    {
+      "day_start": "2015-07-18",
+      "day_end": "2015-07-18",
+      "name": "Dogwood Summer Classic I",
+      "source_ts": "20150205091427"
+    },
+    {
+      "day_start": "2015-07-19",
+      "day_end": "2015-07-19",
+      "name": "Dogwood Summer Classic II",
+      "source_ts": "20150205091427"
+    },
+    {
+      "day_start": "2015-07-25",
+      "day_end": "2015-07-26",
+      "name": "Rainier Hunt Classic XXVI & XXVII",
+      "source_ts": "20150516023147"
+    },
+    {
+      "day_start": "2015-07-26",
+      "day_end": "2015-07-26",
+      "name": "Rainier Hunt Classic XXVI & XXVII",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-08-08",
+      "day_end": "2015-08-09",
+      "name": "Freedom Rings I & II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-08-15",
+      "day_end": "2015-08-16",
+      "name": "MWJRTC Summer Celebration I & II",
+      "source_ts": "20150205091427"
+    },
+    {
+      "day_start": "2015-09-05",
+      "day_end": "2015-09-05",
+      "name": "Battle Born Bonanza III & VI",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-09-05",
+      "day_end": "2015-09-05",
+      "name": "Northgate I & II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-09-05",
+      "day_end": "2015-09-06",
+      "name": "Northgate I & II",
+      "source_ts": "20150205091427"
+    },
+    {
+      "day_start": "2015-09-12",
+      "day_end": "2015-09-12",
+      "name": "Arctic Blast Terrier Trial I",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-09-13",
+      "day_end": "2015-09-13",
+      "name": "Arctic Blast Terrier Trial II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-09-19",
+      "day_end": "2015-09-20",
+      "name": "Ruckus in the Rockies I & II",
+      "source_ts": "20150205091427"
+    },
+    {
+      "day_start": "2015-09-19",
+      "day_end": "2015-09-20",
+      "name": "Magnolia Classic JRT Trial I & II",
+      "source_ts": "20150212014416"
+    },
+    {
+      "day_start": "2015-09-26",
+      "day_end": "2015-09-27",
+      "name": "Carolinas Autumn Fest I & II",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-10-09",
+      "day_end": "2015-10-11",
+      "name": "JRTCA National Trial",
+      "source_ts": "20141204080938"
+    },
+    {
+      "day_start": "2015-11-14",
+      "day_end": "2015-11-14",
+      "name": "SWJRTN Fall Festival I",
+      "source_ts": "20150516023147"
+    },
+    {
+      "day_start": "2015-11-15",
+      "day_end": "2015-11-15",
+      "name": "SWJRTN Fall Festival II",
+      "source_ts": "20150516023147"
+    },
+    {
+      "day_start": "2015-12-05",
+      "day_end": "2015-12-05",
+      "name": "Yuletide I",
+      "source_ts": "20150205091427"
+    },
+    {
+      "day_start": "2015-12-06",
+      "day_end": "2015-12-06",
+      "name": "Yuletide II",
+      "source_ts": "20150205091427"
+    }
+  ]
+}

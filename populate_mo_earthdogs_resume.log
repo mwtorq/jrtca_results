@@ -1,0 +1,48 @@
+
+================================================================================
+POPULATE RUN START 2026-07-11 18:03:32
+================================================================================
+================================================================================
+JRTCA TRIAL RESULTS DATABASE POPULATOR (FIXED PARSING)
+================================================================================
+
+Connecting to database...
+  Connected using driver: ODBC Driver 17 for SQL Server
+
+Scanning for trial files...
+Found 16 trial files (skipped 962 txt files with matching html/htm) (ordered by trial date, then filename)
+Starting IDs (continuing): Trial=1700, Class=153580, Placement=508684
+[1/16] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\MO Earthdogs\1999 MO Earthdogs w GTG times.txt
+    Location: Gray Summit, MO
+    Dates: May 29, 1999 to May 30, 1999
+    Chair: MOE
+  Found 307 placement results
+  Trial already exists in database (ID: 1687, name: 1999 Missouri Earthdogs Working Jack Russell Terrier Memorial Day Bash), skipping...
+[2/16] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\MO Earthdogs\2018 MO Earthdogs.txt
+    Location: Gray Summit, MO
+    Dates: May 25, 2018 to May 27, 2018
+    Chair: Bonita Knickmeyer
+    Judges: Nick Stevens, Conformation; Kym Davis, David Krietemeyer, Stephen Martin, and Bob Schreiner, Go-to-Ground; Sharon Knickmeyer & Charlene Schlueter, Racing
+  Found 613 placement results
+  Trial already exists in database (ID: 1688, name: 2018 Missouri Earthdogs Memorial Day Bash), skipping...
+[3/16] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\MO Earthdogs\2000 MO Earthdogs w GTG times.txt
+    Chair: MOE
+    Judges: Geoff Burnhill, Conformation; Susan Parsons, Go-to-Ground; Art Womack, Racing
+  Found 340 placement results
+  Trial already exists in database (ID: 1689, name: 2000 Missouri Earthdogs Working Jack Russell Terrier Memorial Day Bash), skipping...
+[4/16] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\MO Earthdogs\2001 MO Earthdogs.txt
+    Chair: MOE
+    Judges: Dave Findlay, Conformation; Susan Parsons & Jerry Waelterman, Go-to-Ground; Art Womack, Racing
+  Found 462 placement results
+  Trial already exists in database (ID: 1690, name: 2001 Missouri Earthdogs Working Jack Russell Terrier Memorial Day Bash), skipping...
+[5/16] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\MO Earthdogs\2002 MO Earthdogs w GTG times.txt
+    Chair: MOE
+  Found 478 placement results
+  Inserted trial (ID: 1700)
+  Successfully inserted 478 placements (114 with times) (Trial ID: 1700)
+  ERROR: [Errno 22] Invalid argument

@@ -1,0 +1,94 @@
+{
+  "year": 2005,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 1,
+      "day_start": 14,
+      "day_end": 15,
+      "name": "Fox Cry January Jamboree I & II",
+      "year": 2005,
+      "source_ts": "20051212060508"
+    },
+    {
+      "month": 1,
+      "day_start": 21,
+      "day_end": 21,
+      "name": "PWJRTN Working Terrier Olympics I",
+      "year": 2005,
+      "source_ts": "20051212060508"
+    },
+    {
+      "month": 1,
+      "day_start": 22,
+      "day_end": 22,
+      "name": "PWJRTN Working Terrier Olympics II",
+      "year": 2005,
+      "source_ts": "20051212060508"
+    },
+    {
+      "month": 2,
+      "day_start": 26,
+      "day_end": 26,
+      "name": "AZ Jack Russell Rescue I",
+      "year": 2005,
+      "source_ts": "20050205185908"
+    },
+    {
+      "month": 2,
+      "day_start": 27,
+      "day_end": 27,
+      "name": "AZ Jack Russell Rescue II",
+      "year": 2005,
+      "source_ts": "20050205185908"
+    },
+    {
+      "month": 8,
+      "day_start": 27,
+      "day_end": 28,
+      "name": "Rainier Hunt Classic 5 & 6",
+      "year": 2005,
+      "source_ts": "20050829021718"
+    },
+    {
+      "month": 11,
+      "day_start": 5,
+      "day_end": 6,
+      "name": "Russell Mania I & II",
+      "year": 2005,
+      "source_ts": "20051106103435"
+    },
+    {
+      "month": 11,
+      "day_start": 12,
+      "day_end": 12,
+      "name": "Magnolia Classic JRT Trial I",
+      "year": 2005,
+      "source_ts": "20051106103435"
+    },
+    {
+      "month": 11,
+      "day_start": 12,
+      "day_end": 12,
+      "name": "SCJRTC Fall Brawl I",
+      "year": 2005,
+      "source_ts": "20051106103435"
+    },
+    {
+      "month": 11,
+      "day_start": 13,
+      "day_end": 13,
+      "name": "Magnolia Classic JRT Trial II",
+      "year": 2005,
+      "source_ts": "20051106103435"
+    },
+    {
+      "month": 11,
+      "day_start": 13,
+      "day_end": 13,
+      "name": "SCJRTC Fall Brawl II",
+      "year": 2005,
+      "source_ts": "20051106103435"
+    }
+  ]
+}

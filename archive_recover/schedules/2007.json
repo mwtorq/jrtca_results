@@ -1,0 +1,494 @@
+{
+  "year": 2007,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 1,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "PWJRTC Working Terrier Winter Event V",
+      "year": 2007,
+      "source_ts": "20071215022152"
+    },
+    {
+      "month": 1,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "PWJRTC Working Terrier Winter V",
+      "year": 2007,
+      "source_ts": "20071229165254"
+    },
+    {
+      "month": 1,
+      "day_start": 20,
+      "day_end": 20,
+      "name": "PWJRTC Working Terrier Winter Event VI",
+      "year": 2007,
+      "source_ts": "20071215022152"
+    },
+    {
+      "month": 1,
+      "day_start": 20,
+      "day_end": 20,
+      "name": "PWJRTC Working Terrier Winter VI",
+      "year": 2007,
+      "source_ts": "20071229165254"
+    },
+    {
+      "month": 2,
+      "day_start": 17,
+      "day_end": 18,
+      "name": "Patriot Games I & II",
+      "year": 2007,
+      "source_ts": "20070208213416"
+    },
+    {
+      "month": 3,
+      "day_start": 3,
+      "day_end": 3,
+      "name": "M & I Bank AZ JR Rescue Trial VII",
+      "year": 2007,
+      "source_ts": "20070221104757"
+    },
+    {
+      "month": 3,
+      "day_start": 4,
+      "day_end": 4,
+      "name": "M & I Bank AZ JR Rescue Trial VIII",
+      "year": 2007,
+      "source_ts": "20070221104757"
+    },
+    {
+      "month": 3,
+      "day_start": 10,
+      "day_end": 10,
+      "name": "Texas Jack Round-Up I",
+      "year": 2007,
+      "source_ts": "20070221104757"
+    },
+    {
+      "month": 3,
+      "day_start": 11,
+      "day_end": 11,
+      "name": "Texas Jack Round-Up II",
+      "year": 2007,
+      "source_ts": "20070221104757"
+    },
+    {
+      "month": 3,
+      "day_start": 17,
+      "day_end": 17,
+      "name": "River City JRT Trial I",
+      "year": 2007,
+      "source_ts": "20070221104757"
+    },
+    {
+      "month": 3,
+      "day_start": 18,
+      "day_end": 18,
+      "name": "River City JRT Trial II",
+      "year": 2007,
+      "source_ts": "20070221104757"
+    },
+    {
+      "month": 3,
+      "day_start": 31,
+      "day_end": 31,
+      "name": "Sunshine State Showdown I",
+      "year": 2007,
+      "source_ts": "20070221104757"
+    },
+    {
+      "month": 4,
+      "day_start": 1,
+      "day_end": 1,
+      "name": "Sunshine State Showdown II",
+      "year": 2007,
+      "source_ts": "20070221104912"
+    },
+    {
+      "month": 4,
+      "day_start": 14,
+      "day_end": 14,
+      "name": "Heartland Sunflower Classic I",
+      "year": 2007,
+      "source_ts": "20070221104912"
+    },
+    {
+      "month": 4,
+      "day_start": 14,
+      "day_end": 14,
+      "name": "Northgate Terrier Tune Up",
+      "year": 2007,
+      "source_ts": "20070221104912"
+    },
+    {
+      "month": 4,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "Heartland Sunflower Classic II",
+      "year": 2007,
+      "source_ts": "20070221104912"
+    },
+    {
+      "month": 4,
+      "day_start": 28,
+      "day_end": 29,
+      "name": "Mason Dixon I & II",
+      "year": 2007,
+      "source_ts": "20070221104912"
+    },
+    {
+      "month": 4,
+      "day_start": 28,
+      "day_end": 28,
+      "name": "Wheatland Classic XIII",
+      "year": 2007,
+      "source_ts": "20070221104912"
+    },
+    {
+      "month": 4,
+      "day_start": 29,
+      "day_end": 29,
+      "name": "Wheatland Classic XIV",
+      "year": 2007,
+      "source_ts": "20070221104912"
+    },
+    {
+      "month": 5,
+      "day_start": 5,
+      "day_end": 6,
+      "name": "Texas Two Step III",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 5,
+      "day_end": 5,
+      "name": "Farmstead Terrier Trial",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 5,
+      "day_end": 5,
+      "name": "Spring Classic I",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 5,
+      "day_end": 5,
+      "name": "St. Croix Terrier Trial I",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 6,
+      "day_end": 6,
+      "name": "Nora Risley Foundation Terrier Trial",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 6,
+      "day_end": 6,
+      "name": "Spring Classic II",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 6,
+      "day_end": 6,
+      "name": "St. Croix Terrier Trial II",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 12,
+      "day_end": 13,
+      "name": "Gold Rush VII & VIII",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "Yankee Terrier Trial I",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 20,
+      "day_end": 20,
+      "name": "Yankee Terrier Trial II",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 26,
+      "day_end": 26,
+      "name": "Buckeye I",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 5,
+      "day_start": 27,
+      "day_end": 27,
+      "name": "Buckeye II",
+      "year": 2007,
+      "source_ts": "20070221105052"
+    },
+    {
+      "month": 6,
+      "day_start": 2,
+      "day_end": 2,
+      "name": "Owyhee Terrier Trial III",
+      "year": 2007,
+      "source_ts": "20070106111337"
+    },
+    {
+      "month": 6,
+      "day_start": 3,
+      "day_end": 3,
+      "name": "Owyhee Terrier Trial IV",
+      "year": 2007,
+      "source_ts": "20070106111337"
+    },
+    {
+      "month": 6,
+      "day_start": 16,
+      "day_end": 16,
+      "name": "Summer Celebration I",
+      "year": 2007,
+      "source_ts": "20070106111337"
+    },
+    {
+      "month": 6,
+      "day_start": 17,
+      "day_end": 17,
+      "name": "Summer Celebration II",
+      "year": 2007,
+      "source_ts": "20070106111337"
+    },
+    {
+      "month": 6,
+      "day_start": 23,
+      "day_end": 23,
+      "name": "Mid-America Working Terrier Trial I",
+      "year": 2007,
+      "source_ts": "20070106111337"
+    },
+    {
+      "month": 6,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "Mid-America Working Terrier Trial II",
+      "year": 2007,
+      "source_ts": "20070106111337"
+    },
+    {
+      "month": 7,
+      "day_start": 7,
+      "day_end": 7,
+      "name": "Independence Celebration I",
+      "year": 2007,
+      "source_ts": "20070705061644"
+    },
+    {
+      "month": 7,
+      "day_start": 7,
+      "day_end": 7,
+      "name": "Junction Jamboree I",
+      "year": 2007,
+      "source_ts": "20070705061644"
+    },
+    {
+      "month": 7,
+      "day_start": 8,
+      "day_end": 8,
+      "name": "Independence Celebration II",
+      "year": 2007,
+      "source_ts": "20070705061644"
+    },
+    {
+      "month": 7,
+      "day_start": 8,
+      "day_end": 8,
+      "name": "Junction Jamboree II",
+      "year": 2007,
+      "source_ts": "20070705061644"
+    },
+    {
+      "month": 8,
+      "day_start": 4,
+      "day_end": 4,
+      "name": "Ruckus In The Rockies VII",
+      "year": 2007,
+      "source_ts": "20070107112131"
+    },
+    {
+      "month": 8,
+      "day_start": 5,
+      "day_end": 5,
+      "name": "Ruckus In The Rockies VIII",
+      "year": 2007,
+      "source_ts": "20070107112131"
+    },
+    {
+      "month": 8,
+      "day_start": 18,
+      "day_end": 18,
+      "name": "Sunny Hill I",
+      "year": 2007,
+      "source_ts": "20070107112131"
+    },
+    {
+      "month": 8,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "Sunny Hill II",
+      "year": 2007,
+      "source_ts": "20070107112131"
+    },
+    {
+      "month": 8,
+      "day_start": 25,
+      "day_end": 25,
+      "name": "End of Summer Celebration I",
+      "year": 2007,
+      "source_ts": "20070107112131"
+    },
+    {
+      "month": 8,
+      "day_start": 25,
+      "day_end": 26,
+      "name": "Ranier Hunt Classic IX & X",
+      "year": 2007,
+      "source_ts": "20070820203344"
+    },
+    {
+      "month": 8,
+      "day_start": 26,
+      "day_end": 26,
+      "name": "End of Summer Celebration II",
+      "year": 2007,
+      "source_ts": "20070107112131"
+    },
+    {
+      "month": 9,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "Arctic Blast I",
+      "year": 2007,
+      "source_ts": "20070919032703"
+    },
+    {
+      "month": 9,
+      "day_start": 16,
+      "day_end": 16,
+      "name": "Arctic Blast II",
+      "year": 2007,
+      "source_ts": "20070919032703"
+    },
+    {
+      "month": 9,
+      "day_start": 22,
+      "day_end": 23,
+      "name": "Diggin West Challenge IX & X",
+      "year": 2007,
+      "source_ts": "20070919032703"
+    },
+    {
+      "month": 9,
+      "day_start": 29,
+      "day_end": 29,
+      "name": "Carolinas Autumn Fest I",
+      "year": 2007,
+      "source_ts": "20070919032703"
+    },
+    {
+      "month": 9,
+      "day_start": 30,
+      "day_end": 30,
+      "name": "Carolinas Autumn Fest II",
+      "year": 2007,
+      "source_ts": "20070919032703"
+    },
+    {
+      "month": 10,
+      "day_start": 19,
+      "day_end": 21,
+      "name": "JRTCA National Trial",
+      "year": 2007,
+      "source_ts": "20071006175917"
+    },
+    {
+      "month": 11,
+      "day_start": 3,
+      "day_end": 3,
+      "name": "Russell Mania I",
+      "year": 2007,
+      "source_ts": "20070107111955"
+    },
+    {
+      "month": 11,
+      "day_start": 3,
+      "day_end": 3,
+      "name": "SWJRTN Fall Spectacular I",
+      "year": 2007,
+      "source_ts": "20071031224942"
+    },
+    {
+      "month": 11,
+      "day_start": 4,
+      "day_end": 4,
+      "name": "Russell Mania II",
+      "year": 2007,
+      "source_ts": "20070107111955"
+    },
+    {
+      "month": 11,
+      "day_start": 4,
+      "day_end": 4,
+      "name": "SWJRTN Fall Spectacular II",
+      "year": 2007,
+      "source_ts": "20071031224942"
+    },
+    {
+      "month": 11,
+      "day_start": 10,
+      "day_end": 10,
+      "name": "Magnolia Classic JRT Trial I",
+      "year": 2007,
+      "source_ts": "20071114142142"
+    },
+    {
+      "month": 11,
+      "day_start": 11,
+      "day_end": 11,
+      "name": "Magnolia Classic JRT Trial II",
+      "year": 2007,
+      "source_ts": "20071114142142"
+    },
+    {
+      "month": 12,
+      "day_start": 1,
+      "day_end": 2,
+      "name": "Yuletide I & II",
+      "year": 2007,
+      "source_ts": "20071031224936"
+    }
+  ]
+}

@@ -1,0 +1,438 @@
+{
+  "year": 2006,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 1,
+      "day_start": 14,
+      "day_end": 15,
+      "name": "Fox Cry January Jamboree I & II",
+      "year": 2006,
+      "source_ts": "20060109073552"
+    },
+    {
+      "month": 1,
+      "day_start": 21,
+      "day_end": 21,
+      "name": "PWJRTN Working Terrier Olympics I",
+      "year": 2006,
+      "source_ts": "20060109073552"
+    },
+    {
+      "month": 1,
+      "day_start": 22,
+      "day_end": 22,
+      "name": "PWJRTN Working Terrier Olympics II",
+      "year": 2006,
+      "source_ts": "20060109073552"
+    },
+    {
+      "month": 3,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "March Madness I & II",
+      "year": 2006,
+      "source_ts": "20060215180911"
+    },
+    {
+      "month": 3,
+      "day_start": 4,
+      "day_end": 4,
+      "name": "M&I Bank AZ Jack Russell Rescue Trial V",
+      "year": 2006,
+      "source_ts": "20060215180911"
+    },
+    {
+      "month": 3,
+      "day_start": 5,
+      "day_end": 5,
+      "name": "M&I Bank AZ Jack Russell Rescue Trial VI",
+      "year": 2006,
+      "source_ts": "20060215180911"
+    },
+    {
+      "month": 3,
+      "day_start": 11,
+      "day_end": 12,
+      "name": "Fox Cry Spring Fling I & II",
+      "year": 2006,
+      "source_ts": "20060317051703"
+    },
+    {
+      "month": 3,
+      "day_start": 18,
+      "day_end": 18,
+      "name": "River City Jack Russell Terrier Trial",
+      "year": 2006,
+      "source_ts": "20060317051703"
+    },
+    {
+      "month": 3,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "River City Jack Russell Terrier Trial",
+      "year": 2006,
+      "source_ts": "20060317051703"
+    },
+    {
+      "month": 4,
+      "day_start": 1,
+      "day_end": 2,
+      "name": "Sunshine Showdown I & II",
+      "year": 2006,
+      "source_ts": "20060215180844"
+    },
+    {
+      "month": 4,
+      "day_start": 1,
+      "day_end": 2,
+      "name": "April Fools Duel I & II",
+      "year": 2006,
+      "source_ts": "20060215180844"
+    },
+    {
+      "month": 4,
+      "day_start": 8,
+      "day_end": 9,
+      "name": "Wheatland Classic XI & XII",
+      "year": 2006,
+      "source_ts": "20060215180844"
+    },
+    {
+      "month": 4,
+      "day_start": 22,
+      "day_end": 23,
+      "name": "Del Sol I & II",
+      "year": 2006,
+      "source_ts": "20060411143235"
+    },
+    {
+      "month": 4,
+      "day_start": 29,
+      "day_end": 30,
+      "name": "Heartland Working Terrier Trial",
+      "year": 2006,
+      "source_ts": "20060411143235"
+    },
+    {
+      "month": 4,
+      "day_start": 29,
+      "day_end": 30,
+      "name": "Mason Dixon I & II",
+      "year": 2006,
+      "source_ts": "20060411143235"
+    },
+    {
+      "month": 5,
+      "day_start": 6,
+      "day_end": 6,
+      "name": "Spring Classic I",
+      "year": 2006,
+      "source_ts": "20060215180917"
+    },
+    {
+      "month": 5,
+      "day_start": 6,
+      "day_end": 7,
+      "name": "Farmstead Terrier Trials I & II",
+      "year": 2006,
+      "source_ts": "20060215180917"
+    },
+    {
+      "month": 5,
+      "day_start": 7,
+      "day_end": 7,
+      "name": "Spring Classic II",
+      "year": 2006,
+      "source_ts": "20060215180917"
+    },
+    {
+      "month": 5,
+      "day_start": 13,
+      "day_end": 14,
+      "name": "Gold Rush IV & V",
+      "year": 2006,
+      "source_ts": "20060215180917"
+    },
+    {
+      "month": 5,
+      "day_start": 13,
+      "day_end": 14,
+      "name": "St. Croix Terrier Trials I & II",
+      "year": 2006,
+      "source_ts": "20060215180917"
+    },
+    {
+      "month": 5,
+      "day_start": 13,
+      "day_end": 14,
+      "name": "Gold Rush V & VI",
+      "year": 2006,
+      "source_ts": "20060317050812"
+    },
+    {
+      "month": 5,
+      "day_start": 20,
+      "day_end": 21,
+      "name": "Yankee I & II",
+      "year": 2006,
+      "source_ts": "20060215180917"
+    },
+    {
+      "month": 5,
+      "day_start": 20,
+      "day_end": 21,
+      "name": "Texas Two Step I & II",
+      "year": 2006,
+      "source_ts": "20060215180917"
+    },
+    {
+      "month": 5,
+      "day_start": 27,
+      "day_end": 28,
+      "name": "Buckeye I & II",
+      "year": 2006,
+      "source_ts": "20060215180917"
+    },
+    {
+      "month": 6,
+      "day_start": 3,
+      "day_end": 4,
+      "name": "Rescue Benefit I & II",
+      "year": 2006,
+      "source_ts": "20060215180904"
+    },
+    {
+      "month": 6,
+      "day_start": 3,
+      "day_end": 4,
+      "name": "Owyhee Terrier Trial I & II",
+      "year": 2006,
+      "source_ts": "20060215180904"
+    },
+    {
+      "month": 6,
+      "day_start": 17,
+      "day_end": 18,
+      "name": "MWJRTC Summer Celebration III & IV",
+      "year": 2006,
+      "source_ts": "20060617175922"
+    },
+    {
+      "month": 6,
+      "day_start": 17,
+      "day_end": 18,
+      "name": "Dutchess County P.H.A. I & II",
+      "year": 2006,
+      "source_ts": "20060617175922"
+    },
+    {
+      "month": 6,
+      "day_start": 17,
+      "day_end": 18,
+      "name": "Tennessee Terrier Olympics I & II",
+      "year": 2006,
+      "source_ts": "20060617175922"
+    },
+    {
+      "month": 6,
+      "day_start": 17,
+      "day_end": 17,
+      "name": "Jordan Jamboree V (B Rated) Trial",
+      "year": 2006,
+      "source_ts": "20060617175922"
+    },
+    {
+      "month": 6,
+      "day_start": 18,
+      "day_end": 18,
+      "name": "Jordan Jamboree VI (B Rated) Trial",
+      "year": 2006,
+      "source_ts": "20060617175922"
+    },
+    {
+      "month": 6,
+      "day_start": 24,
+      "day_end": 25,
+      "name": "Mid America Working Terrier Trial I & II",
+      "year": 2006,
+      "source_ts": "20060617175922"
+    },
+    {
+      "month": 7,
+      "day_start": 1,
+      "day_end": 2,
+      "name": "VJRTC Independence Celebration I & II",
+      "year": 2006,
+      "source_ts": "20060215180858"
+    },
+    {
+      "month": 7,
+      "day_start": 8,
+      "day_end": 9,
+      "name": "Del Sol Wags for Wishes I & II",
+      "year": 2006,
+      "source_ts": "20060215180858"
+    },
+    {
+      "month": 8,
+      "day_start": 5,
+      "day_end": 6,
+      "name": "Ruckus in the Rockies V & VI",
+      "year": 2006,
+      "source_ts": "20060215180850"
+    },
+    {
+      "month": 8,
+      "day_start": 19,
+      "day_end": 20,
+      "name": "Sunny Hill I & II",
+      "year": 2006,
+      "source_ts": "20060215180850"
+    },
+    {
+      "month": 8,
+      "day_start": 26,
+      "day_end": 27,
+      "name": "MWJRTC End of Summer Celebration I & II",
+      "year": 2006,
+      "source_ts": "20060215180850"
+    },
+    {
+      "month": 8,
+      "day_start": 26,
+      "day_end": 27,
+      "name": "Ranier Hunt Classic VII & VIII",
+      "year": 2006,
+      "source_ts": "20060619115148"
+    },
+    {
+      "month": 9,
+      "day_start": 2,
+      "day_end": 3,
+      "name": "Northgate I & II",
+      "year": 2006,
+      "source_ts": "20060902050324"
+    },
+    {
+      "month": 9,
+      "day_start": 2,
+      "day_end": 3,
+      "name": "Cowboy Classic Terrier Trial I & II",
+      "year": 2006,
+      "source_ts": "20060902050324"
+    },
+    {
+      "month": 9,
+      "day_start": 2,
+      "day_end": 3,
+      "name": "Endless Summer Bash I & II",
+      "year": 2006,
+      "source_ts": "20060902050324"
+    },
+    {
+      "month": 9,
+      "day_start": 16,
+      "day_end": 17,
+      "name": "Arctic Blast Terrier Trial I & II",
+      "year": 2006,
+      "source_ts": "20060902050324"
+    },
+    {
+      "month": 9,
+      "day_start": 23,
+      "day_end": 24,
+      "name": "Diggin West Challenge VII & VIII",
+      "year": 2006,
+      "source_ts": "20060902050324"
+    },
+    {
+      "month": 9,
+      "day_start": 30,
+      "day_end": 30,
+      "name": "Autumn Fest I",
+      "year": 2006,
+      "source_ts": "20060902050324"
+    },
+    {
+      "month": 9,
+      "day_start": 30,
+      "day_end": 1,
+      "name": "Sooner State Fall Festival",
+      "year": 2006,
+      "source_ts": "20060216174951"
+    },
+    {
+      "month": 10,
+      "day_start": 1,
+      "day_end": 1,
+      "name": "Autumn Fest II",
+      "year": 2006,
+      "source_ts": "20060415032346"
+    },
+    {
+      "month": 10,
+      "day_start": 7,
+      "day_end": 8,
+      "name": "Delmarva I & II",
+      "year": 2006,
+      "source_ts": "20060216174940"
+    },
+    {
+      "month": 10,
+      "day_start": 7,
+      "day_end": 8,
+      "name": "Sooner State Fall Festival (new date)",
+      "year": 2006,
+      "source_ts": "20060619114327"
+    },
+    {
+      "month": 10,
+      "day_start": 20,
+      "day_end": 22,
+      "name": "JRTCA National Trial",
+      "year": 2006,
+      "source_ts": "20060216174940"
+    },
+    {
+      "month": 11,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "Russell Mania I & II",
+      "year": 2006,
+      "source_ts": "20060215180923"
+    },
+    {
+      "month": 11,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "SWJRTN Fall Spectacular I & II",
+      "year": 2006,
+      "source_ts": "20060822141117"
+    },
+    {
+      "month": 11,
+      "day_start": 11,
+      "day_end": 11,
+      "name": "Magnolia Classic JRT Trial I",
+      "year": 2006,
+      "source_ts": "20061111072939"
+    },
+    {
+      "month": 11,
+      "day_start": 12,
+      "day_end": 12,
+      "name": "Magnolia Classic JRT Trial II",
+      "year": 2006,
+      "source_ts": "20061111072939"
+    },
+    {
+      "month": 12,
+      "day_start": 2,
+      "day_end": 3,
+      "name": "Yuletide I & II",
+      "year": 2006,
+      "source_ts": "20060818202357"
+    }
+  ]
+}

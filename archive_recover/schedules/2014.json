@@ -1,0 +1,216 @@
+{
+  "year": 2014,
+  "format": "merged",
+  "entries": [
+    {
+      "day_start": "2014-04-05",
+      "day_end": "2014-04-06",
+      "name": "SSJRTC Sunshine Showdown I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-04-05",
+      "day_end": "2014-04-06",
+      "name": "Spring Fox Frolic IX & X",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-04-12",
+      "day_end": "2014-04-12",
+      "name": "Spring Fever I",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-04-13",
+      "day_end": "2014-04-13",
+      "name": "Spring Fever II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-04-26",
+      "day_end": "2014-04-26",
+      "name": "SWJRTN Spring Fling I",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-04-27",
+      "day_end": "2014-04-27",
+      "name": "SWJRTN Spring Fling II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-05-03",
+      "day_end": "2014-05-04",
+      "name": "Carolinas Spring Classic I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-05-17",
+      "day_end": "2014-05-18",
+      "name": "Yankee I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-05-17",
+      "day_end": "2014-05-18",
+      "name": "Peachtree Terrier Bowl I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-05-24",
+      "day_end": "2014-05-25",
+      "name": "JRTCA Memorial Weekend Trials IX & X",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-05-24",
+      "day_end": "2014-05-24",
+      "name": "Terror in the Pines IX",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-05-25",
+      "day_end": "2014-05-25",
+      "name": "Terror in the Pines X",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-06-07",
+      "day_end": "2014-06-08",
+      "name": "Terrier Olympics I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-06-28",
+      "day_end": "2014-06-29",
+      "name": "Mid-America Working Terrier Trial I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-06-28",
+      "day_end": "2014-06-28",
+      "name": "Ruckus in the Rockies I",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-06-29",
+      "day_end": "2014-06-29",
+      "name": "Ruckus in the Rockies II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-07-05",
+      "day_end": "2014-07-06",
+      "name": "Freedom Rings I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-07-12",
+      "day_end": "2014-07-12",
+      "name": "Buckingham Blitz I",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-07-13",
+      "day_end": "2014-07-13",
+      "name": "Buckingham Blitz II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-07-26",
+      "day_end": "2014-07-26",
+      "name": "Yankee III",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-07-26",
+      "day_end": "2014-07-27",
+      "name": "Rainier Hunt Classic XXIV & XXV",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-07-27",
+      "day_end": "2014-07-27",
+      "name": "Russell Rescue Inc. Benefit Trial",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-08-16",
+      "day_end": "2014-08-17",
+      "name": "MWJRTC Summer Celebration I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-08-30",
+      "day_end": "2014-08-31",
+      "name": "Battle Born Bonanza I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-08-30",
+      "day_end": "2014-08-31",
+      "name": "Northgate I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-09-06",
+      "day_end": "2014-09-06",
+      "name": "Arctic Blast Terrier Trial I",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-09-07",
+      "day_end": "2014-09-07",
+      "name": "Arctic Blast Terrier Trial II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-09-20",
+      "day_end": "2014-09-21",
+      "name": "Magnolia Classic JRT Trials I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-09-27",
+      "day_end": "2014-09-28",
+      "name": "Carolinas Autumn Fest I & II",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-10-10",
+      "day_end": "2014-10-12",
+      "name": "JRTCA National Trial",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-11-01",
+      "day_end": "2014-11-02",
+      "name": "SSJRTC Russell Mania I & II (B-rated)",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-11-15",
+      "day_end": "2014-11-15",
+      "name": "Fall Festival I",
+      "source_ts": "20141017175449"
+    },
+    {
+      "day_start": "2014-11-16",
+      "day_end": "2014-11-16",
+      "name": "Fall Festival II",
+      "source_ts": "20141017175449"
+    },
+    {
+      "day_start": "2014-12-06",
+      "day_end": "2014-12-06",
+      "name": "Yuletide I",
+      "source_ts": "20140413185452"
+    },
+    {
+      "day_start": "2014-12-07",
+      "day_end": "2014-12-07",
+      "name": "Yuletide II",
+      "source_ts": "20140413185452"
+    }
+  ]
+}

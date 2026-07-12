@@ -1,0 +1,43 @@
+
+================================================================================
+POPULATE RUN START 2026-07-12 12:01:41
+================================================================================
+================================================================================
+JRTCA TRIAL RESULTS DATABASE POPULATOR (FIXED PARSING)
+================================================================================
+
+Connecting to database...
+  Connected using driver: ODBC Driver 17 for SQL Server
+Per-trial normalization deferred until all files are loaded
+
+Scanning for trial files...
+Found 1 trial files (skipped 57 txt files with matching html/htm) (ordered by trial date, then filename)
+
+Preloading dogs, owners, divisions, and classes from database...
+  Loaded 74,673 dogs, 24,373 owners, 183 divisions, 11,893 classes for reuse
+  Dog/owner merges disabled during post-load normalization
+Starting IDs (continuing): Trial=1728, Class=160818, Placement=544801
+[1/1] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\MO Earthdogs\2012 MO Earthdogs Results.txt
+  Found 553 placement results
+  Inserted trial (ID: 1728)
+  Successfully inserted 553 placements (0 with times) (Trial ID: 1728)
+  Deferred normalization for trial 1728
+  -> Trial ID 1728 committed
+
+Running deferred post-load normalization for 1 trial(s) in one batch...
+[12:02:29] Post-load normalization for trial 1728
+[12:02:29]   Entities: 9 divisions, 135 classes, 232 dogs, 108 owners
+[12:02:29]   Normalizing 9 division name(s)...
+[12:02:29]   No division name changes needed
+[12:02:29] No duplicate division groups to merge
+[12:02:29]   Name updates: 0 classes, 0 dogs, 0 owners
+[12:02:29] Found 0 duplicate class groups to merge
+[12:02:29]   Skipping dog/owner merges (reusing existing catalog entities)
+[12:02:29]   Merges: 0 class IDs, 0 dog IDs, 0 owner IDs
+[12:02:29] Post-load normalization complete for trial 1728
+
+================================================================================
+DONE!
+================================================================================
+POPULATE RUN END 2026-07-12 12:02:29
