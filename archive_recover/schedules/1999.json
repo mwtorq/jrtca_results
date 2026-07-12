@@ -1,0 +1,22 @@
+{
+  "year": 1999,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 12,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "Yuletide '99 I & Yuletide '99 II",
+      "year": 1999,
+      "source_ts": "19991128064120"
+    },
+    {
+      "month": 12,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "Del Sol V and VI",
+      "year": 1999,
+      "source_ts": "19991128064120"
+    }
+  ]
+}

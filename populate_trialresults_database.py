@@ -8,6 +8,7 @@ import pyodbc
 import sys
 import os
 import re
+from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Set, Tuple
 from collections import defaultdict
 from datetime import datetime
@@ -15,12 +16,13 @@ from datetime import datetime
 # Import from existing scripts
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from parse_catalog import (
-    Dog, ClassInfo, normalize_name, names_are_similar,
+    Dog, ClassInfo, normalize_name, normalize_for_matching, names_are_similar,
     find_relationships, merge_dogs_across_years,
     infer_sex_from_relationships, extract_year_from_filename,
-    parse_catalog, extract_text_from_file, infer_sex_from_classes
+    parse_catalog, extract_text_from_file, infer_sex_from_classes,
+    extract_catalog_division_label, CATALOG_YEAR_MIN, CATALOG_YEAR_MAX,
 )
-from scrape_trial_results import (
+from scrape_trial_results_fixed import (
     TrialResult, normalize_division_name, normalize_class_name,
     parse_local_trial_file, scan_local_subfolders, is_duplicate_trial, extract_text_from_pdf
 )
@@ -55,6 +57,295 @@ def get_connection():
             continue
     return None
 
+
+@dataclass
+class CatalogEntityContext:
+    """Preloaded Dog/Owner rows plus lookup indexes for catalog entity reuse."""
+    dog_name_to_id: Dict[str, int] = field(default_factory=dict)
+    owner_name_to_id: Dict[str, int] = field(default_factory=dict)
+    owner_key_to_id: Dict[str, int] = field(default_factory=dict)
+    pair_to_dog_id: Dict[Tuple[str, str], int] = field(default_factory=dict)
+    pair_to_owner_id: Dict[Tuple[str, str], int] = field(default_factory=dict)
+    dog_id_to_owner_id: Dict[int, int] = field(default_factory=dict)
+    db_dog_owner_records: List[Tuple[int, Optional[int], str, str]] = field(default_factory=list)
+    db_dog_names: List[str] = field(default_factory=list)
+    db_owner_names: List[str] = field(default_factory=list)
+    dog_first_word_index: Dict[str, List[str]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
+    owner_first_word_index: Dict[str, List[str]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
+
+
+def normalize_owner_key(owner: str) -> str:
+    if not owner:
+        return ''
+    return normalize_for_matching(owner)
+
+
+def normalize_dog_key(dog_name: str) -> str:
+    if not dog_name:
+        return ''
+    return normalize_name(dog_name).lower().strip()
+
+
+def dog_owner_pair_key(dog_name: str, owner_name: str) -> Tuple[str, str]:
+    return (normalize_dog_key(dog_name), normalize_owner_key(owner_name or ''))
+
+
+def _register_owner_in_context(ctx: CatalogEntityContext, owner_id: int, owner_name: str) -> None:
+    name = owner_name.strip()
+    key = normalize_owner_key(name)
+    ctx.owner_name_to_id[name] = owner_id
+    ctx.owner_key_to_id[key] = owner_id
+    if name not in ctx.db_owner_names:
+        ctx.db_owner_names.append(name)
+    first_word = key.split()[0] if key else ''
+    if first_word and name not in ctx.owner_first_word_index[first_word]:
+        ctx.owner_first_word_index[first_word].append(name)
+
+
+def _register_dog_in_context(
+    ctx: CatalogEntityContext,
+    dog_id: int,
+    dog_name: str,
+    owner_id: Optional[int] = None,
+    owner_name: str = '',
+) -> None:
+    name = dog_name.strip()
+    norm = normalize_name(name)
+    ctx.dog_name_to_id[name] = dog_id
+    ctx.dog_name_to_id[norm] = dog_id
+    if name not in ctx.db_dog_names:
+        ctx.db_dog_names.append(name)
+    first_word = normalize_dog_key(name).split()[0] if normalize_dog_key(name) else ''
+    if first_word and name not in ctx.dog_first_word_index[first_word]:
+        ctx.dog_first_word_index[first_word].append(name)
+    if owner_id is not None:
+        ctx.dog_id_to_owner_id[dog_id] = owner_id
+    if owner_name:
+        pair = dog_owner_pair_key(name, owner_name)
+        ctx.pair_to_dog_id[pair] = dog_id
+        if owner_id is not None:
+            ctx.pair_to_owner_id[pair] = owner_id
+
+
+def preload_dogs_and_owners_from_db(conn: pyodbc.Connection) -> CatalogEntityContext:
+    """Load existing Dog+Owner pairs from trial/catalog tables for reuse."""
+    ctx = CatalogEntityContext()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT d.DogID, d.DogName, d.OwnerID, o.OwnerName
+        FROM [sResults].[Dog] d
+        LEFT JOIN [sResults].[Owner] o ON d.OwnerID = o.OwnerID
+    """)
+    seen_pairs: Set[Tuple[int, str, str]] = set()
+    for dog_id, dog_name, owner_id, owner_name in cursor.fetchall():
+        if not dog_name or not str(dog_name).strip():
+            continue
+        dog = str(dog_name).strip()
+        owner = str(owner_name).strip() if owner_name else ''
+        pair_sig = (dog_id, dog, owner)
+        if pair_sig not in seen_pairs:
+            seen_pairs.add(pair_sig)
+            ctx.db_dog_owner_records.append((dog_id, owner_id, dog, owner))
+        _register_dog_in_context(ctx, dog_id, dog, owner_id, owner)
+        if owner and owner_id is not None:
+            _register_owner_in_context(ctx, owner_id, owner)
+
+    cursor.execute("SELECT OwnerID, OwnerName FROM [sResults].[Owner]")
+    for owner_id, owner_name in cursor.fetchall():
+        if owner_name and str(owner_name).strip():
+            _register_owner_in_context(ctx, owner_id, str(owner_name).strip())
+
+    cursor.execute("""
+        SELECT DISTINCT ce.DogID, ce.DogName, d.OwnerID, o.OwnerName
+        FROM [sResults].[CatalogEntry] ce
+        JOIN [sResults].[Dog] d ON d.DogID = ce.DogID
+        LEFT JOIN [sResults].[Owner] o ON d.OwnerID = o.OwnerID
+        WHERE ce.DogName IS NOT NULL AND LTRIM(RTRIM(ce.DogName)) <> ''
+    """)
+    for dog_id, catalog_name, owner_id, owner_name in cursor.fetchall():
+        dog = str(catalog_name).strip()
+        owner = str(owner_name).strip() if owner_name else ''
+        pair_sig = (dog_id, dog, owner)
+        if pair_sig not in seen_pairs:
+            seen_pairs.add(pair_sig)
+            ctx.db_dog_owner_records.append((dog_id, owner_id, dog, owner))
+        _register_dog_in_context(ctx, dog_id, dog, owner_id, owner)
+
+    return ctx
+
+
+def resolve_owner_id(
+    owner_name: str,
+    ctx: CatalogEntityContext,
+    cursor: Optional[pyodbc.Cursor] = None,
+    create_if_missing: bool = False,
+) -> Optional[int]:
+    """Match catalog owner to an existing Owner row (exact, normalized, or similar)."""
+    if not owner_name or not owner_name.strip():
+        return None
+
+    name = owner_name.strip()
+    owner_id = ctx.owner_name_to_id.get(name)
+    if owner_id:
+        return owner_id
+
+    key = normalize_owner_key(name)
+    owner_id = ctx.owner_key_to_id.get(key)
+    if owner_id:
+        ctx.owner_name_to_id[name] = owner_id
+        return owner_id
+
+    first_word = key.split()[0] if key else ''
+    candidates = list(ctx.owner_first_word_index.get(first_word, []))
+    if not candidates and len(ctx.db_owner_names) <= 5000:
+        candidates = ctx.db_owner_names
+
+    for existing_name in candidates:
+        if names_are_similar(name, existing_name):
+            owner_id = ctx.owner_name_to_id.get(existing_name)
+            if owner_id:
+                _register_owner_in_context(ctx, owner_id, name)
+                return owner_id
+
+    if create_if_missing and cursor is not None:
+        owner_id = get_or_create_id(cursor, 'Owner', 'OwnerName', name)
+        if owner_id:
+            _register_owner_in_context(ctx, owner_id, name)
+        return owner_id
+
+    return None
+
+
+def _resolve_dog_id_only(dog_name: str, ctx: CatalogEntityContext) -> Optional[int]:
+    """Dog-only fallback when catalog entry has no owner (rare)."""
+    if not dog_name or not dog_name.strip():
+        return None
+
+    name = dog_name.strip()
+    normalized = normalize_name(name)
+    for key in (normalized, name):
+        dog_id = ctx.dog_name_to_id.get(key)
+        if dog_id:
+            return dog_id
+
+    first_word = normalize_dog_key(name).split()[0] if normalize_dog_key(name) else ''
+    candidates = list(ctx.dog_first_word_index.get(first_word, []))
+    if not candidates and len(ctx.db_dog_names) <= 5000:
+        candidates = ctx.db_dog_names
+
+    for existing_name in candidates:
+        if names_are_similar(name, existing_name):
+            dog_id = (
+                ctx.dog_name_to_id.get(existing_name)
+                or ctx.dog_name_to_id.get(normalize_name(existing_name))
+            )
+            if dog_id:
+                _register_dog_in_context(ctx, dog_id, name)
+                return dog_id
+
+    return None
+
+
+def resolve_dog_owner_pair(
+    dog_name: str,
+    owner_name: Optional[str],
+    ctx: CatalogEntityContext,
+) -> Tuple[Optional[int], Optional[int]]:
+    """Match catalog dog+owner to existing Dog/Owner rows from trial results.
+
+    Prefers (dog, owner) pair matches so same-named dogs with different owners
+    stay distinct. Falls back to dog-only match only when owner is absent.
+    """
+    if not dog_name or not dog_name.strip():
+        return None, resolve_owner_id(owner_name or '', ctx)
+
+    dog = dog_name.strip()
+    owner = owner_name.strip() if owner_name else ''
+
+    if owner:
+        pair = dog_owner_pair_key(dog, owner)
+        dog_id = ctx.pair_to_dog_id.get(pair)
+        if dog_id:
+            owner_id = (
+                ctx.pair_to_owner_id.get(pair)
+                or ctx.dog_id_to_owner_id.get(dog_id)
+                or resolve_owner_id(owner, ctx)
+            )
+            return dog_id, owner_id
+
+        dog_first = normalize_dog_key(dog).split()[0] if normalize_dog_key(dog) else ''
+        for db_dog_id, db_owner_id, db_dog, db_owner in ctx.db_dog_owner_records:
+            if dog_first and normalize_dog_key(db_dog).split()[:1] != [dog_first]:
+                continue
+            if not names_are_similar(dog, db_dog):
+                continue
+            if db_owner and names_are_similar(owner, db_owner):
+                owner_id = db_owner_id or resolve_owner_id(db_owner, ctx)
+                _register_dog_in_context(ctx, db_dog_id, dog, owner_id, owner)
+                return db_dog_id, owner_id or resolve_owner_id(owner, ctx)
+
+        owner_id = resolve_owner_id(owner, ctx)
+        if owner_id is not None:
+            for db_dog_id, db_owner_id, db_dog, db_owner in ctx.db_dog_owner_records:
+                if db_owner_id != owner_id:
+                    continue
+                if dog_first and normalize_dog_key(db_dog).split()[:1] != [dog_first]:
+                    continue
+                if names_are_similar(dog, db_dog):
+                    _register_dog_in_context(ctx, db_dog_id, dog, owner_id, owner)
+                    return db_dog_id, owner_id
+
+        return None, owner_id
+
+    return _resolve_dog_id_only(dog, ctx), None
+
+
+def resolve_dog_id(
+    dog_name: str,
+    ctx: CatalogEntityContext,
+) -> Optional[int]:
+    """Backward-compatible dog resolver; prefers pair match when owner known."""
+    dog_id, _ = resolve_dog_owner_pair(dog_name, None, ctx)
+    return dog_id
+
+
+def resolve_or_create_dog_owner_pair(
+    dog_name: str,
+    owner_name: Optional[str],
+    ctx: CatalogEntityContext,
+    cursor: pyodbc.Cursor,
+    *,
+    create_dog_fn,
+) -> Tuple[Optional[int], Optional[int]]:
+    """Resolve dog+owner against preloaded entities; create only when no match exists."""
+    dog_id, owner_id = resolve_dog_owner_pair(dog_name, owner_name, ctx)
+    if owner_id is None and owner_name and owner_name.strip():
+        owner_id = resolve_owner_id(
+            owner_name, ctx, cursor=cursor, create_if_missing=True,
+        )
+
+    if dog_id is None and dog_name and dog_name.strip():
+        dog_id = create_dog_fn(cursor, dog_name.strip(), owner_id)
+        if dog_id:
+            _register_dog_in_context(
+                ctx, dog_id, dog_name.strip(), owner_id, owner_name or '',
+            )
+
+    return dog_id, owner_id
+
+
+def canonical_catalog_division_name(division: str) -> str:
+    """Normalize a parsed catalog division to the same canonical names as trial results."""
+    if not division:
+        return division
+    label = extract_catalog_division_label(division)
+    return normalize_division_name(label) or label
+
 def clear_trial_results_tables(conn: pyodbc.Connection):
     """Clear TrialPlacements, TrialClass, and TrialList tables.
     
@@ -70,6 +361,18 @@ def clear_trial_results_tables(conn: pyodbc.Connection):
     print("=" * 80)
     
     try:
+        # Clear child tables before TrialPlacements
+        print("Clearing TrialPlacements_Times table...")
+        try:
+            cursor.execute("DELETE FROM [sResults].[TrialPlacements_Times]")
+            times_count = cursor.rowcount
+            print(f"  Deleted {times_count} records from TrialPlacements_Times")
+        except pyodbc.Error as e:
+            if "Invalid object name" in str(e):
+                print("  Skipping TrialPlacements_Times (table not found)")
+            else:
+                raise
+
         # Clear TrialPlacements first (has foreign key to TrialClass)
         print("Clearing TrialPlacements table...")
         cursor.execute("DELETE FROM [sResults].[TrialPlacements]")
@@ -372,8 +675,7 @@ def get_or_create_id(cursor: pyodbc.Cursor, table: str, name_column: str,
 
 def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo], 
                                dogs: Dict[str, Dog], year: str,
-                               dog_name_to_id: Dict[str, int],
-                               owner_name_to_id: Dict[str, int],
+                               entity_ctx: CatalogEntityContext,
                                division_name_to_id: Dict[str, int],
                                class_name_to_id: Dict[tuple, int],
                                section_name_to_id: Dict[str, int] = None,
@@ -385,8 +687,7 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
         classes: Classes for this year
         dogs: Dogs for this year
         year: Year being processed
-        dog_name_to_id: Dict mapping normalized dog names to IDs (updated in place)
-        owner_name_to_id: Dict mapping owner names to IDs (updated in place)
+        entity_ctx: Preloaded dog/owner match context (updated in place)
         division_name_to_id: Dict mapping division names to IDs (updated in place)
         class_name_to_id: Dict mapping (class_name, div_id, section) to class IDs (updated in place)
         section_name_to_id: Dict mapping section names to IDs (updated in place, optional)
@@ -408,7 +709,7 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
             if class_info.division:
                 div_id = division_name_to_id.get(class_info.division)
                 if div_id is None:
-                    normalized_div_name = normalize_division_name(class_info.division)
+                    normalized_div_name = canonical_catalog_division_name(class_info.division)
                     if normalized_div_name and normalized_div_name.strip():
                         div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
                                                  normalized_div_name)
@@ -448,36 +749,27 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
         if operations_count % commit_interval != 0:
             conn.commit()
         
-        # Process owners
+        # Process owners (resolve or create before dogs)
         for dog_key, dog in dogs.items():
             if dog.owner and dog.owner.strip():
-                owner_name = dog.owner.strip()
-                if owner_name not in owner_name_to_id:
-                    owner_id = get_or_create_id(cursor, 'Owner', 'OwnerName', owner_name)
-                    if owner_id:
-                        owner_name_to_id[owner_name] = owner_id
-                        operations_count += 1
-                        if operations_count % commit_interval == 0:
-                            conn.commit()
+                if resolve_owner_id(
+                    dog.owner, entity_ctx, cursor=cursor, create_if_missing=True,
+                ):
+                    operations_count += 1
         
         if operations_count % commit_interval != 0:
             conn.commit()
         
-        # Process dogs
+        # Process dogs — reuse existing dog+owner pairs from trial results when possible
         for dog_key, dog in dogs.items():
-            # Get or create owner
-            owner_id = None
-            if dog.owner and dog.owner.strip():
-                owner_id = owner_name_to_id.get(dog.owner.strip())
-            
-            # Normalize dog name for lookup
-            normalized_dog_name = normalize_name(dog.name)
-            
-            # Check if we already have this dog (by normalized name)
-            dog_id = dog_name_to_id.get(normalized_dog_name)
+            dog_id, owner_id = resolve_dog_owner_pair(dog.name, dog.owner, entity_ctx)
+            if owner_id is None and dog.owner and dog.owner.strip():
+                owner_id = resolve_owner_id(
+                    dog.owner, entity_ctx, cursor=cursor, create_if_missing=True,
+                )
             
             if dog_id is None:
-                # Create new dog
+                # Create new dog linked to resolved owner
                 dog_id = get_or_create_id(
                     cursor, 'Dog', 'DogName', dog.name,
                     create_columns={
@@ -488,8 +780,12 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                     }
                 )
                 if dog_id:
-                    dog_name_to_id[normalized_dog_name] = dog_id
-                    dog_name_to_id[dog.name] = dog_id  # Also store original name
+                    _register_dog_in_context(
+                        entity_ctx, dog_id, dog.name, owner_id, dog.owner or '',
+                    )
+                    operations_count += 1
+                    if operations_count % commit_interval == 0:
+                        conn.commit()
             else:
                 # Update dog if we have more complete information
                 update_columns = []
@@ -537,12 +833,13 @@ def process_year_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassI
                         if class_id:
                             # Insert catalog entries for each dog in this class
                             for dog in class_info.entries:
-                                normalized_dog_name = normalize_name(dog.name)
-                                dog_id = dog_name_to_id.get(normalized_dog_name) or dog_name_to_id.get(dog.name)
-                                
-                                owner_id = None
-                                if dog.owner and dog.owner.strip():
-                                    owner_id = owner_name_to_id.get(dog.owner.strip())
+                                dog_id, owner_id = resolve_dog_owner_pair(
+                                    dog.name, dog.owner, entity_ctx,
+                                )
+                                if owner_id is None and dog.owner and dog.owner.strip():
+                                    owner_id = resolve_owner_id(
+                                        dog.owner, entity_ctx, cursor=cursor, create_if_missing=True,
+                                    )
                                 
                                 # Check if entry already exists
                                 check_query = """
@@ -606,12 +903,10 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
     cursor = conn.cursor()
     
     try:
-        # Track inserted dogs and owners to avoid duplicates
-        dog_name_to_id = {}
-        owner_name_to_id = {}
+        entity_ctx = preload_dogs_and_owners_from_db(conn)
         division_name_to_id = {}
         section_name_to_id = {}
-        class_name_to_id = {}  # (normalized_class_name, div_id, section) -> class_id
+        class_name_to_id = {}
         
         # Process divisions and classes first
         print("  Processing divisions and classes...")
@@ -620,7 +915,7 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
             if class_info.division:
                 div_id = division_name_to_id.get(class_info.division)
                 if div_id is None:
-                    normalized_div_name = normalize_division_name(class_info.division)
+                    normalized_div_name = canonical_catalog_division_name(class_info.division)
                     if normalized_div_name and normalized_div_name.strip():
                         div_id = get_or_create_id(cursor, 'Division', 'DivisionName', 
                                                  normalized_div_name)
@@ -654,124 +949,25 @@ def populate_catalog_data(conn: pyodbc.Connection, classes: Dict[str, ClassInfo]
                             class_name_to_id[class_lookup_key] = class_id
         
         conn.commit()
-        
-        # Process owners
-        print("  Processing owners...")
-        for dog_key, dog in dogs.items():
-            if dog.owner and dog.owner.strip():
-                owner_name = dog.owner.strip()
-                if owner_name not in owner_name_to_id:
-                    owner_id = get_or_create_id(cursor, 'Owner', 'OwnerName', owner_name)
-                    if owner_id:
-                        owner_name_to_id[owner_name] = owner_id
-        
-        conn.commit()
-        
-        # Process dogs
-        print("  Processing dogs...")
-        for dog_key, dog in dogs.items():
-            # Get or create owner
-            owner_id = None
-            if dog.owner and dog.owner.strip():
-                owner_id = owner_name_to_id.get(dog.owner.strip())
-            
-            # Normalize dog name for lookup
-            normalized_dog_name = normalize_name(dog.name)
-            
-            # Check if we already have this dog (by normalized name)
-            dog_id = dog_name_to_id.get(normalized_dog_name)
-            
-            if dog_id is None:
-                # Create new dog
-                dog_id = get_or_create_id(
-                    cursor, 'Dog', 'DogName', dog.name,
-                    create_columns={
-                        'OwnerID': owner_id,
-                        'Sire': dog.sire,
-                        'Dam': dog.dam,
-                        'Sex': dog.sex
-                    }
+
+        # Group dogs by catalog year for per-year processing
+        dogs_by_year: Dict[str, Dict[str, Dog]] = defaultdict(dict)
+        for class_info in classes.values():
+            year = class_info.year
+            for dog in class_info.entries:
+                dogs_by_year[year][dog.number] = dog
+
+        for year in years:
+            year_dogs = dogs_by_year.get(year, {})
+            year_classes = {
+                k: v for k, v in classes.items() if v.year == year
+            }
+            if year_dogs and year_classes:
+                process_year_catalog_data(
+                    conn, year_classes, year_dogs, year,
+                    entity_ctx, division_name_to_id, class_name_to_id, section_name_to_id,
                 )
-                if dog_id:
-                    dog_name_to_id[normalized_dog_name] = dog_id
-                    dog_name_to_id[dog.name] = dog_id  # Also store original name
-                else:
-                # Update dog if we have more complete information
-                    update_columns = []
-                update_values = []
-                if dog.sire and dog.sire.strip():
-                    update_columns.append('Sire = ?')
-                    update_values.append(dog.sire.strip())
-                if dog.dam and dog.dam.strip():
-                    update_columns.append('Dam = ?')
-                    update_values.append(dog.dam.strip())
-                if dog.sex and dog.sex != 'unknown':
-                    update_columns.append('Sex = ?')
-                    update_values.append(dog.sex)
-                if owner_id:
-                    update_columns.append('OwnerID = ?')
-                    update_values.append(owner_id)
-                
-                if update_columns:
-                    update_values.append(dog_id)
-                    update_query = f"""
-                        UPDATE [sResults].[Dog]
-                        SET {', '.join(update_columns)}
-                        WHERE [DogID] = ?
-                    """
-                    cursor.execute(update_query, *update_values)
-        
-        conn.commit()
-        
-        # Process catalog entries (dog-class relationships)
-        print("  Processing catalog entries...")
-        for class_key, class_info in classes.items():
-            # Get class ID
-            if class_info.division and class_info.name:
-                div_id = division_name_to_id.get(class_info.division)
-                if div_id:
-                    normalized_class_name = normalize_class_name(class_info.name) if class_info.name else None
-                    if normalized_class_name:
-                        class_lookup_key = (normalized_class_name, div_id, class_info.section or None)
-                        class_id = class_name_to_id.get(class_lookup_key)
-                        
-                        if class_id:
-                            # Insert catalog entries for each dog in this class
-                            for dog in class_info.entries:
-                                normalized_dog_name = normalize_name(dog.name)
-                                dog_id = dog_name_to_id.get(normalized_dog_name) or dog_name_to_id.get(dog.name)
-                                
-                                owner_id = None
-                                if dog.owner and dog.owner.strip():
-                                    owner_id = owner_name_to_id.get(dog.owner.strip())
-                                
-                                # Check if entry already exists
-                check_query = """
-                                    SELECT CatalogEntryID FROM [sResults].[CatalogEntry]
-                                    WHERE Year = ? AND DogID = ? AND ClassID = ?
-                                """
-                cursor.execute(check_query, class_info.year, dog_id, class_id)
-                if cursor.fetchone():
-                    continue  # Already exists
-                
-                insert_query = """
-                                    INSERT INTO [sResults].[CatalogEntry]
-                                    (Year, EntryNumber, DogID, DogName, OwnerID, Sire, Dam, Sex, ClassID, ClassName)
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """
-                cursor.execute(insert_query,
-                                             class_info.year,
-                                             dog.number,
-                             dog_id,
-                                             dog.name,
-                                             owner_id,
-                                             dog.sire,
-                                             dog.dam,
-                                             dog.sex,
-                                             class_id,
-                                             class_info.name)
-        
-        conn.commit()
+
         print(f"  Catalog data populated: {len(dogs)} dogs, {len(classes)} classes")
         
     except Exception as e:
@@ -961,7 +1157,7 @@ def populate_relationships(conn: pyodbc.Connection, relationships: Dict[str, Lis
             conn.commit()
         
         if relationship_count > 0:
-            print(f"  ✓ Relationships populated: {relationship_count} relationships written to database")
+            print(f"  Relationships populated: {relationship_count} relationships written to database")
         else:
             print(f"  No new relationships to write (all already exist in database)")
         
@@ -1501,6 +1697,27 @@ def is_year_processed(conn: pyodbc.Connection, year: str) -> bool:
         return False
 
 
+def is_catalog_year_processed(conn: pyodbc.Connection, year: str) -> bool:
+    """Check if catalog entries for this year are already loaded."""
+    if not conn:
+        return False
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT COUNT(*) FROM [sResults].[CatalogEntry]
+            WHERE Year = ?
+            """,
+            year,
+        )
+        return cursor.fetchone()[0] > 0
+    except pyodbc.Error as e:
+        if 'Invalid object name' in str(e) or '42S02' in str(e):
+            return False
+        print(f"  Warning: Could not check if catalog year {year} is processed: {e}")
+        return False
+
+
 def load_catalog_data(conn: Optional[pyodbc.Connection] = None, 
                      skip_years: Optional[Set[str]] = None,
                      auto_skip_processed: bool = False) -> tuple:
@@ -1523,14 +1740,19 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None,
     print("=" * 80)
     
     # Track IDs across all years if writing incrementally
+    entity_ctx: Optional[CatalogEntityContext] = None
     if conn:
-        dog_name_to_id = {}
-        owner_name_to_id = {}
         division_name_to_id = {}
         section_name_to_id = {}
         class_name_to_id = {}
         all_merged_dogs = {}  # Track merged dogs across years
         all_relationships = {}  # Accumulate relationships
+        print("Preloading existing dog+owner pairs from database (trial results)...")
+        entity_ctx = preload_dogs_and_owners_from_db(conn)
+        print(
+            f"  Loaded {len(entity_ctx.db_dog_owner_records):,} dog+owner pairs, "
+            f"{len(entity_ctx.owner_name_to_id):,} owners"
+        )
     
     # Use same file finding logic as parse_catalog.py
     doc_files = sorted(glob.glob("*Entries_Catalog*.doc") + glob.glob("*entries_catalog*.doc") + 
@@ -1567,7 +1789,12 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None,
         if skip_years and year in skip_years:
             should_skip = True
             skip_reason = "explicitly in skip_years"
-        elif auto_skip_processed and conn and is_year_processed(conn, year):
+        elif year.isdigit() and (
+            int(year) < CATALOG_YEAR_MIN or int(year) > CATALOG_YEAR_MAX
+        ):
+            should_skip = True
+            skip_reason = f"outside catalog year range {CATALOG_YEAR_MIN}-{CATALOG_YEAR_MAX}"
+        elif auto_skip_processed and conn and is_catalog_year_processed(conn, year):
             should_skip = True
             skip_reason = "already processed in database"
         
@@ -1698,7 +1925,7 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None,
             print(f"\nWriting year {year} data to database...")
             # Process this year's data
             process_year_catalog_data(conn, classes, dogs, year,
-                                     dog_name_to_id, owner_name_to_id,
+                                     entity_ctx,
                                      division_name_to_id, class_name_to_id,
                                      section_name_to_id)
             
@@ -1743,7 +1970,7 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None,
                 total_new = sum(len(rels) for rels in new_relationships.values())
                 print(f"  Writing {total_new} new relationships to database...")
                 populate_relationships(conn, new_relationships, all_merged_dogs)
-                print(f"  ✓ Relationships for {len(new_relationships)} dogs written to database")
+                print(f"  Relationships for {len(new_relationships)} dogs written to database")
             else:
                 print(f"  No new relationships found (all {sum(len(rels) for rels in batch_relationships.values())} relationships already written)")
             
@@ -1821,7 +2048,7 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None,
             print(f"\nWriting {total_remaining} remaining relationships to database...")
             print(f"  (Already written: {total_relationships - total_remaining} relationships)")
             populate_relationships(conn, remaining_relationships, merged_dogs)
-            print(f"  ✓ Final relationships written to database")
+            print(f"  Final relationships written to database")
         else:
             print(f"\nAll {total_relationships} relationships already written to database")
     
@@ -1929,7 +2156,7 @@ def load_trial_results_data(conn: Optional[pyodbc.Connection] = None,
         filename_base = os.path.splitext(os.path.basename(file_path))[0]
         # Clean up filename (remove common prefixes, replace underscores with spaces)
         filename_trial_name = filename_base.replace('_', ' ').replace('-', ' ')
-        filename_trial_name = re.sub(r'^(debug_trial_|debug_)', '', filename_trial_name, flags=re.IGNORECASE)
+        filename_trial_name = re.sub(r'^(debug_trialvault_|debug_trial_|debug_)', '', filename_trial_name, flags=re.IGNORECASE)
         
         try:
             # For PDF files, extract text first
@@ -2024,7 +2251,7 @@ def load_trial_results_data(conn: Optional[pyodbc.Connection] = None,
                                                class_name_to_id, owner_name_to_id,
                                                dog_name_to_id, class_key_to_id)
                 except Exception as e:
-                    print(f"  ✗ Error writing to database: {e}")
+                    print(f"  Error writing to database: {e}")
                     import traceback
                     traceback.print_exc()
                     continue

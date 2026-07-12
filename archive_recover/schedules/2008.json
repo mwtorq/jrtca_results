@@ -1,0 +1,484 @@
+{
+  "year": 2008,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 1,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "PWJRTC Working Terrier Winter Event V",
+      "year": 2008,
+      "source_ts": "20071212054328"
+    },
+    {
+      "month": 1,
+      "day_start": 20,
+      "day_end": 20,
+      "name": "PWJRTC Working Terrier Winter Event VI",
+      "year": 2008,
+      "source_ts": "20071212054328"
+    },
+    {
+      "month": 3,
+      "day_start": 1,
+      "day_end": 2,
+      "name": "Texas Two Step IV & V",
+      "year": 2008,
+      "source_ts": "20071212054338"
+    },
+    {
+      "month": 3,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "M&I; Bank AZ JRT Rescue Terrier Trial",
+      "year": 2008,
+      "source_ts": "20080312133507"
+    },
+    {
+      "month": 3,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "River City Jack Russell Terrier Trial I",
+      "year": 2008,
+      "source_ts": "20080312133507"
+    },
+    {
+      "month": 3,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "M&I; Bank AZ Jack Russell Rescue Terrier Trial",
+      "year": 2008,
+      "source_ts": "20071212054338"
+    },
+    {
+      "month": 3,
+      "day_start": 16,
+      "day_end": 16,
+      "name": "M&I; Bank AZ JRT Rescue Trial VIII",
+      "year": 2008,
+      "source_ts": "20080312133507"
+    },
+    {
+      "month": 3,
+      "day_start": 16,
+      "day_end": 16,
+      "name": "River City Jack Russell Terrier Trial II",
+      "year": 2008,
+      "source_ts": "20080312133507"
+    },
+    {
+      "month": 4,
+      "day_start": 5,
+      "day_end": 6,
+      "name": "Sunshine Showdown I & II",
+      "year": 2008,
+      "source_ts": "20071212054318"
+    },
+    {
+      "month": 4,
+      "day_start": 12,
+      "day_end": 13,
+      "name": "The Heart of America Working Terrier Trial",
+      "year": 2008,
+      "source_ts": "20071212054318"
+    },
+    {
+      "month": 4,
+      "day_start": 12,
+      "day_end": 13,
+      "name": "Heart of America Working Terrier Trial",
+      "year": 2008,
+      "source_ts": "20080411064103"
+    },
+    {
+      "month": 4,
+      "day_start": 12,
+      "day_end": 12,
+      "name": "Northgate Terrier Tune Up",
+      "year": 2008,
+      "source_ts": "20080411064103"
+    },
+    {
+      "month": 4,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "SWJRTN Spring Fling I",
+      "year": 2008,
+      "source_ts": "20071212054318"
+    },
+    {
+      "month": 4,
+      "day_start": 20,
+      "day_end": 20,
+      "name": "SWJRTN Spring Fling II",
+      "year": 2008,
+      "source_ts": "20071212054318"
+    },
+    {
+      "month": 4,
+      "day_start": 26,
+      "day_end": 27,
+      "name": "Mason Dixon I & II",
+      "year": 2008,
+      "source_ts": "20071212054318"
+    },
+    {
+      "month": 5,
+      "day_start": 3,
+      "day_end": 4,
+      "name": "St. Croix Terrier Trial I & II",
+      "year": 2008,
+      "source_ts": "20071212054343"
+    },
+    {
+      "month": 5,
+      "day_start": 3,
+      "day_end": 3,
+      "name": "Carolinas Spring Classic I",
+      "year": 2008,
+      "source_ts": "20080210165716"
+    },
+    {
+      "month": 5,
+      "day_start": 4,
+      "day_end": 4,
+      "name": "Carolinas Spring Classic II",
+      "year": 2008,
+      "source_ts": "20080210165716"
+    },
+    {
+      "month": 5,
+      "day_start": 10,
+      "day_end": 10,
+      "name": "CGJRTC Gold Rush IX",
+      "year": 2008,
+      "source_ts": "20080411051947"
+    },
+    {
+      "month": 5,
+      "day_start": 11,
+      "day_end": 11,
+      "name": "CGJRTC Gold Rush X",
+      "year": 2008,
+      "source_ts": "20080411051947"
+    },
+    {
+      "month": 5,
+      "day_start": 17,
+      "day_end": 17,
+      "name": "Yankee Jack Russell Terrier Trial I",
+      "year": 2008,
+      "source_ts": "20071212054343"
+    },
+    {
+      "month": 5,
+      "day_start": 18,
+      "day_end": 18,
+      "name": "Yankee Jack Russell Terrier Trial II",
+      "year": 2008,
+      "source_ts": "20071212054343"
+    },
+    {
+      "month": 5,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "Gunnison Grand Western Terrier Trial I",
+      "year": 2008,
+      "source_ts": "20071212054343"
+    },
+    {
+      "month": 5,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "Buckeye Extravaganza I",
+      "year": 2008,
+      "source_ts": "20080210165716"
+    },
+    {
+      "month": 5,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "Gunnison Grand Western Trial I",
+      "year": 2008,
+      "source_ts": "20080210165716"
+    },
+    {
+      "month": 5,
+      "day_start": 25,
+      "day_end": 25,
+      "name": "Gunnison Grand Western Terrier Trial II",
+      "year": 2008,
+      "source_ts": "20071212054343"
+    },
+    {
+      "month": 5,
+      "day_start": 25,
+      "day_end": 25,
+      "name": "Buckeye Extravaganza II",
+      "year": 2008,
+      "source_ts": "20080210165716"
+    },
+    {
+      "month": 5,
+      "day_start": 25,
+      "day_end": 25,
+      "name": "Gunnison Grand Western Trial II",
+      "year": 2008,
+      "source_ts": "20080210165716"
+    },
+    {
+      "month": 5,
+      "day_start": 31,
+      "day_end": 1,
+      "name": "Oklahoma Classic I & II",
+      "year": 2008,
+      "source_ts": "20071212054343"
+    },
+    {
+      "month": 6,
+      "day_start": 7,
+      "day_end": 7,
+      "name": "Farmstead Terrier Trial",
+      "year": 2008,
+      "source_ts": "20080210165704"
+    },
+    {
+      "month": 6,
+      "day_start": 7,
+      "day_end": 8,
+      "name": "Tennessee Terrier Olympics I & II",
+      "year": 2008,
+      "source_ts": "20080411061659"
+    },
+    {
+      "month": 6,
+      "day_start": 8,
+      "day_end": 8,
+      "name": "Norah Risley Terrier Trial",
+      "year": 2008,
+      "source_ts": "20080210165704"
+    },
+    {
+      "month": 6,
+      "day_start": 14,
+      "day_end": 15,
+      "name": "MWJRTC Summer Celebration",
+      "year": 2008,
+      "source_ts": "20071212054333"
+    },
+    {
+      "month": 6,
+      "day_start": 14,
+      "day_end": 14,
+      "name": "MWJRTC Summer Celebration I",
+      "year": 2008,
+      "source_ts": "20080210165704"
+    },
+    {
+      "month": 6,
+      "day_start": 14,
+      "day_end": 14,
+      "name": "Russell Rescue, Inc. Trial",
+      "year": 2008,
+      "source_ts": "20080411061659"
+    },
+    {
+      "month": 6,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "MWJRTC Summer Celebration II (B-rated)",
+      "year": 2008,
+      "source_ts": "20080210165704"
+    },
+    {
+      "month": 6,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "Huntington Hunt Trial",
+      "year": 2008,
+      "source_ts": "20080411061659"
+    },
+    {
+      "month": 6,
+      "day_start": 28,
+      "day_end": 29,
+      "name": "Mid-America Working Terrier Trial V",
+      "year": 2008,
+      "source_ts": "20071212054333"
+    },
+    {
+      "month": 6,
+      "day_start": 28,
+      "day_end": 28,
+      "name": "Mid-America Working Terrier Trial V",
+      "year": 2008,
+      "source_ts": "20080210165704"
+    },
+    {
+      "month": 6,
+      "day_start": 29,
+      "day_end": 29,
+      "name": "Mid-America Working Terrier Trial VI",
+      "year": 2008,
+      "source_ts": "20080210165704"
+    },
+    {
+      "month": 7,
+      "day_start": 5,
+      "day_end": 5,
+      "name": "Liberty Bell Classic I",
+      "year": 2008,
+      "source_ts": "20071219035217"
+    },
+    {
+      "month": 7,
+      "day_start": 6,
+      "day_end": 6,
+      "name": "Liberty Bell Classic II",
+      "year": 2008,
+      "source_ts": "20071219035217"
+    },
+    {
+      "month": 8,
+      "day_start": 2,
+      "day_end": 3,
+      "name": "Ruckus in the Rockies IX & X",
+      "year": 2008,
+      "source_ts": "20071212054323"
+    },
+    {
+      "month": 8,
+      "day_start": 16,
+      "day_end": 17,
+      "name": "MWJRTC End of Summer Celebration I & II",
+      "year": 2008,
+      "source_ts": "20071212054323"
+    },
+    {
+      "month": 8,
+      "day_start": 16,
+      "day_end": 17,
+      "name": "Sunny Hill Trial I",
+      "year": 2008,
+      "source_ts": "20071212054323"
+    },
+    {
+      "month": 8,
+      "day_start": 23,
+      "day_end": 24,
+      "name": "Rainier Hunt Classic XI",
+      "year": 2008,
+      "source_ts": "20071212054323"
+    },
+    {
+      "month": 8,
+      "day_start": 30,
+      "day_end": 31,
+      "name": "Cowboy Classic Terrier Trial IV",
+      "year": 2008,
+      "source_ts": "20071212054323"
+    },
+    {
+      "month": 8,
+      "day_start": 30,
+      "day_end": 31,
+      "name": "Dogwood Endless Summer Bash I & II",
+      "year": 2008,
+      "source_ts": "20071212054323"
+    },
+    {
+      "month": 8,
+      "day_start": 30,
+      "day_end": 31,
+      "name": "Northgate Terrier Trial I & II",
+      "year": 2008,
+      "source_ts": "20071212054323"
+    },
+    {
+      "month": 8,
+      "day_start": 30,
+      "day_end": 30,
+      "name": "Cowboy Classic Terrier Trial V",
+      "year": 2008,
+      "source_ts": "20080210165658"
+    },
+    {
+      "month": 8,
+      "day_start": 31,
+      "day_end": 31,
+      "name": "Cowboy Classic Terrier Trial VI",
+      "year": 2008,
+      "source_ts": "20080210165658"
+    },
+    {
+      "month": 9,
+      "day_start": 13,
+      "day_end": 13,
+      "name": "Arctic Blast Terrier Trial I",
+      "year": 2008,
+      "source_ts": "20071212054348"
+    },
+    {
+      "month": 9,
+      "day_start": 14,
+      "day_end": 14,
+      "name": "Arctic Blast Terrier Trial II",
+      "year": 2008,
+      "source_ts": "20071212054348"
+    },
+    {
+      "month": 9,
+      "day_start": 20,
+      "day_end": 21,
+      "name": "Jacks on the James I & II",
+      "year": 2008,
+      "source_ts": "20071212054348"
+    },
+    {
+      "month": 9,
+      "day_start": 27,
+      "day_end": 28,
+      "name": "Diggin West Challenge XI & XII",
+      "year": 2008,
+      "source_ts": "20071212054348"
+    },
+    {
+      "month": 11,
+      "day_start": 1,
+      "day_end": 2,
+      "name": "Russell Mania I & II",
+      "year": 2008,
+      "source_ts": "20071231010635"
+    },
+    {
+      "month": 11,
+      "day_start": 8,
+      "day_end": 8,
+      "name": "Magnolia Classic Jack Russell Terrier Trial I",
+      "year": 2008,
+      "source_ts": "20080302121024"
+    },
+    {
+      "month": 11,
+      "day_start": 9,
+      "day_end": 9,
+      "name": "Magnolia Classic Jack Russell Terrier Trial II",
+      "year": 2008,
+      "source_ts": "20080302121024"
+    },
+    {
+      "month": 12,
+      "day_start": 6,
+      "day_end": 6,
+      "name": "Yuletide I",
+      "year": 2008,
+      "source_ts": "20081120102129"
+    },
+    {
+      "day_start": "2008-12-06",
+      "day_end": "2008-12-06",
+      "name": "Yuletide I",
+      "source_ts": "20081120125453"
+    }
+  ]
+}

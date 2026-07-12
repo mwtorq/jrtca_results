@@ -1,0 +1,182 @@
+
+================================================================================
+POPULATE RUN START 2026-07-11 19:07:52
+================================================================================
+================================================================================
+JRTCA TRIAL RESULTS DATABASE POPULATOR (FIXED PARSING)
+================================================================================
+
+Connecting to database...
+  Connected using driver: ODBC Driver 17 for SQL Server
+Per-trial normalization deferred until all files are loaded
+
+Scanning for trial files...
+Found 9 trial files (skipped 962 txt files with matching html/htm) (ordered by trial date, then filename)
+Starting IDs (continuing): Trial=1700, Class=157496, Placement=534633
+[1/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\2018 Gold Coast I.txt
+    Location: Gold Coast 30TH Annual Trial Bronson, FL
+    Dates: February 24, 2018 to February 24, 2018
+    Chair: Lisa McKinney
+    Judges: Darlene Wright -Conformation; John Tyno, Lynne Mcpherson-Go-to-Ground
+  Found 392 placement results
+  Inserted trial (ID: 1700)
+  Successfully inserted 392 placements (0 with times) (Trial ID: 1700)
+  Deferred normalization for trial 1700
+  -> Trial ID 1700 committed
+[2/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\2018 Gold Coast II.txt
+    Location: Bronson, FL
+    Dates: February 25, 2018 to February 25, 2018
+    Chair: Lisa McKinney
+    Judges: John Tyno, Lynne McPherson-Go-to-Ground
+  Found 313 placement results
+  Inserted trial (ID: 1701)
+  Successfully inserted 313 placements (0 with times) (Trial ID: 1701)
+  Deferred normalization for trial 1701
+  -> Trial ID 1701 committed
+[3/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\2011 Gold Coast I.txt
+    Chair: Lisa McKinney
+    Judges: Sally Yancey, owned by Conformation; Rick Bailey/David McKinney, owned by Go-to-Ground
+  Found 364 placement results
+  Inserted trial (ID: 1702)
+  Successfully inserted 364 placements (0 with times) (Trial ID: 1702)
+  Deferred normalization for trial 1702
+  -> Trial ID 1702 committed
+[4/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\2011 Gold Coast II.txt
+    Chair: Lisa McKinney
+    Judges: Jason Jones, owned by Racing; Rick Bailey/David McKinney, owned by Go-to-Ground
+  Found 261 placement results
+  Trial already exists in database (ID: 1702, name: Gold Coast Terrier Network 23rd Annual Trial), skipping...
+[5/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\2012 Gold Coast I.txt
+    Chair: Lisa McKinney Conformation Judge: Lyn Harber, owned by UK
+    Judges: Jason Jones, owned by Racing; Rick Bailey/Justin Caynor, owned by Go-to-Ground
+  Found 380 placement results
+  Trial already exists in database (ID: 878, name: Gold Coast Terrier Network 24th Annual Trial), skipping...
+[6/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\2012 Gold Coast II.txt
+    Chair: Lisa McKinney
+    Judges: Jason Jones, owned by Racing; Rick Bailey/Justin Caynor, owned by Go-to-Ground
+  Found 258 placement results
+  Trial already exists in database (ID: 878, name: Gold Coast Terrier Network 24th Annual Trial), skipping...
+[7/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\GCTN-2015-Results1.pdf
+    Judges: Damien Morrisey , Conformation; Jason Jones -Racing, John Tyno , Go-to-Ground, Jim Williams -Brush Hunt
+  Found 666 placement results
+  Inserted trial (ID: 1703)
+  Successfully inserted 666 placements (0 with times) (Trial ID: 1703)
+  Deferred normalization for trial 1703
+  -> Trial ID 1703 committed
+[8/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\2016-GCTN.pdf
+    Location: Bronson, FL
+    Dates: February 27, 2016 to February 27, 2016
+    Judges: Terry Clower, Conformation; John Tyno/Patrick Thomas , Go-to-Ground/SE
+  Found 805 placement results
+  Inserted trial (ID: 1704)
+  Successfully inserted 805 placements (0 with times) (Trial ID: 1704)
+  Deferred normalization for trial 1704
+  -> Trial ID 1704 committed
+[9/9] 
+Processing: C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\Gold Coast\GCTN-Event-Results-2018.pdf
+  Found 0 placement results
+  Skipping file - no placements found
+
+Running deferred post-load normalization for 5 trial(s)...
+[normalize 1/5] trial 1700
+[19:08:25] Post-load normalization for trial 1700
+[19:08:25]   Entities: 9 divisions, 136 classes, 160 dogs, 71 owners
+[19:08:25]   Normalizing 9 division name(s)...
+[19:08:25]   No division name changes needed
+[19:08:25] No duplicate division groups to merge
+[19:08:25]   Name updates: 4 classes, 0 dogs, 0 owners
+[19:08:25] Found 0 duplicate class groups to merge
+[19:08:25] Loading dogs for duplicate merge...
+[19:08:25] Clustering 74,561 dog names by similarity...
+[19:13:11] Found 91 duplicate dog groups (trial-scoped)
+[19:14:51] Dog merge: 91/91 (100%) (406 IDs consolidated)
+[19:14:51] Loading owners for duplicate merge...
+[19:14:51] Clustering 23,727 owner names...
+[19:14:52] Found 7 duplicate owner groups (trial-scoped)
+[19:14:52] Owner merge: 7/7 (100%) (8 IDs consolidated)
+[19:14:52]   Merges: 0 class IDs, 406 dog IDs, 8 owner IDs
+[19:14:52] Post-load normalization complete for trial 1700
+[normalize 2/5] trial 1701
+[19:14:52] Post-load normalization for trial 1701
+[19:14:52]   Entities: 8 divisions, 101 classes, 108 dogs, 56 owners
+[19:14:52]   Normalizing 8 division name(s)...
+[19:14:52]   No division name changes needed
+[19:14:52] No duplicate division groups to merge
+[19:14:53]   Name updates: 0 classes, 0 dogs, 0 owners
+[19:14:53] Found 0 duplicate class groups to merge
+[19:14:53] Loading dogs for duplicate merge...
+[19:14:53] Clustering 74,155 dog names by similarity...
+[19:18:26] Found 9 duplicate dog groups (trial-scoped)
+[19:18:33] Dog merge: 9/9 (100%) (29 IDs consolidated)
+[19:18:33] Loading owners for duplicate merge...
+[19:18:33] Clustering 23,719 owner names...
+[19:18:33] Found 2 duplicate owner groups (trial-scoped)
+[19:18:34] Owner merge: 2/2 (100%) (2 IDs consolidated)
+[19:18:34]   Merges: 0 class IDs, 29 dog IDs, 2 owner IDs
+[19:18:34] Post-load normalization complete for trial 1701
+[normalize 3/5] trial 1702
+[19:18:34] Post-load normalization for trial 1702
+[19:18:34]   Entities: 8 divisions, 88 classes, 168 dogs, 71 owners
+[19:18:34]   Normalizing 8 division name(s)...
+[19:18:34]   No division name changes needed
+[19:18:34] No duplicate division groups to merge
+[19:18:34]   Name updates: 0 classes, 1 dogs, 1 owners
+[19:18:34] Found 0 duplicate class groups to merge
+[19:18:34] Loading dogs for duplicate merge...
+[19:18:34] Clustering 74,126 dog names by similarity...
+[19:22:14] Found 76 duplicate dog groups (trial-scoped)
+[19:23:29] Dog merge: 76/76 (100%) (299 IDs consolidated)
+[19:23:29] Loading owners for duplicate merge...
+[19:23:29] Clustering 23,717 owner names...
+[19:23:29] Found 1 duplicate owner groups (trial-scoped)
+[19:23:29] Owner merge: 1/1 (100%) (1 IDs consolidated)
+[19:23:29]   Merges: 0 class IDs, 299 dog IDs, 1 owner IDs
+[19:23:29] Post-load normalization complete for trial 1702
+[normalize 4/5] trial 1703
+[19:23:29] Post-load normalization for trial 1703
+[19:23:29]   Entities: 12 divisions, 154 classes, 205 dogs, 2 owners
+[19:23:30]   Normalizing 12 division name(s)...
+[19:23:30]   No division name changes needed
+[19:23:30] No duplicate division groups to merge
+[19:23:30]   Name updates: 6 classes, 0 dogs, 0 owners
+[19:23:30] Found 0 duplicate class groups to merge
+[19:23:30] Loading dogs for duplicate merge...
+[19:23:30] Clustering 73,827 dog names by similarity...
+[19:27:25] Found 51 duplicate dog groups (trial-scoped)
+[19:27:43] Dog merge: 51/51 (100%) (75 IDs consolidated)
+[19:27:43] Loading owners for duplicate merge...
+[19:27:43] Clustering 23,716 owner names...
+[19:27:43] Found 0 duplicate owner groups (trial-scoped)
+[19:27:43]   Merges: 0 class IDs, 75 dog IDs, 0 owner IDs
+[19:27:43] Post-load normalization complete for trial 1703
+[normalize 5/5] trial 1704
+[19:27:44] Post-load normalization for trial 1704
+[19:27:44]   Entities: 11 divisions, 151 classes, 249 dogs, 5 owners
+[19:27:44]   Normalizing 11 division name(s)...
+[19:27:44]   No division name changes needed
+[19:27:44] No duplicate division groups to merge
+[19:27:44]   Name updates: 12 classes, 2 dogs, 0 owners
+[19:27:44] Found 1 duplicate class groups to merge
+[19:27:44] Class merge: 1/1 (100%) (1 IDs consolidated)
+[19:27:44] Loading dogs for duplicate merge...
+[19:27:44] Clustering 73,752 dog names by similarity...
+[19:31:38] Found 35 duplicate dog groups (trial-scoped)
+[19:31:52] Dog merge: 35/35 (100%) (56 IDs consolidated)
+[19:31:52] Loading owners for duplicate merge...
+[19:31:52] Clustering 23,716 owner names...
+[19:31:52] Found 0 duplicate owner groups (trial-scoped)
+[19:31:52]   Merges: 1 class IDs, 56 dog IDs, 0 owner IDs
+[19:31:52] Post-load normalization complete for trial 1704
+
+================================================================================
+DONE!
+================================================================================
+POPULATE RUN END 2026-07-11 19:31:52

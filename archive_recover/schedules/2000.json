@@ -1,0 +1,166 @@
+{
+  "year": 2000,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 1,
+      "day_start": 29,
+      "day_end": 29,
+      "name": "Sunshine State Fun Day",
+      "year": 2000,
+      "source_ts": "20000118130644"
+    },
+    {
+      "month": 3,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "Fox Cry Spring Fling",
+      "year": 2000,
+      "source_ts": "20000302181133"
+    },
+    {
+      "month": 3,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "Troon Quarry \"2000\" Terrier Trials",
+      "year": 2000,
+      "source_ts": "20000302181133"
+    },
+    {
+      "month": 3,
+      "day_start": 11,
+      "day_end": 12,
+      "name": "Bluebonnet Terrier Trial",
+      "year": 2000,
+      "source_ts": "20000302181133"
+    },
+    {
+      "month": 3,
+      "day_start": 25,
+      "day_end": 26,
+      "name": "Sunshine State Terrier Trial",
+      "year": 2000,
+      "source_ts": "20000302181133"
+    },
+    {
+      "month": 3,
+      "day_start": 25,
+      "day_end": 26,
+      "name": "Heartland Working Terrier Trial",
+      "year": 2000,
+      "source_ts": "20000302181133"
+    },
+    {
+      "month": 3,
+      "day_start": 25,
+      "day_end": 26,
+      "name": "Pioneer Classic 5 and 6",
+      "year": 2000,
+      "source_ts": "20000302181133"
+    },
+    {
+      "month": 6,
+      "day_start": 17,
+      "day_end": 17,
+      "name": "Dutchess County PHA Terrier Trial",
+      "year": 2000,
+      "source_ts": "20000611173449"
+    },
+    {
+      "month": 6,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "Finger Lakes Terrier Trial",
+      "year": 2000,
+      "source_ts": "20000611173449"
+    },
+    {
+      "month": 6,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "Midwest JRTC Trial I",
+      "year": 2000,
+      "source_ts": "20000611173449"
+    },
+    {
+      "month": 6,
+      "day_start": 25,
+      "day_end": 25,
+      "name": "Midwest JRTC Trial II",
+      "year": 2000,
+      "source_ts": "20000611173449"
+    },
+    {
+      "month": 8,
+      "day_start": 12,
+      "day_end": 13,
+      "name": "OH-PA 2000",
+      "year": 2000,
+      "source_ts": "20000817063814"
+    },
+    {
+      "month": 8,
+      "day_start": 27,
+      "day_end": 27,
+      "name": "Niagara JRT Group Fun Day",
+      "year": 2000,
+      "source_ts": "20000817063814"
+    },
+    {
+      "month": 9,
+      "day_start": 30,
+      "day_end": 30,
+      "name": "Smithtown Hunt Terrier Trial",
+      "year": 2000,
+      "source_ts": "20000930094548"
+    },
+    {
+      "month": 9,
+      "day_start": 30,
+      "day_end": 1,
+      "name": "Blue Bell Classic",
+      "year": 2000,
+      "source_ts": "20000930094548"
+    },
+    {
+      "month": 10,
+      "day_start": 7,
+      "day_end": 8,
+      "name": "Treasure Valley Terrier Trial",
+      "year": 2000,
+      "source_ts": "20001005022527"
+    },
+    {
+      "month": 10,
+      "day_start": 7,
+      "day_end": 8,
+      "name": "Sooner State Fall Classic",
+      "year": 2000,
+      "source_ts": "20001005022527"
+    },
+    {
+      "month": 10,
+      "day_start": 13,
+      "day_end": 15,
+      "name": "JRTCA National Trial",
+      "year": 2000,
+      "source_ts": "20001005022527"
+    },
+    {
+      "month": 12,
+      "day_start": 1,
+      "day_end": 2,
+      "name": "Yultide Terrier Trial (2001)",
+      "year": 2000,
+      "source_ts": "20001203104900"
+    },
+    {
+      "month": 12,
+      "day_start": 2,
+      "day_end": 3,
+      "name": "Yuletide Terrier Trial",
+      "year": 2000,
+      "source_ts": "20001203104900"
+    }
+  ]
+}

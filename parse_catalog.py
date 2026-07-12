@@ -269,6 +269,26 @@ def extract_text_from_file(filepath: str) -> str:
                 return extract_text_from_doc(filepath)
 
 
+_DIVISION_LETTER_PREFIX_RE = re.compile(
+    r'^DIVISION\s+[A-Z]\s*[—–\-]\s*(.+)$',
+    re.IGNORECASE,
+)
+
+CATALOG_YEAR_MIN = 2008
+CATALOG_YEAR_MAX = 2025
+
+
+def extract_catalog_division_label(line: str) -> str:
+    """Strip catalog letter prefix (e.g. 'DIVISION A — RACING' -> 'RACING')."""
+    if not line:
+        return line
+    cleaned = clean_catalog_text(line).strip()
+    match = _DIVISION_LETTER_PREFIX_RE.match(cleaned)
+    if match:
+        return match.group(1).strip()
+    return cleaned
+
+
 def normalize_division_name(division: str) -> str:
     """Normalize division names to canonical forms, similar to SQL stored procedure logic.
     
@@ -281,7 +301,9 @@ def normalize_division_name(division: str) -> str:
     if not division:
         return division
     
-    division_upper = division.upper().strip()
+    label = extract_catalog_division_label(division)
+    division_upper = label.upper().strip()
+    division_base = re.sub(r'\s*\([^)]*\)\s*$', '', division_upper).strip()
     
     # Division normalization mapping (based on SQL stored procedure CASE statement)
     division_map = {
@@ -314,6 +336,7 @@ def normalize_division_name(division: str) -> str:
         'CONFORMATION DIVISION:': 'CONFORMATION',
         'CONFORMATION DIVISION': 'CONFORMATION',
         'CONFORMATION DIVISON': 'CONFORMATION',
+        'WORKING TERRIER CONFORMATION': 'CONFORMATION',
         
         # Doggie Fun Zone
         'DOGGIE FUN ZONE (NON-SANCTIONED)': 'DOGGIE FUN ZONE (NON-SANCTIONED)',
@@ -343,6 +366,7 @@ def normalize_division_name(division: str) -> str:
         'GO-TO-GROUND DIVISON': 'GO-TO-GROUND',
         'GO-TO-TO-GROUND': 'GO-TO-GROUND',
         'GTG': 'GO-TO-GROUND',
+        'GO TO GROUND': 'GO-TO-GROUND',
         
         # High Jump
         'HIGH JUMP': 'HIGH JUMP',
@@ -360,9 +384,17 @@ def normalize_division_name(division: str) -> str:
         'STEELPECHASE RACES': 'STEEPLECHASE RACES',
         'STEEPLECHASE': 'STEEPLECHASE RACES',
         'STEEPLECHASE RACE': 'STEEPLECHASE RACES',
+        'STEEPLECHASE RACING': 'STEEPLECHASE RACES',
+        'HURDLES RACING': 'STEEPLECHASE RACES',
         
         # Jumpers
         'JUMPERS DIVISION': 'JUMPERS DIVISION',
+        
+        # Nose Work
+        'NOSE WORK': 'NOSE WORK',
+        'NOSE WORK DIVISION': 'NOSE WORK',
+        'NOSE WORK (SCENTING)': 'NOSE WORK',
+        'NOSEWORK': 'NOSE WORK',
         
         # Obedience
         'OBEDIENCE': 'OBEDIENCE DIVISION',
@@ -403,6 +435,9 @@ def normalize_division_name(division: str) -> str:
         'TRAILING & LOCATING DIVISION': 'TRAILING & LOCATING',
         'TRAILING & LOCATING DIVISON': 'TRAILING & LOCATING',
         'TRAILING/LOCATING DIVISION': 'TRAILING & LOCATING',
+        'TRAILING AND LOCATING': 'TRAILING & LOCATING',
+        'TRAILING AND LOCATING DIVISION': 'TRAILING & LOCATING',
+        'TRAIL': 'TRAILING & LOCATING',
         
         # Top Dog/Gun
         'TOP DOG': 'TOP DOG',
@@ -410,14 +445,22 @@ def normalize_division_name(division: str) -> str:
         'TOP GUN CHALLENGE': 'TOP GUN',
         'TOP DOG (NON-SANCTIONED)': 'TOP GUN',
         
+        # Stakes Tunnel Race
+        'STAKES TUNNEL RACE': 'STAKES TUNNEL RACE',
+        
         # Youth
         'YOUTH DIVISION': 'YOUTH DIVISION',
         'YOUTH DIVISON': 'YOUTH DIVISION',
         'YOUTH HIGH POINT': 'YOUTH DIVISION',
         'YOUTH': 'YOUTH DIVISION',
+        'YOUTH HANDLER': 'YOUTH DIVISION',
     }
     
-    return division_map.get(division_upper, division)
+    if division_base in division_map:
+        return division_map[division_base]
+    if division_upper in division_map:
+        return division_map[division_upper]
+    return label
 
 
 def clean_catalog_text(line: str) -> str:
@@ -500,7 +543,7 @@ def parse_catalog(text: str, year: str) -> tuple[Dict[str, ClassInfo], Dict[str,
         # Check for division (format: "DIVISION A — RACING")
         division_match = re.match(r'^DIVISION\s+[A-Z]\s*[—–-]\s*(.+)$', line_stripped, re.IGNORECASE)
         if division_match:
-            current_division = normalize_division_name(line_stripped)
+            current_division = normalize_division_name(division_match.group(1))
             current_section = None
             current_class = None
             i += 1
@@ -508,8 +551,9 @@ def parse_catalog(text: str, year: str) -> tuple[Dict[str, ClassInfo], Dict[str,
         
         # Also check for division names directly (without "DIVISION A —" prefix)
         # This matches the SQL stored procedure logic which checks for division names in an IN list
-        division_normalized = normalize_division_name(line_stripped)
-        if division_normalized != line_stripped:
+        division_label = extract_catalog_division_label(line_stripped)
+        division_normalized = normalize_division_name(division_label)
+        if division_normalized != division_label:
             # This line matched a known division name pattern
             current_division = division_normalized
             current_section = None
@@ -896,6 +940,16 @@ def parse_catalog(text: str, year: str) -> tuple[Dict[str, ClassInfo], Dict[str,
     return classes, dogs
 
 
+def normalize_for_matching(name: str) -> str:
+    """Collapse whitespace and treat '&' as 'and' for name/owner matching."""
+    if not name:
+        return ''
+    text = re.sub(r'\s+', ' ', name.strip().lower())
+    text = re.sub(r"[''`]", '', text)
+    text = re.sub(r'\s*&\s*', ' and ', text)
+    return re.sub(r'\s+', ' ', text).strip()
+
+
 def normalize_name(name: str) -> str:
     """Normalize dog name by removing ' of ...' suffix for relationship matching."""
     if not name:
@@ -904,6 +958,34 @@ def normalize_name(name: str) -> str:
     # Match " of " followed by any characters until end of string
     normalized = re.sub(r'\s+of\s+.*$', '', name, flags=re.IGNORECASE).strip()
     return normalized
+
+
+def extract_trailing_letter_id(name: str) -> str | None:
+    """Extract a single-letter kennel suffix like \"Q\" or trailing Q."""
+    if not name:
+        return None
+    text = name.strip()
+    match = re.search(r'"([A-Za-z])"\s*$', text)
+    if match:
+        return match.group(1).upper()
+    match = re.search(r'\s([A-Za-z])\s*$', text)
+    if match:
+        return match.group(1).upper()
+    return None
+
+
+def same_prefix_different_letter_ids(name1: str, name2: str) -> bool:
+    """True when names share a prefix but have different single-letter IDs (Q vs R)."""
+    id1 = extract_trailing_letter_id(name1)
+    id2 = extract_trailing_letter_id(name2)
+    if not id1 or not id2 or id1 == id2:
+        return False
+    base1 = re.sub(r'\s*"?[A-Za-z]"?\s*$', '', name1).strip()
+    base2 = re.sub(r'\s*"?[A-Za-z]"?\s*$', '', name2).strip()
+    return (
+        normalize_for_matching(normalize_name(base1))
+        == normalize_for_matching(normalize_name(base2))
+    )
 
 
 def names_are_similar(name1: str, name2: str) -> bool:
@@ -916,14 +998,25 @@ def names_are_similar(name1: str, name2: str) -> bool:
     """
     if not name1 or not name2:
         return False
+
+    if same_prefix_different_letter_ids(name1, name2):
+        return False
     
-    # Normalize both names first (remove " of ..." suffix)
-    norm1 = normalize_name(name1).lower().strip()
-    norm2 = normalize_name(name2).lower().strip()
+    # Normalize both names first (remove " of ..." suffix, unify &/and)
+    norm1 = normalize_for_matching(normalize_name(name1))
+    norm2 = normalize_for_matching(normalize_name(name2))
     
     # Exact match after normalization
     if norm1 == norm2:
         return True
+
+    # Litter-style names (e.g. Harmony Chase Briggs/Bragg/Brooks) differ only in
+    # the last word. Require an exact last-word match when the prefix is identical.
+    words1 = norm1.split()
+    words2 = norm2.split()
+    if len(words1) >= 3 and len(words2) >= 3 and len(words1) == len(words2):
+        if words1[:-1] == words2[:-1] and words1[-1] != words2[-1]:
+            return False
     
     # Remove all spaces and compare
     no_space1 = re.sub(r'\s+', '', norm1)
@@ -3541,6 +3634,12 @@ def main():
         
         # Extract year from filename
         year = extract_year_from_filename(filepath)
+        if year.isdigit() and (
+            int(year) < CATALOG_YEAR_MIN or int(year) > CATALOG_YEAR_MAX
+        ):
+            print(f"\nSkipping {filepath} (Year: {year}) - outside {CATALOG_YEAR_MIN}-{CATALOG_YEAR_MAX}")
+            continue
+        
         years_processed.append(year)
         
         print(f"\n{'=' * 80}")

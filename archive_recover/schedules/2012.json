@@ -1,0 +1,276 @@
+{
+  "year": 2012,
+  "format": "merged",
+  "entries": [
+    {
+      "day_start": "2012-01-14",
+      "day_end": "2012-01-15",
+      "name": "SSJRTC Thaw Your Paws I & II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-03-03",
+      "day_end": "2012-03-03",
+      "name": "Texas Two Step XII",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-03-04",
+      "day_end": "2012-03-04",
+      "name": "Texas Two Step XIII",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-03-31",
+      "day_end": "2012-04-01",
+      "name": "Sunshine Showdown I & II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-03-31",
+      "day_end": "2012-03-31",
+      "name": "Spring Fever I",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-04-01",
+      "day_end": "2012-04-01",
+      "name": "Spring Fever II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-04-21",
+      "day_end": "2012-04-22",
+      "name": "SCJRTC Spring Fox Frolic V & VI",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-04-28",
+      "day_end": "2012-04-28",
+      "name": "SWJRTN Spring Fling I",
+      "source_ts": "20120125225704"
+    },
+    {
+      "day_start": "2012-04-29",
+      "day_end": "2012-04-29",
+      "name": "SWJRTN Spring Fling II",
+      "source_ts": "20120125225704"
+    },
+    {
+      "day_start": "2012-05-05",
+      "day_end": "2012-05-06",
+      "name": "Carolinas Spring Classic I and II",
+      "source_ts": "20120125225704"
+    },
+    {
+      "day_start": "2012-05-19",
+      "day_end": "2012-05-20",
+      "name": "Yankee I & II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-05-26",
+      "day_end": "2012-05-27",
+      "name": "JRTCA Memorial Weekend Trial",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-05-26",
+      "day_end": "2012-05-26",
+      "name": "Terror in the Pines V",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-05-27",
+      "day_end": "2012-05-27",
+      "name": "Terror in the Pines VI",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-06-02",
+      "day_end": "2012-06-02",
+      "name": "St. Croix Terrier Trial I",
+      "source_ts": "20120307113510"
+    },
+    {
+      "day_start": "2012-06-03",
+      "day_end": "2012-06-03",
+      "name": "St. Croix Terrier Trial II",
+      "source_ts": "20120307113510"
+    },
+    {
+      "day_start": "2012-06-09",
+      "day_end": "2012-06-09",
+      "name": "Midwest Dog Day (1 B Rated Trial)",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-06-09",
+      "day_end": "2012-06-10",
+      "name": "Terrier Olympics I & II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-06-23",
+      "day_end": "2012-06-24",
+      "name": "Mid-America Working Terrier Trial I & II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-06-30",
+      "day_end": "2012-06-30",
+      "name": "Ruckus in the Rockies I",
+      "source_ts": "20120125225704"
+    },
+    {
+      "day_start": "2012-07-01",
+      "day_end": "2012-07-01",
+      "name": "Ruckus in the Rockies II",
+      "source_ts": "20120125225704"
+    },
+    {
+      "day_start": "2012-07-20",
+      "day_end": "2012-07-22",
+      "name": "Gunnison Grand Terrier Faire III & IV",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-08-04",
+      "day_end": "2012-08-04",
+      "name": "Russell Rescue Trial",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-08-05",
+      "day_end": "2012-08-05",
+      "name": "Huntington Hunt",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-08-18",
+      "day_end": "2012-08-19",
+      "name": "MWJRTC Summer Celebration I & II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-08-18",
+      "day_end": "2012-08-18",
+      "name": "Rainier Hunt Classic XIX",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-08-19",
+      "day_end": "2012-08-19",
+      "name": "Rainier Hunt Classic XX",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-09-01",
+      "day_end": "2012-09-01",
+      "name": "Dogwood Endless Summer Bash I",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-09-01",
+      "day_end": "2012-09-02",
+      "name": "Northgate Terrier Trial I & II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-09-01",
+      "day_end": "2012-09-01",
+      "name": "Peachtree Terrier Bowl I",
+      "source_ts": "20120505000324"
+    },
+    {
+      "day_start": "2012-09-02",
+      "day_end": "2012-09-02",
+      "name": "Dogwood Endless Summer Bash II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-09-02",
+      "day_end": "2012-09-02",
+      "name": "Peachtree Terrier Bowl II",
+      "source_ts": "20120505000324"
+    },
+    {
+      "day_start": "2012-09-08",
+      "day_end": "2012-09-08",
+      "name": "Arctic Blast Terrier Trial I",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-09-09",
+      "day_end": "2012-09-09",
+      "name": "Arctic Blast Terrier Trial II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-09-15",
+      "day_end": "2012-09-16",
+      "name": "Jacks on the James I & II",
+      "source_ts": "20120505000324"
+    },
+    {
+      "day_start": "2012-09-22",
+      "day_end": "2012-09-23",
+      "name": "Magnolia Classic JRT Trial I & II",
+      "source_ts": "20120307113510"
+    },
+    {
+      "day_start": "2012-09-29",
+      "day_end": "2012-09-30",
+      "name": "Carolinas Autumn Fest I and II",
+      "source_ts": "20120125225704"
+    },
+    {
+      "day_start": "2012-10-06",
+      "day_end": "2012-10-07",
+      "name": "Diggin West Challenge XIX & XX Finale",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-10-12",
+      "day_end": "2012-10-14",
+      "name": "JRTCA National Trial",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-10-13",
+      "day_end": "2012-10-14",
+      "name": "Diggin West Challenge XIX & XX Finale",
+      "source_ts": "20120707010641"
+    },
+    {
+      "day_start": "2012-11-03",
+      "day_end": "2012-11-04",
+      "name": "Russell Mania I & II",
+      "source_ts": "20120103105446"
+    },
+    {
+      "day_start": "2012-11-10",
+      "day_end": "2012-11-10",
+      "name": "Fall Festival I",
+      "source_ts": "20120908072414"
+    },
+    {
+      "day_start": "2012-11-11",
+      "day_end": "2012-11-11",
+      "name": "Fall Festival II",
+      "source_ts": "20120908072414"
+    },
+    {
+      "day_start": "2012-12-01",
+      "day_end": "2012-12-01",
+      "name": "Yuletide I",
+      "source_ts": "20120125225704"
+    },
+    {
+      "day_start": "2012-12-02",
+      "day_end": "2012-12-02",
+      "name": "Yuletide II",
+      "source_ts": "20120125225704"
+    }
+  ]
+}

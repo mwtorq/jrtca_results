@@ -1,0 +1,174 @@
+{
+  "year": 2016,
+  "format": "merged",
+  "entries": [
+    {
+      "day_start": "2016-01-16",
+      "day_end": "2016-01-17",
+      "name": "Thaw Your Paws I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-03-12",
+      "day_end": "2016-03-13",
+      "name": "Texas Two Step XX & XXI",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-04-02",
+      "day_end": "2016-04-03",
+      "name": "Sunshine Showdown I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-04-09",
+      "day_end": "2016-04-10",
+      "name": "Spring Fever I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-04-16",
+      "day_end": "2016-04-17",
+      "name": "Spring Fox Frolic XIII & XIV",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-05-07",
+      "day_end": "2016-05-08",
+      "name": "Spring Classic I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-05-21",
+      "day_end": "2016-05-22",
+      "name": "Yankee Terrier Trial I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-06-04",
+      "day_end": "2016-06-05",
+      "name": "Mason Dixon Old Fashioned Working Terrier Trial I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-06-25",
+      "day_end": "2016-06-26",
+      "name": "Mid-America Working Terrier Trial I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-07-09",
+      "day_end": "2016-07-10",
+      "name": "Buckingham Blitz I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-07-16",
+      "day_end": "2016-07-16",
+      "name": "Dogwood Summer Classic III",
+      "source_ts": "20160126114226"
+    },
+    {
+      "day_start": "2016-07-17",
+      "day_end": "2016-07-17",
+      "name": "Dogwood Summer Classic IV",
+      "source_ts": "20160126114226"
+    },
+    {
+      "day_start": "2016-07-23",
+      "day_end": "2016-07-23",
+      "name": "Rainier Hunt I",
+      "source_ts": "20160303192134"
+    },
+    {
+      "day_start": "2016-07-23",
+      "day_end": "2016-07-23",
+      "name": "Rainier Hunt Classic 28",
+      "source_ts": "20160422063415"
+    },
+    {
+      "day_start": "2016-07-24",
+      "day_end": "2016-07-24",
+      "name": "Rainier Hunt II",
+      "source_ts": "20160303192134"
+    },
+    {
+      "day_start": "2016-07-24",
+      "day_end": "2016-07-24",
+      "name": "Rainier Hunt Classic 29",
+      "source_ts": "20160422063415"
+    },
+    {
+      "day_start": "2016-08-20",
+      "day_end": "2016-08-21",
+      "name": "Midwest Summer Celebration I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-09-03",
+      "day_end": "2016-09-04",
+      "name": "Northgate I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-09-03",
+      "day_end": "2016-09-04",
+      "name": "Battle Born Bonanza V & VI",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-09-10",
+      "day_end": "2016-09-11",
+      "name": "Arctic Blast Terrier Trial I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-09-17",
+      "day_end": "2016-09-18",
+      "name": "Magnolia Classic JRT Trial I & II",
+      "source_ts": "20160201231748"
+    },
+    {
+      "day_start": "2016-09-17",
+      "day_end": "2016-09-18",
+      "name": "Ruckus in the Rockies I & II",
+      "source_ts": "20160401060027"
+    },
+    {
+      "day_start": "2016-09-24",
+      "day_end": "2016-09-25",
+      "name": "Autumn Fest I & II",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-10-07",
+      "day_end": "2016-10-09",
+      "name": "JRTCA National Trial",
+      "source_ts": "20160101132413"
+    },
+    {
+      "day_start": "2016-11-12",
+      "day_end": "2016-11-12",
+      "name": "SWJRTN Fall Festival I",
+      "source_ts": "20160401060027"
+    },
+    {
+      "day_start": "2016-11-13",
+      "day_end": "2016-11-13",
+      "name": "SWJRTN Fall Festival II",
+      "source_ts": "20160401060027"
+    },
+    {
+      "day_start": "2016-12-03",
+      "day_end": "2016-12-03",
+      "name": "Yuletide I",
+      "source_ts": "20160126114226"
+    },
+    {
+      "day_start": "2016-12-04",
+      "day_end": "2016-12-04",
+      "name": "Yuletide II",
+      "source_ts": "20160126114226"
+    }
+  ]
+}

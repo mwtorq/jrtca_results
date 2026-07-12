@@ -1,0 +1,444 @@
+{
+  "year": 2009,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 1,
+      "day_start": 17,
+      "day_end": 18,
+      "name": "Fox Cry Aloha Tropical JRT Trial I & II",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 3,
+      "day_start": 7,
+      "day_end": 7,
+      "name": "Texas Two Step VI",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 3,
+      "day_start": 8,
+      "day_end": 8,
+      "name": "Texas Two Step VII",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 3,
+      "day_start": 21,
+      "day_end": 21,
+      "name": "River City JRT Trial I",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 3,
+      "day_start": 22,
+      "day_end": 22,
+      "name": "River City JRT Trial II",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 4,
+      "day_start": 4,
+      "day_end": 4,
+      "name": "Heart of America Working Terrier Trial",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 4,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "Spring Fling",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 4,
+      "day_start": 25,
+      "day_end": 26,
+      "name": "Mason Dixon I & II",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 5,
+      "day_start": 16,
+      "day_end": 17,
+      "name": "Yankee I & II",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 6,
+      "day_start": 7,
+      "day_end": 8,
+      "name": "Tennessee Terrier Olympics I & II",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 6,
+      "day_start": 27,
+      "day_end": 28,
+      "name": "Mid-America Working Terrier Trial VII & VIII",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 7,
+      "day_start": 4,
+      "day_end": 4,
+      "name": "Gunnison Grand Western Terrier Trial III",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 7,
+      "day_start": 5,
+      "day_end": 5,
+      "name": "Gunnison Grand Western Terrier Trial IV",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 9,
+      "day_start": 5,
+      "day_end": 6,
+      "name": "Cowboy Classic Terrier Trial VII & VIII",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 9,
+      "day_start": 5,
+      "day_end": 6,
+      "name": "Dogwood Endless Summer Bash I & II",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 9,
+      "day_start": 5,
+      "day_end": 6,
+      "name": "Northgate Terrier Trial I & II",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 9,
+      "day_start": 12,
+      "day_end": 12,
+      "name": "Arctic Blast Terrier Trial I",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "month": 9,
+      "day_start": 13,
+      "day_end": 13,
+      "name": "Arctic Blast Terrier Trial II",
+      "year": 2009,
+      "source_ts": "20081120102129"
+    },
+    {
+      "day_start": "2009-01-17",
+      "day_end": "2009-01-18",
+      "name": "Fox Cry Aloha Tropical JRT Trial I & II",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-03-07",
+      "day_end": "2009-03-07",
+      "name": "Texas Two Step VI",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-03-08",
+      "day_end": "2009-03-08",
+      "name": "Texas Two Step VII",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-03-21",
+      "day_end": "2009-03-21",
+      "name": "River City JRT Trial I",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-03-22",
+      "day_end": "2009-03-22",
+      "name": "River City JRT Trial II",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-03-28",
+      "day_end": "2009-03-29",
+      "name": "Easter Blast",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-04-04",
+      "day_end": "2009-04-04",
+      "name": "Heart of America Working Terrier Trial",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-04-04",
+      "day_end": "2009-04-05",
+      "name": "Sunshine Showdown I & II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-04-18",
+      "day_end": "2009-04-18",
+      "name": "Terrier Tune-Up I",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-04-18",
+      "day_end": "2009-04-19",
+      "name": "Spring Fling",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-04-18",
+      "day_end": "2009-04-19",
+      "name": "Terrier Tune-Up I & II",
+      "source_ts": "20090228065625"
+    },
+    {
+      "day_start": "2009-04-19",
+      "day_end": "2009-04-19",
+      "name": "Terrier Tune-Up II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-04-24",
+      "day_end": "2009-04-24",
+      "name": "Spring Fling",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-04-25",
+      "day_end": "2009-04-26",
+      "name": "Mason Dixon I & II",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-05-02",
+      "day_end": "2009-05-02",
+      "name": "Carolinas Spring Classic I",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-05-02",
+      "day_end": "2009-05-03",
+      "name": "Wheatland Classic XV & XVI",
+      "source_ts": "20090216025548"
+    },
+    {
+      "day_start": "2009-05-03",
+      "day_end": "2009-05-03",
+      "name": "Carolinas Spring Classic II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-05-16",
+      "day_end": "2009-05-17",
+      "name": "Yankee I & II",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-05-23",
+      "day_end": "2009-05-24",
+      "name": "Buckeye I & II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-06-06",
+      "day_end": "2009-06-07",
+      "name": "Ruckus in the Rockies XI & XII",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-06-06",
+      "day_end": "2009-06-07",
+      "name": "Tennessee Terrier Olympics I & II",
+      "source_ts": "20090216025548"
+    },
+    {
+      "day_start": "2009-06-07",
+      "day_end": "2009-06-08",
+      "name": "Tennessee Terrier Olympics I & II",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-06-13",
+      "day_end": "2009-06-14",
+      "name": "JRTRF Benefit Trial I & II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-06-20",
+      "day_end": "2009-06-20",
+      "name": "Russell Rescue, Inc. Trial",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-06-21",
+      "day_end": "2009-06-21",
+      "name": "Huntington Hunt Trial",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-06-27",
+      "day_end": "2009-06-28",
+      "name": "Mid-America Working Terrier Trial VII & VIII",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-07-04",
+      "day_end": "2009-07-04",
+      "name": "Gunnison Grand Western Terrier Trial III",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-07-05",
+      "day_end": "2009-07-05",
+      "name": "Gunnison Grand Western Terrier Trial IV",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-07-11",
+      "day_end": "2009-07-12",
+      "name": "Liberty Bell Classic I & II",
+      "source_ts": "20090423122001"
+    },
+    {
+      "day_start": "2009-07-18",
+      "day_end": "2009-07-19",
+      "name": "Rainier Hunt Classic XIII & XIV",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-08-15",
+      "day_end": "2009-08-16",
+      "name": "Summer Celebration I & II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-09-05",
+      "day_end": "2009-09-06",
+      "name": "Cowboy Classic Terrier Trial VII & VIII",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-09-05",
+      "day_end": "2009-09-06",
+      "name": "Dogwood Endless Summer Bash I & II",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-09-05",
+      "day_end": "2009-09-06",
+      "name": "Northgate Terrier Trial I & II",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-09-12",
+      "day_end": "2009-09-12",
+      "name": "Arctic Blast Terrier Trial I",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-09-13",
+      "day_end": "2009-09-13",
+      "name": "Arctic Blast Terrier Trial II",
+      "source_ts": "20081120125453"
+    },
+    {
+      "day_start": "2009-09-19",
+      "day_end": "2009-09-20",
+      "name": "Jacks on the James I & II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-09-26",
+      "day_end": "2009-09-27",
+      "name": "Diggin West Challenge XIII & XIV",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-10-03",
+      "day_end": "2009-10-03",
+      "name": "Carolinas Autumn Fest I",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-10-04",
+      "day_end": "2009-10-04",
+      "name": "Carolinas Autumn Fest II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-10-16",
+      "day_end": "2009-10-18",
+      "name": "JRTCA National Trial",
+      "source_ts": "20090525001853"
+    },
+    {
+      "day_start": "2009-11-07",
+      "day_end": "2009-11-08",
+      "name": "Russell Mania I & II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-11-07",
+      "day_end": "2009-11-07",
+      "name": "SWJRTN Fall Festival I",
+      "source_ts": "20090525001853"
+    },
+    {
+      "day_start": "2009-11-07",
+      "day_end": "2009-11-07",
+      "name": "SWJRTN Fall Festival I (Cancelled)",
+      "source_ts": "20090624224541"
+    },
+    {
+      "day_start": "2009-11-08",
+      "day_end": "2009-11-08",
+      "name": "SWJRTN Fall Festival II",
+      "source_ts": "20090525001853"
+    },
+    {
+      "day_start": "2009-11-08",
+      "day_end": "2009-11-08",
+      "name": "SWJRTN Fall Festival II (Cancelled)",
+      "source_ts": "20090624224541"
+    },
+    {
+      "day_start": "2009-11-14",
+      "day_end": "2009-11-14",
+      "name": "Magnolia Classic JRT Trial I",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-11-15",
+      "day_end": "2009-11-15",
+      "name": "Magnolia Classic JRT Trial II",
+      "source_ts": "20090204142613"
+    },
+    {
+      "day_start": "2009-12-05",
+      "day_end": "2009-12-06",
+      "name": "Yuletide I & II",
+      "source_ts": "20090423122001"
+    }
+  ]
+}

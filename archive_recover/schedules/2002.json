@@ -1,0 +1,502 @@
+{
+  "year": 2002,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 1,
+      "day_start": 26,
+      "day_end": 26,
+      "name": "Carolinas Winter Festival 2002",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 2,
+      "day_start": 16,
+      "day_end": 17,
+      "name": "Stars & Stripes Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 3,
+      "day_start": 2,
+      "day_end": 3,
+      "name": "Troon Quarry 2002 I & II (Cancelled)",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 3,
+      "day_start": 2,
+      "day_end": 3,
+      "name": "AZ Rescue Trial I & II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 3,
+      "day_start": 9,
+      "day_end": 10,
+      "name": "Fox Cry Spring Fling",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 3,
+      "day_start": 23,
+      "day_end": 24,
+      "name": "Blubonnet Classic",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 4,
+      "day_start": 6,
+      "day_end": 7,
+      "name": "Mason-Dixon Ice Breaker I & II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 4,
+      "day_start": 13,
+      "day_end": 14,
+      "name": "SWJRTN 12th Annual Spring Fling Number 1 & 2",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 4,
+      "day_start": 13,
+      "day_end": 13,
+      "name": "Southern NE Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 4,
+      "day_start": 20,
+      "day_end": 20,
+      "name": "Jack Russell Terrier Research Foundation Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 4,
+      "day_start": 27,
+      "day_end": 28,
+      "name": "Coal Tree Farm Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "Hi Bid Spring Fling",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "St. Croix Spring Hunt (F.K.A. Quetico JRT Trial)",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "Carolinas Spring Classic 2002",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 4,
+      "day_end": 5,
+      "name": "Del Sol Spring I & II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 11,
+      "day_end": 11,
+      "name": "Hunt's Mill Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 18,
+      "day_end": 18,
+      "name": "Yankee Classic",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "Yankee Challenge",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 25,
+      "day_end": 25,
+      "name": "Summer Celebration I",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 25,
+      "day_end": 26,
+      "name": "BSJRTC Extravaganza I & II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 5,
+      "day_start": 26,
+      "day_end": 26,
+      "name": "Summer Celebration II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 6,
+      "day_start": 1,
+      "day_end": 1,
+      "name": "Midlands Hunt Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 6,
+      "day_start": 1,
+      "day_end": 1,
+      "name": "Farmstead Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 6,
+      "day_start": 1,
+      "day_end": 2,
+      "name": "PNWJRTN Spring Classic",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 6,
+      "day_start": 2,
+      "day_end": 2,
+      "name": "Paumanok Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 6,
+      "day_start": 8,
+      "day_end": 9,
+      "name": "Midlands Hunt Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 6,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "Dutchess County PHA",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 6,
+      "day_start": 22,
+      "day_end": 23,
+      "name": "MWJRTC Summer Celebration",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 6,
+      "day_start": 22,
+      "day_end": 23,
+      "name": "Wheatland Classic III & IV",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 6,
+      "day_start": 22,
+      "day_end": 23,
+      "name": "Aspatria Summer Sizzler",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 7,
+      "day_start": 6,
+      "day_end": 7,
+      "name": "Mason-Dixon I & II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 7,
+      "day_start": 13,
+      "day_end": 13,
+      "name": "Romney Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 7,
+      "day_start": 14,
+      "day_end": 14,
+      "name": "BrockSett Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 7,
+      "day_start": 20,
+      "day_end": 21,
+      "name": "St. Croix Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 7,
+      "day_start": 27,
+      "day_end": 28,
+      "name": "The West Virginia Working Terrier Challenge I & II (2 \"A\" Rated Trials)",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 7,
+      "day_start": 27,
+      "day_end": 28,
+      "name": "The West Virginia Working Terrier Challenge I & II",
+      "year": 2002,
+      "source_ts": "20020204082827"
+    },
+    {
+      "month": 7,
+      "day_start": 27,
+      "day_end": 27,
+      "name": "Sunshine State July Jubilee",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 8,
+      "day_start": 10,
+      "day_end": 11,
+      "name": "Rocky Mountain Challenge VII & VIII (2 \"A\" Rated Trials)",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 8,
+      "day_start": 10,
+      "day_end": 11,
+      "name": "Rocky Mountain Challenge VII & VIII",
+      "year": 2002,
+      "source_ts": "20020803033113"
+    },
+    {
+      "month": 8,
+      "day_start": 17,
+      "day_end": 18,
+      "name": "OH-PA 2002",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 8,
+      "day_start": 17,
+      "day_end": 18,
+      "name": "JRTCC Western Regional Trial",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 8,
+      "day_start": 31,
+      "day_end": 1,
+      "name": "Northgate I & II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 8,
+      "day_start": 31,
+      "day_end": 1,
+      "name": "Fall Spectacular I & II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 8,
+      "day_start": 31,
+      "day_end": 1,
+      "name": "SCJRTC Labor Day Layover",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 8,
+      "day_start": 31,
+      "day_end": 31,
+      "name": "Fall Spectacular I",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 9,
+      "day_start": 1,
+      "day_end": 1,
+      "name": "Fall Spectacular II",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 9,
+      "day_start": 7,
+      "day_end": 8,
+      "name": "2002 Texas Classic",
+      "year": 2002,
+      "source_ts": "20020803033113"
+    },
+    {
+      "month": 9,
+      "day_start": 14,
+      "day_end": 15,
+      "name": "MWJRTC Fall Festival of Terriers",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 9,
+      "day_start": 14,
+      "day_end": 14,
+      "name": "Free State Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 9,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "Plum Run Hunt Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 9,
+      "day_start": 15,
+      "day_end": 15,
+      "name": "Plum Run Hunt Trial - CANCELLED",
+      "year": 2002,
+      "source_ts": "20020803033113"
+    },
+    {
+      "month": 9,
+      "day_start": 20,
+      "day_end": 22,
+      "name": "JRTCC 2002 National Trial",
+      "year": 2002,
+      "source_ts": "20020204082827"
+    },
+    {
+      "month": 9,
+      "day_start": 28,
+      "day_end": 28,
+      "name": "Delmarva Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 9,
+      "day_start": 28,
+      "day_end": 29,
+      "name": "R.A. Terriers",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 9,
+      "day_start": 28,
+      "day_end": 29,
+      "name": "SCJRTC Fall Trial",
+      "year": 2002,
+      "source_ts": "20020803033113"
+    },
+    {
+      "month": 9,
+      "day_start": 29,
+      "day_end": 29,
+      "name": "CCJRTC Fall Trial",
+      "year": 2002,
+      "source_ts": "20020803033113"
+    },
+    {
+      "month": 10,
+      "day_start": 18,
+      "day_end": 20,
+      "name": "JRTCA National Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 11,
+      "day_start": 9,
+      "day_end": 10,
+      "name": "Sunshine State JRT Trial I & II",
+      "year": 2002,
+      "source_ts": "20020601095426"
+    },
+    {
+      "month": 11,
+      "day_start": 15,
+      "day_end": 16,
+      "name": "Magnolia Classic",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 11,
+      "day_start": 17,
+      "day_end": 17,
+      "name": "Magnolia Classic II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 11,
+      "day_start": 30,
+      "day_end": 1,
+      "name": "Del Sol Winter I & II",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    },
+    {
+      "month": 12,
+      "day_start": 7,
+      "day_end": 8,
+      "name": "Yuletide Terrier Trial",
+      "year": 2002,
+      "source_ts": "20020124192125"
+    }
+  ]
+}

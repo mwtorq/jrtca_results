@@ -1,0 +1,158 @@
+{
+  "year": 2001,
+  "format": "merged",
+  "entries": [
+    {
+      "month": 2,
+      "day_start": 24,
+      "day_end": 25,
+      "name": "JRTCA Members Weekend",
+      "year": 2001,
+      "source_ts": "20010205014600"
+    },
+    {
+      "month": 4,
+      "day_start": 21,
+      "day_end": 22,
+      "name": "Del Sol 9 & 10",
+      "year": 2001,
+      "source_ts": "20010413043339"
+    },
+    {
+      "month": 4,
+      "day_start": 21,
+      "day_end": 22,
+      "name": "Jack Russell Rescue Trial",
+      "year": 2001,
+      "source_ts": "20010413043339"
+    },
+    {
+      "month": 4,
+      "day_start": 28,
+      "day_end": 28,
+      "name": "Coal Tree Farm Terrier Trial",
+      "year": 2001,
+      "source_ts": "20010413043339"
+    },
+    {
+      "month": 5,
+      "day_start": 19,
+      "day_end": 19,
+      "name": "Yankee Challenge",
+      "year": 2001,
+      "source_ts": "20010513102223"
+    },
+    {
+      "month": 5,
+      "day_start": 19,
+      "day_end": 20,
+      "name": "CCJRT Spring Terrier Trial",
+      "year": 2001,
+      "source_ts": "20010513102223"
+    },
+    {
+      "month": 5,
+      "day_start": 19,
+      "day_end": 20,
+      "name": "Southwest Jack Russell Network Spring Fling",
+      "year": 2001,
+      "source_ts": "20010513102223"
+    },
+    {
+      "month": 5,
+      "day_start": 20,
+      "day_end": 20,
+      "name": "Yankee Classic",
+      "year": 2001,
+      "source_ts": "20010513102223"
+    },
+    {
+      "month": 5,
+      "day_start": 26,
+      "day_end": 27,
+      "name": "Georgia Summer Celebration I & II",
+      "year": 2001,
+      "source_ts": "20010513102223"
+    },
+    {
+      "month": 5,
+      "day_start": 26,
+      "day_end": 27,
+      "name": "OH-PA 2001",
+      "year": 2001,
+      "source_ts": "20010513102223"
+    },
+    {
+      "month": 5,
+      "day_start": 26,
+      "day_end": 27,
+      "name": "Rocky Mountain Spring Terrier Trials",
+      "year": 2001,
+      "source_ts": "20010513102223"
+    },
+    {
+      "month": 6,
+      "day_start": 23,
+      "day_end": 23,
+      "name": "Dutchess County PHA Terrier Trial",
+      "year": 2001,
+      "source_ts": "20010613121859"
+    },
+    {
+      "month": 6,
+      "day_start": 23,
+      "day_end": 23,
+      "name": "MWJRT Trial I",
+      "year": 2001,
+      "source_ts": "20010613121859"
+    },
+    {
+      "month": 6,
+      "day_start": 23,
+      "day_end": 23,
+      "name": "Wheatland Classic I",
+      "year": 2001,
+      "source_ts": "20010613121859"
+    },
+    {
+      "month": 6,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "MWJRT Trial II",
+      "year": 2001,
+      "source_ts": "20010613121859"
+    },
+    {
+      "month": 6,
+      "day_start": 24,
+      "day_end": 24,
+      "name": "Wheatland Classic II",
+      "year": 2001,
+      "source_ts": "20010613121859"
+    },
+    {
+      "month": 8,
+      "day_start": 11,
+      "day_end": 12,
+      "name": "Buckeye Extravaganza",
+      "year": 2001,
+      "source_ts": "20010803080553"
+    },
+    {
+      "month": 8,
+      "day_start": 11,
+      "day_end": 12,
+      "name": "Rocky Mountain Challenge V & VI",
+      "year": 2001,
+      "source_ts": "20010803080553"
+    },
+    {
+      "month": 12,
+      "day_start": 8,
+      "day_end": 9,
+      "name": "Yultide Terrier Trial",
+      "year": 2001,
+      "source_ts": "20011204180534"
+    }
+  ]
+}
