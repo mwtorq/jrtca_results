@@ -22,13 +22,15 @@ from datetime import datetime
 
 try:
     import pyodbc
-except ModuleNotFoundError:
+except ImportError as _pyodbc_err:
+    _py = sys.executable
     print(
-        "\nERROR: pyodbc is not installed.\n"
-        "Install it with:\n"
-        "    pip install pyodbc\n\n"
-        "On Windows, the Microsoft ODBC Driver for SQL Server must also be present.\n"
-        "Download from: https://aka.ms/downloadmsodbcsql"
+        f"\nERROR: cannot import pyodbc — {_pyodbc_err}\n\n"
+        f"Python running this script: {_py}\n\n"
+        f"Install pyodbc for THIS Python with:\n"
+        f'    "{_py}" -m pip install pyodbc\n\n'
+        "If pyodbc is already installed, the Microsoft ODBC Driver for SQL Server\n"
+        "may be missing or inaccessible. Download from: https://aka.ms/downloadmsodbcsql"
     )
     sys.exit(1)
 
