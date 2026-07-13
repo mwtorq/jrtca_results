@@ -16,6 +16,15 @@ Usage
     --dry-run    Show which trials would be deleted without touching the DB.
     --log-file   Path for the run log (default: reload_mo_earthdogs.log).
 
+Database connection
+-------------------
+Connects to:  localhost\\SQLEXPRESS  (Windows Authentication)
+Database:     TrialResults
+
+Override the server with the DB_SERVER environment variable if needed:
+    set DB_SERVER=myserver\\SQLEXPRESS
+    python reload_mo_earthdogs.py
+
 What it does
 ------------
 1. Identify all existing TrialList rows belonging to MO Earthdogs by matching
@@ -39,6 +48,43 @@ import argparse
 import os
 import sys
 from datetime import datetime
+
+# ---------------------------------------------------------------------------
+# Database connection  (localhost by default; override with DB_SERVER env var)
+# ---------------------------------------------------------------------------
+
+_DB_SERVER   = os.environ.get('DB_SERVER', r'localhost\SQLEXPRESS')
+_DB_NAME     = os.environ.get('DB_NAME',   'TrialResults')
+_ODBC_DRIVERS = [
+    'ODBC Driver 17 for SQL Server',
+    'ODBC Driver 18 for SQL Server',
+    'SQL Server Native Client 11.0',
+    'SQL Server',
+]
+
+
+def _get_connection():
+    """Open a pyodbc connection to the local SQL Server instance."""
+    import pyodbc
+    last_err = None
+    for driver in _ODBC_DRIVERS:
+        conn_str = (
+            f"DRIVER={{{driver}}};"
+            f"SERVER={_DB_SERVER};"
+            f"DATABASE={_DB_NAME};"
+            "Trusted_Connection=yes;"
+        )
+        try:
+            conn = pyodbc.connect(conn_str, timeout=10)
+            print(f"  Connected to {_DB_SERVER} / {_DB_NAME}  (driver: {driver})")
+            return conn
+        except pyodbc.Error as e:
+            last_err = e
+            continue
+    raise RuntimeError(
+        f"Could not connect to {_DB_SERVER}/{_DB_NAME}. "
+        f"Last error: {last_err}"
+    )
 
 # ---------------------------------------------------------------------------
 # Tee stdout → console + log file
@@ -265,17 +311,15 @@ def main() -> None:
     if args.dry_run:
         print("*** DRY RUN — no database changes will be made ***")
 
+    print(f"\nConnecting to {_DB_SERVER} / {_DB_NAME} ...")
     try:
-        from populate_trialresults_fixed import get_connection
-    except ImportError:
-        print("ERROR: Cannot import populate_trialresults_fixed.py. "
-              "Run this script from the repo root.")
-        sys.exit(1)
-
-    print("\nConnecting to database...")
-    conn = get_connection()
-    if not conn:
-        print("ERROR: Could not connect to database.")
+        conn = _get_connection()
+    except Exception as e:
+        print(f"ERROR: {e}")
+        print(
+            "Tip: set DB_SERVER environment variable if the server name differs from "
+            r"localhost\SQLEXPRESS"
+        )
         sys.exit(1)
 
     # ── Step 1: Find existing trials ────────────────────────────────────────
