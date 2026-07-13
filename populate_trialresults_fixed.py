@@ -86,7 +86,14 @@ def safe_print(text: str, **kwargs):
 
 # Placement line regex - optional size prefix (handles OCR like 10-12W', 1()'12'12", 12V2")
 _ORDINAL_PLACEMENT = r'1\s*st|2\s*nd|3\s*r[a-z]{0,4}|4th|5th|6th'
-_WORD_PLACEMENT = r'Best|Reserve|Champion'
+# Word placements: single (Champion, Reserve, Best) and compound forms
+# (Reserve Champion, Reserve Best, Reserve Choice, Reserve Working ...).
+# normalize_line_for_placement converts dash-style "Champion – Dog" to
+# "Champion: Dog" before these patterns are applied, so only ':' is needed here.
+_WORD_PLACEMENT = (
+    r'(?:Reserve\s+(?:Best(?:\s+\w+(?:\s+\w+)*)?|Champion(?:\s+\w+(?:\s+\w+)*)?|'
+    r'Choice|Working(?:\s+\w+(?:\s+\w+)*)?)|Best|Champion|Reserve)'
+)
 _SIZE_PREFIX = r'[\d\w\-½%"/\'\s.,·°()]'
 # Ordinals allow optional space/colon/apostrophe before rest; Best/Reserve/Champion require ':'.
 _PLACEMENT_SEP = (
@@ -465,6 +472,29 @@ def normalize_line_for_placement(line: str) -> str:
     line = re.sub(r'\bet[-\s]?ar?pl[o]?n\b', 'Champion', line, flags=re.IGNORECASE)
     line = re.sub(r'\bchampon\b', 'Champion', line, flags=re.IGNORECASE)
     line = re.sub(r'\bresenve\b', 'Reserve', line, flags=re.IGNORECASE)
+    # Convert dash-separated placements to colon-separated for consistent parsing.
+    # Some files (e.g. 2017 MO Earthdogs PDF) use en-dash/em-dash as the placement
+    # separator: "1st – Dog Name (Owner)" or "Champion – Dog Name (Owner)".
+    # After the above substitutions, en/em-dashes are already normalized to '-'.
+    # Convert: "1st - Dog" -> "1st: Dog"  (ordinal suffix REQUIRED to avoid matching
+    # racing height prefixes like "10 - 12 1/2 Champion: Dog, owned by Owner")
+    line = re.sub(
+        r'^(\s*\d{1,2}(?:st|nd|rd|th))\s+-\s+',
+        r'\1: ',
+        line,
+        count=1,
+        flags=re.IGNORECASE,
+    )
+    # Convert compound and simple word placements: "Champion - Dog", "Reserve Champion - Dog",
+    # "Reserve Best - Dog", "Best - Dog" -> equivalent colon form.
+    line = re.sub(
+        r'^(\s*(?:Reserve\s+(?:Best(?:\s+\w+)*|Champion(?:\s+\w+)*|Choice|Working(?:\s+\w+)*)|'
+        r'Best|Champion|Reserve))\s+-\s+',
+        r'\1: ',
+        line,
+        count=1,
+        flags=re.IGNORECASE,
+    )
     return line
 
 def parse_placement_line(line: str) -> Optional[Tuple[str, str, str]]:
@@ -1332,6 +1362,18 @@ _CLASS_HEADER_NO_COLON_RE = re.compile(
     r'^Class\s+(\d+[a-z]?)\s+([A-Z][^\t]+)$',
     re.IGNORECASE,
 )
+# 2017 MO Earthdogs PDF uses "Division N: Name" and "Section A: Name" headers.
+# Division headers are treated like top-level section headers (division inference
+# is applied to their name to determine the actual division).
+# Section headers are treated like racing/division subdivisions.
+_DIVISION_HEADER_RE = re.compile(
+    r'^Division\s+\d+[a-z]?\s*:\s+(.+)$',
+    re.IGNORECASE,
+)
+_SECTION_HEADER_RE = re.compile(
+    r'^Section\s+\w+\s*:\s+(.+)$',
+    re.IGNORECASE,
+)
 _TIME_TOKEN_RE = re.compile(r'^\d+:\d+(?:\.\d+)?$|^\d+\.\d+$')
 _PLACEMENT_TIME_SUFFIX_RE = re.compile(
     r'\s*[-–—]\s*(?:tme|time)\s*(?:of\s+)?(\d+:\d+(?:\.\d+)?|\d+\.\d+)\s*(?:;.*)?$',
@@ -1914,9 +1956,9 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             if any(keyword in line_normalized_temp for keyword in _DIVISION_KEYWORDS) or is_go_to_ground_division(line_clean):
                 start_idx = i
                 break
-        # Also treat the first "Class N:" line as a valid start point.
+        # Also treat the first "Class N:" or "Division N:" line as a valid start point.
         # This handles PDF files that lack an explicit division header before Class 1.
-        if _CLASS_HEADER_RE.match(line_clean) and i > 0:
+        if (_CLASS_HEADER_RE.match(line_clean) or _DIVISION_HEADER_RE.match(line_clean)) and i > 0:
             start_idx = i
             break
     
@@ -1944,7 +1986,39 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             safe_print(f"  Processing division: {current_division}", flush=True)
             i += 1
             continue
-        
+
+        # Handle "Division N: Name" headers (2017 MO Earthdogs PDF format).
+        # Treat them like section headers: infer or set the division from the name.
+        div_header_m = _DIVISION_HEADER_RE.match(line)
+        if div_header_m:
+            div_name = div_header_m.group(1).strip()
+            explicit = normalize_mixed_case_section_header(div_name)
+            if explicit:
+                inferred_div = canonical_division_name(explicit)
+            else:
+                inferred_div = infer_division_from_class_name(div_name)
+            if inferred_div:
+                current_division = inferred_div
+                current_division_is_explicit = True
+                current_subdivision = ""
+                current_class = ""
+                safe_print(f"  Processing division (from Division header): {current_division}", flush=True)
+            i += 1
+            continue
+
+        # Handle "Section A: Name" headers (2017 MO Earthdogs PDF format).
+        # Treat as a racing/section subdivision label when inside a racing division,
+        # or as a section/class indicator otherwise.
+        sec_header_m = _SECTION_HEADER_RE.match(line)
+        if sec_header_m:
+            sec_name = sec_header_m.group(1).strip()
+            if current_division:
+                current_subdivision = sec_name
+                current_class = ""
+                safe_print(f"    Section: {sec_name}", flush=True)
+            i += 1
+            continue
+
         # Check for all-caps headers (could be division, subdivision, or class)
         # Pattern: All caps line that's likely a header (not a class name)
         # Headers are usually short (< 50 chars) and don't contain "Entries:"
@@ -2164,7 +2238,10 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
         tab_parsed = parse_tab_placement_line(placement_line)
         if tab_parsed and current_class and current_division:
             placement, dog_name, owner_name, time_val = tab_parsed
-            placement = placement.replace(' ', '')
+            # Remove spaces only for split ordinals ("1 st" -> "1st");
+            # preserve spaces in compound word placements ("Reserve Best").
+            if re.match(r'^\d', placement):
+                placement = placement.replace(' ', '')
             if placement.lower().startswith('3r'):
                 placement = '3rd'
             placement = placement.capitalize() if len(placement) <= 3 else placement.title()
@@ -2226,8 +2303,11 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             clean_class, _ = strip_entries_from_class_name(effective_class)
             effective_class = clean_class
             
-            # Normalize OCR errors in placement text
-            placement = placement.replace(' ', '')  # Remove spaces from "1 st" -> "1st"
+            # Normalize OCR errors in placement text.
+            # Only strip spaces from split ordinals ("1 st" -> "1st"), not from
+            # compound word placements ("Reserve Best" must stay as two words).
+            if re.match(r'^\d', placement):
+                placement = placement.replace(' ', '')
             if placement.lower().startswith('3r'):
                 placement = '3rd'  # Fix "3r~" or "3rd" to "3rd"
             placement = placement.capitalize() if len(placement) <= 3 else placement.title()
