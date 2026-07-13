@@ -606,18 +606,39 @@ def parse_tab_placement_line(line: str) -> Optional[Tuple[str, str, str, str]]:
 
 
 def normalize_mixed_case_section_header(line: str) -> str | None:
-    """Map MO Earthdogs-style section labels to division names."""
+    """Map MO Earthdogs-style section labels to division names.
+
+    Handles both mixed-case (e.g. 'Flat Races') and ALL-CAPS (e.g. 'FLAT RACES')
+    headers that are specific to MO Earthdogs file formats.
+    """
     low = re.sub(r'\s+', ' ', (line or '').strip().lower())
-    if low in ('conformation results', 'conformation'):
+    if low in ('conformation results', 'conformation', 'conformation division'):
         return 'CONFORMATION'
-    if low in ('go to ground', 'go-to-ground', 'go-to-ground results'):
+    if low in ('go to ground', 'go-to-ground', 'go-to-ground results',
+               'go-to-ground division', 'go to ground division'):
         return 'GO-TO-GROUND'
     if low in ('super earth', 'super-earth'):
         return 'SUPER EARTH'
-    if low in ('racing', 'racing results'):
+    if low in (
+        'racing', 'racing results', 'racing division',
+        'flat races', 'flat racing',
+        'steeplechase races', 'steeplechase racing', 'steeplechase',
+        'hurdle races', 'hurdle racing',
+        'friday night racing', 'friday racing',
+        'saturday racing', 'saturday night racing',
+        'sunday racing', 'sunday night racing',
+    ):
         return 'RACING'
+    if low in ('muskrat racing', 'muskrat races'):
+        return 'MUSKRAT RACING'
+    if low in ('youth division', 'youth'):
+        return 'YOUTH'
     if low.startswith('olympic events'):
         return 'OLYMPIC EVENTS'
+    if low in ('lure coursing', 'lure racing'):
+        return 'LURE COURSING'
+    if low in ('thunder tunnel', 'barn hunt'):
+        return low.upper()
     return None
 
 
@@ -851,6 +872,86 @@ def normalize_stored_division_name(division_name: str) -> str:
     if upper.startswith('AGILITY DIVISION - JUMPING') or upper.endswith(' - JUMPING DIVISION'):
         return 'AGILITY DIVISION'
     return division_name.strip()
+
+
+# Regex to detect class names that mistakenly use "owned by" for height specs, e.g.:
+# "Working Dogs 1 yr and up, owned by 10-12.5"" -> should be "Working Dogs 1 yr and up, 10-12.5""
+# Also handles trailing "owned by" with nothing after it (OCR artifact in 2002 file):
+# "CLASS 3: Dog Pups 4-6 mos, owned by" -> "Dog Pups 4-6 mos"
+_CLASS_OWNED_BY_HEIGHT_RE = re.compile(
+    r',\s*owned\s+by\s+([\d\s./½"\'–\-]+["\']?)?\s*$',
+    re.IGNORECASE,
+)
+
+
+def strip_owned_by_height_from_class_name(class_name: str) -> str:
+    """Remove erroneous 'owned by [height]' suffix from class names.
+
+    Handles two patterns:
+    - 'Working Dogs 1 yr and up, owned by 10-12.5"' → height spec after owned by
+    - 'Dog Pups 4-6 mos, owned by'  → trailing "owned by" with nothing after (OCR artifact)
+    """
+    m = _CLASS_OWNED_BY_HEIGHT_RE.search(class_name)
+    if m:
+        candidate = (m.group(1) or '').strip()
+        # Accept if candidate is empty (bare trailing "owned by") or a height spec
+        if not candidate or re.fullmatch(r'[\d\s./½"\'–\-]+', candidate):
+            return class_name[:m.start()].strip()
+    return class_name
+
+
+def infer_division_from_class_name(class_name: str) -> str:
+    """Infer the likely division from keywords in a class name.
+
+    Used as a fallback when a file has no explicit division header before
+    the first class (e.g. 2013 PDF starts directly with 'Class 1: Flat Racing').
+    Returns a canonical division string or '' if indeterminate.
+    """
+    upper = re.sub(r'\s+', ' ', class_name.strip().upper())
+    if re.search(r'\b(?:FLAT|HURDLE[SD]?|STEEPLECHASE|SPRINT)\s+RAC', upper):
+        return 'RACING'
+    if re.search(r'\bGTG\b|GO.TO.GROUND', upper):
+        return 'GO-TO-GROUND'
+    if re.search(r'\bMUSKRAT\s+RAC', upper):
+        return 'MUSKRAT RACING'
+    if re.search(r'\bLURE\s+COURS', upper):
+        return 'LURE COURSING'
+    if re.search(r'\bTHUNDER\s+TUNNEL\b', upper):
+        return 'THUNDER TUNNEL'
+    if re.search(r'\bBARN\s+HUNT\b', upper):
+        return 'BARN HUNT'
+    if re.search(r'\bAWTA\b', upper):
+        return 'GO-TO-GROUND'
+    if re.search(
+        r'\bPUPS?\b|\bBITCH\s+PUPS?\b|\bDOG\s+PUPS?\b|'
+        r'\bWORKING\s+(?:DOG|BITCH)|'
+        r'\bOPEN\s+(?:DOG|BITCH)|'
+        r'\bVETERAN\s+WORKING\b|'
+        r'\bCHILD\s+HANDLER\b|\bYOUTH\s+HANDLER\b|'
+        r'\bCONFORMATION\b',
+        upper,
+    ):
+        return 'CONFORMATION'
+    return ''
+
+
+# Divisions that may override an already-established current division.
+# Only the primary JRTCA divisions and MUSKRAT RACING are allowed to override.
+# Sub-events like LURE COURSING and THUNDER TUNNEL (which sometimes appear
+# inside OLYMPIC EVENTS) should NOT override that wrapper division.
+_DIVISION_OVERRIDE_TRIGGERS = frozenset({
+    'RACING', 'CONFORMATION', 'GO-TO-GROUND', 'MUSKRAT RACING',
+})
+
+
+def should_override_division(current_division: str, inferred_division: str) -> bool:
+    """Return True when the inferred division should replace the current one."""
+    if not inferred_division or inferred_division == current_division:
+        return False
+    if not current_division:
+        return True
+    return inferred_division in _DIVISION_OVERRIDE_TRIGGERS
+
 
 def canonical_division_name(line: str) -> str:
     """Return a normalized division name for storage."""
@@ -1223,6 +1324,12 @@ _TITLE_KEYWORDS = (
 )
 _CLASS_HEADER_RE = re.compile(
     r'^Class\s+(\d+[a-z]?)(?:st|nd|rd|th)?\s*[:.\t]\s*(.+)$',
+    re.IGNORECASE,
+)
+# For files that omit the colon after the class number (e.g. 2009 MO Earthdogs TXT):
+# "Class 13 Working Dogs 1 yr and up, 10-12.5"" - no colon separator
+_CLASS_HEADER_NO_COLON_RE = re.compile(
+    r'^Class\s+(\d+[a-z]?)\s+([A-Z][^\t]+)$',
     re.IGNORECASE,
 )
 _TIME_TOKEN_RE = re.compile(r'^\d+:\d+(?:\.\d+)?$|^\d+\.\d+$')
@@ -1782,9 +1889,16 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
     current_entries = 0
     pending_racing_height_prefix = ""
     last_parsed_class = ""
+    # True when the current division was set by an explicit section header line
+    # (via normalize_mixed_case_section_header or the all-caps keyword detection).
+    # False when it was inferred from the class name.  Only inferred divisions
+    # may be silently overridden by class-name inference; explicit ones are kept.
+    current_division_is_explicit = False
     
-    # Find where results start (after header block)
-    # Look for first division header (can be "X DIVISION" or just division name like "CONFORMATION", "GO-TO-GROUND", etc.)
+    # Find where results start (after header block).
+    # Look for the FIRST line that could be a division header or class header,
+    # whichever comes first.  This is important for files that begin directly
+    # with "Class N:" lines and have no explicit division header (e.g. 2013 PDF).
     start_idx = 0
     for i, line in enumerate(lines):
         line_clean = line.strip()
@@ -1800,6 +1914,11 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             if any(keyword in line_normalized_temp for keyword in _DIVISION_KEYWORDS) or is_go_to_ground_division(line_clean):
                 start_idx = i
                 break
+        # Also treat the first "Class N:" line as a valid start point.
+        # This handles PDF files that lack an explicit division header before Class 1.
+        if _CLASS_HEADER_RE.match(line_clean) and i > 0:
+            start_idx = i
+            break
     
     i = start_idx
     while i < len(lines):
@@ -1819,6 +1938,7 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
         section_header = normalize_mixed_case_section_header(line)
         if section_header:
             current_division = canonical_division_name(section_header)
+            current_division_is_explicit = True
             current_subdivision = ""
             current_class = ""
             safe_print(f"  Processing division: {current_division}", flush=True)
@@ -1845,6 +1965,7 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                 # If we don't have a CONFORMATION division set yet, set it now
                 if not current_division or 'CONFORMATION' not in current_division:
                     current_division = "CONFORMATION DIVISION"
+                    current_division_is_explicit = True
                     safe_print(f"  Processing division: {current_division}", flush=True)
 
                 # Now set this as a subdivision
@@ -1865,6 +1986,7 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             # NOSEWORK section under a trial is its own division (not TRAILING & LOCATING)
             if is_nosework_section_header(line):
                 current_division = 'NOSE WORK'
+                current_division_is_explicit = True
                 current_subdivision = ""
                 current_class = ""
                 safe_print(f"  Processing division: {current_division}", flush=True)
@@ -1875,6 +1997,7 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             if is_agility_subdivision_header(line_normalized):
                 if not current_division or 'AGILITY' not in current_division:
                     current_division = "AGILITY DIVISION"
+                    current_division_is_explicit = True
                     safe_print(f"  Processing division: {current_division}", flush=True)
                 current_subdivision = ""
                 current_class = ""
@@ -1887,12 +2010,22 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             # Common divisions: CONFORMATION, GO-TO-GROUND, AGILITY, OBEDIENCE, RACING, YOUTH, BALL TOSS, etc.
             if is_division_header(line, line_for_division):
                 current_division = canonical_division_name(line)
+                current_division_is_explicit = True
                 current_subdivision = ""  # Reset subdivision when entering new division
                 current_class = ""  # Reset class when entering new division
                 safe_print(f"  Processing division: {current_division}", flush=True)
                 i += 1
                 continue
         
+        # Pre-process class lines that mis-use "owned by" for height specifications.
+        # e.g. "Class 13 Working Dogs 1 yr and up, owned by 10-12.5"" ->
+        #      "Class 13 Working Dogs 1 yr and up, 10-12.5""
+        # This appears in some older MO Earthdogs TXT files.
+        if re.match(r'^class\s+\d', line, re.IGNORECASE) and ', owned by' in line.lower():
+            cleaned_line = strip_owned_by_height_from_class_name(line)
+            if cleaned_line != line:
+                line = cleaned_line
+
         # Check for class name with entries count
         # Format: "Dog Pups, 6 up to 9 months – Entries: 5" or "Puppy Championship GTG – Entries: 5"
         # Also handle missing entry count: "Youth Handler Go-To-Ground – Entries:"
@@ -1905,6 +2038,10 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             current_division = maybe_switch_to_nosework_division(
                 current_division, current_class,
             )
+            inferred = infer_division_from_class_name(current_class)
+            if not current_division_is_explicit and should_override_division(current_division, inferred):
+                current_division = inferred
+                safe_print(f"  Processing division (inferred): {current_division}", flush=True)
             if current_entries > 0:
                 safe_print(f"    Class: {current_class} ({current_entries} entries)", flush=True)
             else:
@@ -1937,11 +2074,25 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             continue
 
         class_header = _CLASS_HEADER_RE.match(line)
+        # Also try no-colon format: "Class 13 Working Dogs 1 yr and up, 10-12.5""
+        if not class_header and re.match(r'^class\s+\d', line, re.IGNORECASE):
+            nc = _CLASS_HEADER_NO_COLON_RE.match(line)
+            if nc and is_plausible_class_name(nc.group(2).strip()):
+                class_header = nc
         if class_header:
             current_class = repair_racing_class_ocr(class_header.group(2).strip())
             current_division = maybe_switch_to_nosework_division(
                 current_division, current_class,
             )
+            # Infer the division from class name keywords.
+            # Only allowed when the current division was NOT set by an explicit
+            # section header line.  This prevents class names like "Stakes Go-To-Ground"
+            # (within SUPER EARTH / MASTER'S DEN STAKES) from incorrectly overriding
+            # the explicitly-set MASTER'S DEN STAKES division.
+            inferred = infer_division_from_class_name(current_class)
+            if not current_division_is_explicit and should_override_division(current_division, inferred):
+                current_division = inferred
+                safe_print(f"  Processing division (inferred): {current_division}", flush=True)
             current_entries = 0
             safe_print(f"    Class: {current_class}", flush=True)
             i += 1
@@ -2161,7 +2312,34 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                 safe_print(f"      {placement}: {dog_name} (Owner: {owner_name})", flush=True)
                 last_parsed_class = current_class
             elif rest.strip():
-                dog_name, owner_name, time_val = finalize_names(rest.strip(), "")
+                # Handle "Dog Name (Owner)" format used in some PDF-extracted files
+                # (e.g. 2013 MO Earthdogs PDF: "River Bottom Sorce 'o Trouble (Cagle)")
+                # The owner is the LAST parenthesized group at the end of the field.
+                # Double open-parens typos like "((Halfar)" are also handled.
+                _rest_stripped = rest.strip()
+                _paren_match = re.match(
+                    r'^(.+?)\s*\(+([^)]+)\)+\s*$',
+                    _rest_stripped,
+                )
+                _owner_in_parens = (
+                    _paren_match is not None
+                    and len(_paren_match.group(2)) <= 60
+                    and not _paren_match.group(2).strip().lower().startswith('owned by')
+                    # Must contain at least one letter (exclude pure-numeric times/codes)
+                    and re.search(r'[A-Za-z]', _paren_match.group(2))
+                    # Must look like a name (not a breed abbreviation like "PRT" or "JRTA")
+                    # and have at least 2 chars
+                    and len(_paren_match.group(2).strip()) >= 2
+                )
+                if _owner_in_parens:
+                    dog_name = _paren_match.group(1).strip()
+                    owner_name = _paren_match.group(2).strip()
+                    # If dog_name itself ends with a paren group (e.g. nickname "(Cora)"),
+                    # that is fine – keep it as part of the dog name.
+                else:
+                    dog_name = _rest_stripped
+                    owner_name = ""
+                dog_name, owner_name, time_val = finalize_names(dog_name, owner_name)
                 full_division = current_division
                 if current_subdivision:
                     full_division = f"{current_division} - {current_subdivision}"
@@ -2174,7 +2352,10 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                     entries=current_entries,
                     time=time_val,
                 ))
-                safe_print(f"      {placement}: {dog_name}", flush=True)
+                if owner_name:
+                    safe_print(f"      {placement}: {dog_name} (Owner: {owner_name})", flush=True)
+                else:
+                    safe_print(f"      {placement}: {dog_name}", flush=True)
                 last_parsed_class = current_class
             
             i += 1 + placement_line_extra_skip
@@ -3841,9 +4022,11 @@ def _score_special_folder_file(filename: str, folder_name: str) -> int:
     score = 0
     if 'incl times' in low or 'w gtg times' in low:
         score += 200
-    elif 'nationals' in low and 'results' not in low:
+    elif 'nationals' in low and not re.search(r'\bresults\b', low):
         score += 80
-    elif 'results' in low:
+    elif re.search(r'\bresults\b', low):
+        # Require word boundary so 'trialresults2008.pdf' does NOT get this bonus
+        # while '2012 MO Earthdogs Results.txt' does.
         score += 70
     if low.endswith('.txt'):
         score += 50
