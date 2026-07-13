@@ -46,8 +46,58 @@ from __future__ import annotations
 
 import argparse
 import os
+import subprocess
 import sys
 from datetime import datetime
+
+# ---------------------------------------------------------------------------
+# Early pyodbc check — runs before anything else, gives actionable output
+# ---------------------------------------------------------------------------
+
+def _check_pyodbc() -> None:
+    """Try to import pyodbc; auto-install it if missing, then retry."""
+    try:
+        import pyodbc  # noqa: F401
+        return  # all good
+    except ImportError:
+        pass  # try to install below
+
+    py = sys.executable
+    print("pyodbc not found — attempting to install automatically...")
+    result = subprocess.run(
+        [py, "-m", "pip", "install", "pyodbc"],
+        capture_output=False,   # let output go to the terminal
+    )
+    if result.returncode != 0:
+        # pip failed — try the 'py' launcher in case 'python' is a stub
+        result = subprocess.run(
+            ["py", "-m", "pip", "install", "pyodbc"],
+            capture_output=False,
+        )
+
+    # Retry the import
+    try:
+        import pyodbc  # noqa: F401
+        print("pyodbc installed successfully.")
+        return
+    except ImportError as err:
+        print("=" * 70)
+        print(f"ERROR: pyodbc still cannot be imported after install attempt.")
+        print(f"  Reason : {err}")
+        print(f"  Python : {py}")
+        print()
+        print("Possible causes:")
+        print("  1. Microsoft ODBC Driver for SQL Server is not installed.")
+        print("     Download: https://aka.ms/downloadmsodbcsql")
+        print("  2. Visual C++ Redistributable missing.")
+        print("     Download: https://aka.ms/vs/17/release/vc_redist.x64.exe")
+        print("  3. Python from Microsoft Store — use python.org instead.")
+        print("     Download: https://www.python.org/downloads/windows/")
+        print("=" * 70)
+        sys.exit(1)
+
+
+_check_pyodbc()   # exits here with clear message if pyodbc is unavailable
 
 # ---------------------------------------------------------------------------
 # Database connection  (localhost by default; override with DB_SERVER env var)
