@@ -20,17 +20,34 @@ from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime
 
-try:
-    import pyodbc
-except ModuleNotFoundError:
-    print(
-        "\nERROR: pyodbc is not installed.\n"
-        "Install it with:\n"
-        "    pip install pyodbc\n\n"
-        "On Windows, the Microsoft ODBC Driver for SQL Server must also be present.\n"
-        "Download from: https://aka.ms/downloadmsodbcsql"
-    )
-    sys.exit(1)
+# pyodbc is imported lazily (inside _require_pyodbc()) so that parsing functions
+# and file-discovery functions work even when pyodbc is not installed.
+# Only database-facing functions call _require_pyodbc() and will fail fast there.
+_pyodbc = None  # populated on first call to _require_pyodbc()
+
+
+def _require_pyodbc():
+    """Return the pyodbc module, importing it on first use.  Exits with a
+    descriptive message if the package or its underlying ODBC driver is absent.
+    """
+    global _pyodbc
+    if _pyodbc is not None:
+        return _pyodbc
+    try:
+        import pyodbc as _mod
+        _pyodbc = _mod
+        return _pyodbc
+    except ImportError as err:
+        _py = sys.executable
+        print(
+            f"\nERROR: cannot import pyodbc — {err}\n\n"
+            f"Python running this script:\n  {_py}\n\n"
+            f"Install pyodbc for THIS Python with:\n"
+            f'  "{_py}" -m pip install pyodbc\n\n'
+            "If pyodbc is already installed, the Microsoft ODBC Driver for SQL Server\n"
+            "may be missing. Download it from: https://aka.ms/downloadmsodbcsql"
+        )
+        sys.exit(1)
 
 # Force unbuffered output (skip when stdout is wrapped, e.g. log tee)
 if hasattr(sys.stdout, 'reconfigure'):
@@ -1669,16 +1686,16 @@ def get_connection():
     for driver in ODBC_DRIVERS:
         try:
             conn_str = CONN_STR.replace("ODBC Driver 17 for SQL Server", driver)
-            conn = pyodbc.connect(conn_str, timeout=10)
+            conn = _require_pyodbc().connect(conn_str, timeout=10)
             print(f"  Connected using driver: {driver}")
             return conn
-        except pyodbc.Error as e:
+        except Exception as e:
             if driver == ODBC_DRIVERS[-1]:
                 raise
             continue
     return None
 
-def get_next_ids_from_db(conn: pyodbc.Connection) -> tuple[int, int, int]:
+def get_next_ids_from_db(conn) -> tuple[int, int, int]:
     """Read next ID counters from current database state."""
     cursor = conn.cursor()
     cursor.execute("SELECT ISNULL(MAX(TrialListID), 0) + 1 FROM [sResults].[TrialList]")
@@ -1690,7 +1707,7 @@ def get_next_ids_from_db(conn: pyodbc.Connection) -> tuple[int, int, int]:
     return next_trial_id, next_trialclass_id, next_placement_id
 
 
-def get_next_placement_times_id(conn: pyodbc.Connection) -> int:
+def get_next_placement_times_id(conn) -> int:
     """Read next TrialPlacements_TimesID from current database state."""
     cursor = conn.cursor()
     cursor.execute(
@@ -1699,7 +1716,7 @@ def get_next_placement_times_id(conn: pyodbc.Connection) -> int:
     return cursor.fetchone()[0]
 
 
-def clear_all_trial_data(conn: pyodbc.Connection):
+def clear_all_trial_data(conn):
     """Clear all trial results and related lookup tables for a fresh reload."""
     cursor = conn.cursor()
     
@@ -1730,7 +1747,7 @@ def clear_all_trial_data(conn: pyodbc.Connection):
                     cursor.execute(f"DELETE FROM {table}")
                     totals[label] = cursor.rowcount
                     print(f"  Deleted {totals[label]:,} from {label}")
-                except pyodbc.Error as e:
+                except Exception as e:
                     if "Invalid object name" in str(e):
                         print(f"  Skipping {label} (table not found)")
                         totals[label] = 0
@@ -1747,7 +1764,7 @@ def clear_all_trial_data(conn: pyodbc.Connection):
                     if count:
                         print(f"  Remaining in {label}: {count:,}")
                     remaining += count
-                except pyodbc.Error:
+                except Exception:
                     pass
 
             if remaining == 0:
@@ -4306,7 +4323,7 @@ def is_sql_deadlock(exc: Exception) -> bool:
 
 
 def run_db_action_with_deadlock_retry(
-    conn: pyodbc.Connection,
+    conn,
     action,
     description: str,
     *,
@@ -4334,7 +4351,7 @@ def run_db_action_with_deadlock_retry(
 
 
 def process_trial_file(
-    conn: pyodbc.Connection,
+    conn,
     file_path: str,
     year: int,
     next_trial_id: int,
@@ -4615,7 +4632,7 @@ def process_trial_file(
 
 
 def run_deferred_trial_normalizations(
-    conn: pyodbc.Connection,
+    conn,
     trial_ids: list[int],
     *,
     reuse_entities: bool = False,
