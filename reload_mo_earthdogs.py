@@ -55,37 +55,44 @@ from datetime import datetime
 # ---------------------------------------------------------------------------
 
 def _check_pyodbc() -> None:
-    """Try to import pyodbc and print a full diagnosis if it fails."""
+    """Try to import pyodbc; auto-install it if missing, then retry."""
     try:
         import pyodbc  # noqa: F401
         return  # all good
+    except ImportError:
+        pass  # try to install below
+
+    py = sys.executable
+    print("pyodbc not found — attempting to install automatically...")
+    result = subprocess.run(
+        [py, "-m", "pip", "install", "pyodbc"],
+        capture_output=False,   # let output go to the terminal
+    )
+    if result.returncode != 0:
+        # pip failed — try the 'py' launcher in case 'python' is a stub
+        result = subprocess.run(
+            ["py", "-m", "pip", "install", "pyodbc"],
+            capture_output=False,
+        )
+
+    # Retry the import
+    try:
+        import pyodbc  # noqa: F401
+        print("pyodbc installed successfully.")
+        return
     except ImportError as err:
-        py = sys.executable
         print("=" * 70)
-        print("ERROR: pyodbc cannot be imported")
+        print(f"ERROR: pyodbc still cannot be imported after install attempt.")
         print(f"  Reason : {err}")
         print(f"  Python : {py}")
         print()
-
-        # Check whether the *package* is installed at all
-        result = subprocess.run(
-            [py, "-m", "pip", "show", "pyodbc"],
-            capture_output=True, text=True,
-        )
-        if result.returncode == 0:
-            print("pyodbc package IS installed (pip show output below):")
-            for line in result.stdout.strip().splitlines():
-                print(f"  {line}")
-            print()
-            print("The package is present but cannot be loaded.  Most likely cause:")
-            print("  • Microsoft ODBC Driver for SQL Server is not installed.")
-            print("    Download: https://aka.ms/downloadmsodbcsql")
-            print("  • Or: Visual C++ Redistributable is missing.")
-            print("    Download: https://aka.ms/vs/17/release/vc_redist.x64.exe")
-        else:
-            print("pyodbc package is NOT installed for this Python.")
-            print(f"Fix with:\n  \"{py}\" -m pip install pyodbc")
-
+        print("Possible causes:")
+        print("  1. Microsoft ODBC Driver for SQL Server is not installed.")
+        print("     Download: https://aka.ms/downloadmsodbcsql")
+        print("  2. Visual C++ Redistributable missing.")
+        print("     Download: https://aka.ms/vs/17/release/vc_redist.x64.exe")
+        print("  3. Python from Microsoft Store — use python.org instead.")
+        print("     Download: https://www.python.org/downloads/windows/")
         print("=" * 70)
         sys.exit(1)
 
