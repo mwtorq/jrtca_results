@@ -46,8 +46,51 @@ from __future__ import annotations
 
 import argparse
 import os
+import subprocess
 import sys
 from datetime import datetime
+
+# ---------------------------------------------------------------------------
+# Early pyodbc check — runs before anything else, gives actionable output
+# ---------------------------------------------------------------------------
+
+def _check_pyodbc() -> None:
+    """Try to import pyodbc and print a full diagnosis if it fails."""
+    try:
+        import pyodbc  # noqa: F401
+        return  # all good
+    except ImportError as err:
+        py = sys.executable
+        print("=" * 70)
+        print("ERROR: pyodbc cannot be imported")
+        print(f"  Reason : {err}")
+        print(f"  Python : {py}")
+        print()
+
+        # Check whether the *package* is installed at all
+        result = subprocess.run(
+            [py, "-m", "pip", "show", "pyodbc"],
+            capture_output=True, text=True,
+        )
+        if result.returncode == 0:
+            print("pyodbc package IS installed (pip show output below):")
+            for line in result.stdout.strip().splitlines():
+                print(f"  {line}")
+            print()
+            print("The package is present but cannot be loaded.  Most likely cause:")
+            print("  • Microsoft ODBC Driver for SQL Server is not installed.")
+            print("    Download: https://aka.ms/downloadmsodbcsql")
+            print("  • Or: Visual C++ Redistributable is missing.")
+            print("    Download: https://aka.ms/vs/17/release/vc_redist.x64.exe")
+        else:
+            print("pyodbc package is NOT installed for this Python.")
+            print(f"Fix with:\n  \"{py}\" -m pip install pyodbc")
+
+        print("=" * 70)
+        sys.exit(1)
+
+
+_check_pyodbc()   # exits here with clear message if pyodbc is unavailable
 
 # ---------------------------------------------------------------------------
 # Database connection  (localhost by default; override with DB_SERVER env var)
