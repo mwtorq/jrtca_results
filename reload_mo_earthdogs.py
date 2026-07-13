@@ -65,7 +65,19 @@ _ODBC_DRIVERS = [
 
 def _get_connection():
     """Open a pyodbc connection to the local SQL Server instance."""
-    import pyodbc
+    try:
+        import pyodbc
+    except ModuleNotFoundError:
+        print(
+            "\nERROR: pyodbc is not installed.\n"
+            "Install it with:\n"
+            "    pip install pyodbc\n\n"
+            "On Windows, pyodbc requires the Microsoft ODBC Driver for SQL Server.\n"
+            "Download from: https://aka.ms/downloadmsodbcsql\n"
+            "(If SQL Server is already installed the driver is usually present.)"
+        )
+        sys.exit(1)
+
     last_err = None
     for driver in _ODBC_DRIVERS:
         conn_str = (
@@ -82,8 +94,10 @@ def _get_connection():
             last_err = e
             continue
     raise RuntimeError(
-        f"Could not connect to {_DB_SERVER}/{_DB_NAME}. "
-        f"Last error: {last_err}"
+        f"Could not connect to {_DB_SERVER}/{_DB_NAME}.\n"
+        f"Last error: {last_err}\n"
+        f"Drivers tried: {_ODBC_DRIVERS}\n"
+        f"Tip: set DB_SERVER env var if the server name differs from the default."
     )
 
 # ---------------------------------------------------------------------------
