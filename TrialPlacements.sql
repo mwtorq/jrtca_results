@@ -22,7 +22,7 @@ OUTER APPLY (SELECT STRING_AGG(sgs.RelatedDogName,', ') AS Grandsire FROM (SELEC
 OUTER APPLY (SELECT STRING_AGG(sgd.RelatedDogName,', ') AS Granddam FROM (SELECT DISTINCT sgd.RelatedDogName FROM [TrialResults].[sResults].[Relationship] sgd (NOLOCK) WHERE d.DogID=sgd.DogID AND ISNULL(sgd.RelationshipType,'') IN ('','Granddam')) sgd) sgd
 OUTER APPLY (SELECT STRING_AGG(sggs.RelatedDogName,', ') AS GreatGrandsire FROM (SELECT DISTINCT sggs.RelatedDogName FROM [TrialResults].[sResults].[Relationship] sggs (NOLOCK) WHERE d.DogID=sggs.DogID AND ISNULL(sggs.RelationshipType,'') IN ('','Great-Grandsire')) sggs) sggs
 OUTER APPLY (SELECT STRING_AGG(sggd.RelatedDogName,', ') AS GreatGranddam FROM (SELECT DISTINCT sggd.RelatedDogName FROM [TrialResults].[sResults].[Relationship] sggd (NOLOCK) WHERE d.DogID=sggd.DogID AND ISNULL(sggd.RelationshipType,'') IN ('','Great-Granddam')) sggd) sggd
-WHERE (o.OwnerName LIKE @Name OR o.OwnerName LIKE @Name1)
+--WHERE (o.OwnerName LIKE @Name OR o.OwnerName LIKE @Name1)
 --WHERE pt.Time IS NOT NULL
 --WHERE l.Year IN (2023,2025) AND l.TrialName LIKE '%JRTCC%'
 --WHERE (l.TrialName LIKE '%Earthdogs%' OR l.TrialName LIKE '%MOE%') AND (Year IN (2012,2014,2019) OR Year BETWEEN 2014 AND 2018)
