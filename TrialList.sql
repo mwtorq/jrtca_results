@@ -14,7 +14,7 @@ SELECT [TrialListID]
       ,[CreateDateTime]
   FROM [TrialResults].[sResults].[TrialList]
   --WHERE StartDate LIKE '%01-01%'
-  WHERE (TrialName LIKE '%MOE%' OR TrialName LIKE '%Earthdogs%')
+  --WHERE (TrialName LIKE '%MOE%' OR TrialName LIKE '%Earthdogs%')
   ORDER BY StartDate
 
   --update [TrialResults].[sResults].[TrialList] set trialname='2002 Missouri Earthdogs Memorial Day Bash' WHERE triallistid=1691
