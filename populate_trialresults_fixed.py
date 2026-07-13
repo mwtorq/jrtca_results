@@ -8,7 +8,6 @@ This version implements the correct parsing logic as specified:
 - Parse results with correct handling of different placement formats
 """
 
-import pyodbc
 import sys
 import os
 import re
@@ -20,6 +19,18 @@ from collections import defaultdict
 from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime
+
+try:
+    import pyodbc
+except ModuleNotFoundError:
+    print(
+        "\nERROR: pyodbc is not installed.\n"
+        "Install it with:\n"
+        "    pip install pyodbc\n\n"
+        "On Windows, the Microsoft ODBC Driver for SQL Server must also be present.\n"
+        "Download from: https://aka.ms/downloadmsodbcsql"
+    )
+    sys.exit(1)
 
 # Force unbuffered output (skip when stdout is wrapped, e.g. log tee)
 if hasattr(sys.stdout, 'reconfigure'):
