@@ -399,7 +399,7 @@ def db_rows_for_trial(cursor, trial_id: int) -> list[dict]:
         JOIN [sResults].[TrialClass] tc ON tc.TrialClassID = p.TrialClassID
         JOIN [sResults].[Class] c ON c.ClassID = tc.ClassID
         JOIN [sResults].[Division] dv ON dv.DivisionID = c.DivisionID
-        JOIN [sResults].[Dog] d ON d.DogID = p.DogID
+        LEFT JOIN [sResults].[Dog] d ON d.DogID = p.DogID
         LEFT JOIN [sResults].[Owner] o ON o.OwnerID = d.OwnerID
         WHERE p.TrialListID = ?
         ORDER BY p.TrialPlacementsID
@@ -555,6 +555,34 @@ def owners_share_a_name(expected: str, actual: str) -> bool:
     )
 
 
+def resolve_dog_by_name(cursor, dog_name: str, owner_id: int | None) -> int | None:
+    """Find the record for the dog a source file names, preferring its owner.
+
+    get_or_create_dog adds a second row whenever the name already exists under
+    another owner. Splitting a placement out of a merge must not do that, so an
+    existing record for the name is reused before a new one is created.
+    """
+    if owner_id:
+        cursor.execute(
+            "SELECT DogID FROM [sResults].[Dog] WHERE DogName = ? AND OwnerID = ?",
+            dog_name,
+            owner_id,
+        )
+        row = cursor.fetchone()
+        if row:
+            return row[0]
+
+    cursor.execute(
+        "SELECT TOP 1 DogID FROM [sResults].[Dog] WHERE DogName = ? ORDER BY DogID",
+        dog_name,
+    )
+    row = cursor.fetchone()
+    if row:
+        return row[0]
+
+    return get_or_create_dog(cursor, dog_name, owner_id)
+
+
 def repoint_placement_entities(
     cursor, row: dict, src: dict, *, use_source_dog: bool, use_source_owner: bool,
 ) -> bool:
@@ -567,7 +595,10 @@ def repoint_placement_entities(
     if use_source_owner and src["owner"]:
         owner_id = get_or_create_owner(cursor, src["owner"]) or owner_id
 
-    dog_id = get_or_create_dog(cursor, dog_name, owner_id)
+    if use_source_dog:
+        dog_id = resolve_dog_by_name(cursor, dog_name, owner_id)
+    else:
+        dog_id = get_or_create_dog(cursor, dog_name, owner_id)
     if not dog_id or dog_id == row["dog_id"]:
         return False
 
@@ -719,10 +750,21 @@ def compare_trial(
             _HANDLER_CLASS_RE.search(src["class_name"] or "")
             or _HANDLER_CLASS_RE.search(row["class_name"] or "")
         )
-        dog_difference = (
-            classify_dog_difference(src["dog"], row["dog_name"]) if dog_skewed else ""
+        # A merge that deleted a dog without moving its placements leaves the
+        # row pointing at nothing; the source still says which dog it was.
+        dog_orphaned = row["dog_id"] is None
+        if dog_orphaned:
+            dog_difference = DOG_UNRELATED
+        elif dog_skewed:
+            dog_difference = classify_dog_difference(src["dog"], row["dog_name"])
+        else:
+            dog_difference = ""
+        # Split whenever the merge rule itself says these are two dogs; a
+        # spelling variant is the rule saying they are one, so it stays merged.
+        dog_fix_allowed = fix_dog_merges and dog_difference in (
+            DOG_UNRELATED,
+            DOG_KENNELMATE,
         )
-        dog_fix_allowed = fix_dog_merges and dog_difference == DOG_UNRELATED
         owner_household = owner_skewed and owners_share_a_name(src["owner"], row["owner_name"])
         owner_fix_allowed = (
             fix_owner_assignments
@@ -736,12 +778,19 @@ def compare_trial(
         entity_fixed = False
         class_fixed = False
         if correct and allow_entity_fix:
+            # A dog being split off needs the owner the source gives it, or the
+            # new record would inherit the owner of the dog it was merged into.
+            split_takes_source_owner = (
+                dog_fix_allowed
+                and not handler_class
+                and owner_is_actionable(src["owner"])
+            )
             entity_fixed = repoint_placement_entities(
                 cursor,
                 row,
                 src,
                 use_source_dog=dog_fix_allowed,
-                use_source_owner=owner_fix_allowed,
+                use_source_owner=owner_fix_allowed or split_takes_source_owner,
             )
         if correct and allow_class_fix:
             class_fixed = repoint_placement_class(cursor, trial["trial_id"], row, src, vacated)
@@ -765,7 +814,9 @@ def compare_trial(
         )
 
         if dog_skewed:
-            if dog_difference == DOG_SPELLING:
+            if dog_orphaned:
+                dog_note = "stored dog record no longer exists"
+            elif dog_difference == DOG_SPELLING:
                 dog_note = "spelling variant of the same dog; left as normalized"
             elif dog_difference == DOG_KENNELMATE:
                 dog_note = "shares a kennel prefix; review for an over-eager merge"
@@ -774,7 +825,7 @@ def compare_trial(
             else:
                 dog_note = entity_note
             add_issue(
-                {
+                "orphaned_dog" if dog_orphaned else {
                     DOG_SPELLING: "dog_spelling",
                     DOG_KENNELMATE: "dog_kennelmate",
                 }.get(dog_difference, "dog"),
@@ -1175,7 +1226,8 @@ def main() -> None:
     parser.add_argument(
         "--fix-dog-merges",
         action="store_true",
-        help="Repoint placements whose stored dog is unrelated to the one the source names",
+        help="Split placements back onto the dog the source names when the merge "
+             "rule says the stored dog is a different one",
     )
     parser.add_argument(
         "--skip-dog-owner-merge",
