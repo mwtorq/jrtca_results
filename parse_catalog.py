@@ -988,6 +988,57 @@ def same_prefix_different_letter_ids(name1: str, name2: str) -> bool:
     )
 
 
+def word_edit_distance(word1: str, word2: str) -> int:
+    """Damerau-Levenshtein distance, counting a swap of two letters as one edit.
+
+    Swapped letters ("Rouge" for "Rogue") are a typing and scanning error rather
+    than a different word.
+    """
+    if len(word1) < len(word2):
+        word1, word2 = word2, word1
+    if not word2:
+        return len(word1)
+
+    row_before_previous: list[int] = []
+    previous_row = list(range(len(word2) + 1))
+    for i, char1 in enumerate(word1):
+        current_row = [i + 1]
+        for j, char2 in enumerate(word2):
+            cost = previous_row[j] + (char1 != char2)
+            value = min(previous_row[j + 1] + 1, current_row[j] + 1, cost)
+            if i and j and char1 == word2[j - 1] and word1[i - 1] == char2:
+                value = min(value, row_before_previous[j - 1] + 1)
+            current_row.append(value)
+        row_before_previous = previous_row
+        previous_row = current_row
+    return previous_row[-1]
+
+
+def strip_plural(word: str) -> str:
+    if word.endswith('es'):
+        return word[:-2]
+    if word.endswith('s'):
+        return word[:-1]
+    return word
+
+
+def final_words_are_one_typo_apart(word1: str, word2: str) -> bool:
+    """True when two litter-style endings are one name recorded two ways.
+
+    "Divot"/"Divots" and "Earl"/"Eearl" are the same dog scanned differently,
+    while littermates such as "Briggs"/"Bragg" differ by more than a character.
+    Short endings are held to an exact match, where one letter is too much of
+    the word to be sure it is a typo.
+    """
+    if word1 == word2:
+        return True
+    if strip_plural(word1) == strip_plural(word2):
+        return True
+    if min(len(word1), len(word2)) < 4:
+        return False
+    return word_edit_distance(word1, word2) <= 1
+
+
 def names_are_similar(name1: str, name2: str) -> bool:
     """Check if two dog names are similar (handling spaces, plurals, etc.).
     
@@ -1011,12 +1062,15 @@ def names_are_similar(name1: str, name2: str) -> bool:
         return True
 
     # Litter-style names (e.g. Harmony Chase Briggs/Bragg/Brooks) differ only in
-    # the last word. Require an exact last-word match when the prefix is identical.
+    # the last word, so an identical prefix does not make them one dog. A scan
+    # error in that word still does, which is why the endings are compared for a
+    # typo rather than for exact equality.
     words1 = norm1.split()
     words2 = norm2.split()
     if len(words1) >= 3 and len(words2) >= 3 and len(words1) == len(words2):
         if words1[:-1] == words2[:-1] and words1[-1] != words2[-1]:
-            return False
+            if not final_words_are_one_typo_apart(words1[-1], words2[-1]):
+                return False
     
     # Remove all spaces and compare
     no_space1 = re.sub(r'\s+', '', norm1)

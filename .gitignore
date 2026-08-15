@@ -1,1 +1,6 @@
 __pycache__/**
+
+# Verification output: regenerated per run and too large to track
+normalization_skew_report.csv
+verify_normalization_run.log
+verify_normalization_err.log
