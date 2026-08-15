@@ -431,14 +431,18 @@ def repair_height_slash_quote_garbage(class_name: str) -> str:
     if not class_name:
         return class_name
     name = class_name
+    # The run has to hold a slash or quote to count as garbage. Accepting a bare
+    # comma or space swallowed the separator before the coat, gluing the height
+    # to the word after it.
+    garbage = r'[\s,]*[/"\'][/",\'\s]*'
     name = re.sub(
-        r'(10\s*"\s*up\s+to\s+12\s*½\s*")[/",\'\s]+',
+        r'(10\s*"\s*up\s+to\s+12\s*½\s*")' + garbage,
         r'\1',
         name,
         flags=re.IGNORECASE,
     )
     name = re.sub(
-        r'(Up\s+to\s+12\s*½\s*")[/",\'\s]+',
+        r'(Up\s+to\s+12\s*½\s*")' + garbage,
         r'\1',
         name,
         flags=re.IGNORECASE,
@@ -473,6 +477,23 @@ def repair_duplicate_over_height(class_name: str) -> str:
     return name
 
 
+def _split_height_tail(part: str) -> tuple[str, str]:
+    """Split one comma part into its height phrase and whatever follows it.
+
+    A coat often trails the height inside a single comma part, as in
+    '10" up to 12½" smooth' or '10" up to 12½" S'. Canonicalizing the part as a
+    whole returns just the height, so the coat has to be held back and put
+    again afterwards.
+    """
+    quote = part.rfind('"')
+    if quote == -1:
+        return part, ""
+    head, tail = part[: quote + 1], part[quote + 1 :]
+    if not tail.strip() or not classify_height_fragment(head):
+        return part, ""
+    return head, tail
+
+
 def repair_trailing_height_fragment(class_name: str) -> str:
     """Canonicalize OCR height suffix on regular (non-championship) class names."""
     if not class_name:
@@ -497,8 +518,9 @@ def repair_trailing_height_fragment(class_name: str) -> str:
         fixed_parts = []
         changed = False
         for part in parts:
-            if classify_height_fragment(part) and not _is_age_qualifier(part):
-                canon = canonicalize_height_fragment(part, puppy=puppy)
+            head, tail = _split_height_tail(part)
+            if classify_height_fragment(head) and not _is_age_qualifier(head):
+                canon = canonicalize_height_fragment(head, puppy=puppy) + tail
                 if fixed_parts and fixed_parts[-1] == canon:
                     changed = True
                     continue
@@ -1828,8 +1850,8 @@ def normalize_class_name_full(class_name: str, division_name: str | None = None)
         original_name=class_name,
     )
     name = normalize_coat_types(name)
-    name = re.sub(r'12½"([A-Za-z])', r'12½" \1', name)
-    name = re.sub(r'15"([A-Za-z])', r'15" \1', name)
+    name = re.sub(r'12½"([A-Za-z0-9])', r'12½" \1', name)
+    name = re.sub(r'15"([A-Za-z0-9])', r'15" \1', name)
     name = repair_duplicate_up_to_12(name)
     return re.sub(r"\s+", " ", name).strip()
 
