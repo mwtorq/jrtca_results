@@ -115,12 +115,17 @@ def safe_print(text: str, **kwargs):
 # Placement line regex - optional size prefix (handles OCR like 10-12W', 1()'12'12", 12V2")
 _ORDINAL_PLACEMENT = r'1\s*st|2\s*nd|3\s*r[a-z]{0,4}|4th|5th|6th'
 # Word placements: single (Champion, Reserve, Best) and compound forms
-# (Reserve Champion, Reserve Best, Reserve Choice, Reserve Working ...).
+# (Reserve Champion, Reserve Best, Reserve Choice, Reserve Working ...,
+# Champion JRT Puppy, Best Working Dog, Working JRT Champion, ...).
 # normalize_line_for_placement converts dash-style "Champion – Dog" to
 # "Champion: Dog" before these patterns are applied, so only ':' is needed here.
 _WORD_PLACEMENT = (
-    r'(?:Reserve\s+(?:Best(?:\s+\w+(?:\s+\w+)*)?|Champion(?:\s+\w+(?:\s+\w+)*)?|'
-    r'Choice|Working(?:\s+\w+(?:\s+\w+)*)?)|Best|Champion|Reserve)'
+    r'(?:Working\s+JRT\s+)?'
+    r'(?:Reserve\s+)?(?:Best|Champion)(?:\s+[\w/]+){0,10}'
+    r'|Reserve(?:\s+[\w/]+){0,10}'
+    r'|Best(?:\s+[\w/]+){0,10}'
+    r'|Champion(?:\s+[\w/]+){0,10}'
+    r'|Reserve'
 )
 _SIZE_PREFIX = r'[\d\w\-½%"/\'\s.,·°()]'
 # Ordinals allow optional space/colon/apostrophe before rest; Best/Reserve/Champion require ':'.
@@ -217,6 +222,21 @@ def is_plausible_class_name(name: str) -> bool:
     if ', owned by ' in s.lower() or re.search(r'\bovmed\b', s, re.IGNORECASE):
         return False
     if re.search(r'Champion:\s*\S', s, re.IGNORECASE):
+        return False
+    # Sponsor / trophy / dedication lines (common in MO Earthdogs PDFs between
+    # a Class header and its Champion/Reserve placements)
+    low = s.lower()
+    if (
+        low.startswith('sponsored by')
+        or ' sponsored by ' in low
+        or low.endswith(' sponsored by')
+        or low.startswith('for the ')
+        or 'perpetual trophy' in low
+        or low.startswith('in memory of')
+        or low.startswith('in honor of')
+        or low.startswith('honoring ')
+        or low.startswith('missing and remembering')
+    ):
         return False
     if _HEIGHT_ONLY_CLASS_RE.match(s):
         return False
@@ -499,6 +519,7 @@ def normalize_line_for_placement(line: str) -> str:
     # OCR fixes for placement keywords
     line = re.sub(r'\bet[-\s]?ar?pl[o]?n\b', 'Champion', line, flags=re.IGNORECASE)
     line = re.sub(r'\bchampon\b', 'Champion', line, flags=re.IGNORECASE)
+    line = re.sub(r'\bchamp\s+ion\b', 'Champion', line, flags=re.IGNORECASE)
     line = re.sub(r'\bresenve\b', 'Reserve', line, flags=re.IGNORECASE)
     # Convert dash-separated placements to colon-separated for consistent parsing.
     # Some files (e.g. 2017 MO Earthdogs PDF) use en-dash/em-dash as the placement
@@ -513,11 +534,17 @@ def normalize_line_for_placement(line: str) -> str:
         count=1,
         flags=re.IGNORECASE,
     )
-    # Convert compound and simple word placements: "Champion - Dog", "Reserve Champion - Dog",
-    # "Reserve Best - Dog", "Best - Dog" -> equivalent colon form.
+    # Convert compound and simple word placements, including descriptive forms used
+    # in 2017 MO Earthdogs conformation: "Champion JRT Puppy - Dog",
+    # "Best Working Dog - Dog", "Working JRT Champion - Dog",
+    # "Reserve Champion Working Colored Terrier/Dachshund - Dog".
     line = re.sub(
-        r'^(\s*(?:Reserve\s+(?:Best(?:\s+\w+)*|Champion(?:\s+\w+)*|Choice|Working(?:\s+\w+)*)|'
-        r'Best|Champion|Reserve))\s+-\s+',
+        r'^(\s*(?:Working\s+JRT\s+)?'
+        r'(?:Reserve\s+)?(?:Best|Champion)(?:\s+[\w/]+){0,10}'
+        r'|Reserve(?:\s+[\w/]+){0,10}'
+        r'|Best(?:\s+[\w/]+){0,10}'
+        r'|Champion(?:\s+[\w/]+){0,10}'
+        r'|Reserve)\s+-\s+',
         r'\1: ',
         line,
         count=1,
@@ -672,6 +699,12 @@ def normalize_mixed_case_section_header(line: str) -> str | None:
     low = re.sub(r'\s+', ' ', (line or '').strip().lower())
     if low in ('conformation results', 'conformation', 'conformation division'):
         return 'CONFORMATION'
+    # OCR often inserts a space before the hyphen: "go -to-ground"
+    low_gtg = re.sub(r'[\s.\-/]+', '', low)
+    if low_gtg in (
+        'gotoground', 'gotogroundresults', 'gotogrounddivision',
+    ) or 'gotoground' in low_gtg:
+        return 'GO-TO-GROUND'
     if low in ('go to ground', 'go-to-ground', 'go-to-ground results',
                'go-to-ground division', 'go to ground division'):
         return 'GO-TO-GROUND'
@@ -755,22 +788,41 @@ def strip_entries_from_class_name(class_name: str) -> tuple[str, Optional[int]]:
     """
     Remove Entries suffix variants from a class name.
 
-    Handles: 'Class – Entries: 5', 'Class - Entries:', 'Class Entries:5', OCR 'Entires: 3'
+    Handles: 'Class – Entries: 5', 'Class - Entries:', 'Class Entries:5', OCR 'Entires: 3',
+    parenthetical '(5 entries)', and truncated OCR leftovers like '(5' / '(18'.
     Returns (clean_name, entry_count or None).
     """
     if not class_name:
         return class_name, None
 
-    match = _ENTRIES_MARKER_RE.search(class_name)
-    if not match:
-        return class_name.strip(), None
+    entry_count = None
+    clean = class_name
 
-    entry_str = match.group(1).strip()
-    entry_count = int(entry_str) if entry_str else None
-    clean = class_name[: match.start()].strip()
+    paren = re.search(
+        r'\(\s*(\d+)\s*entr(?:y|ies)?\s*\)?\s*$',
+        clean,
+        re.IGNORECASE,
+    )
+    if paren:
+        entry_count = int(paren.group(1))
+        clean = clean[: paren.start()].strip()
+    else:
+        trunc = re.search(r'\(\s*(\d+)\s*$', clean)
+        if trunc:
+            entry_count = int(trunc.group(1))
+            clean = clean[: trunc.start()].strip()
+
+    match = _ENTRIES_MARKER_RE.search(clean)
+    if match:
+        entry_str = match.group(1).strip()
+        if entry_str:
+            entry_count = int(entry_str)
+        clean = clean[: match.start()].strip()
+        clean = _TRAILING_SEP_RE.sub('', clean).strip()
+        return clean, entry_count
+
     clean = _TRAILING_SEP_RE.sub('', clean).strip()
     return clean, entry_count
-
 
 _HEIGHT_ENTRIES_CONTINUATION_RE = re.compile(
     r'^,\s*(.+?)\s*[–—-]\s*Entries:\s*(\d+)\s*$',
@@ -968,7 +1020,8 @@ def infer_division_from_class_name(class_name: str) -> str:
     upper = re.sub(r'\s+', ' ', class_name.strip().upper())
     if re.search(r'\b(?:FLAT|HURDLE[SD]?|STEEPLECHASE|SPRINT)\s+RAC', upper):
         return 'RACING'
-    if re.search(r'\bGTG\b|GO.TO.GROUND', upper):
+    # Allow OCR spacing/punctuation variants: "Go -To-Ground", "GOTOGROUND", "G.T.G."
+    if re.search(r'\bGTG\b|GO[\s.\-/]*TO[\s.\-/]*GROUND', upper):
         return 'GO-TO-GROUND'
     if re.search(r'\bMUSKRAT\s+RAC', upper):
         return 'MUSKRAT RACING'
@@ -980,6 +1033,8 @@ def infer_division_from_class_name(class_name: str) -> str:
         return 'BARN HUNT'
     if re.search(r'\bAWTA\b', upper):
         return 'GO-TO-GROUND'
+    if re.search(r'\b(?:CHILD|YOUTH)\b', upper) and not re.search(r'\bGTG\b|GO[\s.\-/]*TO', upper):
+        return 'YOUTH DIVISION'
     if re.search(
         r'\bPUPS?\b|\bBITCH\s+PUPS?\b|\bDOG\s+PUPS?\b|'
         r'\bWORKING\s+(?:DOG|BITCH)|'
@@ -998,7 +1053,7 @@ def infer_division_from_class_name(class_name: str) -> str:
 # Sub-events like LURE COURSING and THUNDER TUNNEL (which sometimes appear
 # inside OLYMPIC EVENTS) should NOT override that wrapper division.
 _DIVISION_OVERRIDE_TRIGGERS = frozenset({
-    'RACING', 'CONFORMATION', 'GO-TO-GROUND', 'MUSKRAT RACING',
+    'RACING', 'CONFORMATION', 'GO-TO-GROUND', 'MUSKRAT RACING', 'YOUTH DIVISION',
 })
 
 
@@ -1427,8 +1482,13 @@ def _is_ocr_garbage_title(line: str) -> bool:
     """Reject mangled OCR like 'SOUTHFLO DATER ERTR L'."""
     if not line or len(line) < 8:
         return False
+    low = line.lower()
+    # Any recognised trial-title keyword means this is not OCR garbage
+    if any(keyword in low for keyword in _TITLE_KEYWORDS):
+        return False
     if re.search(
-        r'\b(?:terrier|trial|festival|classic|national|jrtca|jrtnnc|showdown|benefit|terrier)\b',
+        r'\b(?:terrier|trial|festival|classic|national|jrtca|jrtnnc|showdown|benefit|'
+        r'earthdogs?|missouri|memorial)\b',
         line,
         re.I,
     ):
@@ -1441,6 +1501,7 @@ def _is_ocr_garbage_title(line: str) -> bool:
             'south', 'north', 'east', 'west', 'florida', 'texas', 'trial', 'annual',
             'jrtca', 'jrtnnc', 'national', 'festival', 'classic', 'carolina', 'mason',
             'dixon', 'heartland', 'yankee', 'museum', 'midwest', 'autumn', 'spring',
+            'missouri', 'earthdogs', 'earthdog', 'memorial', 'bash', 'day',
         }
         if not any(w.lower() in recognized for w in words):
             return True
@@ -1470,6 +1531,19 @@ def trial_name_from_filename(file_path: str) -> str:
     mo_match = re.match(r'^(\d{4})\s+mo\s+earthdogs', trial_name, re.IGNORECASE)
     if mo_match:
         return f'{mo_match.group(1)} Missouri Earthdogs Memorial Day Bash'
+    # Bare PDF names: trialresults2013.pdf / moearthdogs trialresults2017.pdf
+    moe_pdf = re.search(
+        r'(?:mo\s*earthdogs?\s+)?trial\s*results?\s*(\d{4})',
+        trial_name,
+        re.IGNORECASE,
+    )
+    if moe_pdf and 'earthdog' in (file_path or '').lower().replace('\\', '/'):
+        return f'{moe_pdf.group(1)} Missouri Earthdogs Memorial Day Bash'
+    # Filename without year prefix but path year present
+    if re.search(r'\bmo\s*earthdogs?\b', trial_name, re.IGNORECASE):
+        year_match = re.search(r'(\d{4})', trial_name)
+        if year_match:
+            return f'{year_match.group(1)} Missouri Earthdogs Memorial Day Bash'
     gc_match = re.match(r'^(\d{4})\s+gold coast\s+([ivx]+)\b', trial_name, re.IGNORECASE)
     if gc_match:
         return f'{gc_match.group(1)} Gold Coast {gc_match.group(2).upper()}'
@@ -1613,6 +1687,15 @@ def is_invalid_trial_name(name: str) -> bool:
     if not low:
         return True
     if low.startswith('/') or 'accordion content' in low or 'dynamic drive' in low:
+        return True
+    # Narrative boilerplate (e.g. 2009 MO Earthdogs disclaimer / website promo)
+    if (
+        'if you find any errors' in low
+        or 'please send me a' in low
+        or 'results will also be posted' in low
+        or 'www.' in low
+        or low.startswith('http')
+    ):
         return True
     if re.match(r'^[^,]+,\s*[a-z]{2,}$', low):
         return True
@@ -1912,7 +1995,10 @@ def extract_trial_info(lines: List[str], year: int, file_path: str = None) -> Op
 
     if file_path:
         path_lower = file_path.replace('\\', '/').lower()
-        if '/jrtcc/' in path_lower:
+        is_jrtcc = '/jrtcc/' in path_lower or path_lower.startswith('jrtcc/')
+        is_moe = '/mo earthdogs/' in path_lower or path_lower.startswith('mo earthdogs/')
+        if is_jrtcc or is_moe:
+            # Prefer stable filename-derived names over flaky PDF/TXT header noise
             filename_name = trial_name_from_filename(file_path)
             if filename_name:
                 trial_name = filename_name
@@ -2037,9 +2123,32 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
         # Handle "Section A: Name" headers (2017 MO Earthdogs PDF format).
         # Treat as a racing/section subdivision label when inside a racing division,
         # or as a section/class indicator otherwise.
+        # When the section itself is clearly GTG/Racing/etc., also switch the main
+        # division so Championship GTG does not stay under CONFORMATION.
         sec_header_m = _SECTION_HEADER_RE.match(line)
         if sec_header_m:
             sec_name = sec_header_m.group(1).strip()
+            sec_upper = sec_name.upper()
+            if re.search(r'\b(?:CHILD|YOUTH)\b', sec_upper):
+                # Keep youth sections in YOUTH even when they mention Go-to-Ground
+                if current_division != 'YOUTH DIVISION':
+                    current_division = 'YOUTH DIVISION'
+                    current_division_is_explicit = True
+                    safe_print(
+                        f"  Processing division (from Section header): {current_division}",
+                        flush=True,
+                    )
+            else:
+                inferred_from_section = infer_division_from_class_name(sec_name)
+                if inferred_from_section and should_override_division(
+                    current_division, inferred_from_section,
+                ):
+                    current_division = inferred_from_section
+                    current_division_is_explicit = True
+                    safe_print(
+                        f"  Processing division (from Section header): {current_division}",
+                        flush=True,
+                    )
             if current_division:
                 current_subdivision = sec_name
                 current_class = ""
@@ -2154,11 +2263,14 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
         # Check for class name without entries (e.g., "BEST PUPPY BITCH & RESERVE")
         # These are all-caps lines that aren't divisions
         # Also handle mixed-case OCR like "PUppy RACING CHAMPION & RESERVE"
+        # IMPORTANT: do not treat placement lines like "Reserve Champion – Dog (Owner)"
+        # as class headers — that drops racing/GTG reserves entirely.
         line_upper = line.upper()
         is_champion_reserve_class = (
             'CHAMPION' in line_upper and 'RESERVE' in line_upper
             and 'DIVISION' not in line_upper
             and ', owned by' not in line.lower()
+            and not is_placement_line_start(line)
         )
         if (line.isupper() or is_champion_reserve_class) and len(line) > 5 and 'DIVISION' not in line:
             clean_class, entries = strip_entries_from_class_name(line)
@@ -2183,6 +2295,7 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                 class_header = nc
         if class_header:
             current_class = repair_racing_class_ocr(class_header.group(2).strip())
+            current_class, parsed_entries = strip_entries_from_class_name(current_class)
             current_division = maybe_switch_to_nosework_division(
                 current_division, current_class,
             )
@@ -2195,7 +2308,7 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             if not current_division_is_explicit and should_override_division(current_division, inferred):
                 current_division = inferred
                 safe_print(f"  Processing division (inferred): {current_division}", flush=True)
-            current_entries = 0
+            current_entries = parsed_entries if parsed_entries is not None else 0
             safe_print(f"    Class: {current_class}", flush=True)
             i += 1
             continue
@@ -2339,6 +2452,19 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             if placement.lower().startswith('3r'):
                 placement = '3rd'  # Fix "3r~" or "3rd" to "3rd"
             placement = placement.capitalize() if len(placement) <= 3 else placement.title()
+            # PDF extracts often use "Reserve Champion"; store as canonical "Reserve"
+            if re.match(r'^reserve\s+champion\b', placement, re.IGNORECASE):
+                placement = 'Reserve'
+            elif re.match(r'^working\s+jrt\s+reserve\s+champion\b', placement, re.IGNORECASE):
+                placement = 'Reserve'
+            elif re.match(r'^working\s+jrt\s+champion\b', placement, re.IGNORECASE):
+                placement = 'Champion'
+            elif re.match(r'^champion\b', placement, re.IGNORECASE) and placement.lower() != 'champion':
+                placement = 'Champion'
+            elif re.match(r'^reserve\s+(?:best|working|choice)\b', placement, re.IGNORECASE):
+                placement = 'Reserve'
+            elif re.match(r'^best\b', placement, re.IGNORECASE) and placement.lower() != 'best':
+                placement = 'Best'
             
             # Fix OCR typos in owner separator before parsing
             rest = normalize_owned_by_text(rest)

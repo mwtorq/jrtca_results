@@ -25,8 +25,8 @@ OUTER APPLY (SELECT STRING_AGG(sggd.RelatedDogName,', ') AS GreatGranddam FROM (
 --WHERE (o.OwnerName LIKE @Name OR o.OwnerName LIKE @Name1)
 --WHERE pt.Time IS NOT NULL
 --WHERE l.Year IN (2023,2025) AND l.TrialName LIKE '%JRTCC%'
---WHERE (l.TrialName LIKE '%Earthdogs%' OR l.TrialName LIKE '%MOE%') AND (Year IN (2012,2014,2019) OR Year BETWEEN 2014 AND 2018)
---AND d.DogName LIKE '%Blanca%'-- AND dv.DivisionName LIKE '%GROUND%'
+WHERE (l.TrialName LIKE '%Earthdogs%' OR l.TrialName LIKE '%MOE%') AND (Year IN (2012,2014,2019) OR Year BETWEEN 2014 AND 2018)
+AND d.DogName LIKE '%Blanca%' AND (dv.DivisionName LIKE '%GROUND%' OR dv.DivisionName LIKE '%RACING%')
 --AND d.DogName LIKE '%Skeeter%'
 --AND l.Year>=2016
 --WHERE l.TrialListID IN (1678,1679,1680)
