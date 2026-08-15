@@ -2275,19 +2275,20 @@ def merge_duplicate_owners(conn, dry_run: bool, scope_ids: set[int] | None = Non
     cursor = conn.cursor()
     print_ts("Loading owners for duplicate merge...")
     if scope_ids:
-        placeholders = ",".join("?" * len(scope_ids))
-        cursor.execute(
-            f"""
+        owner_rows = _select_rows_by_ids(
+            cursor,
+            """
             SELECT OwnerID, OwnerName
             FROM sResults.Owner
             WHERE OwnerID IN ({placeholders})
-            ORDER BY OwnerID
             """,
-            *scope_ids,
+            scope_ids,
         )
+        owner_rows.sort(key=lambda r: r[0])
     else:
         cursor.execute("SELECT OwnerID, OwnerName FROM sResults.Owner ORDER BY OwnerID")
-    rows = [(r[0], r[1]) for r in cursor.fetchall() if r[1]]
+        owner_rows = cursor.fetchall()
+    rows = [(r[0], r[1]) for r in owner_rows if r[1]]
     print_ts(f"Clustering {len(rows):,} owner names...")
     mapping = cluster_names(rows, key_fn=person_cluster_key, canonical_fn=pick_canonical_person_name)
 
@@ -2357,19 +2358,19 @@ def merge_duplicate_dogs(conn, dry_run: bool, scope_ids: set[int] | None = None)
     cursor = conn.cursor()
     print_ts("Loading dogs for duplicate merge...")
     if scope_ids:
-        placeholders = ",".join("?" * len(scope_ids))
-        cursor.execute(
-            f"""
+        dog_rows = _select_rows_by_ids(
+            cursor,
+            """
             SELECT DogID, DogName, OwnerID, Sire, Dam, Sex
             FROM sResults.Dog
             WHERE DogID IN ({placeholders})
               AND DogName IS NOT NULL AND LTRIM(RTRIM(DogName)) <> ''
             """,
-            *scope_ids,
+            scope_ids,
         )
         meta_by_id = {
             row[0]: (row[0], row[1], row[2], row[3], row[4], row[5])
-            for row in cursor.fetchall()
+            for row in dog_rows
         }
     else:
         meta_by_id = load_dog_metadata(cursor)
@@ -2567,6 +2568,30 @@ def update_table_names(
     return len(changes), updated
 
 
+# SQL Server rejects a statement with more than 2100 parameters, so ID lists
+# gathered across many trials have to be queried in slices.
+SQL_PARAM_CHUNK = 1000
+
+
+def _id_chunks(ids, size: int = SQL_PARAM_CHUNK):
+    ids = list(ids)
+    for start in range(0, len(ids), size):
+        yield ids[start : start + size]
+
+
+def _select_rows_by_ids(cursor, query_template: str, ids) -> list:
+    """Run a SELECT whose WHERE uses IN (...), one safe-sized slice at a time.
+
+    query_template must contain a single {placeholders} field.
+    """
+    rows: list = []
+    for chunk in _id_chunks(ids):
+        placeholders = ",".join("?" * len(chunk))
+        cursor.execute(query_template.format(placeholders=placeholders), *chunk)
+        rows.extend(cursor.fetchall())
+    return rows
+
+
 def _get_trial_entity_ids(cursor, trial_id: int) -> tuple[list[int], list[int], list[int]]:
     cursor.execute(
         """
@@ -2590,16 +2615,16 @@ def _get_trial_entity_ids(cursor, trial_id: int) -> tuple[list[int], list[int], 
 
     owner_ids = []
     if dog_ids:
-        placeholders = ",".join("?" * len(dog_ids))
-        cursor.execute(
-            f"""
+        owner_rows = _select_rows_by_ids(
+            cursor,
+            """
             SELECT DISTINCT d.OwnerID
             FROM sResults.Dog d
             WHERE d.DogID IN ({placeholders}) AND d.OwnerID IS NOT NULL
             """,
-            *dog_ids,
+            dog_ids,
         )
-        owner_ids = [row[0] for row in cursor.fetchall()]
+        owner_ids = list({row[0] for row in owner_rows})
 
     return class_ids, dog_ids, owner_ids
 
@@ -2691,14 +2716,14 @@ def update_division_names_for_ids(conn, division_ids: list[int], verbose: bool =
         return 0
 
     cursor = conn.cursor()
-    placeholders = ",".join("?" * len(division_ids))
-    cursor.execute(
-        f"SELECT DivisionID, DivisionName FROM sResults.Division WHERE DivisionID IN ({placeholders})",
-        *division_ids,
+    division_rows = _select_rows_by_ids(
+        cursor,
+        "SELECT DivisionID, DivisionName FROM sResults.Division WHERE DivisionID IN ({placeholders})",
+        division_ids,
     )
 
     updated = 0
-    for division_id, raw_name in cursor.fetchall():
+    for division_id, raw_name in division_rows:
         if raw_name is None:
             continue
         new_name = normalize_division_name_full(raw_name)
@@ -2719,19 +2744,19 @@ def update_class_names_for_ids(conn, class_ids: list[int]) -> int:
         return 0
 
     cursor = conn.cursor()
-    placeholders = ",".join("?" * len(class_ids))
-    cursor.execute(
-        f"""
+    class_rows = _select_rows_by_ids(
+        cursor,
+        """
         SELECT c.ClassID, c.ClassName, d.DivisionName
         FROM sResults.Class c
         JOIN sResults.Division d ON d.DivisionID = c.DivisionID
         WHERE c.ClassID IN ({placeholders})
         """,
-        *class_ids,
+        class_ids,
     )
 
     updated = 0
-    for class_id, class_name, division_name in cursor.fetchall():
+    for class_id, class_name, division_name in class_rows:
         if class_name is None:
             continue
         new_name = normalize_class_name_full(class_name, division_name)
@@ -2757,14 +2782,15 @@ def update_names_for_ids(
         return 0
 
     cursor = conn.cursor()
-    placeholders = ",".join("?" * len(entity_ids))
-    cursor.execute(
-        f"SELECT {id_col}, {name_col} FROM sResults.{table} WHERE {id_col} IN ({placeholders})",
-        *entity_ids,
+    entity_rows = _select_rows_by_ids(
+        cursor,
+        f"SELECT {id_col}, {name_col} FROM sResults.{table} "
+        "WHERE " + id_col + " IN ({placeholders})",
+        entity_ids,
     )
 
     updated = 0
-    for row_id, raw_name in cursor.fetchall():
+    for row_id, raw_name in entity_rows:
         if raw_name is None:
             continue
         new_name = normalizer(raw_name)

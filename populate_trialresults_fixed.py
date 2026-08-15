@@ -4476,6 +4476,60 @@ def run_db_action_with_deadlock_retry(
             raise
 
 
+def parse_trial_source_file(
+    file_path: str,
+    year: int,
+    *,
+    quiet: bool = False,
+):
+    """Parse a downloaded results file into (trial_info, placements, error).
+
+    Shared by the loader and the post-load verifier so both work from an
+    identical reading of the original downloaded text; error is None on success.
+    """
+    try:
+        if file_path.lower().endswith('.pdf'):
+            from scrape_trial_results_fixed import extract_text_from_pdf
+            raw_content = extract_text_from_pdf(file_path)
+            if not raw_content:
+                return None, None, "ERROR: Could not extract text from PDF"
+        else:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                raw_content = f.read()
+    except Exception as e:
+        return None, None, f"ERROR: Could not read file: {e}"
+
+    html_meta = {}
+    content = raw_content
+    if _is_html_file(file_path):
+        html_meta = extract_html_trial_metadata(raw_content)
+        content = strip_html_tags(raw_content)
+
+    # Split into lines and expand glued HTML placements
+    lines = expand_glued_placement_lines(content.split('\n'))
+
+    trial_info = extract_trial_info(lines, year, file_path)
+    if not trial_info:
+        return None, None, "Skipping file - could not extract trial info"
+
+    if html_meta.get('start_date') and not trial_info.start_date:
+        trial_info.start_date = html_meta['start_date']
+        trial_info.end_date = html_meta['end_date'] or html_meta['start_date']
+        if html_meta.get('location'):
+            trial_info.location = html_meta['location']
+        if not quiet:
+            print(f"    Location: {trial_info.location}")
+            print(f"    Dates: {trial_info.start_date} to {trial_info.end_date}")
+    for field in ('chair', 'administrator', 'judges'):
+        if html_meta.get(field) and not getattr(trial_info, field):
+            setattr(trial_info, field, html_meta[field])
+            if not quiet:
+                print(f"    {field.title()}: {html_meta[field]}")
+
+    placements = parse_placements(lines, trial_info)
+    return trial_info, placements, None
+
+
 def process_trial_file(
     conn,
     file_path: str,
@@ -4488,6 +4542,7 @@ def process_trial_file(
     reuse_entities: bool = False,
     defer_normalization: bool = False,
     loaded_trial_ids: list[int] | None = None,
+    verify_normalization: bool = True,
 ):
     """Process a single trial file and insert into database. Returns updated ID counters."""
     filename = os.path.basename(file_path)
@@ -4507,50 +4562,11 @@ def process_trial_file(
     
     print(f"\nProcessing: {result_file_path}", flush=True)
     
-    # Read file
-    try:
-        if file_path.lower().endswith('.pdf'):
-            from scrape_trial_results_fixed import extract_text_from_pdf
-            raw_content = extract_text_from_pdf(file_path)
-            if not raw_content:
-                print(f"  ERROR: Could not extract text from PDF", flush=True)
-                return next_trial_id, next_trialclass_id, next_placement_id
-        else:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-                raw_content = f.read()
-    except Exception as e:
-        print(f"  ERROR: Could not read file: {e}", flush=True)
+    trial_info, placements, parse_error = parse_trial_source_file(file_path, year)
+    if parse_error:
+        print(f"  {parse_error}", flush=True)
         return next_trial_id, next_trialclass_id, next_placement_id
 
-    html_meta = {}
-    content = raw_content
-    if _is_html_file(file_path):
-        html_meta = extract_html_trial_metadata(raw_content)
-        content = strip_html_tags(raw_content)
-    
-    # Split into lines and expand glued HTML placements
-    lines = expand_glued_placement_lines(content.split('\n'))
-    
-    # Extract trial info
-    trial_info = extract_trial_info(lines, year, file_path)
-    if not trial_info:
-        print(f"  Skipping file - could not extract trial info", flush=True)
-        return next_trial_id, next_trialclass_id, next_placement_id
-
-    if html_meta.get('start_date') and not trial_info.start_date:
-        trial_info.start_date = html_meta['start_date']
-        trial_info.end_date = html_meta['end_date'] or html_meta['start_date']
-        if html_meta.get('location'):
-            trial_info.location = html_meta['location']
-        print(f"    Location: {trial_info.location}")
-        print(f"    Dates: {trial_info.start_date} to {trial_info.end_date}")
-    for field in ('chair', 'administrator', 'judges'):
-        if html_meta.get(field) and not getattr(trial_info, field):
-            setattr(trial_info, field, html_meta[field])
-            print(f"    {field.title()}: {html_meta[field]}")
-    
-    # Parse placements
-    placements = parse_placements(lines, trial_info)
     print(f"  Found {len(placements)} placement results", flush=True)
     
     if not placements:
@@ -4730,6 +4746,22 @@ def process_trial_file(
             if loaded_trial_ids is not None:
                 loaded_trial_ids.append(trial_id)
             print(f"  Deferred normalization for trial {trial_id}", flush=True)
+        elif verify_normalization:
+            from verify_trial_normalization import verify_loaded_trials
+
+            def _normalize_and_verify() -> None:
+                verify_loaded_trials(
+                    conn,
+                    [trial_id],
+                    sources={trial_id: placements},
+                    skip_dog_owner_merge=reuse_entities,
+                )
+
+            run_db_action_with_deadlock_retry(
+                conn,
+                _normalize_and_verify,
+                f"post-load normalization and source comparison for trial {trial_id}",
+            )
         else:
             from normalize_trialresults_data import run_post_trial_normalization
 
@@ -4762,6 +4794,7 @@ def run_deferred_trial_normalizations(
     trial_ids: list[int],
     *,
     reuse_entities: bool = False,
+    verify_normalization: bool = True,
 ) -> None:
     """Normalize all trials after a batch folder load in one pass."""
     if not trial_ids:
@@ -4775,6 +4808,15 @@ def run_deferred_trial_normalizations(
     )
 
     def _normalize_batch() -> None:
+        if verify_normalization:
+            from verify_trial_normalization import verify_loaded_trials
+
+            verify_loaded_trials(
+                conn,
+                trial_ids,
+                skip_dog_owner_merge=reuse_entities,
+            )
+            return
         run_batch_post_trial_normalization(
             conn,
             trial_ids,
@@ -4819,6 +4861,11 @@ def main():
         '--normalize-at-end',
         action='store_true',
         help='Skip per-trial normalization during load; normalize all inserted trials once at the end',
+    )
+    parser.add_argument(
+        '--no-verify',
+        action='store_true',
+        help='Skip comparing normalized names back against the downloaded source files',
     )
     parser.add_argument('--verbose', action='store_true', help='Print every division/class/placement (very noisy)')
     parser.add_argument(
@@ -5013,6 +5060,7 @@ def main():
                 reuse_entities=reuse_entities,
                 defer_normalization=defer_normalization,
                 loaded_trial_ids=loaded_trial_ids,
+                verify_normalization=not args.no_verify,
             )
             if next_trial_id > prev_trial_id:
                 print(f"  -> Trial ID {prev_trial_id} committed", flush=True)
@@ -5024,6 +5072,7 @@ def main():
                 conn,
                 loaded_trial_ids,
                 reuse_entities=reuse_entities,
+                verify_normalization=not args.no_verify,
             )
     
     if args.load_catalog or args.catalog_only:
