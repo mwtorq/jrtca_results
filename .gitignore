@@ -4,3 +4,7 @@ __pycache__/**
 normalization_skew_report.csv
 verify_normalization_run.log
 verify_normalization_err.log
+
+# Rebuilt from the entries catalogs by split_merged_relatives.py
+catalog_pedigree_cache.json
+merged_relatives_evidence.csv

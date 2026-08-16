@@ -1998,6 +1998,51 @@ def load_dog_relationship_counts(cursor) -> dict[int, int]:
     return {row[0]: row[1] for row in cursor.fetchall()}
 
 
+def load_related_dog_pairs(
+    cursor,
+    names_by_id: dict[int, str] | None = None,
+) -> set[tuple[int, int]]:
+    """Pairs of dogs the pedigree says are different animals.
+
+    A dog is never its own sire, sibling or niece, so any pair joined by a
+    relationship must not be merged however alike the two names look. Rows name
+    the other dog in RelatedDogName even when RelatedDogID is empty, so the name
+    is resolved as well.
+
+    Callers that already hold the dog names pass them in; only pairs whose two
+    dogs are both up for merging can matter, so a caller working on one trial
+    can pass just that trial's dogs.
+    """
+    if names_by_id is None:
+        cursor.execute(
+            "SELECT DogID, DogName FROM sResults.Dog "
+            "WHERE DogName IS NOT NULL AND LTRIM(RTRIM(DogName)) <> ''"
+        )
+        names_by_id = {row[0]: row[1] for row in cursor.fetchall()}
+
+    by_name: dict[str, set[int]] = defaultdict(set)
+    for dog_id, dog_name in names_by_id.items():
+        if dog_name and dog_name.strip():
+            by_name[normalize_for_matching(dog_name)].add(dog_id)
+
+    pairs: set[tuple[int, int]] = set()
+
+    def add(a: int | None, b: int | None) -> None:
+        if a and b and a != b:
+            pairs.add((a, b) if a < b else (b, a))
+
+    cursor.execute(
+        "SELECT DogID, RelatedDogID, RelatedDogName FROM sResults.Relationship"
+    )
+    for dog_id, related_id, related_name in cursor.fetchall():
+        add(dog_id, related_id)
+        if dog_id and related_name:
+            for other_id in by_name.get(normalize_for_matching(related_name), ()):
+                add(dog_id, other_id)
+
+    return pairs
+
+
 def load_dog_placement_counts(cursor) -> dict[int, int]:
     cursor.execute(
         """
@@ -2048,8 +2093,16 @@ def dog_similarity_key(name: str) -> str:
 
 def cluster_dog_ids_by_similarity(
     rows: list[tuple[int, str]],
+    blocked_pairs: set[tuple[int, int]] | None = None,
 ) -> list[list[int]]:
-    """Group dog IDs with similar names (typo/OCR variants) via first-word index."""
+    """Group dog IDs with similar names (typo/OCR variants) via first-word index.
+
+    Pairs in blocked_pairs are kept apart. The check is between whole groups
+    rather than the pair being joined, because merging is transitive: 'Prim' is
+    one letter from 'Brim' and 'Brim' one from 'Brisk', which would otherwise
+    put Prim and Brisk in one group even though the pedigree lists them as
+    separate dogs.
+    """
     index: dict[str, list[tuple[int, str]]] = defaultdict(list)
     for dog_id, dog_name in rows:
         first_word = dog_similarity_key(dog_name)
@@ -2060,6 +2113,7 @@ def cluster_dog_ids_by_similarity(
     clusters: list[list[int]] = []
     for bucket in index.values():
         parent = list(range(len(bucket)))
+        members: dict[int, list[int]] = {i: [i] for i in range(len(bucket))}
 
         def find(x: int) -> int:
             while parent[x] != x:
@@ -2067,10 +2121,23 @@ def cluster_dog_ids_by_similarity(
                 x = parent[x]
             return x
 
+        def blocked_between(root_a: int, root_b: int) -> bool:
+            if not blocked_pairs:
+                return False
+            for i in members[root_a]:
+                for j in members[root_b]:
+                    a, b = bucket[i][0], bucket[j][0]
+                    pair = (a, b) if a < b else (b, a)
+                    if pair in blocked_pairs:
+                        return True
+            return False
+
         def union(a: int, b: int) -> None:
             root_a, root_b = find(a), find(b)
-            if root_a != root_b:
-                parent[root_b] = root_a
+            if root_a == root_b or blocked_between(root_a, root_b):
+                return
+            parent[root_b] = root_a
+            members[root_a].extend(members.pop(root_b))
 
         for i in range(len(bucket)):
             for j in range(i + 1, len(bucket)):
@@ -2400,9 +2467,16 @@ def merge_duplicate_dogs(conn, dry_run: bool, scope_ids: set[int] | None = None)
         (dog_id, meta[1], meta[2])
         for dog_id, meta in meta_by_id.items()
     ]
-    print_ts(f"Clustering {len(rows):,} dog names by similarity...")
+    related_pairs = load_related_dog_pairs(
+        cursor, {dog_id: meta[1] for dog_id, meta in meta_by_id.items()},
+    )
+    print_ts(
+        f"Clustering {len(rows):,} dog names by similarity "
+        f"({len(related_pairs):,} related pairs held apart)..."
+    )
     dup_clusters = cluster_dog_ids_by_similarity(
         [(dog_id, dog_name) for dog_id, dog_name, _owner_id in rows],
+        blocked_pairs=related_pairs,
     )
     if scope_ids:
         dup_clusters = [
@@ -2485,8 +2559,51 @@ def merge_duplicate_dogs(conn, dry_run: bool, scope_ids: set[int] | None = None)
             print_progress("Dog merge", idx, len(dup_clusters), f"{merged:,} IDs consolidated")
 
     if not dry_run and merged:
+        deduped = dedupe_relationship_rows(conn)
+        if deduped:
+            print_ts(f"Removed {deduped:,} relationship rows duplicated by the merge")
         conn.commit()
     return merged
+
+
+def dedupe_relationship_rows(conn) -> int:
+    """Drop relationship rows a merge duplicated.
+
+    Moving a dog's rows onto the dog it merged with leaves two identical rows
+    wherever both already recorded the same relative. The loader refuses to
+    write a duplicate, so any that exist came from a merge.
+    """
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        DELETE r
+        FROM [sResults].[Relationship] r
+        WHERE EXISTS (
+            SELECT 1 FROM [sResults].[Relationship] keep
+            WHERE keep.DogID = r.DogID
+              AND keep.RelationshipType = r.RelationshipType
+              AND keep.RelatedDogName = r.RelatedDogName
+              AND ISNULL(keep.RelatedDogID, -1) = ISNULL(r.RelatedDogID, -1)
+              AND ISNULL(keep.ViaDogName, '') = ISNULL(r.ViaDogName, '')
+              AND keep.RelationshipID < r.RelationshipID
+        )
+        """
+    )
+    return cursor.rowcount
+
+
+def drop_self_referencing_relationships(conn) -> int:
+    """Drop rows that make a dog its own relative.
+
+    These only exist because two related dogs were merged into one record. The
+    pedigree veto in cluster_dog_ids_by_similarity stops new ones appearing;
+    split_merged_relatives.py rescues the ones the catalogs can still explain.
+    """
+    cursor = conn.cursor()
+    cursor.execute(
+        "DELETE FROM [sResults].[Relationship] WHERE DogID = RelatedDogID"
+    )
+    return cursor.rowcount
 
 
 def update_class_table_names(conn, dry_run: bool, sample_limit: int = 15) -> tuple[int, int]:
@@ -2950,7 +3067,27 @@ def main():
     parser.add_argument("--division-only", action="store_true")
     parser.add_argument("--dog-only", action="store_true")
     parser.add_argument("--owner-only", action="store_true")
+    parser.add_argument(
+        "--repair-relationships",
+        action="store_true",
+        help="Drop relationships a merge duplicated or pointed at the dog itself",
+    )
     args = parser.parse_args()
+
+    if args.repair_relationships:
+        conn = get_connection()
+        print_ts("=== STEP: Relationship repair ===")
+        selfs = drop_self_referencing_relationships(conn)
+        dupes = dedupe_relationship_rows(conn)
+        if args.dry_run:
+            conn.rollback()
+            print_ts("DRY RUN - rolled back")
+        else:
+            conn.commit()
+        print_ts(f"Self-referencing rows removed: {selfs:,}")
+        print_ts(f"Duplicated rows removed: {dupes:,}")
+        conn.close()
+        return
 
     run_all = not (args.class_only or args.division_only or args.dog_only or args.owner_only)
     dry_run = args.dry_run
