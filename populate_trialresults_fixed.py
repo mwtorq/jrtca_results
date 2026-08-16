@@ -3866,8 +3866,17 @@ def purge_trialvault_nonsanctioned_data(trial_ids: list[int] | None = None) -> d
 def append_trialvault_nonsanctioned_to_database(
     results,
     source_label: str = "",
+    include_sanctioned: bool = False,
 ) -> dict[str, int]:
-    """Insert non-sanctioned Trial Vault placements into existing trials."""
+    """Insert Trial Vault placements into existing trials.
+
+    By default only non-sanctioned classes are considered, which is what the older
+    --trialvault-nonsanctioned modes expect. With include_sanctioned=True this becomes a
+    full class-level merge: Trial Vault carries classes the JRTCA site never publishes
+    (non-sanctioned ones especially) plus non-placing entries such as DNP, DQ, F, and SCR
+    for classes both sources report, and all of that belongs on the existing trial rather
+    than on a duplicate.
+    """
     from collections import defaultdict
     from normalize_trialresults_data import normalize_class_name_full
 
@@ -3880,7 +3889,10 @@ def append_trialvault_nonsanctioned_to_database(
         "skipped_sanctioned": 0,
         "times_inserted": 0,
     }
-    nonsanctioned = [r for r in results if is_nonsanctioned_trialvault_result(r)]
+    if include_sanctioned:
+        nonsanctioned = list(results)
+    else:
+        nonsanctioned = [r for r in results if is_nonsanctioned_trialvault_result(r)]
     if not nonsanctioned:
         return stats
 
@@ -3915,7 +3927,7 @@ def append_trialvault_nonsanctioned_to_database(
 
             cursor.execute(
                 """
-                SELECT tc.TrialClassID, c.ClassName, d.DivisionName
+                SELECT tc.TrialClassID, tc.ClassID, c.ClassName, d.DivisionName
                 FROM [sResults].[TrialClass] tc
                 JOIN [sResults].[Class] c ON tc.ClassID = c.ClassID
                 JOIN [sResults].[Division] d ON c.DivisionID = d.DivisionID
@@ -3924,12 +3936,18 @@ def append_trialvault_nonsanctioned_to_database(
                 trial_id,
             )
             existing_classes: dict[tuple[str, str], int] = {}
-            for trialclass_id, class_name, division_name in cursor.fetchall():
+            # Also index by ClassID. get_or_create_class can return an existing class whose
+            # stored name differs from the normalized name built here, in which case the
+            # name key misses and a second TrialClass row gets created for the same class on
+            # every run. ClassID is what actually gets inserted, so it is the reliable key.
+            existing_class_ids: dict[int, int] = {}
+            for trialclass_id, class_id_existing, class_name, division_name in cursor.fetchall():
                 key = (
                     (division_name or "").strip().lower(),
                     (class_name or "").strip().lower(),
                 )
                 existing_classes[key] = trialclass_id
+                existing_class_ids[class_id_existing] = trialclass_id
 
             cursor.execute(
                 """
@@ -3941,14 +3959,21 @@ def append_trialvault_nonsanctioned_to_database(
                 """,
                 trial_id,
             )
-            existing_placements: set[tuple] = set()
-            for _pid, trialclass_id, result_text, dog_name, owner_name in cursor.fetchall():
-                existing_placements.add((
+            # Count rows per class + normalized result + dog. Counting rather than set
+            # membership keeps genuine multi-run entries: a dog running several elements of
+            # one class can hold several rows, including repeats of the same result.
+            #
+            # Owner is deliberately not part of the key. The query above reads the owner from
+            # the Dog row, not from the placement, so a dog whose stored owner differs from
+            # the name Trial Vault prints would never match and its rows would be re-inserted
+            # on every run.
+            existing_counts: dict[tuple[int, str, str], int] = defaultdict(int)
+            for _pid, trialclass_id, result_text, dog_name, _owner_name in cursor.fetchall():
+                existing_counts[(
                     trialclass_id,
                     normalize_trialvault_placement_result(result_text or ""),
                     (dog_name or "").strip().lower(),
-                    _owner_name_key(owner_name),
-                ))
+                )] += 1
 
             next_trialclass_id, next_placement_id = get_next_ids_from_db(conn)[1:3]
             next_times_id = get_next_placement_times_id(conn)
@@ -3971,7 +3996,7 @@ def append_trialvault_nonsanctioned_to_database(
                     continue
 
                 class_key = (division_name.strip().lower(), clean_class_name.strip().lower())
-                trialclass_id = existing_classes.get(class_key)
+                trialclass_id = existing_classes.get(class_key) or existing_class_ids.get(class_id)
                 if not trialclass_id:
                     trialclass_id = next_trialclass_id
                     next_trialclass_id += 1
@@ -3986,20 +4011,25 @@ def append_trialvault_nonsanctioned_to_database(
                         entry_count or len(class_results),
                     )
                     existing_classes[class_key] = trialclass_id
+                    existing_class_ids[class_id] = trialclass_id
                     stats["classes"] += 1
 
+                seen_counts: dict[tuple[int, str, str], int] = defaultdict(int)
                 for result in class_results:
-                    owner_id = get_or_create_owner(cursor, result.owner)
-                    dog_id = get_or_create_dog(cursor, result.dog_name, owner_id)
                     placement_key = (
                         trialclass_id,
                         normalize_trialvault_placement_result(result.placement or ""),
                         (result.dog_name or "").strip().lower(),
-                        _owner_name_key(result.owner),
                     )
-                    if placement_key in existing_placements:
+                    # Skip as many of this key's rows as the database already holds, then
+                    # insert the surplus. Re-running therefore adds nothing.
+                    seen_counts[placement_key] += 1
+                    if seen_counts[placement_key] <= existing_counts[placement_key]:
                         stats["skipped_duplicate"] += 1
                         continue
+
+                    owner_id = get_or_create_owner(cursor, result.owner)
+                    dog_id = get_or_create_dog(cursor, result.dog_name, owner_id)
 
                     placement_id = next_placement_id
                     next_placement_id += 1
@@ -4016,7 +4046,6 @@ def append_trialvault_nonsanctioned_to_database(
                         dog_id,
                         result.placement,
                     )
-                    existing_placements.add(placement_key)
                     stats["inserted"] += 1
 
                     if result.time:
@@ -4038,8 +4067,9 @@ def append_trialvault_nonsanctioned_to_database(
 
         stats["skipped_sanctioned"] = len(results) - len(nonsanctioned)
         label = f" ({source_label})" if source_label else ""
+        kind = "Class merge" if include_sanctioned else "Non-sanctioned append"
         print(
-            f"  Non-sanctioned append{label}: trials {stats['trials']:,}, "
+            f"  {kind}{label}: trials {stats['trials']:,}, "
             f"classes {stats['classes']:,}, placements {stats['inserted']:,}, "
             f"times {stats['times_inserted']:,}, duplicates {stats['skipped_duplicate']:,}, "
             f"no trial match {stats['skipped_no_trial']:,}",
@@ -4051,6 +4081,83 @@ def append_trialvault_nonsanctioned_to_database(
         raise
     finally:
         conn.close()
+
+
+def split_trialvault_results_by_existing_trial(results) -> tuple[list, list]:
+    """Split Trial Vault results into (belongs to an existing trial, needs a new trial).
+
+    Resolution goes through resolve_trial_list_id, which maps Trial Vault's day-suffixed
+    names onto the roman numerals the JRTCA site uses (Saturday to I, Sunday to II). The
+    whole-trial loader's own name check is weaker and treats "Texas Two Step 2025 -
+    Saturday" as unrelated to "Texas Two Step I", which is how duplicate trials get made.
+    """
+    if not results:
+        return [], []
+
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED")
+        trial_lookup, canonical_lookup, base_year_lookup, trial_years = build_trial_list_lookup(cursor)
+    finally:
+        conn.close()
+
+    existing, new = [], []
+    decisions: dict[tuple[str, str], int | None] = {}
+    for result in results:
+        cache_key = (result.trial_name or "", str(result.year or ""))
+        if cache_key not in decisions:
+            decisions[cache_key] = resolve_trial_list_id(
+                result.trial_name,
+                result.year,
+                trial_lookup,
+                canonical_lookup,
+                base_year_lookup,
+                trial_years,
+            )
+        (existing if decisions[cache_key] else new).append(result)
+
+    for (name, year), trial_id in sorted(decisions.items()):
+        verdict = f"merge into TrialListID {trial_id}" if trial_id else "new trial"
+        print(f"      '{name}' ({year}) -> {verdict}")
+
+    return existing, new
+
+
+def merge_trialvault_event_to_database(
+    results,
+    results_url: str,
+    source_file_path: str | None = None,
+) -> dict[str, int]:
+    """Load one Trial Vault event, merging into existing trials instead of duplicating them.
+
+    Trial Vault and the JRTCA site overlap but neither is a superset: Trial Vault adds
+    non-sanctioned classes and non-placing entries, the JRTCA site covers events Trial
+    Vault never hosted. Splitting per trial keeps one row per real trial either way.
+    """
+    stats = {"merged_classes": 0, "merged_placements": 0, "created_trials": 0}
+    if not results:
+        print("  No results to load.")
+        return stats
+
+    existing, new = split_trialvault_results_by_existing_trial(results)
+
+    if existing:
+        merge_stats = append_trialvault_nonsanctioned_to_database(
+            existing,
+            source_label=os.path.basename(source_file_path or results_url),
+            include_sanctioned=True,
+        )
+        stats["merged_classes"] = merge_stats.get("classes", 0)
+        stats["merged_placements"] = merge_stats.get("inserted", 0)
+
+    if new:
+        trial_names = {r.trial_name for r in new}
+        print(f"  Creating {len(trial_names)} new trial(s) from Trial Vault...")
+        load_trialvault_results_to_database(new, results_url, source_file_path)
+        stats["created_trials"] = len(trial_names)
+
+    return stats
 
 
 def get_or_create_division(cursor, division_name: str) -> int:

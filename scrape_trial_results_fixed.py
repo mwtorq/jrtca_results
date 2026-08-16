@@ -653,6 +653,107 @@ def prompt_trialvault_credentials() -> Tuple[str, str]:
     return email, password
 
 
+def trialvault_credentials_from_env() -> Tuple[str, str]:
+    """Return Trial Vault credentials from the environment, or exit explaining how to set them.
+
+    Deliberately never prompts. This backs the unattended weekly run, and isatty() is not
+    a reliable indicator of a usable console, so a prompt fallback risks hanging a
+    scheduled job on input() until its time limit expires.
+    """
+    email = os.environ.get("TRIALVAULT_EMAIL", "").strip()
+    password = os.environ.get("TRIALVAULT_PASSWORD", "")
+    if not email or not password:
+        raise SystemExit(
+            "ERROR: --trialvault-new requires TRIALVAULT_EMAIL and TRIALVAULT_PASSWORD.\n"
+            "       Save them once with Save-TrialVaultCredential.ps1, or use --trialvault "
+            "to be prompted interactively."
+        )
+    print(f"Using Trial Vault credentials from the environment ({email}).")
+    return email, password
+
+
+def scrape_trialvault_all_new(min_year: int = 0, list_only: bool = False) -> None:
+    """Log in once, walk the event catalog, and load every event not already stored.
+
+    load_trialvault_results_to_database skips any trial matching an existing row for the
+    same year, so offering it the whole catalog cannot duplicate trials. That makes this
+    safe to run unattended, unlike the single-event mode that asks for one URL at a time.
+    """
+    print("=" * 80)
+    print("TRIAL VAULT - LOAD NEW EVENTS")
+    print("=" * 80)
+    print()
+
+    email, password = trialvault_credentials_from_env()
+
+    session = requests.Session()
+    session.headers.update(
+        {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+    )
+
+    if not trialvault_login(session, email, password):
+        raise SystemExit("ERROR: Trial Vault login failed; check the stored credential.")
+
+    events = fetch_trialvault_event_catalog(session)
+    if not events:
+        print("No Trial Vault events found in the catalog.")
+        return
+
+    considered = skipped_year = loaded = failed = no_results_yet = 0
+    for event_name, results_url in events:
+        trial_name, date_str, year = fetch_trialvault_event_metadata(session, results_url)
+        if min_year and re.fullmatch(r"\d{4}", str(year or "").strip()) and int(year) < min_year:
+            skipped_year += 1
+            continue
+
+        considered += 1
+        print()
+        print(f"[{considered}] {trial_name} ({year})")
+        print(f"      {results_url}")
+        if list_only:
+            continue
+
+        html_content = fetch_trialvault_page(session, results_url)
+        if not html_content:
+            print("      WARNING: could not fetch the scores page; skipping.")
+            failed += 1
+            continue
+
+        debug_path = save_trialvault_debug_files(html_content, trial_name, year, results_url)
+        soup = BeautifulSoup(html_content, "html.parser")
+        results, _judges = parse_trialvault_scores_html(soup, trial_name, date_str, year)
+        print(f"      Extracted {len(results)} placements")
+        if not results:
+            # The catalog lists events before they are run, so an empty scores page is the
+            # normal state for an upcoming trial, not a failure worth flagging.
+            print("      No results posted yet; skipping.")
+            no_results_yet += 1
+            continue
+
+        try:
+            from populate_trialresults_fixed import merge_trialvault_event_to_database
+
+            merge_trialvault_event_to_database(results, results_url, debug_path)
+            loaded += 1
+        except Exception as exc:  # noqa: BLE001 - keep going through the catalog
+            print(f"      ERROR: database load failed for '{trial_name}': {exc}")
+            failed += 1
+
+    print()
+    print("=" * 80)
+    print(f"Events in catalog        : {len(events)}")
+    print(f"Skipped (before {min_year or 'n/a'}) : {skipped_year}")
+    print(f"Considered               : {considered}")
+    if not list_only:
+        print(f"Loaded / merged          : {loaded}")
+        print(f"No results posted yet    : {no_results_yet}")
+        print(f"Failed                   : {failed}")
+    print("=" * 80)
+
+
 def prompt_trialvault_results_url() -> str:
     """Prompt for the Trial Vault results page URL."""
     print()
@@ -1725,6 +1826,29 @@ def find_pagination_links(soup: BeautifulSoup, base_url: str) -> List[str]:
                     pagination_links.append(full_url)
     
     return pagination_links
+
+
+def filter_links_by_year(links: list, min_year: int, label: str) -> list:
+    """Drop (name, url, year) links for years before min_year.
+
+    Both site walks return every year the navigation exposes, so without this a weekly
+    run re-follows every trial in every archive year. Links whose year cannot be read
+    are kept, so an unparsable year never silently hides a new trial.
+    """
+    if not min_year:
+        return links
+
+    kept, skipped = [], 0
+    for link in links:
+        match = re.search(r"\d{4}", str(link[2] or ""))
+        if match and int(match.group(0)) < min_year:
+            skipped += 1
+            continue
+        kept.append(link)
+
+    if skipped:
+        print(f"  Skipping {skipped} {label} link(s) for years before {min_year}")
+    return kept
 
 
 def find_jrtcc_trial_result_links(base_url: str = "https://www.jrtcc.ca/trials/#results") -> List[Tuple[str, str, str]]:
@@ -3685,6 +3809,32 @@ def main():
         default="",
         help="Optional year folder filter for local Trial Vault loads (e.g. 2025)",
     )
+    parser.add_argument(
+        "--web-only",
+        action="store_true",
+        help="Skip re-parsing already-downloaded local files and only collect new postings "
+             "from the websites. Trial_Results_Report.txt then covers just this run's finds.",
+    )
+    parser.add_argument(
+        "--min-year",
+        type=int,
+        default=0,
+        help="Ignore Yearbook and JRTCC links for years before this. Both sites link every "
+             "archive year, so without this a run re-follows every trial back to the 1990s. "
+             "Also bounds --trialvault-new.",
+    )
+    parser.add_argument(
+        "--trialvault-new",
+        action="store_true",
+        help="Walk the Trial Vault event catalog and load every event not already in the "
+             "database. Unlike --trialvault this needs no URL, and it reads credentials from "
+             "TRIALVAULT_EMAIL/TRIALVAULT_PASSWORD so it can run unattended.",
+    )
+    parser.add_argument(
+        "--list-only",
+        action="store_true",
+        help="With --trialvault-new, list the events that would be loaded and change nothing.",
+    )
     args = parser.parse_args()
 
     if not HAS_REQUESTS:
@@ -3718,6 +3868,10 @@ def main():
         scrape_trialvault_times_all(local_only=args.trialvault_times_local_only)
         return
 
+    if args.trialvault_new:
+        scrape_trialvault_all_new(min_year=args.min_year, list_only=args.list_only)
+        return
+
     if args.trialvault:
         scrape_trialvault_single()
         return
@@ -3735,12 +3889,18 @@ def main():
     processed_urls = set()
     seen_trials = set()  # (trial_name, date) tuples
     
-    # First, scan and process local subfolders for trial result files
-    print("Scanning local subfolders for trial result files...")
-    local_files = scan_local_subfolders(".")
-    print(f"Found {len(local_files)} local trial result files")
-    
-    # Process local files first
+    # Re-reading every local file only fills seen_trials, which nothing below the local
+    # loop consults, and pads the report. The website walks dedupe on processed_urls,
+    # built from the sites themselves, so skipping this changes neither what is found
+    # nor what is downloaded.
+    if args.web_only:
+        print("Skipping the local file scan (--web-only); collecting only new website postings.")
+        local_files = []
+    else:
+        print("Scanning local subfolders for trial result files...")
+        local_files = scan_local_subfolders(".")
+        print(f"Found {len(local_files)} local trial result files")
+
     for file_path, year, source_folder in local_files:
         # Extract trial name and date from file to check for duplicates
         # This works for both text/HTML and PDF files
@@ -3839,6 +3999,7 @@ def main():
     print("\nFinding trial result links from JRTCA Yearbook website...")
     trial_links = find_trial_result_links(base_url)
     print(f"Found {len(trial_links)} trial result links")
+    trial_links = filter_links_by_year(trial_links, args.min_year, "Yearbook")
     
     # Process JRTCA Yearbook web links
     for link_text, url, year in trial_links:
@@ -3870,6 +4031,7 @@ def main():
     print("\nFinding trial result links from JRTCC website...")
     jrtcc_links = find_jrtcc_trial_result_links("https://www.jrtcc.ca/trials/#results")
     print(f"Found {len(jrtcc_links)} JRTCC trial result links")
+    jrtcc_links = filter_links_by_year(jrtcc_links, args.min_year, "JRTCC")
     
     # Process JRTCC links (mostly PDFs)
     for trial_name, url, year in jrtcc_links:

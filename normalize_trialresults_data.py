@@ -170,8 +170,15 @@ def _repair_division_ocr(part: str) -> str:
 
     part = re.sub(r'\s+', ' ', part.strip())
     part = re.sub(r'[\s.,;:\-]+$', '', part)
-    part = re.sub(r'^[\s.,;:\-]+', '', part)
+    part = re.sub(r'^[\s.,;:\-\'"]+', '', part)
     repairs = [
+        # Scans read the "IVI" of DIVISION as a single M, and drop or swap the
+        # letters of CONFORMATION; both leave a division that looks new.
+        (r'(?i)CONFOMRATION', 'CONFORMATION'),
+        (r'(?i)\bDMSION\b', 'DIVISION'),
+        (r'(?i)\bDIVIISON\b', 'DIVISION'),
+        (r'(?i)\bDIVISLON\b', 'DIVISION'),
+        (r'(?i)YOUTHDIVISION', 'YOUTH DIVISION'),
         (r'(?i)CONFORMATIONDIVISION', 'CONFORMATION DIVISION'),
         (r'(?i)STEEPLECHASERACES', 'STEEPLECHASE RACES'),
         (r'(?i)STEEPLECHASERACE\b', 'STEEPLECHASE RACES'),
