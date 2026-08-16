@@ -319,19 +319,61 @@ def names_equal(expected: str, actual: str) -> bool:
     return _key(expected) == _key(actual)
 
 
-def divisions_match(expected: str, actual: str) -> bool:
-    """Allow the stored division to be a refinement of the one in the source.
+# Events scored separately but written under one heading in the results files.
+# A file heads a whole block "Racing Division" and leaves the individual races to
+# the class lines, so the database naming the race is the finer reading.
+_DIVISION_SUB_EVENTS = {
+    "go to ground": {"super earth"},
+    "racing": {
+        "flat races",
+        "steeplechase races",
+        "hurdle racing",
+        "hurdles racing",
+        "puppy racing",
+        "specialty races",
+        "stakes racing",
+        "races",
+    },
+}
+
+
+def _division_words(name: str) -> str:
+    """A division's own words, without the word every division shares."""
+    text = re.sub(r"\bdivisions?\b", " ", (name or "").lower())
+    return " ".join(re.findall(r"[a-z0-9]+", text))
+
+
+def divisions_match(expected: str, actual: str, class_name: str = "") -> bool:
+    """Allow the stored division to be a finer reading of the one in the source.
 
     A file may head a block "Racing Division" where the database records the
     specific "Racing Division - Flat Races"; the narrower name is extra detail,
     not a placement that drifted into the wrong division.
+
+    The files also head a single block "Go-to-Ground" and leave it to the class
+    to say which event it was, so a class called 'Over 12½" up to 15" Adult
+    Certificate Super Earth' stored under SUPER EARTH is the loader reading the
+    class, not skew. Divisions the class says nothing about are still reported.
     """
     if not expected:
         return True
     expected_key, actual_key = _key(expected), _key(actual)
     if expected_key == actual_key:
         return True
-    return expected_key.startswith(actual_key) or actual_key.startswith(expected_key)
+    if expected_key.startswith(actual_key) or actual_key.startswith(expected_key):
+        return True
+
+    # Whole words only: "youth" is evidence, the "youth" inside another word is not.
+    stored_words = _division_words(actual)
+    if stored_words and f" {stored_words} " in f" {_division_words(class_name)} ":
+        return True
+
+    sub_events = _DIVISION_SUB_EVENTS.get(_division_words(expected))
+    if sub_events:
+        parts = [part for part in re.split(r"\s+-\s+", actual or "") if part.strip()]
+        if parts and all(_division_words(part) in sub_events for part in parts):
+            return True
+    return False
 
 
 def expected_rows_from_source(placements) -> tuple[list[dict], list[tuple[str, str]]]:
@@ -726,7 +768,9 @@ def compare_trial(
             owners_match(candidate, row["owner_name"]) for candidate in candidate_owners
         )
         class_skewed = not names_equal(src["class_name"], row["class_name"])
-        division_skewed = not divisions_match(src["division"], row["division_name"])
+        division_skewed = not divisions_match(
+            src["division"], row["division_name"], row["class_name"],
+        )
 
         if not (dog_skewed or owner_skewed or class_skewed or division_skewed):
             continue
