@@ -3225,11 +3225,41 @@ def main():
     parser.add_argument("--dog-only", action="store_true")
     parser.add_argument("--owner-only", action="store_true")
     parser.add_argument(
+        "--dedupe-placements",
+        action="store_true",
+        help="Remove duplicate TrialClass rows and duplicate placements within trials",
+    )
+    parser.add_argument(
+        "--year",
+        type=int,
+        help="Limit --dedupe-placements to trials in this year",
+    )
+    parser.add_argument(
         "--repair-relationships",
         action="store_true",
         help="Drop relationships a merge duplicated or pointed at the dog itself",
     )
     args = parser.parse_args()
+
+    if args.dedupe_placements:
+        from populate_trialresults_fixed import dedupe_duplicate_trial_classes
+
+        conn = get_connection()
+        cursor = conn.cursor()
+        if args.year:
+            cursor.execute(
+                "SELECT TrialListID FROM sResults.TrialList WHERE Year = ? ORDER BY TrialListID",
+                args.year,
+            )
+            print_ts(f"=== STEP: Dedupe placements for {args.year} trials ===")
+        else:
+            cursor.execute("SELECT TrialListID FROM sResults.TrialList ORDER BY TrialListID")
+            print_ts("=== STEP: Dedupe placements for all trials ===")
+        trial_ids = [row[0] for row in cursor.fetchall()]
+        conn.close()
+        stats = dedupe_duplicate_trial_classes(trial_ids)
+        print_ts(f"Dedupe complete: {stats}")
+        return
 
     if args.repair_relationships:
         conn = get_connection()
