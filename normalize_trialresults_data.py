@@ -1897,8 +1897,15 @@ def normalize_dog_name(name: str) -> str:
     dog, _owner = split_embedded_owner(name)
     name = dog or name
 
+    name = re.sub(r",\s*owner\s*,?\s*.*$", "", name, flags=re.IGNORECASE).strip(" ,")
+    if ", " in name and ", owned by " not in name.lower():
+        before, after = name.split(", ", 1)
+        if re.search(r"[/&]|\bowner\b", after, re.I):
+            name = before.strip(" ,")
+
     name = re.sub(r"owned\s*by\s*$", "", name, flags=re.IGNORECASE).strip(" ,")
     name = fix_ocr_word_spacing(name)
+    name = re.sub(r"\bTrac e\b", "Trace", name, flags=re.IGNORECASE)
     name = collapse_mc_prefix(name)
     name = re.sub(r"[\u0000-\u001f\u007f-\u009f\ufffd]", "", name)
     name = re.sub(r"\s+", " ", name).strip(" ,.")
@@ -2190,17 +2197,95 @@ def load_authoritative_dog_ids(cursor) -> set[int]:
     return {row[0] for row in cursor.fetchall()}
 
 
+def load_catalog_canonical_names(cursor) -> dict[int, str]:
+    """Best catalog name per dog, preferring complete forms with ' of ...' suffix."""
+    cursor.execute(
+        """
+        SELECT DogID, DogName
+        FROM sResults.CatalogEntry
+        WHERE DogID IS NOT NULL
+          AND DogName IS NOT NULL
+          AND LTRIM(RTRIM(DogName)) <> ''
+        """
+    )
+    by_dog: dict[int, list[str]] = defaultdict(list)
+    for dog_id, name in cursor.fetchall():
+        by_dog[dog_id].append(name.strip())
+    canonical: dict[int, str] = {}
+    for dog_id, names in by_dog.items():
+        unique = list(dict.fromkeys(names))
+        picked = find_canonical_name_for_similar_names(unique)
+        canonical[dog_id] = normalize_dog_name(picked) or picked
+    return canonical
+
+
+def name_quality_penalty(name: str) -> int:
+    """Lower is better. Penalize embedded owners and obvious OCR spacing errors."""
+    if not name:
+        return 999
+    penalty = 0
+    if re.search(r",|\bowner\b", name, re.I):
+        penalty += 100
+    if re.search(r"\b[A-Za-z]{3,4} e\b", name):
+        penalty += 50
+    if "  " in name:
+        penalty += 10
+    return penalty
+
+
+def apply_catalog_dog_names(
+    conn,
+    dry_run: bool = False,
+    scope_ids: set[int] | None = None,
+) -> int:
+    """Set Dog.DogName from catalog entries when a catalog name exists."""
+    cursor = conn.cursor()
+    catalog_names = load_catalog_canonical_names(cursor)
+    scope_note = " (trial-scoped)" if scope_ids else ""
+    print_ts(f"Applying catalog names for {len(catalog_names):,} dogs{scope_note}...")
+    updated = 0
+    for dog_id, catalog_name in catalog_names.items():
+        if scope_ids and dog_id not in scope_ids:
+            continue
+        cursor.execute("SELECT DogName FROM sResults.Dog WHERE DogID = ?", dog_id)
+        row = cursor.fetchone()
+        if not row or row[0] == catalog_name:
+            continue
+        updated += 1
+        if dry_run:
+            print(f"  Dog {dog_id}: {row[0]!r} -> {catalog_name!r}")
+            continue
+        cursor.execute(
+            "UPDATE sResults.Dog SET DogName = ? WHERE DogID = ?",
+            catalog_name,
+            dog_id,
+        )
+    if not dry_run and updated:
+        conn.commit()
+    print_ts(f"Catalog name updates: {updated:,}")
+    return updated
+
+
 def pick_canonical_dog_name_for_cluster(
     ids: list[int],
     names_by_id: dict[int, str],
     authoritative_ids: set[int],
+    catalog_names: dict[int, str] | None = None,
 ) -> str:
-    """Pick canonical dog name, preferring names from authoritative (non-OCR) sources.
+    """Pick canonical dog name, preferring catalog then clean authoritative names.
 
     Priority:
-    1. Most-frequent name among authoritative-source dogs in the cluster (longest on tie)
-    2. Fall back to pick_canonical_person_name across all cluster members
+    1. Catalog name when any dog in the cluster has catalog entries
+    2. Lowest-quality-penalty name among authoritative-source dogs (most frequent, then longest)
+    3. Fall back to pick_canonical_person_name across all cluster members
     """
+    catalog_names = catalog_names or {}
+    cluster_catalog = [
+        catalog_names[did] for did in ids if catalog_names.get(did)
+    ]
+    if cluster_catalog:
+        return find_canonical_name_for_similar_names(cluster_catalog)
+
     auth_names = [names_by_id[did] for did in ids if did in authoritative_ids and names_by_id.get(did)]
     if auth_names:
         freq: dict[str, int] = defaultdict(int)
@@ -2208,8 +2293,9 @@ def pick_canonical_dog_name_for_cluster(
             freq[n] += 1
         best_freq = max(freq.values())
         candidates = [n for n, f in freq.items() if f == best_freq]
-        # Among equally-frequent authoritative names, prefer the longest (most complete)
-        return max(candidates, key=len)
+        min_penalty = min(name_quality_penalty(n) for n in candidates)
+        candidates = [n for n in candidates if name_quality_penalty(n) == min_penalty]
+        return find_canonical_name_for_similar_names(candidates)
     return pick_canonical_person_name([names_by_id[did] for did in ids if names_by_id.get(did)])
 
 
@@ -2555,7 +2641,9 @@ def merge_duplicate_dogs(conn, dry_run: bool, scope_ids: set[int] | None = None)
     placement_counts = load_dog_placement_counts(cursor)
     names_by_id = {dog_id: meta[1] for dog_id, meta in meta_by_id.items()}
     authoritative_ids = load_authoritative_dog_ids(cursor)
+    catalog_names = load_catalog_canonical_names(cursor)
     print_ts(f"Authoritative (non-OCR) dog IDs loaded: {len(authoritative_ids):,}")
+    print_ts(f"Catalog canonical names loaded: {len(catalog_names):,}")
 
     merged = 0
     for idx, merge_ids in enumerate(dup_clusters, start=1):
@@ -2564,7 +2652,7 @@ def merge_duplicate_dogs(conn, dry_run: bool, scope_ids: set[int] | None = None)
             authoritative_ids,
         )
         canonical_name = pick_canonical_dog_name_for_cluster(
-            merge_ids, names_by_id, authoritative_ids,
+            merge_ids, names_by_id, authoritative_ids, catalog_names,
         )
         best_sire, best_dam, best_sex = best_pedigree_from_cluster(merge_ids, meta_by_id)
         for dup_id in merge_ids:
@@ -3088,11 +3176,13 @@ def run_batch_post_trial_normalization(
     dog_updates = update_names_for_ids(
         conn, "Dog", "DogID", "DogName", normalize_dog_name, list(dog_ids),
     )
+    catalog_updates = apply_catalog_dog_names(conn, dry_run=False, scope_ids=dog_ids)
     owner_updates = update_names_for_ids(
         conn, "Owner", "OwnerID", "OwnerName", normalize_owner_name, list(owner_ids),
     )
     print_ts(
-        f"  Name updates: {class_updates:,} classes, {dog_updates:,} dogs, {owner_updates:,} owners",
+        f"  Name updates: {class_updates:,} classes, {dog_updates:,} dogs, "
+        f"{catalog_updates:,} catalog, {owner_updates:,} owners",
     )
 
     class_merged = merge_duplicate_classes(conn, dry_run=False)
@@ -3201,10 +3291,12 @@ def main():
 
     if run_all or args.dog_only:
         print_ts("=== STEP: Dogs ===")
-        print_ts("Phase 1/2: Normalize Dog.DogName")
+        print_ts("Phase 1/3: Normalize Dog.DogName")
         update_table_names(conn, "Dog", "DogID", "DogName", normalize_dog_name, dry_run)
+        print_ts("Phase 2/3: Apply catalog dog names")
+        apply_catalog_dog_names(conn, dry_run)
         if not args.skip_merge:
-            print_ts("Phase 2/2: Merge duplicate dogs")
+            print_ts("Phase 3/3: Merge duplicate dogs")
             merged = merge_duplicate_dogs(conn, dry_run)
             print_ts(f"Merged duplicate dogs: {merged:,}")
 
