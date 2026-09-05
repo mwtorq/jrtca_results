@@ -2161,15 +2161,70 @@ def cluster_dog_ids_by_similarity(
     return clusters
 
 
+def is_authoritative_trial_path(path: str | None) -> bool:
+    """Return True for non-OCR sources: Trial Vault debug files and HTML result files."""
+    if not path:
+        return False
+    fname = path.replace("\\", "/").rsplit("/", 1)[-1].lower()
+    if "debug_trialvault_" in fname:
+        return True
+    return fname.endswith(".html") or fname.endswith(".htm")
+
+
+def load_authoritative_dog_ids(cursor) -> set[int]:
+    """Return DogIDs whose placements come from Trial Vault or non-OCR HTML trials."""
+    cursor.execute(
+        """
+        SELECT DISTINCT tp.DogID
+        FROM sResults.TrialPlacements tp
+        JOIN sResults.TrialList tl ON tp.TrialListID = tl.TrialListID
+        WHERE tp.DogID IS NOT NULL
+          AND tl.TrialResultFilePath IS NOT NULL
+          AND (
+            tl.TrialResultFilePath LIKE '%debug_trialvault_%'
+            OR tl.TrialResultFilePath LIKE '%.html'
+            OR tl.TrialResultFilePath LIKE '%.htm'
+          )
+        """
+    )
+    return {row[0] for row in cursor.fetchall()}
+
+
+def pick_canonical_dog_name_for_cluster(
+    ids: list[int],
+    names_by_id: dict[int, str],
+    authoritative_ids: set[int],
+) -> str:
+    """Pick canonical dog name, preferring names from authoritative (non-OCR) sources.
+
+    Priority:
+    1. Most-frequent name among authoritative-source dogs in the cluster (longest on tie)
+    2. Fall back to pick_canonical_person_name across all cluster members
+    """
+    auth_names = [names_by_id[did] for did in ids if did in authoritative_ids and names_by_id.get(did)]
+    if auth_names:
+        freq: dict[str, int] = defaultdict(int)
+        for n in auth_names:
+            freq[n] += 1
+        best_freq = max(freq.values())
+        candidates = [n for n, f in freq.items() if f == best_freq]
+        # Among equally-frequent authoritative names, prefer the longest (most complete)
+        return max(candidates, key=len)
+    return pick_canonical_person_name([names_by_id[did] for did in ids if names_by_id.get(did)])
+
+
 def dog_keep_score(
     entity_id: int,
     meta: tuple,
     rel_counts: dict[int, int],
     placement_counts: dict[int, int],
+    authoritative_ids: set[int] | None = None,
 ) -> tuple:
     _dog_id, name, _owner_id, sire, dam, sex = meta
     desc = entity_descriptiveness_score(name)
+    is_auth = 1 if (authoritative_ids and entity_id in authoritative_ids) else 0
     return (
+        is_auth,
         dog_completeness_score(sire, dam, sex),
         placement_counts.get(entity_id, 0),
         rel_counts.get(entity_id, 0),
@@ -2184,11 +2239,13 @@ def pick_keep_dog_id(
     meta_by_id: dict[int, tuple],
     rel_counts: dict[int, int],
     placement_counts: dict[int, int],
+    authoritative_ids: set[int] | None = None,
 ) -> int:
     return max(
         ids,
         key=lambda entity_id: dog_keep_score(
             entity_id, meta_by_id[entity_id], rel_counts, placement_counts,
+            authoritative_ids,
         ),
     )
 
@@ -2497,14 +2554,17 @@ def merge_duplicate_dogs(conn, dry_run: bool, scope_ids: set[int] | None = None)
     dog_rel_counts = load_dog_relationship_counts(cursor)
     placement_counts = load_dog_placement_counts(cursor)
     names_by_id = {dog_id: meta[1] for dog_id, meta in meta_by_id.items()}
+    authoritative_ids = load_authoritative_dog_ids(cursor)
+    print_ts(f"Authoritative (non-OCR) dog IDs loaded: {len(authoritative_ids):,}")
 
     merged = 0
     for idx, merge_ids in enumerate(dup_clusters, start=1):
         keep_id = pick_keep_dog_id(
             merge_ids, meta_by_id, dog_rel_counts, placement_counts,
+            authoritative_ids,
         )
-        canonical_name = pick_canonical_person_name(
-            [names_by_id[entity_id] for entity_id in merge_ids],
+        canonical_name = pick_canonical_dog_name_for_cluster(
+            merge_ids, names_by_id, authoritative_ids,
         )
         best_sire, best_dam, best_sex = best_pedigree_from_cluster(merge_ids, meta_by_id)
         for dup_id in merge_ids:
