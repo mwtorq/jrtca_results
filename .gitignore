@@ -1,5 +1,8 @@
 __pycache__/**
 
+# Power BI Desktop local cache/settings
+*.pbix.local
+
 # Verification output: regenerated per run and too large to track
 normalization_skew_report.csv
 verify_normalization_run.log
