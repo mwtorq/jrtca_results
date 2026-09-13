@@ -1,5 +1,8 @@
 __pycache__/**
 
+# Python virtual environment created by .cursor/install.sh
+.venv/
+
 # Power BI Desktop local cache/settings
 *.pbix.local
 
