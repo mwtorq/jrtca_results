@@ -63,7 +63,8 @@ RACE_TIME_SUFFIX_RE = re.compile(
     r"^\d{1,2}\.\d{1,2}$|^\d+:\d{2}\.\d+$|^\d+\.\d+$"
 )
 PLACEMENT_PREFIX_RE = re.compile(
-    r"^(?:&\s*)?(?:RESERVE\s*)?(?:\d+(?:st|nd|rd|th)|BEST|CHAMP(?:ION)?|RESERVE)\s*:\s*",
+    r"^(?:BR>)*(?:SPAN\s+STYLE=\"[^\"]*\">\s*)?(?:&\s*)?"
+    r"(?:RESERVE\s*)?(?:\d+(?:st|nd|rd|th)|BEST|CHAMP(?:ION)?|RESERVE)\s*:\s*",
     re.IGNORECASE,
 )
 SIZE_CHAMPION_PREFIX_RE = re.compile(
@@ -1954,6 +1955,76 @@ def _owners_compatible(owner_ids: set[int | None]) -> bool:
     return len(known) <= 1
 
 
+_OWNER_STOPWORDS = frozenset(
+    {"and", "by", "owned", "the", "of", "or", "with", "amp"}
+)
+
+
+def owner_name_tokens(name: str | None) -> set[str]:
+    if not name:
+        return set()
+    toks = {t.lower() for t in re.findall(r"[A-Za-z]+", name)}
+    return {t for t in toks if t not in _OWNER_STOPWORDS and len(t) > 2}
+
+
+def _owner_token_equivalent(a: str, b: str) -> bool:
+    from difflib import SequenceMatcher
+
+    if a == b:
+        return True
+    if len(a) >= 5 and len(b) >= 5 and SequenceMatcher(None, a, b).ratio() >= 0.80:
+        return True
+    return False
+
+
+def _canonicalize_owner_tokens(ta: set[str], tb: set[str]) -> tuple[set[str], set[str]]:
+    """Map OCR-near tokens on both sides to a shared spelling for comparison."""
+    remap_a: dict[str, str] = {}
+    remap_b: dict[str, str] = {}
+    for a in ta:
+        for b in tb:
+            if _owner_token_equivalent(a, b):
+                canon = a if len(a) >= len(b) else b
+                remap_a[a] = canon
+                remap_b[b] = canon
+    ta2 = {remap_a.get(t, t) for t in ta}
+    tb2 = {remap_b.get(t, t) for t in tb}
+    return ta2, tb2
+
+
+def owners_compatible_for_dog_merge(
+    owner_name_a: str | None,
+    owner_name_b: str | None,
+) -> bool:
+    """True when two owner strings may refer to the same household.
+
+    Used to keep distinct dogs that share a short call name (e.g. Skeeter
+    owned by Waelterman vs Skeeter owned by Hines) from being merged.
+    Null/empty owners are treated as compatible so incomplete OCR rows can
+    still consolidate with a known-owner twin.
+    """
+    a = (owner_name_a or "").strip()
+    b = (owner_name_b or "").strip()
+    if not a or not b:
+        return True
+    if a.lower() == b.lower():
+        return True
+    if person_cluster_key(a) == person_cluster_key(b):
+        return True
+    ta, tb = owner_name_tokens(a), owner_name_tokens(b)
+    if not ta or not tb:
+        return True
+    ta, tb = _canonicalize_owner_tokens(ta, tb)
+    if ta <= tb or tb <= ta:
+        return True
+    shared = ta & tb
+    if not shared:
+        return False
+    # Require substantial overlap so a shared surname alone (Waelterman on
+    # both Jerry&Ilse and Mark&Heather) does not allow a merge.
+    return len(shared) / len(ta | tb) >= 0.5
+
+
 def _partition_ids_by_owner(ids: list[int], owner_map: dict[int, int | None]) -> list[list[int]]:
     groups: list[list[int]] = []
     for dog_id in sorted(ids):
@@ -1962,6 +2033,28 @@ def _partition_ids_by_owner(ids: list[int], owner_map: dict[int, int | None]) ->
         for group in groups:
             group_owners = {owner_map.get(did) for did in group}
             if _owners_compatible(group_owners | {owner_id}):
+                group.append(dog_id)
+                placed = True
+                break
+        if not placed:
+            groups.append([dog_id])
+    return [group for group in groups if len(group) > 1]
+
+
+def _partition_dog_ids_by_owner_name(
+    ids: list[int],
+    owner_name_by_dog: dict[int, str | None],
+) -> list[list[int]]:
+    """Split a name-similar dog cluster into owner-compatible subclusters."""
+    groups: list[list[int]] = []
+    for dog_id in sorted(ids):
+        owner_name = owner_name_by_dog.get(dog_id)
+        placed = False
+        for group in groups:
+            if all(
+                owners_compatible_for_dog_merge(owner_name, owner_name_by_dog.get(gid))
+                for gid in group
+            ):
                 group.append(dog_id)
                 placed = True
                 break
@@ -2634,6 +2727,30 @@ def merge_duplicate_dogs(conn, dry_run: bool, scope_ids: set[int] | None = None)
             for cluster in dup_clusters
             if scope_ids.intersection(cluster)
         ]
+
+    # Load owner names so identical call names under different households
+    # (Skeeter/Waelterman vs Skeeter/Hines) are not merged.
+    owner_ids = {meta[2] for meta in meta_by_id.values() if meta[2] is not None}
+    owner_name_by_id: dict[int, str] = {}
+    if owner_ids:
+        owner_rows = _select_rows_by_ids(
+            cursor,
+            "SELECT OwnerID, OwnerName FROM sResults.Owner WHERE OwnerID IN ({placeholders})",
+            owner_ids,
+        )
+        owner_name_by_id = {row[0]: row[1] for row in owner_rows}
+    owner_name_by_dog = {
+        dog_id: owner_name_by_id.get(meta[2]) if meta[2] is not None else None
+        for dog_id, meta in meta_by_id.items()
+    }
+    # Keep only owner-compatible subclusters of size >= 2 (singletons need no merge).
+    owner_split_clusters: list[list[int]] = []
+    for cluster in dup_clusters:
+        owner_split_clusters.extend(
+            _partition_dog_ids_by_owner_name(cluster, owner_name_by_dog)
+        )
+    dup_clusters = owner_split_clusters
+
     scope_note = " (trial-scoped)" if scope_ids else ""
     print_ts(f"Found {len(dup_clusters):,} duplicate dog groups{scope_note}")
 
