@@ -307,6 +307,53 @@ def is_truncated_class_fragment(name: str) -> bool:
     return bool(_TRUNCATED_CLASS_PREFIX_RE.match(s))
 
 
+# TrialVault / PDF racing section headers → canonical class-name prefix.
+_RACING_SUBDIVISION_LABELS = {
+    'flat races': 'Flat Racing',
+    'flat racing': 'Flat Racing',
+    'flat race': 'Flat Racing',
+    'steeplechase races': 'Hurdles Racing',
+    'steeplechase racing': 'Hurdles Racing',
+    'steeplechase': 'Hurdles Racing',
+    'hurdle races': 'Hurdles Racing',
+    'hurdle racing': 'Hurdles Racing',
+    'hurdles racing': 'Hurdles Racing',
+    'hurdles': 'Hurdles Racing',
+    'hurdle': 'Hurdles Racing',
+}
+
+
+def racing_subdivision_label(line: str) -> str | None:
+    """Return Flat Racing / Hurdles Racing for racing section headers, else None."""
+    if not line:
+        return None
+    low = re.sub(r'\s+', ' ', line.strip().lower())
+    return _RACING_SUBDIVISION_LABELS.get(low)
+
+
+def apply_racing_subdivision_to_class(class_name: str, subdivision: str) -> str:
+    """Prefix Flat/Hurdles onto racing class names so Fri flat ≠ Fri hurdles.
+
+    Championship finals (Champion & Reserve) are left unchanged — they are not
+    heat classes under a flat/hurdles section.
+    """
+    if not class_name or not subdivision:
+        return class_name
+    label = racing_subdivision_label(subdivision) or (
+        subdivision if subdivision in ('Flat Racing', 'Hurdles Racing') else ''
+    )
+    if not label:
+        return class_name
+    upper = class_name.upper()
+    if re.search(r'\b(?:FLAT|HURDLE|STEEPLECHASE)\s+RAC', upper):
+        return class_name
+    if re.search(r'CHAMPION\s*(?:&|AND)\s*RES|RACING\s+CHAMPION', upper):
+        return class_name
+    if upper.startswith('FLAT RACING') or upper.startswith('HURDLES RACING'):
+        return class_name
+    return f"{label} - {class_name}"
+
+
 def is_trialvault_page_chrome(line: str) -> bool:
     """True for TrialVault PDF page headers/footers that must not become class names.
 
@@ -315,6 +362,8 @@ def is_trialvault_page_chrome(line: str) -> bool:
         TrialVault
         11/30
         Champion: Dog - owned by Owner
+
+    Extracted PDFs also embed the signed S3 report URL on every page.
     """
     if not line:
         return False
@@ -328,6 +377,11 @@ def is_trialvault_page_chrome(line: str) -> bool:
         return True
     # Printed report date: MM/DD/YYYY or M/D/YY
     if re.fullmatch(r'\d{1,2}/\d{1,2}/\d{2,4}', s):
+        return True
+    # TrialVault PDF watermark / report URL
+    if re.match(r'^https?://', s, re.IGNORECASE):
+        return True
+    if 'tv2-prod.s3' in s.lower() or 'amazonaws.com/tmp/reports/trial' in s.lower():
         return True
     return False
 
@@ -839,11 +893,10 @@ def normalize_mixed_case_section_header(line: str) -> str | None:
         return 'GO-TO-GROUND'
     if low in ('super earth', 'super-earth'):
         return 'SUPER EARTH'
+    # Flat / Steeplechase / Hurdles are racing SUBDIVISIONS, not division resets —
+    # handled by racing_subdivision_label() so class names keep Flat vs Hurdles.
     if low in (
         'racing', 'racing results', 'racing division',
-        'flat races', 'flat racing',
-        'steeplechase races', 'steeplechase racing', 'steeplechase',
-        'hurdle races', 'hurdle racing',
         'friday night racing', 'friday racing',
         'saturday racing', 'saturday night racing',
         'sunday racing', 'sunday night racing',
@@ -1008,6 +1061,45 @@ def join_split_certificate_class_line(line: str, lines: List[str], idx: int) -> 
     return line
 
 
+# Leading catalog numbers:
+#   "Class 11: Seniors..." / "Class 11. Seniors..."
+#   "Class 1 - Master Earth Dog" (dash separator)
+#   "Class – 191 – Terrier..." (spaced en-dash OCR)
+#   "Class 118 Agility..." (space before name, no colon)
+#   "CLASS CLASS 333 BEST..." / "Class Class 810 Novice..." (doubled OCR)
+_LEADING_CLASS_NUM_RE = re.compile(
+    r'^(?:Class\s+)+'
+    r'\d+[a-z]?(?:st|nd|rd|th)?'
+    r'\s*(?:[:.\t]\s*|[-–—]\s+|(?=[A-Za-z"“]))',
+    re.IGNORECASE,
+)
+_LEADING_CLASS_DASH_NUM_RE = re.compile(
+    r'^Class\s*[-–—]\s*\d+[a-z]?(?:st|nd|rd|th)?\s*[-–—:.\t]?\s*',
+    re.IGNORECASE,
+)
+# After Flat/Hurdles prefix: "Flat Racing - Class 11: Seniors..."
+_MID_CLASS_NUM_RE = re.compile(
+    r'(?<=\s-\s)Class\s+\d+[a-z]?(?:st|nd|rd|th)?\s*[:.\t]\s*',
+    re.IGNORECASE,
+)
+
+
+def strip_class_number_prefix(class_name: str) -> str:
+    """Remove leading or mid-name 'Class N:' / 'Class N -' catalog numbers."""
+    if not class_name:
+        return class_name
+    name = class_name.strip()
+    prev = None
+    while prev != name:
+        prev = name
+        name = _LEADING_CLASS_DASH_NUM_RE.sub('', name).strip()
+        name = _LEADING_CLASS_NUM_RE.sub('', name).strip()
+        name = _MID_CLASS_NUM_RE.sub('', name).strip()
+        # Repair leftover dash from an earlier over-aggressive strip.
+        name = re.sub(r'^[-–—]\s+', '', name).strip()
+    return name
+
+
 def try_parse_class_with_entries(
     line: str, lines: List[str], idx: int
 ) -> Optional[Tuple[str, int, int]]:
@@ -1016,6 +1108,8 @@ def try_parse_class_with_entries(
 
     Returns (class_name, entry_count, extra_lines_consumed) or None.
     extra_lines_consumed is 1 when the count is on the following line.
+    Class catalog numbers (Class 11:) are stripped so names match the
+    _CLASS_HEADER_RE path (which already uses group 2 without the prefix).
     """
     if not line or 'entr' not in line.lower():
         return None
@@ -1031,7 +1125,7 @@ def try_parse_class_with_entries(
             entry_count = int(nxt.strip())
             extra = 1
 
-    return clean, entry_count or 0, extra
+    return strip_class_number_prefix(clean), entry_count or 0, extra
 
 
 def _next_nonempty_line(lines: List[str], idx: int, limit: int = 5) -> str:
@@ -2275,6 +2369,20 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             i += 1
             continue
 
+        # Flat Races / Steeplechase Races / Hurdles — subdivision under RACING.
+        # Must run before normalize_mixed_case_section_header, which used to map
+        # these to bare RACING and clear the Flat vs Hurdles distinction.
+        racing_sub = racing_subdivision_label(line)
+        if racing_sub:
+            if not current_division or 'RACING' not in current_division.upper():
+                current_division = 'RACING'
+                current_division_is_explicit = True
+            current_subdivision = racing_sub
+            current_class = ""
+            safe_print(f"    Racing subdivision: {current_subdivision}", flush=True)
+            i += 1
+            continue
+
         section_header = normalize_mixed_case_section_header(line)
         if section_header:
             current_division = canonical_division_name(section_header)
@@ -2382,9 +2490,11 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                 i += 1
                 continue
             
-            # SECOND: Check for RACING subdivision headers
-            if current_division and 'RACING' in current_division and any(keyword in line_normalized for keyword in ['RACES', 'HURDLES', 'JUMPS']):
-                current_subdivision = line
+            # SECOND: Check for RACING subdivision headers (ALL-CAPS FLAT RACES, etc.)
+            if current_division and 'RACING' in current_division and any(
+                keyword in line_normalized for keyword in ['RACES', 'HURDLES', 'JUMPS']
+            ):
+                current_subdivision = racing_subdivision_label(line) or line
                 current_class = ""  # Reset class when entering new subdivision
                 safe_print(f"    Subdivision: {current_subdivision}", flush=True)
                 i += 1
@@ -2585,9 +2695,11 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             dog_name = re.sub(r'\s+', ' ', dog_name)
             owner_name = clean_parsed_owner_name(re.sub(r'\s+', ' ', owner_name))
             full_division = current_division
-            if current_subdivision:
-                full_division = f"{current_division} - {current_subdivision}"
             clean_class, _ = strip_entries_from_class_name(current_class)
+            if current_subdivision and 'RACING' in (current_division or '').upper():
+                clean_class = apply_racing_subdivision_to_class(
+                    clean_class, current_subdivision,
+                )
             placement = normalize_placement_label(placement, clean_class)
             results.append(PlacementResult(
                 division=full_division,
@@ -2639,12 +2751,28 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                     safe_print(f"    Class: {effective_class}", flush=True)
 
             clean_class, _ = strip_entries_from_class_name(effective_class)
+            if current_subdivision and 'RACING' in (current_division or '').upper():
+                clean_class = apply_racing_subdivision_to_class(
+                    clean_class, current_subdivision,
+                )
             effective_class = clean_class
             placement = normalize_placement_label(placement, effective_class)
 
             # Fix OCR typos in owner separator before parsing
             rest = normalize_owned_by_text(rest)
             time_val = ''
+
+            def _placement_division() -> str:
+                # Flat/Hurdles already encoded on the class name for racing.
+                if current_subdivision and 'RACING' in (current_division or '').upper():
+                    if (
+                        racing_subdivision_label(current_subdivision)
+                        or current_subdivision in ('Flat Racing', 'Hurdles Racing')
+                    ):
+                        return current_division
+                if current_subdivision:
+                    return f"{current_division} - {current_subdivision}"
+                return current_division
 
             def finalize_names(dog: str, owner: str) -> tuple[str, str, str]:
                 dog_clean = re.sub(r'\s+', ' ', dog)
@@ -2662,11 +2790,8 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             # YOUTH division or Handler classes: "1st: Handler Name" (no ", owned by")
             if ('YOUTH' in current_division or 'HANDLER' in current_class.upper()) and ', owned by ' not in rest:
                 dog_name, owner_name, time_val = finalize_names(rest.strip(), "")
-                full_division = current_division
-                if current_subdivision:
-                    full_division = f"{current_division} - {current_subdivision}"
                 results.append(PlacementResult(
-                    division=full_division,
+                    division=_placement_division(),
                     class_name=effective_class,
                     placement=placement,
                     dog_name=dog_name,
@@ -2680,11 +2805,8 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                     r',\s*presented by\s+', rest, maxsplit=1, flags=re.IGNORECASE,
                 )
                 dog_name, owner_name, time_val = finalize_names(dog_name, owner_name)
-                full_division = current_division
-                if current_subdivision:
-                    full_division = f"{current_division} - {current_subdivision}"
                 results.append(PlacementResult(
-                    division=full_division,
+                    division=_placement_division(),
                     class_name=effective_class,
                     placement=placement,
                     dog_name=dog_name,
@@ -2709,11 +2831,8 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                 dog_name, owner_name, parsed_time = finalize_names(dog_name, owner_name)
                 if parsed_time and not time_val:
                     time_val = parsed_time
-                full_division = current_division
-                if current_subdivision:
-                    full_division = f"{current_division} - {current_subdivision}"
                 results.append(PlacementResult(
-                    division=full_division,
+                    division=_placement_division(),
                     class_name=effective_class,
                     placement=placement,
                     dog_name=dog_name,
@@ -2752,11 +2871,8 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                     dog_name = _rest_stripped
                     owner_name = ""
                 dog_name, owner_name, time_val = finalize_names(dog_name, owner_name)
-                full_division = current_division
-                if current_subdivision:
-                    full_division = f"{current_division} - {current_subdivision}"
                 results.append(PlacementResult(
-                    division=full_division,
+                    division=_placement_division(),
                     class_name=effective_class,
                     placement=placement,
                     dog_name=dog_name,

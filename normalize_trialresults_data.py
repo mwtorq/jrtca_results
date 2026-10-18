@@ -28,6 +28,7 @@ from parse_catalog import (
 from populate_trialresults_fixed import (
     normalize_owned_by_text,
     strip_entries_from_class_name,
+    strip_class_number_prefix,
     clean_parsed_owner_name,
     canonicalize_height_fragment,
     classify_height_fragment,
@@ -1108,8 +1109,8 @@ def normalize_height_categories(class_name: str, division_name: str | None = Non
         if parts:
             name = parts[-1]
 
-    # Strip class number prefix (Class 99:, Class 38., etc.)
-    name = re.sub(r"^Class\s+[\dA-Za-z]+\s*[.:]\s*", "", name, flags=re.IGNORECASE).strip()
+    # Strip class number prefix (Class 99:, Class 38., Flat Racing - Class 11:, etc.)
+    name = strip_class_number_prefix(name)
 
     name, age_masks = _mask_age_qualifiers(name)
 
@@ -1818,6 +1819,8 @@ def normalize_class_name_full(class_name: str, division_name: str | None = None)
     if is_truncated_class_fragment(class_name):
         return ''
     class_name, _ = strip_entries_from_class_name(class_name)
+    # Before champ early-outs: strip "Class N:" even mid-name (Flat/Hurdles prefix).
+    class_name = strip_class_number_prefix(class_name)
     orig_upper, orig_lower = _alpha_case_counts(class_name)
     prefer_uppercase = orig_upper > orig_lower
     name = normalize_quotes(class_name).replace("\ufffd", "½")
