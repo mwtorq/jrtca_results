@@ -187,6 +187,7 @@ _RACING_CHAMPION_CLASS_RE = re.compile(
 # "WORKING TERRIER CHAMPION & RES", "CHAMPION AND RES", etc.
 _CHAMPIONSHIP_CLASS_RE = re.compile(
     rf'\bCHAMPION\b.{{0,80}}(?:&|AND)\s*{_RESERVE_TOKEN}'
+    rf'|CHAMPIONSHIP\s+CERTIFICATE'
     rf'|HIGH\s+POINT\s+CHAMPION'
     rf'|HIGH\s+IN\s+TRIAL\b.{{0,40}}(?:&|AND)\s*RES(?:E)?VE\b'
     rf'|HIGH\s+SCORE\b.{{0,40}}(?:&|AND)\s*{_RESERVE_TOKEN}'
@@ -229,12 +230,9 @@ def remap_ordinal_in_champ_reserve_class(placement: str, class_name: str) -> str
     if not is_best and not is_champ:
         return placement
 
-    first_label = 'Best' if is_best and not is_champ else 'Champion'
-    # If both patterns match (rare), prefer Champion wording when CHAMPION is present.
-    if is_champ and 'CHAMPION' in upper:
-        first_label = 'Champion'
-    elif is_best:
-        first_label = 'Best'
+    # Prefer Champion for Champion&Reserve / Championship Certificate / High Point;
+    # Best only when this is solely a Best&Reserve class.
+    first_label = 'Champion' if is_champ else 'Best'
 
     if key in ('1st', '1'):
         return first_label
