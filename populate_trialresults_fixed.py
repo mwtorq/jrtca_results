@@ -119,6 +119,9 @@ _ORDINAL_PLACEMENT = r'1\s*st|2\s*nd|3\s*r[a-z]{0,4}|4th|5th|6th'
 # Champion JRT Puppy, Best Working Dog, Working JRT Champion, ...).
 # normalize_line_for_placement converts dash-style "Champion – Dog" to
 # "Champion: Dog" before these patterns are applied, so only ':' is needed here.
+# Non-placing TrialVault/PDF markers (DNP/DQ/F/SCR/ABS) must be recognized or
+# those dogs silently drop out of the load (e.g. 2019 JRTCC Saratoga/Chigurh).
+_NONPLACE_PLACEMENT = r'DNP|DQ|NP|SCR(?:ATCH(?:ED)?)?|ABS(?:ENT)?|F'
 _WORD_PLACEMENT = (
     r'(?:Working\s+JRT\s+)?'
     r'(?:Reserve\s+)?(?:Best|Champion)(?:\s+[\w/]+){0,10}'
@@ -126,6 +129,7 @@ _WORD_PLACEMENT = (
     r'|Best(?:\s+[\w/]+){0,10}'
     r'|Champion(?:\s+[\w/]+){0,10}'
     r'|Reserve'
+    rf'|{_NONPLACE_PLACEMENT}'
 )
 _SIZE_PREFIX = r'[\d\w\-½%"/\'\s.,·°()]'
 # Ordinals allow optional space/colon/apostrophe before rest; Best/Reserve/Champion require ':'.
@@ -172,11 +176,105 @@ _RACING_HEIGHT_PREFIX_RE = re.compile(
     r')[\d\s/½"\-.%\'(),:·°]+["\'½]?\s*$',
     re.IGNORECASE,
 )
-_RACING_CHAMPION_CLASS_RE = re.compile(r'RAC(?:ING|M)\s+CHAMPION\s*&\s*RESERVE', re.IGNORECASE)
-_CHAMPIONSHIP_CLASS_RE = re.compile(
-    r'CHAMPION\s*(?:&|AND)\s*RESERVE|HIGH\s+POINT\s+CHAMPION',
+# "Reserve" is often abbreviated RES / RES. / RESERVE in TrialVault/PDF class titles.
+# Word-boundary required so RES does not match inside RESCUE.
+_RESERVE_TOKEN = r'(?:(?:RESERVE|RES\.)\b|RES\b)'
+_RACING_CHAMPION_CLASS_RE = re.compile(
+    rf'RAC(?:ING|M)\s+CHAMPION\s*(?:&|AND)\s*{_RESERVE_TOKEN}',
     re.IGNORECASE,
 )
+# Allow words between Champion/Best and Reserve: "BEST FAMILY & RESERVE",
+# "WORKING TERRIER CHAMPION & RES", "CHAMPION AND RES", etc.
+_CHAMPIONSHIP_CLASS_RE = re.compile(
+    rf'\bCHAMPION\b.{{0,80}}(?:&|AND)\s*{_RESERVE_TOKEN}'
+    rf'|HIGH\s+POINT\s+CHAMPION'
+    rf'|HIGH\s+IN\s+TRIAL\b.{{0,40}}(?:&|AND)\s*RES(?:E)?VE\b'
+    rf'|HIGH\s+SCORE\b.{{0,40}}(?:&|AND)\s*{_RESERVE_TOKEN}'
+    rf'|FASTEST\s+TIME\b.{{0,40}}(?:&|AND)\s*{_RESERVE_TOKEN}',
+    re.IGNORECASE,
+)
+_BEST_RESERVE_CLASS_RE = re.compile(
+    rf'\bBEST\b.{{0,80}}(?:&|AND)\s*{_RESERVE_TOKEN}',
+    re.IGNORECASE,
+)
+_NONPLACE_RESULT_CANON = {
+    'dnp': 'DNP',
+    'dq': 'DQ',
+    'f': 'F',
+    'np': 'NP',
+    'scr': 'SCR',
+    'scratch': 'SCR',
+    'scratched': 'SCR',
+    'abs': 'ABS',
+    'absent': 'ABS',
+}
+
+
+def remap_ordinal_in_champ_reserve_class(placement: str, class_name: str) -> str:
+    """Map 1st/2nd to Champion|Best / Reserve in any Champion&Reserve or Best&Reserve class.
+
+    TrialVault (and some PDFs) list championship finals as ordinals; store the
+    canonical Champion/Reserve (or Best/Reserve) labels everywhere.
+    """
+    if not placement or not class_name:
+        return placement
+    raw = placement.strip()
+    key = re.sub(r'\s+', '', raw.lower())
+    if key not in ('1st', '2nd', '1', '2'):
+        return placement
+
+    upper = class_name.upper()
+    is_best = bool(_BEST_RESERVE_CLASS_RE.search(upper))
+    is_champ = bool(_CHAMPIONSHIP_CLASS_RE.search(upper))
+    if not is_best and not is_champ:
+        return placement
+
+    first_label = 'Best' if is_best and not is_champ else 'Champion'
+    # If both patterns match (rare), prefer Champion wording when CHAMPION is present.
+    if is_champ and 'CHAMPION' in upper:
+        first_label = 'Champion'
+    elif is_best:
+        first_label = 'Best'
+
+    if key in ('1st', '1'):
+        return first_label
+    return 'Reserve'
+
+
+def normalize_placement_label(placement: str, class_name: str = '') -> str:
+    """Canonicalize placement text, including champ/reserve ordinal remapping."""
+    if not placement:
+        return placement
+    text = placement.strip()
+    if re.match(r'^\d', text):
+        text = text.replace(' ', '')
+    if text.lower().startswith('3r'):
+        text = '3rd'
+
+    nonplace = _NONPLACE_RESULT_CANON.get(text.lower())
+    if nonplace:
+        text = nonplace
+    elif len(text) <= 3 and text.upper() in ('1ST', '2ND', '3RD', '4TH', '5TH', '6TH'):
+        text = text.lower()
+    elif len(text) <= 3:
+        text = text.capitalize()
+    else:
+        text = text.title()
+
+    if re.match(r'^reserve\s+champion\b', text, re.IGNORECASE):
+        text = 'Reserve'
+    elif re.match(r'^working\s+jrt\s+reserve\s+champion\b', text, re.IGNORECASE):
+        text = 'Reserve'
+    elif re.match(r'^working\s+jrt\s+champion\b', text, re.IGNORECASE):
+        text = 'Champion'
+    elif re.match(r'^champion\b', text, re.IGNORECASE) and text.lower() != 'champion':
+        text = 'Champion'
+    elif re.match(r'^reserve\s+(?:best|working|choice)\b', text, re.IGNORECASE):
+        text = 'Reserve'
+    elif re.match(r'^best\b', text, re.IGNORECASE) and text.lower() != 'best':
+        text = 'Best'
+
+    return remap_ordinal_in_champ_reserve_class(text, class_name)
 _HEIGHT_ONLY_CLASS_RE = re.compile(
     r'^(?:10\s*"\s*up\s+to\s+12\s*½\s*"|Over\s+12\s*½\s*"\s*up\s+to\s+15\s*"|Up\s+to\s+12\s*½\s*"|'
     r'12\s*½\s*"\s*up\s+to\s+15\s*"|15\s*")$',
@@ -206,12 +304,39 @@ def is_truncated_class_fragment(name: str) -> bool:
     return bool(_TRUNCATED_CLASS_PREFIX_RE.match(s))
 
 
+def is_trialvault_page_chrome(line: str) -> bool:
+    """True for TrialVault PDF page headers/footers that must not become class names.
+
+    Example block between a Class header and its placements:
+        10/31/2019
+        TrialVault
+        11/30
+        Champion: Dog - owned by Owner
+    """
+    if not line:
+        return False
+    s = line.strip()
+    if not s:
+        return False
+    if re.fullmatch(r'Trial\s*Vault', s, re.IGNORECASE):
+        return True
+    # Page number like "11/30" or "3/30" (not a date — dates have a year).
+    if re.fullmatch(r'\d{1,2}/\d{1,2}', s):
+        return True
+    # Printed report date: MM/DD/YYYY or M/D/YY
+    if re.fullmatch(r'\d{1,2}/\d{1,2}/\d{2,4}', s):
+        return True
+    return False
+
+
 def is_plausible_class_name(name: str) -> bool:
     """Reject placement lines, page numbers, and other non-class text."""
     if not name or len(name.strip()) < 3:
         return False
     s = name.strip()
     if is_placement_line_start(s):
+        return False
+    if is_trialvault_page_chrome(s):
         return False
     if re.match(r'^:\s*\d+\s*$', s):
         return False
@@ -544,7 +669,8 @@ def normalize_line_for_placement(line: str) -> str:
         r'|Reserve(?:\s+[\w/]+){0,10}'
         r'|Best(?:\s+[\w/]+){0,10}'
         r'|Champion(?:\s+[\w/]+){0,10}'
-        r'|Reserve)\s+-\s+',
+        r'|Reserve'
+        r'|DNP|DQ|NP|SCR(?:ATCH(?:ED)?)?|ABS(?:ENT)?|F)\s+-\s+',
         r'\1: ',
         line,
         count=1,
@@ -726,10 +852,30 @@ def normalize_mixed_case_section_header(line: str) -> str | None:
         return 'YOUTH'
     if low.startswith('olympic events'):
         return 'OLYMPIC EVENTS'
-    if low in ('lure coursing', 'lure racing'):
+    if low in ('lure coursing', 'lure racing') or low.startswith('lure coursing'):
         return 'LURE COURSING'
-    if low in ('thunder tunnel', 'barn hunt'):
-        return low.upper()
+    if low == 'thunder tunnel' or low.startswith('thunder tunnel'):
+        return 'THUNDER TUNNEL'
+    if low in ('barn hunt',) or low.startswith('barn hunt'):
+        return 'BARN HUNT'
+    if low.startswith('brush hunt'):
+        return 'BRUSH HUNT'
+    # Return "SUPER EARTH DIVISION" (not bare SUPER EARTH) so canonical_division_name
+    # keeps Certificate Super Earth under SUPER EARTH instead of Master's Den Stakes.
+    # Require a clean header — do not match judge-credit lines like
+    # "Super Earth; Monica Terry, Agility ; ...".
+    if low in ('super earth', 'super earth division') or re.fullmatch(
+        r'super\s+earth\s+division\b.*', low,
+    ):
+        return 'SUPER EARTH DIVISION'
+    if low in ('agility', 'agility division') or re.fullmatch(
+        r'agility\s+division\b.*', low,
+    ):
+        return 'AGILITY DIVISION'
+    if low in ('trailing and locating', 'trailing & locating') or (
+        low.startswith('trailing') and 'division' in low
+    ):
+        return 'TRAILING AND LOCATING'
     return None
 
 
@@ -759,8 +905,10 @@ def is_placement_line_start(line: str) -> bool:
 
 def normalize_owned_by_text(text: str) -> str:
     """Fix common OCR errors in owned-by separator."""
+    # Consume hyphen/dash before "owned by" so "Dog - owned by Owner" does not
+    # leave a trailing dash glued onto the dog name.
     text = re.sub(
-        r'[,.\s]*(?:orwned|owend|ownde|rowned|9wned|aowned|owned)\s*(?:by\s*)?',
+        r'[,.\s\-–—]*(?:orwned|owend|ownde|rowned|9wned|aowned|owned)\s*(?:by\s*)?',
         ', owned by ',
         text,
         count=1,
@@ -964,11 +1112,24 @@ def is_agility_subdivision_header(line_normalized: str) -> bool:
 
 def is_division_header(line_clean: str, line_for_division: str) -> bool:
     """True if line looks like a main trial division header."""
-    upper = re.sub(r'\s+', ' ', line_clean.strip().upper())
+    stripped = line_clean.strip()
+    upper = re.sub(r'\s+', ' ', stripped.upper())
     if upper in _FALSE_DIVISION_HEADERS or is_agility_subdivision_header(upper):
         return False
+    # Class headers often contain division keywords ("Class 99: Senior Certificate
+    # Super Earth") and must not be treated as division switches — that clears
+    # current_class and dumps following placements into the previous class.
+    if re.match(r'^CLASS\s+\d', upper) or _CLASS_HEADER_RE.match(stripped):
+        return False
+    if re.match(r'^DIVISION\s+\d', upper) or _DIVISION_HEADER_RE.match(stripped):
+        return False
+    # Judge-credit / multi-clause header lines (semicolons, very long).
+    if ';' in stripped or len(stripped) > 60:
+        return False
+    # Keywords are stored UPPER; normalize the candidate the same way.
+    line_for_division_upper = (line_for_division or '').upper()
     return (
-        any(keyword in line_for_division for keyword in _DIVISION_KEYWORDS)
+        any(keyword in line_for_division_upper for keyword in _DIVISION_KEYWORDS)
         or is_go_to_ground_division(line_clean)
     )
 
@@ -1049,11 +1210,12 @@ def infer_division_from_class_name(class_name: str) -> str:
 
 
 # Divisions that may override an already-established current division.
-# Only the primary JRTCA divisions and MUSKRAT RACING are allowed to override.
-# Sub-events like LURE COURSING and THUNDER TUNNEL (which sometimes appear
-# inside OLYMPIC EVENTS) should NOT override that wrapper division.
+# Primary JRTCA divisions plus common performance divisions that appear as
+# explicit section headers in TrialVault nationals (Lure/Barn/Brush/Super Earth).
+# Olympic-wrapper sub-events still need an explicit division header to switch.
 _DIVISION_OVERRIDE_TRIGGERS = frozenset({
     'RACING', 'CONFORMATION', 'GO-TO-GROUND', 'MUSKRAT RACING', 'YOUTH DIVISION',
+    'LURE COURSING', 'BARN HUNT', 'BRUSH HUNT', 'SUPER EARTH', 'AGILITY',
 })
 
 
@@ -1084,6 +1246,12 @@ def canonical_division_name(line: str) -> str:
         return 'SUPER EARTH'
     if is_go_to_ground_division(line):
         return 'GO-TO-GROUND'
+    if re.search(r'LURE\s+COURS', upper):
+        return 'LURE COURSING'
+    if re.search(r'BARN\s+HUNT', upper):
+        return 'BARN HUNT'
+    if re.search(r'BRUSH\s+HUNT', upper):
+        return 'BRUSH HUNT'
     return line.strip()
 
 
@@ -1459,7 +1627,14 @@ _SECTION_HEADER_RE = re.compile(
 )
 _TIME_TOKEN_RE = re.compile(r'^\d+:\d+(?:\.\d+)?$|^\d+\.\d+$')
 _PLACEMENT_TIME_SUFFIX_RE = re.compile(
-    r'\s*[-–—]\s*(?:tme|time)\s*(?:of\s+)?(\d+:\d+(?:\.\d+)?|\d+\.\d+)\s*(?:;.*)?$',
+    r'(?:'
+    r'\s*[-–—]\s*(?:tme|time)\s*(?:of\s+)?'
+    r'|'
+    r'\s*[\(（]\s*'
+    r')'
+    r'(\d+:\d+(?:\.\d+)?|\d+\.\d+)'
+    r'(?:\s*[\)）])?'
+    r'\s*(?:;.*)?$',
     re.IGNORECASE,
 )
 SPECIAL_TRIAL_FOLDERS = ('Gold Coast', 'JRTCC', 'MO Earthdogs')
@@ -2091,6 +2266,12 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             i += 1
             continue
 
+        # Skip TrialVault PDF page chrome (date / "TrialVault" / "11/30") so it
+        # cannot overwrite the current class when a placement follows on the next page.
+        if is_trialvault_page_chrome(line):
+            i += 1
+            continue
+
         section_header = normalize_mixed_case_section_header(line)
         if section_header:
             current_division = canonical_division_name(section_header)
@@ -2117,6 +2298,18 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                 current_subdivision = ""
                 current_class = ""
                 safe_print(f"  Processing division (from Division header): {current_division}", flush=True)
+            i += 1
+            continue
+
+        # Mixed-case "… Division" headers (TrialVault nationals) are not ALL CAPS, so
+        # they never enter the isupper() block below. Handle them here. Class N: lines
+        # that merely mention a division keyword are rejected by is_division_header.
+        if is_division_header(line, line_for_division):
+            current_division = canonical_division_name(line)
+            current_division_is_explicit = True
+            current_subdivision = ""
+            current_class = ""
+            safe_print(f"  Processing division: {current_division}", flush=True)
             i += 1
             continue
 
@@ -2392,6 +2585,7 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             if current_subdivision:
                 full_division = f"{current_division} - {current_subdivision}"
             clean_class, _ = strip_entries_from_class_name(current_class)
+            placement = normalize_placement_label(placement, clean_class)
             results.append(PlacementResult(
                 division=full_division,
                 class_name=clean_class,
@@ -2443,29 +2637,8 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
 
             clean_class, _ = strip_entries_from_class_name(effective_class)
             effective_class = clean_class
-            
-            # Normalize OCR errors in placement text.
-            # Only strip spaces from split ordinals ("1 st" -> "1st"), not from
-            # compound word placements ("Reserve Best" must stay as two words).
-            if re.match(r'^\d', placement):
-                placement = placement.replace(' ', '')
-            if placement.lower().startswith('3r'):
-                placement = '3rd'  # Fix "3r~" or "3rd" to "3rd"
-            placement = placement.capitalize() if len(placement) <= 3 else placement.title()
-            # PDF extracts often use "Reserve Champion"; store as canonical "Reserve"
-            if re.match(r'^reserve\s+champion\b', placement, re.IGNORECASE):
-                placement = 'Reserve'
-            elif re.match(r'^working\s+jrt\s+reserve\s+champion\b', placement, re.IGNORECASE):
-                placement = 'Reserve'
-            elif re.match(r'^working\s+jrt\s+champion\b', placement, re.IGNORECASE):
-                placement = 'Champion'
-            elif re.match(r'^champion\b', placement, re.IGNORECASE) and placement.lower() != 'champion':
-                placement = 'Champion'
-            elif re.match(r'^reserve\s+(?:best|working|choice)\b', placement, re.IGNORECASE):
-                placement = 'Reserve'
-            elif re.match(r'^best\b', placement, re.IGNORECASE) and placement.lower() != 'best':
-                placement = 'Best'
-            
+            placement = normalize_placement_label(placement, effective_class)
+
             # Fix OCR typos in owner separator before parsing
             rest = normalize_owned_by_text(rest)
             time_val = ''
@@ -2473,11 +2646,13 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             def finalize_names(dog: str, owner: str) -> tuple[str, str, str]:
                 dog_clean = re.sub(r'\s+', ' ', dog)
                 dog_clean = re.sub(r'[\?\ufffd]', '', dog_clean)
+                dog_clean = re.sub(r'[\s\-–—]+$', '', dog_clean.strip())
                 owner_clean = re.sub(r'\s+', ' ', owner)
                 dog_clean, dog_time = extract_placement_time_suffix(dog_clean.strip())
                 owner_clean, owner_time = extract_placement_time_suffix(
                     clean_parsed_owner_name(owner_clean.strip()),
                 )
+                dog_clean = re.sub(r'[\s\-–—]+$', '', dog_clean.strip())
                 return dog_clean, owner_clean, dog_time or owner_time
             
             # Extract dog name and owner
@@ -2800,7 +2975,7 @@ def load_trialvault_results_to_database(
         conn.close()
 
 
-def normalize_trialvault_placement_result(placement: str) -> str:
+def normalize_trialvault_placement_result(placement: str, class_name: str = "") -> str:
     """Normalize Trial Vault rank text to match stored TrialPlacements.Result values."""
     if not placement:
         return ""
@@ -2811,8 +2986,8 @@ def normalize_trialvault_placement_result(placement: str) -> str:
             suffix = "th"
         else:
             suffix = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
-        return f"{n}{suffix}"
-    return text
+        text = f"{n}{suffix}"
+    return normalize_placement_label(text, class_name)
 
 
 def normalize_event_base_name(name: str) -> str:
