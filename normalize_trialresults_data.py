@@ -1888,6 +1888,14 @@ def split_embedded_owner(text: str) -> tuple[str, str]:
     return text.strip(), ""
 
 
+# Known registered dogs that must NOT keep a spurious 'of …' kennel tail.
+# Other Winslow Farms dogs (Gunner, Scruples, etc.) keep their suffix.
+_DOG_NAME_STRIP_OF_SUFFIX: dict[str, str] = {
+    "laurel gate ladybug of winslow farms": "Laurel Gate Ladybug",
+    "laurel gate lady bug of winslow farms": "Laurel Gate Ladybug",
+}
+
+
 def normalize_dog_name(name: str) -> str:
     if not name:
         return name
@@ -1909,6 +1917,46 @@ def normalize_dog_name(name: str) -> str:
     name = re.sub(r"owned\s*by\s*$", "", name, flags=re.IGNORECASE).strip(" ,")
     name = fix_ocr_word_spacing(name)
     name = re.sub(r"\bTrac e\b", "Trace", name, flags=re.IGNORECASE)
+    # Timberwidle / Timberwild OCR misspellings of Timberwilde kennel prefix.
+    name = re.sub(r"\bTimberwidl[e]?\b", "Timberwilde", name, flags=re.IGNORECASE)
+    # PDF/HTML sources often glue accented Relámpago onto Blanca with no space,
+    # drop the 'a' (Relmpago), use â/à/ä, or mistype Blanco.
+    name = re.sub(
+        r"\bRel[aáàâä]?mpago\s*Blanc[ao]\b",
+        "Relampago Blanca",
+        name,
+        flags=re.IGNORECASE,
+    )
+    # Specific registered-name corrections (not broad "of Farms" stripping —
+    # Winslow Farms and similar kennel suffixes are legitimate on other dogs).
+    stripped = _DOG_NAME_STRIP_OF_SUFFIX.get(name.lower())
+    if stripped:
+        name = stripped
+
+    # Short kennel forms that belong to the Timberwilde/Blackburn records.
+    name = re.sub(
+        r"^Foxglade Saratoga$",
+        "Foxglade Saratoga of Timberwilde",
+        name,
+        flags=re.IGNORECASE,
+    )
+    name = re.sub(
+        r"^Southland Chigurh$",
+        "Southland Chigurh of Timberwilde",
+        name,
+        flags=re.IGNORECASE,
+    )
+    name = re.sub(
+        r"^PHF Justice B['’]?Quick$",
+        "PHF Justice BQuick of Blackburn",
+        name,
+        flags=re.IGNORECASE,
+    )
+    # JRTCC PDF OCR sometimes emits CJK for Daigoro (大五郎).
+    if re.search(r"[\u2f00-\u9fff]", name) and re.search(
+        r"Timberwilde", name, re.IGNORECASE
+    ):
+        name = "Timberwilde Daigoro"
     name = collapse_mc_prefix(name)
     name = re.sub(r"[\u0000-\u001f\u007f-\u009f\ufffd]", "", name)
     name = re.sub(r"\s+", " ", name).strip(" ,.")
