@@ -187,7 +187,12 @@ _RACING_CHAMPION_CLASS_RE = re.compile(
 # "WORKING TERRIER CHAMPION & RES", "CHAMPION AND RES", etc.
 _CHAMPIONSHIP_CLASS_RE = re.compile(
     rf'\bCHAMPION\b.{{0,80}}(?:&|AND)\s*{_RESERVE_TOKEN}'
-    rf'|CHAMPIONSHIP\s+CERTIFICATE'
+    # Any "Championship" / "Championships" final (Certificate, Puppy Championship,
+    # Racing Championships, Super Earth Championship, OCR "Championshipce1Ificate", etc.)
+    # No trailing word-boundary: OCR often glues Certificate onto Championship.
+    rf'|\bCHAMPIONSHIPS?'
+    # Short "Champion Puppy/Working/Open/..." finals listed as 1st/2nd
+    rf'|\bCHAMPION\s+(?:PUPPY|WORKING|OPEN|COLORED|BITCH|DOG|ADULT|VETERAN|SENIOR)\b'
     rf'|HIGH\s+POINT\s+CHAMPION'
     rf'|HIGH\s+IN\s+TRIAL\b.{{0,40}}(?:&|AND)\s*RES(?:E)?VE\b'
     rf'|HIGH\s+SCORE\b.{{0,40}}(?:&|AND)\s*{_RESERVE_TOKEN}'
