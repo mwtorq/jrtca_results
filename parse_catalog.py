@@ -1061,12 +1061,12 @@ def names_are_similar(name1: str, name2: str) -> bool:
     if norm1 == norm2:
         return True
 
-    # Litter-style names (e.g. Dutch Creek Andy vs Dutch Creek Dandy, Harmony
-    # Chase Briggs/Bragg/Brooks) share a prefix but are different dogs. Plural
-    # endings (Divot/Divots) are still treated as one dog.
+    # Litter / near-call names share a kennel prefix but are different dogs
+    # (Dutch Creek Andy vs Dandy; Brandywine Roux vs Roxy). Plural endings
+    # (Divot/Divots) are still treated as one dog.
     words1 = norm1.split()
     words2 = norm2.split()
-    if len(words1) >= 3 and len(words2) >= 3 and len(words1) == len(words2):
+    if len(words1) >= 2 and len(words2) >= 2 and len(words1) == len(words2):
         if words1[:-1] == words2[:-1] and words1[-1] != words2[-1]:
             if strip_plural(words1[-1]) != strip_plural(words2[-1]):
                 return False
