@@ -20,7 +20,8 @@ from parse_catalog import (
     find_relationships, merge_dogs_across_years,
     infer_sex_from_relationships, extract_year_from_filename,
     parse_catalog, extract_text_from_file, infer_sex_from_classes,
-    extract_catalog_division_label, CATALOG_YEAR_MIN, CATALOG_YEAR_MAX,
+    extract_catalog_division_label, catalog_year_out_of_range,
+    CATALOG_YEAR_MIN, CATALOG_YEAR_MAX,
 )
 from scrape_trial_results_fixed import (
     TrialResult, normalize_division_name, normalize_class_name,
@@ -1789,11 +1790,9 @@ def load_catalog_data(conn: Optional[pyodbc.Connection] = None,
         if skip_years and year in skip_years:
             should_skip = True
             skip_reason = "explicitly in skip_years"
-        elif year.isdigit() and (
-            int(year) < CATALOG_YEAR_MIN or int(year) > CATALOG_YEAR_MAX
-        ):
+        elif catalog_year_out_of_range(year):
             should_skip = True
-            skip_reason = f"outside catalog year range {CATALOG_YEAR_MIN}-{CATALOG_YEAR_MAX}"
+            skip_reason = f"before catalog year {CATALOG_YEAR_MIN}"
         elif auto_skip_processed and conn and is_catalog_year_processed(conn, year):
             should_skip = True
             skip_reason = "already processed in database"
