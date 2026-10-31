@@ -1044,6 +1044,27 @@ def final_words_are_one_typo_apart(word1: str, word2: str) -> bool:
     return word_edit_distance(word1, word2) <= 1
 
 
+def _dog_name_token(name: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", (name or "").lower())
+
+
+def distinct_registered_names(name1: str, name2: str) -> bool:
+    """True when two registered names must never be treated as one dog."""
+    a, b = _dog_name_token(name1), _dog_name_token(name2)
+    if not a or not b:
+        return False
+
+    def family(tok: str) -> str | None:
+        if "idenryeabigail" in tok:
+            return "iden-rye-abigail"
+        if "maydayabigail" in tok:
+            return "may-day-abigail"
+        return None
+
+    fa, fb = family(a), family(b)
+    return bool(fa and fb and fa != fb)
+
+
 def names_are_similar(name1: str, name2: str) -> bool:
     """Check if two dog names are similar (handling spaces, plurals, etc.).
     
@@ -1053,6 +1074,8 @@ def names_are_similar(name1: str, name2: str) -> bool:
     - "Dog Name" vs "Different Dog Name" -> False
     """
     if not name1 or not name2:
+        return False
+    if distinct_registered_names(name1, name2):
         return False
 
     if same_prefix_different_letter_ids(name1, name2):
