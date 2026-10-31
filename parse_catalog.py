@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Parse catalog .doc and .pdf files and extract structured data about dog show entries.
-Supports multiple years (2008-2025) and tracks sex information across years.
+Supports catalog years from 2008 onward and tracks sex information across years.
 """
 
 import re
@@ -250,23 +250,18 @@ def extract_text_from_file(filepath: str) -> str:
         Extracted text as a string
     """
     filepath_lower = filepath.lower()
-    
-    if filepath_lower.endswith('.pdf'):
-        return extract_text_from_pdf(filepath)
-    elif filepath_lower.endswith('.doc') or filepath_lower.endswith('.docx'):
-        return extract_text_from_doc(filepath)
+
+    if filepath_lower.endswith('.pdf') or '.pdf' in filepath_lower:
+        text = extract_text_from_pdf(filepath)
+    elif filepath_lower.endswith('.doc') or filepath_lower.endswith('.docx') or '.doc' in filepath_lower:
+        text = extract_text_from_doc(filepath)
     else:
-        # Try to detect file type by extension or try both
-        if '.pdf' in filepath_lower:
-            return extract_text_from_pdf(filepath)
-        elif '.doc' in filepath_lower:
-            return extract_text_from_doc(filepath)
-        else:
-            # Unknown extension, try PDF first, then DOC
-            try:
-                return extract_text_from_pdf(filepath)
-            except:
-                return extract_text_from_doc(filepath)
+        try:
+            text = extract_text_from_pdf(filepath)
+        except Exception:
+            text = extract_text_from_doc(filepath)
+
+    return (text or '').replace('\r\n', '\n').replace('\r', '\n')
 
 
 _DIVISION_LETTER_PREFIX_RE = re.compile(
@@ -275,7 +270,16 @@ _DIVISION_LETTER_PREFIX_RE = re.compile(
 )
 
 CATALOG_YEAR_MIN = 2008
-CATALOG_YEAR_MAX = 2025
+CATALOG_YEAR_MAX = None  # no ceiling; new years ingest without a code change
+
+
+def catalog_year_out_of_range(year: str) -> bool:
+    if not year.isdigit():
+        return False
+    value = int(year)
+    if value < CATALOG_YEAR_MIN:
+        return True
+    return CATALOG_YEAR_MAX is not None and value > CATALOG_YEAR_MAX
 
 
 def extract_catalog_division_label(line: str) -> str:
@@ -516,6 +520,7 @@ def parse_catalog(text: str, year: str) -> tuple[Dict[str, ClassInfo], Dict[str,
         print(f"  parse_catalog returning: {len(classes)} classes, {len(dogs)} dogs (early return due to empty text)")
         return classes, dogs
     
+    text = text.replace('\r\n', '\n').replace('\r', '\n')
     lines = text.split('\n')
     print(f"  Parsing {len(lines)} lines of text for year {year}")
     
@@ -1039,6 +1044,27 @@ def final_words_are_one_typo_apart(word1: str, word2: str) -> bool:
     return word_edit_distance(word1, word2) <= 1
 
 
+def _dog_name_token(name: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", (name or "").lower())
+
+
+def distinct_registered_names(name1: str, name2: str) -> bool:
+    """True when two registered names must never be treated as one dog."""
+    a, b = _dog_name_token(name1), _dog_name_token(name2)
+    if not a or not b:
+        return False
+
+    def family(tok: str) -> str | None:
+        if "idenryeabigail" in tok:
+            return "iden-rye-abigail"
+        if "maydayabigail" in tok:
+            return "may-day-abigail"
+        return None
+
+    fa, fb = family(a), family(b)
+    return bool(fa and fb and fa != fb)
+
+
 def names_are_similar(name1: str, name2: str) -> bool:
     """Check if two dog names are similar (handling spaces, plurals, etc.).
     
@@ -1048,6 +1074,8 @@ def names_are_similar(name1: str, name2: str) -> bool:
     - "Dog Name" vs "Different Dog Name" -> False
     """
     if not name1 or not name2:
+        return False
+    if distinct_registered_names(name1, name2):
         return False
 
     if same_prefix_different_letter_ids(name1, name2):
@@ -2716,7 +2744,7 @@ def find_relationships(dogs: Dict[str, Dog]) -> Dict[str, List[str]]:
                     # Check granddam's siblings
                     if dam_dog.dam:
                         granddam_normalized = normalize_name(dam_dog.dam)
-                        granddam_dog_keys = find_dog_keys_with_similar_matching(sire_dog.dam, dogs, normalized_name_to_dog_nums)
+                        granddam_dog_keys = find_dog_keys_with_similar_matching(dam_dog.dam, dogs, normalized_name_to_dog_nums)
                         for granddam_dog_key in granddam_dog_keys:
                             if granddam_dog_key != canonical_key:
                                 granddam_dog = dogs[granddam_dog_key]
@@ -3687,10 +3715,8 @@ def main():
         
         # Extract year from filename
         year = extract_year_from_filename(filepath)
-        if year.isdigit() and (
-            int(year) < CATALOG_YEAR_MIN or int(year) > CATALOG_YEAR_MAX
-        ):
-            print(f"\nSkipping {filepath} (Year: {year}) - outside {CATALOG_YEAR_MIN}-{CATALOG_YEAR_MAX}")
+        if catalog_year_out_of_range(year):
+            print(f"\nSkipping {filepath} (Year: {year}) - before {CATALOG_YEAR_MIN}")
             continue
         
         years_processed.append(year)

@@ -8,7 +8,7 @@
 DECLARE @Name VARCHAR(100) = '%Waelterman%'
 DECLARE @Name1 VARCHAR(100) = '%Waelterman%'
 
-SELECT DISTINCT l.Year,l.TrialName,l.StartDate,l.EndDate,dv.DivisionName,c.ClassName,d.DogName,d.Sire,d.Dam,sgs.Grandsire as Grandsire,sgd.Granddam AS Granddam,sggs.GreatGrandsire as GreatGrandsire,sggd.GreatGranddam AS GreatGranddam,ss.Sibling AS Sibling,o.OwnerName,p.Result,tc.EntryCount,pt.Time
+SELECT DISTINCT l.Year,l.TrialName,l.StartDate,l.EndDate,dv.DivisionName,c.ClassName,d.DogName,d.Sire,d.Dam,sgs.Grandsire as Grandsire,sgd.Granddam AS Granddam,sggs.GreatGrandsire as GreatGrandsire,sggd.GreatGranddam AS GreatGranddam,ss.Sibling AS Sibling,o.OwnerName,p.Result,p.Heat,p.Qtr,p.Semi,tc.EntryCount,pt.Time
 FROM [TrialResults].[sResults].[TrialPlacements] (NOLOCK) p
 JOIN [TrialResults].[sResults].[TrialList] (NOLOCK) l ON p.TrialListID=l.TrialListID
 JOIN [TrialResults].[sResults].[TrialClass] (NOLOCK) tc ON p.TrialClassID=tc.TrialClassID

@@ -1,5 +1,5 @@
 CREATE OR ALTER VIEW [sResults].[vwResults] AS
-	SELECT TOP 10000000 l.Year,l.TrialName,l.StartDate,l.EndDate,dv.DivisionName,c.ClassName,d.DogName,ISNULL(d.Sire,'Not Available') AS Sire,ISNULL(d.Dam,'Not Available') AS Dam,ISNULL(anc.Grandsire,'Not Available') AS Grandsire,ISNULL(anc.Granddam,'Not Available') AS Granddam,ISNULL(anc.GreatGrandsire,'Not Available') as GreatGrandsire,ISNULL(anc.GreatGranddam,'Not Available') AS GreatGranddam,ISNULL(ss.Sibling,'Not Available') AS Sibling,o.OwnerName,p.Result,tc.EntryCount,pt.Time
+	SELECT TOP 10000000 l.Year,l.TrialName,l.StartDate,l.EndDate,dv.DivisionName,c.ClassName,d.DogName,ISNULL(d.Sire,'Not Available') AS Sire,ISNULL(d.Dam,'Not Available') AS Dam,ISNULL(anc.Grandsire,'Not Available') AS Grandsire,ISNULL(anc.Granddam,'Not Available') AS Granddam,ISNULL(anc.GreatGrandsire,'Not Available') as GreatGrandsire,ISNULL(anc.GreatGranddam,'Not Available') AS GreatGranddam,ISNULL(ss.Sibling,'Not Available') AS Sibling,o.OwnerName,p.Result,p.Heat,p.Qtr,p.Semi,tc.EntryCount,pt.Time
 	FROM [TrialResults].[sResults].[TrialPlacements] (NOLOCK) p
 	JOIN [TrialResults].[sResults].[TrialList] (NOLOCK) l ON p.TrialListID=l.TrialListID
 	JOIN [TrialResults].[sResults].[TrialClass] (NOLOCK) tc ON p.TrialClassID=tc.TrialClassID

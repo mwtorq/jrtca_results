@@ -5597,12 +5597,12 @@ def main():
     parser.add_argument(
         '--load-catalog',
         action='store_true',
-        help='After trial results load, load 2008-2025 entry catalogs (reuses Dog/Owner from trials)',
+        help='After trial results load, load 2008+ entry catalogs (reuses Dog/Owner from trials)',
     )
     parser.add_argument(
         '--catalog-only',
         action='store_true',
-        help='Load 2008-2025 entry catalogs only; skip trial results processing',
+        help='Load 2008+ entry catalogs only; skip trial results processing',
     )
     parser.add_argument(
         '--auto-skip-catalog-processed',
@@ -5798,7 +5798,7 @@ def main():
     
     if args.load_catalog or args.catalog_only:
         print("\n" + "=" * 80)
-        print("LOADING ENTRY CATALOGS (2008-2025)")
+        print("LOADING ENTRY CATALOGS (2008+)")
         print("=" * 80)
         from populate_trialresults_database import load_catalog_data
         load_catalog_data(
