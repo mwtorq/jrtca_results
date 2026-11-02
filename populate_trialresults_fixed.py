@@ -1371,8 +1371,10 @@ def infer_division_from_class_name(class_name: str) -> str:
     Returns a canonical division string or '' if indeterminate.
     """
     upper = re.sub(r'\s+', ' ', class_name.strip().upper())
-    if re.search(r'\b(?:FLAT|HURDLE[SD]?|STEEPLECHASE|SPRINT)\s+RAC', upper):
-        return 'RACING'
+    if re.search(r'\b(?:HURDLE[SD]?|STEEPLECHASE)\s+RAC', upper):
+        return 'RACING DIVISION - STEEPLECHASE RACES'
+    if re.search(r'\b(?:FLAT|SPRINT)\s+RAC', upper):
+        return 'RACING DIVISION - FLAT RACES'
     # Allow OCR spacing/punctuation variants: "Go -To-Ground", "GOTOGROUND", "G.T.G."
     if re.search(r'\bGTG\b|GO[\s.\-/]*TO[\s.\-/]*GROUND', upper):
         return 'GO-TO-GROUND'
@@ -1513,11 +1515,8 @@ def canonical_division_name(line: str) -> str:
     if 'BALL' in upper and 'RETRIEVAL' in upper:
         return 'BALL RETRIEVAL'
     if ('MASTER' in upper and 'DEN' in upper) or "MASTER'S DEN" in upper:
-        return "MASTER'S DEN STAKES"
+        return "SUPER EARTH"
     if 'SUPER' in upper and 'EARTH' in upper:
-        # Bare "SUPER EARTH" in older results is a section label; classes are Master's Den Stakes
-        if upper in ('SUPER EARTH', 'SUPER EARTH STAKES'):
-            return "MASTER'S DEN STAKES"
         return 'SUPER EARTH'
     if is_go_to_ground_division(line):
         return 'GO-TO-GROUND'
@@ -2915,7 +2914,8 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             placement = placement.capitalize() if len(placement) <= 3 else placement.title()
             dog_name = re.sub(r'\s+', ' ', dog_name)
             owner_name = clean_parsed_owner_name(re.sub(r'\s+', ' ', owner_name))
-            full_division = current_division
+            from normalize_maps import canon_div
+
             clean_class, _ = strip_entries_from_class_name(current_class)
             if current_subdivision and 'RACING' in (current_division or '').upper():
                 clean_class = apply_racing_subdivision_to_class(
@@ -2927,6 +2927,7 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                 clean_class = apply_day_subdivision_to_class(
                     clean_class, current_subdivision,
                 )
+            full_division = canon_div(current_division, clean_class)
             placement = normalize_placement_label(placement, clean_class)
             results.append(PlacementResult(
                 division=full_division,
@@ -3000,13 +3001,15 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
             time_val = ''
 
             def _placement_division() -> str:
+                from normalize_maps import canon_div
+
                 # Flat/Hurdles already encoded on the class name for racing.
                 if current_subdivision and 'RACING' in (current_division or '').upper():
                     if (
                         racing_subdivision_label(current_subdivision)
                         or current_subdivision in ('Flat Racing', 'Hurdles Racing')
                     ):
-                        return current_division
+                        return canon_div(current_division, clean_class)
                 # Friday/Saturday/Sunday already encoded on lure/brush class names.
                 if current_subdivision and any(
                     key in (current_division or '').upper() for key in _DAY_AWARE_DIVISIONS
@@ -3014,10 +3017,10 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                     if day_subdivision_label(current_subdivision) or current_subdivision.lower() in (
                         'friday', 'saturday', 'sunday',
                     ):
-                        return current_division
+                        return canon_div(current_division, clean_class)
                 if current_subdivision:
-                    return f"{current_division} - {current_subdivision}"
-                return current_division
+                    return canon_div(f"{current_division} - {current_subdivision}", clean_class)
+                return canon_div(current_division, clean_class)
 
             def finalize_names(dog: str, owner: str) -> tuple[str, str, str]:
                 dog_clean = re.sub(r'\s+', ' ', dog)
@@ -3266,12 +3269,12 @@ def load_trialvault_results_to_database(
             times_inserted = 0
             for (division, class_name, entry_count), class_results in by_class.items():
                 division_name = division or "UNKNOWN"
-                div_id = get_or_create_division(cursor, division_name)
+                clean_class_name, _ = strip_entries_from_class_name(class_name or "Unknown Class")
+                clean_class_name = normalize_class_name_full(clean_class_name, division_name)
+                div_id = get_or_create_division(cursor, division_name, clean_class_name)
                 if not div_id:
                     continue
 
-                clean_class_name, _ = strip_entries_from_class_name(class_name or "Unknown Class")
-                clean_class_name = normalize_class_name_full(clean_class_name, division_name)
                 class_id = get_or_create_class(cursor, clean_class_name, div_id)
                 if not class_id:
                     continue
@@ -4599,12 +4602,12 @@ def append_trialvault_nonsanctioned_to_database(
 
             for (division, class_name, entry_count), class_results in by_class.items():
                 division_name = division or "UNKNOWN"
-                div_id = get_or_create_division(cursor, division_name)
+                clean_class_name, _ = strip_entries_from_class_name(class_name or "Unknown Class")
+                clean_class_name = normalize_class_name_full(clean_class_name, division_name)
+                div_id = get_or_create_division(cursor, division_name, clean_class_name)
                 if not div_id:
                     continue
 
-                clean_class_name, _ = strip_entries_from_class_name(class_name or "Unknown Class")
-                clean_class_name = normalize_class_name_full(clean_class_name, division_name)
                 class_id = get_or_create_class(cursor, clean_class_name, div_id)
                 if not class_id:
                     continue
@@ -4774,11 +4777,11 @@ def merge_trialvault_event_to_database(
     return stats
 
 
-def get_or_create_division(cursor, division_name: str) -> int:
+def get_or_create_division(cursor, division_name: str, class_name: str = "") -> int:
     """Get or create division ID."""
     from normalize_trialresults_data import normalize_division_name_full
 
-    division_name = normalize_division_name_full(division_name)
+    division_name = normalize_division_name_full(division_name, class_name)
     cursor.execute("SELECT DivisionID FROM [sResults].[Division] WHERE DivisionName = ?", division_name)
     row = cursor.fetchone()
     if row:
@@ -4790,6 +4793,9 @@ def get_or_create_division(cursor, division_name: str) -> int:
 
 def get_or_create_class(cursor, class_name: str, division_id: int) -> int:
     """Get or create class ID."""
+    from normalize_maps import canon_class
+
+    class_name = canon_class((class_name or "").replace("COMFORMATION", "CONFORMATION"))
     cursor.execute("SELECT ClassID FROM [sResults].[Class] WHERE ClassName = ? AND DivisionID = ?", class_name, division_id)
     row = cursor.fetchone()
     if row:
@@ -5382,14 +5388,12 @@ def process_trial_file(
                 return get_or_create_dog(cur, clean_name, owner_id)
 
         for (division, class_name, entries), class_placements in by_class.items():
-            # Get or create division
-            div_id = get_or_create_division(cursor, division)
-            if not div_id:
-                continue
-            
-            # Get or create class (strip any Entries suffix that slipped through)
             clean_class_name, _ = strip_entries_from_class_name(class_name)
             clean_class_name = normalize_class_name_full(clean_class_name, division)
+            div_id = get_or_create_division(cursor, division, clean_class_name)
+            if not div_id:
+                continue
+
             class_id = get_or_create_class(cursor, clean_class_name, div_id)
             if not class_id:
                 continue
