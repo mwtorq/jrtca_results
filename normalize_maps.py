@@ -157,6 +157,9 @@ def canon_div(name: str, class_name: str = "") -> str:
         return "RACING DIVISION - FLAT RACES - SUNDAY"
     if u.startswith("GO-TO-GROUND") or u.startswith("GO TO GROUND"):
         return "GO-TO-GROUND"
+    # Class name can put child/junior/youth handlers in YOUTH even under CONFORMATION.
+    if re.search(r"\b(?:CHILD|JUNIOR|YOUTH)\s+HANDLER", cls_u):
+        return "YOUTH DIVISION"
     if "CONFORMATION" in u:
         return "CONFORMATION"
     if u in {

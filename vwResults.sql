@@ -1,5 +1,12 @@
 CREATE OR ALTER VIEW [sResults].[vwResults] AS
-	SELECT TOP 10000000 l.Year,l.TrialName,l.StartDate,l.EndDate,dv.DivisionName,c.ClassName,d.DogName,ISNULL(d.Sire,'Not Available') AS Sire,ISNULL(d.Dam,'Not Available') AS Dam,ISNULL(anc.Grandsire,'Not Available') AS Grandsire,ISNULL(anc.Granddam,'Not Available') AS Granddam,ISNULL(anc.GreatGrandsire,'Not Available') as GreatGrandsire,ISNULL(anc.GreatGranddam,'Not Available') AS GreatGranddam,ISNULL(ss.Sibling,'Not Available') AS Sibling,o.OwnerName,p.Result,p.Heat,p.Qtr,p.Semi,tc.EntryCount,pt.Time
+	SELECT TOP 10000000 l.Year,l.TrialName,l.StartDate,l.EndDate,dv.DivisionName,c.ClassName,d.DogName,ISNULL(d.Sire,'Not Available') AS Sire,ISNULL(d.Dam,'Not Available') AS Dam,ISNULL(anc.Grandsire,'Not Available') AS Grandsire,ISNULL(anc.Granddam,'Not Available') AS Granddam,ISNULL(anc.GreatGrandsire,'Not Available') as GreatGrandsire,ISNULL(anc.GreatGranddam,'Not Available') AS GreatGranddam,ISNULL(ss.Sibling,'Not Available') AS Sibling,o.OwnerName,
+		COALESCE(bo.OwnerName, br.OwnerName) AS BreederOwnerName,
+		COALESCE(bo.City, br.City) AS BreederCity,
+		COALESCE(bo.State, br.State) AS BreederState,
+		COALESCE(bo.Email, br.Email) AS BreederEmail,
+		COALESCE(bo.Phone, br.Phone) AS BreederPhone,
+		COALESCE(bo.Website, br.Website) AS BreederWebsite,
+		p.Result,p.Heat,p.Qtr,p.Semi,tc.EntryCount,pt.Time
 	FROM [TrialResults].[sResults].[TrialPlacements] (NOLOCK) p
 	JOIN [TrialResults].[sResults].[TrialList] (NOLOCK) l ON p.TrialListID=l.TrialListID
 	JOIN [TrialResults].[sResults].[TrialClass] (NOLOCK) tc ON p.TrialClassID=tc.TrialClassID
@@ -7,6 +14,14 @@ CREATE OR ALTER VIEW [sResults].[vwResults] AS
 	JOIN [TrialResults].[sResults].[Division] (NOLOCK) dv ON c.DivisionID=dv.DivisionID
 	JOIN [TrialResults].[sResults].[Dog] (NOLOCK) d ON p.DogID=d.DogID
 	LEFT JOIN [TrialResults].[sResults].[Owner] (NOLOCK) o ON d.OwnerID=o.OwnerID
+	LEFT JOIN [TrialResults].[sResults].[Breeder] (NOLOCK) br ON d.BreederID=br.BreederID
+	OUTER APPLY (
+		SELECT TOP 1 o2.OwnerName, o2.City, o2.State, o2.Email, o2.Phone, o2.Website
+		FROM [TrialResults].[sResults].[Owner] (NOLOCK) o2
+		WHERE d.BreederID IS NOT NULL
+		  AND o2.BreederID = d.BreederID
+		ORDER BY o2.OwnerID
+	) bo
 	LEFT JOIN [TrialResults].[sResults].[TrialPlacements_Times] (NOLOCK) pt ON p.TrialPlacementsID=pt.TrialPlacementsID
 	OUTER APPLY (SELECT STRING_AGG(CAST(ss.RelatedDogName AS NVARCHAR(MAX)),', ') AS Sibling FROM ((SELECT DISTINCT ss.RelatedDogName FROM [TrialResults].[sResults].[Relationship] ss (NOLOCK) WHERE d.DogID=ss.DogID AND ISNULL(ss.RelationshipType,'')='Sibling') UNION SELECT DISTINCT ss.RelatedDogName + ' (half)' FROM [TrialResults].[sResults].[Relationship] ss (NOLOCK) WHERE d.DogID=ss.DogID AND ISNULL(ss.RelationshipType,'') LIKE '%Half%Sibling%') ss) ss
 	OUTER APPLY (
