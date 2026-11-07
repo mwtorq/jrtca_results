@@ -1,0 +1,20 @@
+22:00:06 head-start parser watching C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\jrtcabreeders.com\pages\archive
+22:00:06 783 html files already on disk
+22:01:10 parsed 782 new files -> 94 kennels, 801 dogs
+22:10:57 head-start parser watching C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\jrtcabreeders.com\pages\archive (update existing + insert new)
+22:10:57 947 html files already on disk
+22:11:01 parsed 945 new files -> 110 kennels, 904 dogs
+22:21:38 head-start parser watching C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\jrtcabreeders.com\pages\archive (update existing + insert new)
+22:21:38 1105 html files already on disk
+22:21:43 parsed 1103 new files -> 127 kennels, 1005 dogs
+22:21:43 loading SQL (update existing + insert new) before photos
+22:29:21 SQL load finished; downloading photos
+22:33:58 head-start parser watching C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\jrtcabreeders.com\pages\archive (update existing + insert new)
+22:33:58 1299 html files already on disk
+22:34:04 parsed 1299 new files -> 339 kennels, 849 dogs
+22:34:04 loading SQL (update existing + insert new) before photos
+22:40:11 SQL load finished; downloading photos
+07:49:35 head-start parser watching C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results\jrtcabreeders.com\pages\archive (update existing + insert new)
+07:49:35 3080 html files already on disk
+07:58:06 parsed 1780 new files -> 344 kennels, 1128 dogs
+07:58:07 loading SQL (update existing + insert new)

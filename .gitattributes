@@ -3,3 +3,11 @@
 *.bak filter=lfs diff=lfs merge=lfs -text
 *.txt filter=lfs diff=lfs merge=lfs -text
 *.pbix filter=lfs diff=lfs merge=lfs -text
+*.rtf filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+jrtcabreeders.com/**/*.html filter=lfs diff=lfs merge=lfs -text
+jrtcabreeders.com/**/*.json filter=lfs diff=lfs merge=lfs -text
+jrtcabreeders.com/**/*.xml filter=lfs diff=lfs merge=lfs -text
