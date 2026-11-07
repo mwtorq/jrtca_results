@@ -35,7 +35,7 @@ from ocr_yearbook_source import (
     ocr_sibling_path,
     render_pdf_pages,
 )
-from _remount_source_divisions import CONN
+from remount_source_divisions import CONN
 from yearbook_meta_schema import ensure
 
 ROOT = Path(r"c:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results")
@@ -486,6 +486,8 @@ _PLACE_RANK_OCR = (
     (r"(?i)(?:\(|\b)\d?[ilI|!]st\b", "1st"),
     (r"(?i)\(\s*st\b", "1st"),
     (r"(?i)(?<![0-9a-z])st\s*[:;]", "1st:"),
+    # Place dust: lost digit+colon — "st Sady Lady" → "1st: Sady Lady"
+    (r"(?im)^(?:\(\s*)?st\s+(?=[A-Z\"'“])", "1st: "),
     (r"(?i)\b(?:ists|lsts|Ists|l sts|I sts)\b", "1sts"),
     (r"(?i)\b(?:ist|lst|Ist|tst|dst)\b(?=\s*[:.;]|\s|$)", "1st"),
     (r"(?i)\b1st\s*;", "1st:"),
@@ -497,9 +499,11 @@ _PLACE_RANK_OCR = (
     (r"(?im)^[''‘’`´]\s*et\b\s*", "1st: "),
     (r"(?i)[''‘’`´]\s*et\s*:", "1st:"),
     (r"(?i)(?<![0-9a-z])nd\s*:", "2nd:"),
+    (r"(?im)^(?:\(\s*)?nd\s+(?=[A-Z\"'“])", "2nd: "),
     # Leading digit dropped: "rd: Name" → "3rd:" (same family as nd:→2nd:)
     (r"(?i)(?<![0-9a-z])rd\s*:", "3rd:"),
     (r"(?i)(?<![0-9a-z])rd\b(?=\s+[A-Z\"'“])", "3rd"),
+    (r"(?im)^(?:\(\s*)?rd\s+(?=[A-Z\"'“])", "3rd: "),
     # Place line never uses plural "2nds:" — undo over-correction
     (r"(?i)\b2nds\s*:", "2nd:"),
     (r"(?i)\b(?:Znds|znds|Qnds|qnds)\b", "2nds"),
@@ -1042,15 +1046,57 @@ def _normalize_owned_by_ocr(text: str) -> str:
     return text
 
 
+
+def _mark_missing_class_headers(text: str) -> str:
+    """Flag place-rank restarts with no class/section header between blocks.
+
+    OCR often drops intervening class titles, so ``2nd:…`` is followed by a new
+    ``1st:…``. Insert ``[missing class header]`` — do not invent class names.
+    """
+    if not text:
+        return text
+    place_non_first = re.compile(r"(?i)^(?:\d+)?(?:nd|rd|th)\s*:")
+    place_first = re.compile(r"(?i)^1st\s*:")
+    sectionish = re.compile(
+        r"(?i)entries\s*:|division\b|champion\s*&\s*reserve|"
+        r"\bbest\b.+(?:bitch|dog|puppy)|"
+        r"\b(?:novice|open|bred by|puppies|adults|veteran)\b|"
+        r"missing class header"
+    )
+    out: list[str] = []
+    prev_place_non_first = False
+    for line in text.splitlines():
+        s = line.strip()
+        if place_first.match(s) and prev_place_non_first:
+            out.append("[missing class header]")
+        out.append(line)
+        if not s:
+            continue
+        if place_first.match(s):
+            prev_place_non_first = False
+        elif place_non_first.match(s):
+            prev_place_non_first = True
+        elif sectionish.search(s):
+            prev_place_non_first = False
+    return "\n".join(out)
+
+
 def finalize_results_ocr(text: str) -> str:
     """Structure cleanup first, then lexical OCR fixes.
 
     Name phrases like ``Huinter→Hunter`` only match after mid-line wraps are
     rejoined, so strip/rejoin must run before ``fix_ocr_li_confusion``.
+    Column-bleed smash repair runs after lexical owned-by normalization.
+    Height Champ/Reserve rehome runs last so place-prefix stripping has already
+    turned ``4th: 10-12 1/2" Champion:`` into a bare height role line.
     """
     if not text:
         return text
-    return fix_ocr_li_confusion(_strip_gutter_noise(text))
+    text = _repair_smashed_place_lines(
+        fix_ocr_li_confusion(_strip_gutter_noise(text))
+    )
+    text = "\n".join(_rehome_orphan_adult_height_champs(text.splitlines()))
+    return _mark_missing_class_headers(text)
 
 
 # Residual OCR failure signatures — if these remain AFTER finalize, the page
@@ -1074,6 +1120,7 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("vog_fups", re.compile(r"(?i)\bVog\s+Fups\b|\bDog\s+Fups\b")),
     ("place_ith", re.compile(r"(?i)\bith\s*:")),
     ("place_ond", re.compile(r"(?i)\b(?:ond|did)\s*:")),
+    ("class_header_gap", re.compile(r"(?i)\[missing class header\]")),
     ("place_smash", re.compile(
         r"(?i)\bowned\s*,\s*owned\b|\bowned\s+by\s+owned\b|"
         r"\bowned\s+by\b.+\bowned\s+by\b|\bowned\s+by\b.+\bby\b.+\bby\b"
@@ -1134,6 +1181,15 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("4th_then_2nd", re.compile(r"(?im)^4th\s*:.*\n2nd\s*:")),
     ("4th_then_6th_no_5", re.compile(r"(?im)^4th\s*:.*\n6th\s*:")),
     ("ree_oaks", re.compile(r"(?i)\bree\s+Oaks\b")),
+    # Owner surname / co-owner cut at column edge (crop/bleed). Finalize must
+    # NOT invent missing letters — only OCR ensemble / wider crop can restore.
+    # High-confidence stubs only: "& Lir" / "& Pz" / "Donna Pi" (≤3-letter tail).
+    # 4-letter stubs (Louc/Piel/Linc) are ambiguous with real short surnames.
+    ("owner_tail_trunc", re.compile(
+        r"(?im)\bowned\s+by\b[^\n]*?"
+        r"(?:&\s+[A-Z][A-Za-z']{0,2}|[A-Z][A-Za-z']+\s+[A-Z][A-Za-z']{0,1})"
+        r"\s*$"
+    )),
 )
 
 
@@ -1978,6 +2034,24 @@ _CLASS_HEADER_RE = re.compile(
     r"(?i)^(novice|open|pre-|puppy|adult|dog|bitch|go-?to|working|family|bred|youth|"
     r"conformation|agility|racing|super|championship)"
 )
+# Next-section race/division header glued onto a place/owner line
+# (e.g. ``owned by Alte STEEPLECHASE RACES`` / ``owned by Alta RACING CHAMPIONS``).
+_GLUED_SECTION_HEADER_RE = re.compile(
+    r"(?i)^(.+?)\s+("
+    r"RACING\s+CHAMPIONS?|"
+    r"STEEPLECHASE\s+RACES?|"
+    r"FLAT\s+RACES?|"
+    r"(?:CONFORMATION|RACING|AGILITY|OBEDIENCE)\s+DIVISION|"
+    r"GO-?TO-?GROUND(?:\s+DIVISION)?|"
+    r"WORKING\s+TERRIER(?:\s+DIVISION)?"
+    r")\s*$"
+)
+# Height band glued to place/role with no space: ``12 1/2-15"1st:`` / ``10-12 1/2"Champion:``
+# (Do NOT match spaced ``10-12 1/2" Champion:`` — that is the normal single-line form.)
+_HEIGHT_GLUED_PLACE_RE = re.compile(
+    r'(?i)((?:10\s*-\s*12(?:\s*1/2)?|12(?:\s*1/2)?(?:\s*-\s*15)?)\s*")'
+    r'(?=((?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:))'
+)
 _MARKER_RE = re.compile(
     r"(?i)^---\s*(?:page\s+\d+|HEADER|column\s+(?:LEFT|RIGHT)|spread\s+(?:LEFT|RIGHT)|OCR-ENSEMBLE)"
 )
@@ -2099,6 +2173,8 @@ def normalize_height_class_ocr(text: str) -> str:
         (r'(?m)^2\s*1/2\s*-\s*15\s*"?', '12 1/2-15"'),
         (r'(?m)^1/2\s*-\s*15\s*"?', '12 1/2-15"'),
         (r'(?i)\b12\s*1/2\s*:\s*(?=Champion|Reserve)', '12 1/2" '),
+        # Stray colon after height quote: ``10-12 1/2": Champion:`` → ``…" Champion:``
+        (r'(?i)(")\s*:\s*(?=Champion|Reserve\b)', r"\1 "),
     )
     for pat, repl in reps:
         text = re.sub(pat, repl, text)
@@ -2299,15 +2375,26 @@ def _rejoin_broken_results_lines(text: str) -> str:
             continue
 
         # "owned by Kevin" / "Shannon Osby" (surname alone on next line)
+        # Do not rejoin race/division headers split off a prior owner line
+        # (``…owned by Alte`` / ``STEEPLECHASE RACES``).
+        # Do not invent surnames onto truncated stubs (``owned by Mi`` + ``Carlier``).
         if (
             i + 1 < n
             and re.search(r"(?i)\bowned\s+by\s+[A-Z][a-zA-Z.'\-]+\s*$", ln)
             and re.match(r"^[A-Z][a-zA-Z.'\-]+(?:\s+[A-Z][a-zA-Z.'\-]+)?\s*$", lines[i + 1])
+            and not _is_results_section_header(lines[i + 1])
             and not re.match(
                 r"(?i)^(?:\d*(?:st|nd|rd|th)|champion|reserve|best|dog|bitch)\b",
                 lines[i + 1],
             )
         ):
+            m_tail = re.search(r"(?i)\bowned\s+by\s+(.+)$", ln)
+            last = (m_tail.group(1).split()[-1] if m_tail else "")
+            last_alpha = re.sub(r"[^A-Za-z]", "", last)
+            if 0 < len(last_alpha) <= 3:
+                out.append(ln)
+                i += 1
+                continue
             out.append(f"{ln} {lines[i + 1]}")
             i += 2
             continue
@@ -2546,6 +2633,133 @@ def _reorder_puppy_championship_block(lines: list[str]) -> list[str]:
     return out
 
 
+
+# Adult racing height Champion/Reserve (not Under/Over puppy bands).
+_ADULT_HEIGHT_CHAMP_RE = re.compile(
+    r'(?i)^(?:10\s*-\s*12(?:\s*1/2)?\s*"?|12(?:\s*1/2)?\s*-\s*15\s*"?)\s*'
+    r"(?:Champion|Reserve|Champ)\s*:"
+)
+_ADULT_RACING_CR_HEADER_RE = re.compile(
+    r"(?i)^ADULT\s+RACING\s+CHAMPION(?:\s*(?:&|AND)\s*RESERVE)?\s*$"
+)
+_PUPPY_RACING_CR_HEADER_RE = re.compile(
+    r"(?i)^PUPPY\s+RACING\s+CHAMPION(?:\s*(?:&|AND)\s*RESERVE)?\s*$"
+)
+
+
+def _rehome_orphan_adult_height_champs(lines: list[str]) -> list[str]:
+    """Move orphan adult height Champ/Reserve lines under ADULT RACING CR.
+
+    Column OCR often dumps ``10-12 1/2" Champion/Reserve`` / ``12 1/2-15" …``
+    under the preceding class (e.g. Veteran) while leaving
+    ``PUPPY RACING CHAMPION & RESERVE`` / ``ADULT RACING CHAMPION & RESERVE``
+    empty. Keep empty Puppy/Adult headers; create the Adult header if missing.
+    """
+    if not lines:
+        return lines
+
+    adult_idx = next(
+        (
+            i
+            for i, ln in enumerate(lines)
+            if _ADULT_RACING_CR_HEADER_RE.match(ln.strip())
+        ),
+        None,
+    )
+
+    orphans: list[str] = []
+    orphan_idxs: set[int] = set()
+    i = 0
+    n = len(lines)
+    while i < n:
+        if not _ADULT_HEIGHT_CHAMP_RE.match(lines[i].strip()):
+            i += 1
+            continue
+        start = i
+        while i < n and _ADULT_HEIGHT_CHAMP_RE.match(lines[i].strip()):
+            i += 1
+        end = i
+
+        # Already immediately under ADULT (only height lines between)?
+        if adult_idx is not None and adult_idx < start:
+            between = lines[adult_idx + 1 : start]
+            if all(
+                (not s.strip()) or _ADULT_HEIGHT_CHAMP_RE.match(s.strip())
+                for s in between
+            ):
+                continue
+
+        # Walk back past height peers; already-homed sections keep their lines.
+        already_homed = False
+        j = start - 1
+        while j >= 0:
+            s = lines[j].strip()
+            if not s or _ADULT_HEIGHT_CHAMP_RE.match(s):
+                j -= 1
+                continue
+            if _ADULT_RACING_CR_HEADER_RE.match(s):
+                already_homed = True
+            elif re.match(
+                r"(?i)^(?:racing\s+champions?|steeplechase\s+races?|flat\s+races?|"
+                r"adults?\b|puppies\b)\b",
+                s,
+            ):
+                # Under RACING CHAMPIONS / ADULTS / PUPPIES — not a mid-class orphan
+                already_homed = True
+            break
+        if already_homed:
+            continue
+
+        for k in range(start, end):
+            orphans.append(lines[k])
+            orphan_idxs.add(k)
+
+    if not orphans:
+        return lines
+
+    kept = [ln for idx, ln in enumerate(lines) if idx not in orphan_idxs]
+    adult_idx = next(
+        (
+            i
+            for i, ln in enumerate(kept)
+            if _ADULT_RACING_CR_HEADER_RE.match(ln.strip())
+        ),
+        None,
+    )
+    if adult_idx is None:
+        # Prefer an existing RACING CHAMPIONS home over inventing ADULT RACING CR
+        racing_idx = next(
+            (
+                i
+                for i, ln in enumerate(kept)
+                if re.match(r"(?i)^racing\s+champions?\b", ln.strip())
+            ),
+            None,
+        )
+        if racing_idx is not None:
+            adult_idx = racing_idx
+        else:
+            puppy_idx = next(
+                (
+                    i
+                    for i, ln in enumerate(kept)
+                    if _PUPPY_RACING_CR_HEADER_RE.match(ln.strip())
+                ),
+                None,
+            )
+            insert_at = (puppy_idx + 1) if puppy_idx is not None else len(kept)
+            kept.insert(insert_at, "ADULT RACING CHAMPION & RESERVE")
+            adult_idx = insert_at
+
+    insert_pos = adult_idx + 1
+    while insert_pos < len(kept) and _ADULT_HEIGHT_CHAMP_RE.match(
+        kept[insert_pos].strip()
+    ):
+        insert_pos += 1
+    kept[insert_pos:insert_pos] = orphans
+    return kept
+
+
 def _lift_trailing_entries_to_class_header(lines: list[str]) -> list[str]:
     """Move ``Entries: N`` that OCR placed after the last place onto the class header.
 
@@ -2713,8 +2927,14 @@ def _is_ocr_noise_line(s: str) -> bool:
     # Yearbook folio bleed: ``1997 JRTCA Yearbook, Vol. I – 28`` / ``Vol. | 28``
     if re.match(r"(?i)^\d{4}\s+JRTCA\s+Yearbook\b", s):
         return True
+    # Place dust without colon: ``1t Stephens`` / ``t Name`` (mangled 1st:)
+    if re.match(r"(?i)^(?:\d?t|[il!|]st)\s+[A-Za-z]", s) and not re.search(
+        r"(?i)\b(?:owned\s+by|entries\s*:)\b", s
+    ):
+        return True
+    # Keep real results / role lines (owned-by, champ, class keywords)
     if re.search(
-        r"(?i)\b(?:owned\s+by|entries\s*:|chairperson|chair\s*:|champion|reserve|"
+        r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
         r"go-?to-?ground|conformation|novice|open|puppy|working\s+terrier|"
         r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veteran)\b",
         s,
@@ -2722,6 +2942,22 @@ def _is_ocr_noise_line(s: str) -> bool:
         return False
     if re.match(r"(?i)^(?:\d*(?:st|nd|rd|th)|best)\s*:", s):
         return False
+    # Entries: keep class headers + bare ``Entries:``; drop owner-crumb + Entries bleed
+    if re.search(r"(?i)\bentries\s*:", s):
+        if re.match(r"(?i)^entries\s*:", s):
+            return False
+        if re.search(
+            r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|adults?|pair|"
+            r"family|bred|youth|working|veteran|racing|agility|steeple|"
+            r"championship|certificate|pre-|gtg|smooth|broken|rough|"
+            r"puppies|bitches|dogs)\b",
+            s,
+        ):
+            return False
+        return True
+    # Leading-lowercase surname/owner crumbs: ``ephenson`` / ``ley & S. Hudson``
+    if re.match(r"^[a-z]", s) and not re.match(r"(?i)^(?:under|over)\s+\d", s):
+        return True
     # Mangled Judges line (JUQGES / Judges. OV TOU…) — NOT "Junior Handler"
     if re.match(r"(?i)^(?:judges?|juqges|juoces|judcfs)\b", s) and not re.search(
         r"(?i)conformation|go-?to-?ground|ground\s*,|handler", s
@@ -2746,6 +2982,11 @@ def _is_ocr_noise_line(s: str) -> bool:
     # Mostly punctuation / single-letter crumbs
     if len(s) >= 20 and len(tokens) <= 3 and re.search(r"[)(,./]{3,}", s):
         return True
+    # Sparse spaced gibberish: ``oS                         F 5-5``
+    if len(s) >= 12 and re.search(r"\s{4,}", s):
+        letter_runs = re.findall(r"[A-Za-z]+", s)
+        if letter_runs and max(len(t) for t in letter_runs) <= 3:
+            return True
     # Short multi-token crumb runs: "eo nr re" / "TTT eee ee"
     if (
         re.fullmatch(r"(?:[A-Za-z]{1,3}\s+){1,3}[A-Za-z]{1,3}", s)
@@ -2766,6 +3007,77 @@ def _is_ocr_noise_line(s: str) -> bool:
     return False
 
 
+def _is_solid_results_line(s: str) -> bool:
+    """True for place/champ/class lines that end a real results block."""
+    s = (s or "").strip()
+    if not s or _MARKER_RE.match(s):
+        return False
+    if re.search(r"(?i)\bowned\s+by\b", s):
+        return True
+    if re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:", s):
+        return True
+    if re.match(
+        r"(?i)^(?:(?:under|over)\s+)?(?:10\s*-\s*12|12)(?:\s*1/2)?(?:\s*-\s*15)?\s*\"?\s*"
+        r"(?:champion|reserve)\s*:",
+        s,
+    ):
+        return True
+    if re.match(
+        r"(?i)^(?:puppies|adults?|dogs?,?|bitches?,?|racing\s+champions?|"
+        r"steeplechase|flat\s+races|novice|open|pups?|"
+        r"(?:conformation|racing|agility|obedience|go-?to-?ground|working)"
+        r"(?:\s+division)?)\b",
+        s,
+    ):
+        return True
+    if re.match(r"(?i)^\d{4}\s*:", s):
+        return True
+    if re.search(r"(?i)\bentries\s*:", s) and not _is_ocr_noise_line(s):
+        return True
+    return False
+
+
+def _drop_trailing_gutter_crumbs(lines: list[str]) -> list[str]:
+    """Drop surname/Entries/page/next-trial crumb runs after the last solid result.
+
+    Column bleed often dumps truncated owners + ``Entries: N`` + page# + the next
+    trial title after the real Champ/Reserve lines. Do not invent surnames — just
+    discard the unusable tail. Keep a later trial title only if solid results follow.
+    """
+    if not lines:
+        return lines
+    last_solid = -1
+    for i, ln in enumerate(lines):
+        if _MARKER_RE.match(ln.strip()):
+            last_solid = i
+            continue
+        if _is_solid_results_line(ln):
+            last_solid = i
+    if last_solid < 0 or last_solid >= len(lines) - 1:
+        return lines
+    tail = lines[last_solid + 1 :]
+    resume: int | None = None
+    for j, ln in enumerate(tail):
+        if _is_solid_results_line(ln):
+            resume = j
+            break
+        if re.search(r"(?i)\b(?:terrier\s+)?trial\b", ln):
+            for k in range(j + 1, min(j + 10, len(tail))):
+                if _is_solid_results_line(tail[k]):
+                    resume = j
+                    break
+            if resume is not None:
+                break
+    if resume is not None:
+        return lines[: last_solid + 1] + tail[resume:]
+    crumbish = sum(
+        1 for ln in tail if _is_ocr_noise_line(ln) or not _is_solid_results_line(ln)
+    )
+    if crumbish >= max(2, int(len(tail) * 0.6)):
+        return lines[: last_solid + 1]
+    return lines
+
+
 def _strip_gutter_noise(text: str) -> str:
     """Drop midpoint OCR junk (underscore/tilde runs, lone glyphs, column bleed)."""
     if not text:
@@ -2784,6 +3096,15 @@ def _strip_gutter_noise(text: str) -> str:
         # Lone OCR crumbs (t / tn / ee) — not real place/class tokens
         if re.fullmatch(r"[A-Za-z]{1,2}", s):
             continue
+        # Height glued to place/role: ``…12 1/2-15"1st:`` → height line + place line
+        m_ht = _HEIGHT_GLUED_PLACE_RE.search(s)
+        if m_ht:
+            head = s[: m_ht.end(1)].rstrip()
+            rest = s[m_ht.end(1) :].lstrip()
+            if head and rest:
+                if not _is_ocr_noise_line(head):
+                    out.append(head)
+                s = rest
         if _is_ocr_noise_line(s):
             continue
         # Division header + next-column bleed:
@@ -2878,9 +3199,27 @@ def _strip_gutter_noise(text: str) -> str:
             s,
         )
         s = _strip_trailing_column_bleed(s)
+        # Place/owner + next-section header smash:
+        # ``…owned by Alte STEEPLECHASE RACES`` → owner line + header line
+        m_glue = _GLUED_SECTION_HEADER_RE.match(s.strip())
+        if m_glue and (
+            re.search(r"(?i)\bowned\s+by\b", m_glue.group(1))
+            or re.match(
+                r"(?i)^(?:\d*(?:st|nd|rd|th)|best|champion|reserve)\s*:",
+                m_glue.group(1).strip(),
+            )
+        ):
+            owner = m_glue.group(1).rstrip(" ,;")
+            header = m_glue.group(2).strip()
+            if owner:
+                out.append(owner)
+            if header:
+                out.append(header)
+            continue
         if s.strip():
             out.append(s.strip())
-    return _rejoin_broken_results_lines("\n".join(out))
+    rejoined = _rejoin_broken_results_lines("\n".join(out))
+    return "\n".join(_drop_trailing_gutter_crumbs(rejoined.splitlines()))
 
 
 def _ocr_page_best_single(img: Image.Image) -> str:
@@ -3052,10 +3391,15 @@ def _place_line_is_smashed(body: str) -> bool:
         return True
     if re.search(r"(?i)\bowned\s+by\s+owned\b", body):
         return True
-    # "owned by Jennifer by Ken" / "by Gayle owned Jennings by Dan"
-    if re.search(r"(?i)\bowned\s+by\b.+\bby\b.+\bby\b", body):
+    # "owned by Jennifer by Ken" / "Gayle by Jennings by Steve" (dual+ by-chains)
+    if re.search(r"(?i)\bowned\s+by\b.+\bby\b", body):
         return True
     if re.search(r"(?i)\bowned\b.+\bowned\b", body):
+        return True
+    # Interleaved: "Hunt's owned Comet, by Gayle" (owned mid-dog, bare by)
+    if re.search(r"(?i)\b[A-Za-z][A-Za-z'\-]*\s+owned\s+[A-Z]", body) and re.search(
+        r"(?i),\s*by\s+[A-Z]", body
+    ):
         return True
     # Two kennel-ish name chunks before owned (Farms X, Y, owned) with dual commas
     if re.search(r"(?i),\s*[^,]{2,40},\s*owned\b", body) and re.search(
@@ -3064,6 +3408,199 @@ def _place_line_is_smashed(body: str) -> bool:
     ):
         return True
     return False
+
+
+def _score_clean_place_body(body: str) -> int:
+    """Higher = likelier a single ``Dog, owned by Owner`` (no column bleed)."""
+    if not body:
+        return -1000
+    if _place_line_is_smashed(body):
+        return -1000
+    m = re.match(r"(?i)^(.+?),\s*owned\s+by\s+(.+)$", body.strip())
+    if not m:
+        return -100
+    dog, owner = m.group(1).strip(), m.group(2).strip()
+    score = 0
+    if re.search(r"(?i)\b(?:owned|by)\b", dog):
+        score -= 50
+    if "," in dog:
+        score -= 15
+    dog_toks = [t for t in dog.split() if t]
+    if not dog_toks:
+        score -= 40
+    elif len(dog_toks) > 8:
+        score -= 20
+    else:
+        score += min(len(dog_toks), 5) * 2
+    if re.search(r"(?i)\b(?:owned|by)\b", owner):
+        score -= 50
+    own_toks = [t for t in owner.split() if t]
+    if len(own_toks) < 2:
+        score -= 12  # bare first name often a smash remnant
+    else:
+        score += 12
+    if "&" in owner:
+        score += 8
+    if re.fullmatch(r"[A-Z]\.", owner.strip()):
+        score -= 30  # orphan initial from "D. by Peck" split
+    if re.search(r"\b[A-Z]\.\s*[A-Z][a-z]+\b", owner) and len(own_toks) <= 3:
+        score += 10  # clean "D. Peck" / "J. Kozak"
+    elif re.search(r"\b[A-Z]\.\s*[A-Z]", owner):
+        score += 5
+    # Prefer owners that look like people (Titlecase tokens), not mid-garble
+    caps = sum(1 for t in own_toks if t[:1].isupper())
+    score += min(caps, 4)
+    # Very long owner strings are often two interleaved owner lines
+    if len(own_toks) > 6:
+        score -= 10
+    # "Jennifer & J. Scarborough Kozak" — dual surname after & = interleave remnant
+    if re.search(r"&\s*[A-Z]\.?\s+[A-Z][a-z]+\s+[A-Z][a-z]+\s*$", owner):
+        score -= 15
+    return score
+
+
+def _owner_partition_alts(owner_side: str) -> list[list[str]]:
+    """Alternate ways to split a mangled ``by``-chained owner side into owners."""
+    parts = [p.strip() for p in re.split(r"(?i)\s+by\s+", owner_side) if p.strip()]
+    if not parts:
+        return []
+    alts: list[list[str]] = [parts]
+    # "Gayle by Jennings" → "Gayle Jennings" (spurious by before surname)
+    if (
+        len(parts) >= 2
+        and len(parts[0].split()) == 1
+        and len(parts[1].split()) == 1
+        and parts[0][-1:] != "."
+    ):
+        alts.append([f"{parts[0]} {parts[1]}"] + parts[2:])
+    # "D. by Peck …" → "D. Peck" + remainder tokens of parts[1]
+    if len(parts) >= 2 and re.fullmatch(r"[A-Z]\.", parts[0]):
+        rest_toks = parts[1].split()
+        if rest_toks:
+            merged = [f"{parts[0]} {rest_toks[0]}"]
+            tail = " ".join(rest_toks[1:]).strip()
+            if tail:
+                merged.append(tail)
+            merged.extend(parts[2:])
+            alts.append(merged)
+    # Dedupe while preserving order
+    seen: set[tuple[str, ...]] = set()
+    out: list[list[str]] = []
+    for alt in alts:
+        key = tuple(alt)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(alt)
+    return out
+
+
+def _pair_dog_owner_candidates(
+    dog_chunks: list[str], owners: list[str]
+) -> list[str]:
+    """Build ``dog, owned by owner`` candidates without inventing extra places."""
+    cands: list[str] = []
+    if not dog_chunks or not owners:
+        return cands
+    n = min(len(dog_chunks), len(owners))
+    # Align from the start and from the end (either column may be more intact)
+    for dogs in (dog_chunks[:n], dog_chunks[-n:]):
+        for d, o in zip(dogs, owners):
+            d, o = d.strip(), o.strip()
+            if d and o:
+                cands.append(f"{d}, owned by {o}")
+    # Single fused dog phrase vs multiple owners: try token bipartitions
+    if len(dog_chunks) == 1 and len(owners) >= 2:
+        toks = dog_chunks[0].split()
+        if len(toks) >= 2:
+            cuts = {len(toks) // 2, 1, len(toks) - 1}
+            for cut in sorted(cuts):
+                if not (0 < cut < len(toks)):
+                    continue
+                left, right = " ".join(toks[:cut]), " ".join(toks[cut:])
+                cands.append(f"{left}, owned by {owners[0]}")
+                cands.append(f"{right}, owned by {owners[1]}")
+    return cands
+
+
+def _unsmash_place_body(body: str) -> str:
+    """Collapse column-bleed smash to the cleanest single dog + owner.
+
+    Does not emit extra place rows — leftovers without evidence are dropped.
+    """
+    if not body or not _place_line_is_smashed(body):
+        return body
+    b = body.strip()
+    # Normalize duplicated owned markers (keep trailing space so "Gayle" stays separate)
+    b = re.sub(r"(?i)\bowned\s*,\s*owned\s+by\b", "owned by ", b)
+    b = re.sub(r"(?i)\bowned\s+by\s+(?:owned\s+)+", "owned by ", b)
+    b = re.sub(r"(?i)\bowned\s+by\s+owned\b", "owned by ", b)
+    b = re.sub(r"(?i)\bowned\s+by(?=[A-Za-z])", "owned by ", b)
+    b = re.sub(r"(?i)([^\s,])\s+owned\s+by\b", r"\1, owned by", b)
+    b = re.sub(r"\s{2,}", " ", b).strip()
+    if not _place_line_is_smashed(b):
+        return b
+
+    cands: list[str] = []
+
+    # Interleave: "South Badger, Hunt's owned Comet, by Gayle owned Jennings by Dan"
+    m_int = re.match(
+        r"(?i)^(.+?),\s*(.+?)\s+owned\s+(.+?),\s*by\s+(.+?)\s+owned\s+(.+?)\s+by\s+(.+)$",
+        b,
+    )
+    if m_int:
+        d1, d2a, d2b, o1a, o1b, o2 = (g.strip() for g in m_int.groups())
+        cands.append(f"{d1}, owned by {o1a} {o1b}")
+        cands.append(f"{d2a} {d2b}, owned by {o2}")
+
+    # Standard: dog-side, owned by owner-side (possibly by-chained)
+    m = re.match(r"(?i)^(.+?),\s*owned\s+by\s+(.+)$", b)
+    if m:
+        dog_side, owner_side = m.group(1).strip(), m.group(2).strip()
+        dog_chunks = [c.strip() for c in dog_side.split(",") if c.strip()]
+        for owners in _owner_partition_alts(owner_side):
+            cands.extend(_pair_dog_owner_candidates(dog_chunks, owners))
+        # If owner side still has a single clean owner after surname-merge only
+        for owners in _owner_partition_alts(owner_side):
+            if len(owners) == 1 and dog_chunks:
+                # Prefer shortest plausible dog chunk (often the intact right column)
+                for d in sorted(dog_chunks, key=lambda x: (len(x.split()), len(x))):
+                    cands.append(f"{d}, owned by {owners[0]}")
+
+    if not cands:
+        return body
+    # Keep only non-smashed; pick highest score (stable: first max)
+    scored = [( _score_clean_place_body(c), i, c) for i, c in enumerate(cands)]
+    scored.sort(reverse=True)
+    best_score, _, best = scored[0]
+    if best_score < 0:
+        # Still better to emit least-bad non-smash if any cleared the detector
+        clean = [c for c in cands if not _place_line_is_smashed(c)]
+        if not clean:
+            return body
+        return max(clean, key=_score_clean_place_body)
+    return best
+
+
+def _repair_smashed_place_lines(text: str) -> str:
+    """Finalize pass: unsmash column-bleed place/champ lines to one dog+owner."""
+    if not text:
+        return text
+    out: list[str] = []
+    for ln in text.splitlines():
+        parts = _split_result_place_line(ln)
+        if not parts:
+            if _place_line_is_smashed(ln):
+                out.append(_unsmash_place_body(ln))
+            else:
+                out.append(ln)
+            continue
+        prefix, body = parts
+        if _place_line_is_smashed(body):
+            out.append(prefix + _unsmash_place_body(body))
+        else:
+            out.append(ln)
+    return "\n".join(out)
 
 
 def _result_line_is_smashed(line: str) -> bool:
@@ -3254,6 +3791,11 @@ def _reconcile_trial_ocr_candidates(candidates: list[str]) -> str:
                         best_ov, best_clean = ov, aln.strip()
             if best_clean is not None and best_ov >= 2:
                 out_lines.append(best_clean)
+                continue
+            # No clean peer — structurally unsmash to one dog+owner
+            fixed_body = _unsmash_place_body(body)
+            if fixed_body != body and not _place_line_is_smashed(fixed_body):
+                out_lines.append(prefix + fixed_body)
                 continue
             out_lines.append(ln)
             continue

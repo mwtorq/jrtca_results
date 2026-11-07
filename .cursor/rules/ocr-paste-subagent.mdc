@@ -1,0 +1,16 @@
+---
+description: OCR paste defects — fast parent-inline fix (no slow subagents)
+alwaysApply: true
+---
+
+# OCR paste defects → parent-inline (fast)
+
+Subagents for OCR finalize pastes proved too slow. **Do not spawn subagents** for yearbook OCR / results-text pastes unless the user explicitly asks for a subagent on that message.
+
+When the user pastes OCR defects:
+
+1. **Parent fixes inline** in `yearbook_ocr.py` only (finalize / noise / heights / smash / bleed).
+2. Cap work: read the relevant functions, surgical patch, one `finalize_results_ocr` smoke on the paste. No repo-wide search/grep, no broad exploration, no commit unless asked.
+3. Brief report (what changed + smoke verdict). If code changed: restart HQ OCR (1997+1998 @ 10 workers; wipe `*.partial.txt`; `--force`; report previous PPM per `ocr-restart-ppm`).
+4. Do not invent truncated surnames; structural repairs only.
+5. Preserve empty classes (`Entries: 0` / empty section headers).
