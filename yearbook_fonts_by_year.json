@@ -1,0 +1,118 @@
+{
+  "_note": "Visual ID from results-page crops (scans have no embedded fonts). Use for OCR font matching/training — not PDF metadata.",
+  "_method": "Rendered results text from Updated Yearbook Scans / Yearbook Scans; classified by glyph shape. Ads/headings may differ from results body — map is for RESULTS lists.",
+  "years": {
+    "1984": {
+      "family": "Monospace typewriter / daisy-wheel (Courier-like)",
+      "weights": ["Regular"],
+      "confidence": 0.92,
+      "notes": "Most trial/results body is fixed-pitch impact print (Cottonwood, NH, certificates). Some National Trials pages are proportional serif typeset — minority. Ads/titles often serif or Helvetica Bold; do not train results OCR on those."
+    },
+    "1985": {
+      "family": "Monospace typewriter / daisy-wheel (Courier-like)",
+      "weights": ["Regular"],
+      "confidence": 0.9,
+      "notes": "Same as 1984: results lists mostly mono; ads/breeder pages often Helvetica-like sans."
+    },
+    "1986": {
+      "family": "Monospace typewriter / early DTP (Letter Gothic–like)",
+      "weights": ["Regular"],
+      "confidence": 0.9,
+      "notes": "Fixed pitch; slashed/dotted zeros common."
+    },
+    "1987": {
+      "family": "Monospace daisy-wheel / impact printer sans",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.88,
+      "notes": "Fixed pitch class lists; ink spread."
+    },
+    "1988": {
+      "family": "Monospace / near-mono impact printer sans",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.82,
+      "notes": "Still typewriter-like; underlined class headers. Transition year."
+    },
+    "1989": {
+      "family": "Helvetica-like neo-grotesque sans",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.8,
+      "notes": "Proportional sans appears; Helvetica/Arial family. First clear DTP sans yearbook style."
+    },
+    "1990": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.9,
+      "notes": "Classic yearbook results: bold headers, regular places; G spur, flat-top t, two-story a."
+    },
+    "1991": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.9,
+      "notes": "Same neo-grotesque DTP style as 1990."
+    },
+    "1992": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.85,
+      "notes": "Same family; crop quality varies."
+    },
+    "1993": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold", "Bold Italic"],
+      "confidence": 0.9,
+      "notes": "Adds bold italic for Champion/Reserve labels."
+    },
+    "1994": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.88,
+      "notes": "Neo-grotesque sans; some condensed bold on photo captions."
+    },
+    "1995": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.9,
+      "notes": "Standard Helvetica-like results."
+    },
+    "1996": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.88,
+      "notes": "Same family."
+    },
+    "1997": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.92,
+      "notes": "Two-column yearbook; Helvetica Regular/Bold."
+    },
+    "1998": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.92,
+      "notes": "Same as 1997."
+    },
+    "1999": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.92,
+      "notes": "Same as 1997–98."
+    },
+    "2000": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.9,
+      "notes": "Same neo-grotesque yearbook style."
+    },
+    "2001": {
+      "family": "Helvetica",
+      "weights": ["Regular", "Bold"],
+      "confidence": 0.92,
+      "notes": "Same as late-90s yearbooks."
+    }
+  },
+  "ocr_training_groups": {
+    "mono_typewriter": [1984, 1985, 1986, 1987, 1988],
+    "helvetica_yearbook": [1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001]
+  }
+}

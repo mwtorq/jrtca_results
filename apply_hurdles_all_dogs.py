@@ -14,7 +14,7 @@ from pathlib import Path
 print("imports", flush=True)
 import pyodbc
 from populate_trialresults_fixed import normalize_placement_label
-from _remount_source_divisions import (
+from remount_source_divisions import (
     CONN,
     class_key,
     classes_ok,
@@ -113,7 +113,7 @@ def parse_tv_lines(lines: list[str]):
         elif s.startswith("Friday Night"):
             day = "fri"
             friday_night = True
-            division = looks_div(s) or "FRIDAY NIGHT RACING UNDER THE LIGHTS!"
+            division = looks_div(s) or "RACING DIVISION - FLAT RACES - FRIDAY"
             i += 1
             continue
         d = looks_div(s)
@@ -121,9 +121,9 @@ def parse_tv_lines(lines: list[str]):
             if day == "fri" and friday_night:
                 df = fam(d)
                 if df == "HURDLES":
-                    d = "FRIDAY NIGHT STEEPLECHASE RACES"
+                    d = "RACING DIVISION - STEEPLECHASE RACES - FRIDAY"
                 elif df == "RACING":
-                    d = "FRIDAY NIGHT RACING UNDER THE LIGHTS!"
+                    d = "RACING DIVISION - FLAT RACES - FRIDAY"
             division = d
             i += 1
             continue
@@ -137,9 +137,9 @@ def parse_tv_lines(lines: list[str]):
                 if day == "fri" and friday_night:
                     df = fam(pd)
                     if df == "HURDLES":
-                        pd = "FRIDAY NIGHT STEEPLECHASE RACES"
+                        pd = "RACING DIVISION - STEEPLECHASE RACES - FRIDAY"
                     elif df == "RACING":
-                        pd = "FRIDAY NIGHT RACING UNDER THE LIGHTS!"
+                        pd = "RACING DIVISION - FLAT RACES - FRIDAY"
                 division = pd
             metric = raw(i + 4).lower()
             j = i + 5

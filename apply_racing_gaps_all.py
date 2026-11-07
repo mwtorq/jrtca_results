@@ -16,7 +16,7 @@ print("imports", flush=True)
 import pyodbc
 from populate_trialresults_fixed import normalize_placement_label
 from fix_racing_steeplechase_class_collapse import parse_all_slots
-from _apply_hurdles_all_dogs import (
+from apply_hurdles_all_dogs import (
     SKIP_RES,
     day_for_trial,
     file_has_hurdles,
@@ -29,7 +29,7 @@ from _apply_hurdles_all_dogs import (
     src_dog,
     wanted_hurdle,
 )
-from _remount_source_divisions import CONN, class_key, classes_ok, ensure_tc, fam, res_key
+from remount_source_divisions import CONN, class_key, classes_ok, ensure_tc, fam, res_key
 
 _BAD = re.compile(
     r"AGILITY|JUMPER|ON\s+LEAD|OFF\s+LEAD|OBEDIENCE|SUB\s+NOVICE|"
@@ -78,18 +78,25 @@ def kind(div, cls, res=""):
 
 
 def dest_for(k, div, cls):
+    u = (div or "").upper()
+    friday = "FRIDAY NIGHT" in u or "UNDER THE LIGHTS" in u or u.endswith("- FRIDAY")
+    sunday = u.startswith("SUNDAY RACING") or u.endswith("- SUNDAY")
     if k == "FLAT":
-        if "FRIDAY" in (div or "").upper():
-            return div
-        if fam(div) == "RACING" and "FLAT" in (div or "").upper():
+        if friday:
+            return "RACING DIVISION - FLAT RACES - FRIDAY"
+        if sunday and "LURE" not in u and "BRUSH" not in u and "TUNNEL" not in u:
+            return "RACING DIVISION - FLAT RACES - SUNDAY"
+        if fam(div) == "RACING" and "FLAT" in u:
             return div
         return "RACING DIVISION - FLAT RACES"
     if k in ("HURDLES", "HCHAMP"):
-        if "FRIDAY" in (div or "").upper() and fam(div) in ("HURDLES", "RACING"):
+        if friday:
+            return "RACING DIVISION - STEEPLECHASE RACES - FRIDAY"
+        if sunday and "LURE" not in u and "BRUSH" not in u and "TUNNEL" not in u:
+            return "RACING DIVISION - STEEPLECHASE RACES - SUNDAY"
+        if fam(div) == "HURDLES" and "STEEPLE" in u:
             return div
-        if fam(div) == "HURDLES" and "STEEPLE" in (div or "").upper():
-            return div
-        return "STEEPLECHASE RACES"
+        return "RACING DIVISION - STEEPLECHASE RACES"
     return div
 
 

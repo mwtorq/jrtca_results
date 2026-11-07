@@ -172,7 +172,7 @@ def ensure_tc(cur, trial_id: int, division: str, class_name: str) -> int:
     last_err = None
     for _ in range(4):
         try:
-            div_id = get_or_create_division(cur, division)
+            div_id = get_or_create_division(cur, division, class_name)
             class_id = get_or_create_class(cur, class_name, div_id)
             cur.execute(
                 "SELECT TrialClassID FROM sResults.TrialClass WHERE TrialListID=? AND ClassID=?",
