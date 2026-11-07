@@ -901,6 +901,10 @@ def fix_ocr_li_confusion(text: str) -> str:
     # "Entriess 5" / "Entries 5" / "Entriess:" → "Entries: 5"
     text = re.sub(r"(?i)\bEntriess?\s*:?\s*(\d+)\b", r"Entries: \1", text)
     text = re.sub(r"(?i)\bEntriess\b", "Entries", text)
+    text = re.sub(r"(?i)\bEntricer\s*:?\s*(\d+)\b", r"Entries: \1", text)
+    text = re.sub(r"(?i)\bEntricer\b", "Entries", text)
+    text = re.sub(r"(?i)\bFan+m?[il1]lv\s+Class\b", "Family Class", text)
+
     # Bare "Entries" / "Entries:" tidy
     text = re.sub(r"(?im)\bEntries\s*$", "Entries:", text)
     # Trailing space before comma: "Ravenswood Lady ,"
@@ -2784,6 +2788,7 @@ def _strip_gutter_noise(text: str) -> str:
             continue
         # Division header + next-column bleed:
         # ``CONFORMATION DIVISION   I   Qed: Davinnuinnd…``
+        # ``CONFORMATION DIVISION    : Fanmilv Class   Entricer 0``
         m_div = re.match(
             r"(?i)^((?:Conformation|Go-?to-?Ground|Racing|Agility|Obedience|"
             r"Working(?:\s+Terrier)?|Super\s+Earth)\s+DIVISION)\b(.*)$",
@@ -2791,12 +2796,26 @@ def _strip_gutter_noise(text: str) -> str:
         )
         if m_div and m_div.group(2).strip():
             rest = m_div.group(2)
+            salvage = None
+            m_fam = re.search(
+                r"(?i)\bFan+m?[il1]lv\s+Class\b|\bFamily\s+Class\b",
+                rest,
+            )
+            m_ent = re.search(r"(?i)\bEntr(?:ies|icer|les)\s*:?\s*(\d+)\b", rest)
+            if m_fam:
+                salvage = "Family Class"
+                if m_ent:
+                    salvage = f"Family Class Entries: {m_ent.group(1)}"
             if re.match(r"\s{2,}", rest) or not re.search(
                 r"(?i)\b(?:entries|champion|reserve|owned\s+by|"
                 r"\d+(?:st|nd|rd|th)|best)\b",
                 rest,
             ):
-                s = m_div.group(1)
+                if salvage:
+                    out.append(m_div.group(1))
+                    s = salvage
+                else:
+                    s = m_div.group(1)
         s = re.sub(r"^[\W_]{2,}\s*", "", s)
         s = re.sub(r"\s*[\W_]{2,}$", "", s)
         s = re.sub(r"[~_]{2,}", " ", s)
