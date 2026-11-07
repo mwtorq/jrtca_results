@@ -2377,6 +2377,7 @@ def _rejoin_broken_results_lines(text: str) -> str:
         # "owned by Kevin" / "Shannon Osby" (surname alone on next line)
         # Do not rejoin race/division headers split off a prior owner line
         # (``…owned by Alte`` / ``STEEPLECHASE RACES``).
+        # Do not invent surnames onto truncated stubs (``owned by Mi`` + ``Carlier``).
         if (
             i + 1 < n
             and re.search(r"(?i)\bowned\s+by\s+[A-Z][a-zA-Z.'\-]+\s*$", ln)
@@ -2387,6 +2388,13 @@ def _rejoin_broken_results_lines(text: str) -> str:
                 lines[i + 1],
             )
         ):
+            m_tail = re.search(r"(?i)\bowned\s+by\s+(.+)$", ln)
+            last = (m_tail.group(1).split()[-1] if m_tail else "")
+            last_alpha = re.sub(r"[^A-Za-z]", "", last)
+            if 0 < len(last_alpha) <= 3:
+                out.append(ln)
+                i += 1
+                continue
             out.append(f"{ln} {lines[i + 1]}")
             i += 2
             continue
@@ -2681,8 +2689,8 @@ def _rehome_orphan_adult_height_champs(lines: list[str]) -> list[str]:
             ):
                 continue
 
-        # Walk back past height peers; Adult header = home, else orphan.
-        owner_is_adult = False
+        # Walk back past height peers; already-homed sections keep their lines.
+        already_homed = False
         j = start - 1
         while j >= 0:
             s = lines[j].strip()
@@ -2690,9 +2698,16 @@ def _rehome_orphan_adult_height_champs(lines: list[str]) -> list[str]:
                 j -= 1
                 continue
             if _ADULT_RACING_CR_HEADER_RE.match(s):
-                owner_is_adult = True
+                already_homed = True
+            elif re.match(
+                r"(?i)^(?:racing\s+champions?|steeplechase\s+races?|flat\s+races?|"
+                r"adults?\b|puppies\b)\b",
+                s,
+            ):
+                # Under RACING CHAMPIONS / ADULTS / PUPPIES — not a mid-class orphan
+                already_homed = True
             break
-        if owner_is_adult:
+        if already_homed:
             continue
 
         for k in range(start, end):
@@ -2712,17 +2727,29 @@ def _rehome_orphan_adult_height_champs(lines: list[str]) -> list[str]:
         None,
     )
     if adult_idx is None:
-        puppy_idx = next(
+        # Prefer an existing RACING CHAMPIONS home over inventing ADULT RACING CR
+        racing_idx = next(
             (
                 i
                 for i, ln in enumerate(kept)
-                if _PUPPY_RACING_CR_HEADER_RE.match(ln.strip())
+                if re.match(r"(?i)^racing\s+champions?\b", ln.strip())
             ),
             None,
         )
-        insert_at = (puppy_idx + 1) if puppy_idx is not None else len(kept)
-        kept.insert(insert_at, "ADULT RACING CHAMPION & RESERVE")
-        adult_idx = insert_at
+        if racing_idx is not None:
+            adult_idx = racing_idx
+        else:
+            puppy_idx = next(
+                (
+                    i
+                    for i, ln in enumerate(kept)
+                    if _PUPPY_RACING_CR_HEADER_RE.match(ln.strip())
+                ),
+                None,
+            )
+            insert_at = (puppy_idx + 1) if puppy_idx is not None else len(kept)
+            kept.insert(insert_at, "ADULT RACING CHAMPION & RESERVE")
+            adult_idx = insert_at
 
     insert_pos = adult_idx + 1
     while insert_pos < len(kept) and _ADULT_HEIGHT_CHAMP_RE.match(
