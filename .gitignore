@@ -11,3 +11,20 @@ verify_normalization_err.log
 # Rebuilt from the entries catalogs by split_merged_relatives.py
 catalog_pedigree_cache.json
 merged_relatives_evidence.csv
+
+# OCR / pipeline runtime artifacts (regenerated locally)
+_ocr_baseline_v2/
+_ocr_9701_*.log
+_ocr_9701_*.err.log
+_recover_*.log
+_recover_*.err.log
+_b6b_rerun_*.log
+_b6b_rerun_*.err.log
+_pipeline_advance.log
+dashboard/_pipeline_dashboard_status.json
+dashboard/_pipeline_dashboard_serve.log
+dashboard/_pipeline_dashboard_serve.err.log
+_font_train/
+_debug_cols/
+*.bak
+trialresults_*.bak

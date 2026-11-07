@@ -5,10 +5,10 @@ Writes ONLY under ``_ocr_baseline_v2/`` — never overwrites scan-folder sidecar
 Canonical CLI for plan steps A1/A4 (use this, not ``_ocr_baseline_v2_yearbook_9701``).
 
 Default: two parallel year tracks (separate processes, each with 10 tess workers):
-  Track A: 1997
-  Track B: 1998
+  Track A: 1999, 2001
+  Track B: 2000
 
-1990–96 / 1999–2001 tracks are parked (laptop thrash at 4×10). Re-add when ready.
+1997–98 baseline complete; 1990–96 parked (laptop thrash at 4×10).
 """
 from __future__ import annotations
 
@@ -26,8 +26,8 @@ YEARS = range(1990, 2002)
 
 # Parallel year tracks (sequential years within each track)
 TRACKS: list[tuple[str, list[int]]] = [
-    ("trackA", [1997]),
-    ("trackB", [1998]),
+    ("trackA", [1999, 2001]),
+    ("trackB", [2000]),
 ]
 
 
@@ -52,6 +52,16 @@ def prefer_pdfs(folder: Path) -> list[Path]:
         # skip DocScan
         if low.startswith("docscan"):
             continue
+        # skip page extracts when a full volume sibling exists
+        if re.search(r"\bpg\.?\s*\d", low) or re.search(r"\bpages?\s+\d", low):
+            if any(
+                re.search(r"\bvol\b", q.name.lower())
+                and not re.search(r"\bpg\.?\s*\d", q.name.lower())
+                and "trunc" not in q.name.lower()
+                and "even only" not in q.name.lower()
+                for q in pdfs
+            ):
+                continue
         out.append(p)
     return out
 
@@ -74,6 +84,9 @@ def queue(years: list[int] | None = None) -> list[tuple[int, Path, Path]]:
             if not folder.is_dir():
                 continue
             if not folder.name.startswith(str(year)):
+                continue
+            # Entries catalogs are entry lists, not results — out of A1 scope
+            if "entries catalog" in folder.name.lower():
                 continue
             for pdf in prefer_pdfs(folder):
                 items.append((year, pdf, out_path_for(pdf, year)))

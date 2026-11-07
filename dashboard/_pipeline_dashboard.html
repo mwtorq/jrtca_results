@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JRTCA Pipeline A1–D17</title>
+<style>
+  :root {
+    --bg: #f6f3ee;
+    --ink: #1c2420;
+    --muted: #5c6a63;
+    --card: #fffdf9;
+    --line: #d5ddd6;
+    --done: #1f6b45;
+    --done-bg: #e4f3ea;
+    --prog: #1d5f8a;
+    --prog-bg: #e5f1f8;
+    --pend: #6b736e;
+    --pend-bg: #eceeeb;
+    --fail: #9b2c2c;
+    --fail-bg: #f8e6e6;
+    --warn: #8a5a10;
+    --warn-bg: #f8efd9;
+    --partial: #8a5a10;
+    --partial-bg: #f8efd9;
+    --accent: #2a4a3a;
+    --mono: "IBM Plex Mono", "Cascadia Mono", "Consolas", monospace;
+    --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    --display: "Fraunces", "Palatino Linotype", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse 80% 50% at 10% -10%, #e8efe6 0%, transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, #e4ebe8 0%, transparent 50%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  header {
+    padding: 1.25rem 1.5rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 253, 249, 0.85);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  header .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 1.25rem;
+    justify-content: space-between;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 650;
+    font-size: 1.55rem;
+    margin: 0;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .meta code { font-family: var(--mono); font-size: 0.82rem; }
+  .controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  button {
+    font: inherit;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    padding: 0.4rem 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button.primary {
+    background: var(--accent);
+    color: #f4f8f5;
+    border-color: var(--accent);
+  }
+  main { padding: 1rem 1.5rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+  section { margin-top: 1.35rem; }
+  h2 {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    margin: 0 0 0.65rem;
+    color: var(--accent);
+  }
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .pill {
+    font-size: 0.82rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--card);
+  }
+  .pill.DONE { background: var(--done-bg); color: var(--done); border-color: #b7d9c4; }
+  .pill.IN\ PROGRESS, .pill.IN_PROGRESS { background: var(--prog-bg); color: var(--prog); border-color: #b5d0e2; }
+  .pill.PENDING { background: var(--pend-bg); color: var(--pend); }
+  .pill.BLOCKED, .pill.FAIL { background: var(--fail-bg); color: var(--fail); border-color: #e0b4b4; }
+  .pill.WARN, .pill.PARTIAL { background: var(--warn-bg); color: var(--warn); border-color: #e4d2a4; }
+
+  .years {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.55rem;
+  }
+  .year-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.65rem 0.75rem;
+  }
+  .year-card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+    font-family: var(--display);
+  }
+  .flags {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    font-family: var(--mono);
+  }
+  .flag-ok { color: var(--done); }
+  .flag-run { color: var(--prog); }
+  .flag-bad { color: var(--fail); }
+  .flag-warn { color: var(--warn); }
+  .flag-muted { color: var(--muted); }
+
+  .ocr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+  }
+  @media (max-width: 720px) { .ocr { grid-template-columns: 1fr; } }
+  .ocr-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.88rem;
+    min-width: 0;
+  }
+  .ocr-card strong { font-family: var(--display); }
+  .ocr-card .line {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    margin-top: 0.35rem;
+    color: var(--ink);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .ocr-card .job-line {
+    display: block;
+    width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .alive { color: var(--done); font-weight: 600; }
+  .dead { color: var(--muted); }
+
+  .targeted-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .targeted-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: stretch;
+  }
+  .targeted-row > .ocr-card {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    font-size: 0.78rem;
+  }
+  .targeted-row > .ocr-card .line,
+  .targeted-row > .ocr-card .count-chip,
+  .targeted-row > .ocr-card .meta {
+    font-size: 0.78rem;
+  }
+  .targeted-row .mini-table {
+    table-layout: fixed;
+    font-size: 0.78rem;
+  }
+  .targeted-row .mini-table th:nth-child(1),
+  .targeted-row .mini-table td:nth-child(1) { width: 22%; }
+  .targeted-row .mini-table th:nth-child(2),
+  .targeted-row .mini-table td:nth-child(2) { width: 28%; }
+  .targeted-row .mini-table th:nth-child(3),
+  .targeted-row .mini-table td:nth-child(3) { width: 22%; }
+  .targeted-row .mini-table th:nth-child(4),
+  .targeted-row .mini-table td:nth-child(4) { width: 28%; }
+  .targeted-row .mini-table th,
+  .targeted-row .mini-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .targeted-row { grid-template-columns: 1fr; }
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.4rem;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 0.35rem;
+  }
+  .badge.running { background: var(--prog-bg); color: var(--prog); }
+  .badge.done { background: var(--done-bg); color: var(--done); }
+  .badge.idle, .badge.idle_with_results, .badge.log_only { background: var(--pend-bg); color: var(--pend); }
+  .badge.pending_rerun { background: var(--warn-bg); color: var(--warn); }
+  .count-pair {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+  }
+  .count-chip {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: #f3f6f4;
+  }
+  .count-chip.c1 { border-color: #b5d0e2; background: var(--prog-bg); color: var(--prog); }
+  .count-chip.o6 { border-color: #d4c4a0; background: var(--warn-bg); color: var(--warn); }
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin-top: 0.45rem;
+  }
+  .mini-table th, .mini-table td {
+    text-align: left;
+    padding: 0.2rem 0.35rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .mini-table th { color: var(--muted); font-weight: 600; }
+
+  .era-block {
+    margin-bottom: 1rem;
+    padding: 0.75rem 0.85rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .era-block.parked, .era-block.pending {
+    background: #f0f1ef;
+    border-color: #cfd5d1;
+  }
+  .era-block.live {
+    border-color: #b5d0e2;
+    background: linear-gradient(180deg, var(--prog-bg), var(--card) 70%);
+  }
+  .era-block h3 {
+    margin: 0 0 0.25rem;
+    font-family: var(--display);
+    font-size: 1.02rem;
+    color: var(--accent);
+  }
+  .era-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.55rem;
+  }
+  .era-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.4rem;
+    border-radius: 3px;
+    margin-left: 0.35rem;
+    vertical-align: middle;
+  }
+  .era-badge.live { background: var(--prog-bg); color: var(--prog); }
+  .era-badge.parked, .era-badge.pending { background: var(--pend-bg); color: var(--pend); }
+  .era-badge.partial { background: var(--warn-bg); color: var(--warn); }
+  .year-card.parked, .year-card.pending {
+    background: #f0f1ef;
+    opacity: 0.92;
+  }
+  .year-card.partial { background: var(--warn-bg); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 0.65rem;
+  }
+  .step {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left-width: 4px;
+    border-radius: 6px;
+    padding: 0.7rem 0.8rem;
+    min-height: 7.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .step:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(28, 36, 32, 0.06); }
+  .step.DONE { border-left-color: var(--done); background: linear-gradient(180deg, var(--done-bg), var(--card) 55%); }
+  .step.IN_PROGRESS { border-left-color: var(--prog); background: linear-gradient(180deg, var(--prog-bg), var(--card) 55%); }
+  .step.PENDING { border-left-color: #b8c0ba; }
+  .step.BLOCKED, .step.FAIL { border-left-color: var(--fail); background: linear-gradient(180deg, var(--fail-bg), var(--card) 55%); }
+  .step.WARN, .step.PARTIAL { border-left-color: var(--warn); background: linear-gradient(180deg, var(--warn-bg), var(--card) 55%); }
+  .step .id {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .step .title { font-weight: 600; font-size: 0.95rem; line-height: 1.25; }
+  .step .status-label {
+    align-self: flex-start;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+  }
+  .step.DONE .status-label { background: var(--done-bg); color: var(--done); }
+  .step.IN_PROGRESS .status-label { background: var(--prog-bg); color: var(--prog); }
+  .step.PENDING .status-label { background: var(--pend-bg); color: var(--pend); }
+  .step.BLOCKED .status-label, .step.FAIL .status-label { background: var(--fail-bg); color: var(--fail); }
+  .step.WARN .status-label, .step.PARTIAL .status-label { background: var(--warn-bg); color: var(--warn); }
+  .step .detail {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.35;
+    flex: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+  .err {
+    color: var(--fail);
+    background: var(--fail-bg);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #e0b4b4;
+  }
+  footer {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,650&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<header>
+  <div class="row">
+    <div>
+      <h1>JRTCA yearbook pipeline</h1>
+      <div class="meta">Steps A1–D17 (+B6b) · status from <code>_pipeline_dashboard_status.json</code></div>
+    </div>
+    <div class="controls">
+      <span class="meta" id="generated">—</span>
+      <button type="button" class="primary" id="btnRefresh">Refresh</button>
+      <label class="meta"><input type="checkbox" id="autoRefresh" checked /> Auto 15s</label>
+    </div>
+  </div>
+</header>
+<main>
+  <div id="error" class="err" hidden></div>
+
+  <section>
+    <h2>Summary</h2>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <section>
+    <h2>Live OCR tracks</h2>
+    <div class="ocr" id="ocr"></div>
+  </section>
+
+  <section>
+    <h2>Targeted OCR / recovery</h2>
+    <div class="targeted-grid" id="targeted"></div>
+  </section>
+
+  <section>
+    <h2>Years / eras</h2>
+    <div id="eras"></div>
+  </section>
+
+  <section>
+    <h2>Plan steps</h2>
+    <div class="grid" id="steps"></div>
+  </section>
+
+  <footer id="footer"></footer>
+</main>
+<script>
+(function () {
+  const STATUS_URL = "./_pipeline_dashboard_status.json";
+  let timer = null;
+  let lastJson = null;
+
+  const $ = (id) => document.getElementById(id);
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function statusClass(st) {
+    return String(st || "PENDING").replace(/\s+/g, "_");
+  }
+
+  function flagClass(v) {
+    const s = String(v || "pending").toLowerCase();
+    if (s === "done" || s === "true") return "flag-ok";
+    if (s === "fail" || s === "blocked") return "flag-bad";
+    if (s === "warn" || s === "partial") return "flag-warn";
+    if (s === "in progress" || s === "running") return "flag-run";
+    return "flag-muted";
+  }
+
+  /** Always short CST/CDT — never Windows long names / GMT-6. */
+  function chicagoAbbr(d) {
+    const hourUTC = d.getUTCHours();
+    const hourLocal = Number(
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago",
+        hour: "2-digit",
+        hour12: false,
+      }).format(d)
+    );
+    let diff = hourLocal - hourUTC;
+    if (diff > 12) diff -= 24;
+    if (diff < -12) diff += 24;
+    return diff === -5 ? "CDT" : "CST";
+  }
+
+  /** Convert any ISO/UTC timestamp to America/Chicago with CST/CDT abbrev. */
+  function fmtTs(raw) {
+    if (raw == null || raw === "") return "—";
+    let s = String(raw).trim();
+    if (!s || s === "?" || s === "missing" || s === "—") return s;
+    // Strip long Windows tz names if a gatherer/browser leaked them
+    s = s
+      .replace(/\s*Central (?:Standard|Daylight) Time\b/gi, "")
+      .replace(/\s*GMT[+-]\d{1,2}(?::?\d{2})?\b/gi, "")
+      .trim();
+    // Already local short form from gatherer
+    if (/\b(CST|CDT)\b/.test(s) && !/T\d{2}:\d{2}/.test(s)) {
+      return s.replace(/\bCentral (?:Standard|Daylight) Time\b/gi, "").trim();
+    }
+    const m = s.match(
+      /^(\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2}:\d{2})(?:\.\d+)?(Z|[+-]\d{2}:?\d{2})?\s*(?:CST|CDT)?$/
+    );
+    if (!m) return s;
+    let iso = m[1] + "T" + m[2];
+    const off = m[3];
+    if (!off || off === "Z") iso += "Z";
+    else if (/^[+-]\d{4}$/.test(off)) iso += off.slice(0, 3) + ":" + off.slice(3);
+    else iso += off;
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return s;
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    }).formatToParts(d);
+    const get = (t) => (parts.find((p) => p.type === t) || {}).value || "";
+    return `${get("year")}-${get("month")}-${get("day")} ${get("hour")}:${get("minute")}:${get("second")} ${chicagoAbbr(d)}`;
+  }
+
+  function render(data) {
+    lastJson = data;
+    $("error").hidden = true;
+    $("generated").textContent = "Updated " + fmtTs(data.generated_at);
+
+    const counts = (data.summary && data.summary.counts) || {};
+    const order = ["DONE", "IN PROGRESS", "PARTIAL", "WARN", "PENDING", "BLOCKED", "FAIL"];
+    const keys = order.filter((k) => counts[k]).concat(Object.keys(counts).filter((k) => !order.includes(k)));
+    $("summary").innerHTML = keys.map((k) =>
+      `<span class="pill ${esc(statusClass(k))}">${esc(k)} ${esc(counts[k])}</span>`
+    ).join("") +
+      `<span class="pill">steps ${esc((data.summary && data.summary.total_steps) || (data.steps || []).length)}</span>`;
+
+    const ocr = data.ocr_live || {};
+    const proc = ocr.processes || {};
+    const alive = proc.alive
+      ? `<span class="alive">OCR python alive (PIDs ${(proc.pids || []).join(", ") || "?"})</span>`
+      : `<span class="dead">No OCR python match</span>`;
+    function trackCard(name, t) {
+      t = t || {};
+      const page = t.page_line_full || t.page || "—";
+      const job = t.job_line_full || t.job || "—";
+      const ppm = t.ppm != null ? `${esc(t.ppm)} ppm` : "ppm —";
+      const ppmJob = t.ppm_job != null ? ` · job ${esc(t.ppm_job)} ppm` : "";
+      const pages = t.pages_total != null
+        ? ` · ${esc(t.pages_total)} pages` + (t.pages_this_job != null ? ` (${esc(t.pages_this_job)} this job)` : "")
+        : "";
+      return `<div class="ocr-card"><strong>${esc(name)}</strong>
+        <div class="line">${esc(page)}</div>
+        <div class="line job-line">${esc(job)}</div>
+        <div class="line"><strong>${ppm}</strong>${ppmJob}${pages}</div>
+        <div class="line meta">log ${esc(fmtTs(t.log_mtime))}${t.elapsed_min != null ? ` · ${esc(t.elapsed_min)} min wall` : ""}${t.workers != null ? ` ÷${esc(t.workers)}w` : ""}</div></div>`;
+    }
+    $("ocr").innerHTML = trackCard("Track A", ocr.trackA) + trackCard("Track B", ocr.trackB) +
+      `<div class="ocr-card" style="grid-column:1/-1">${alive}</div>`;
+
+    function stateBadge(st) {
+      const s = String(st || "idle").toLowerCase().replace(/\s+/g, "_");
+      return `<span class="badge ${esc(s)}">${esc(s.replace(/_/g, " "))}</span>`;
+    }
+
+    const tgt = data.targeted_ocr || {};
+    const c1 = tgt.c1_o6 || {};
+    const clog = c1.log || {};
+    const b6b = tgt.b6b || {};
+    const other = tgt.other || {};
+    const yearsArg = (c1.years_argv || []).join(", ") || "—";
+    const curBits = [
+      clog.current_year ? `y=${clog.current_year}` : null,
+      clog.current_file || null,
+    ].filter(Boolean).join(" · ") || "—";
+    const recentPages = (clog.recent_page_lines || []).map((ln) =>
+      `<div class="line">${esc(ln)}</div>`
+    ).join("") || `<div class="line meta">no page result lines yet</div>`;
+    const doneLine = clog.done && clog.done.line
+      ? `<div class="line">${esc(clog.done.line)}</div>`
+      : "";
+    const passLabel = c1.pass_label || clog.pass_label || "pass1";
+    const c1Card = `<div class="ocr-card">
+      <strong>C1/O6 targeted recover</strong>${stateBadge(c1.state)}
+        <span class="badge">${esc(passLabel)}</span>
+      <div class="line meta">${esc(c1.script || "recover_ocr_gaps_targeted.py")}
+        ${c1.running ? ` · pid ${esc(c1.pid)}` : ""}
+        ${c1.pids && c1.pids.length > 1 ? ` (+${esc(c1.pids.length - 1)} more)` : ""}</div>
+      <div class="line">years argv: ${esc(yearsArg)}</div>
+      <div class="line job-line">current: ${esc(curBits)}</div>
+      <div class="count-pair">
+        <span class="count-chip c1">C1 ${esc(clog.c1_done != null ? clog.c1_done : 0)}/${esc(clog.c1_todo != null ? clog.c1_todo : 0)}</span>
+        <span class="count-chip o6">O6 ${esc(clog.o6_done != null ? clog.o6_done : 0)}/${esc(clog.o6_todo != null ? clog.o6_todo : 0)}</span>
+        <span class="count-chip">pages ${esc(clog.pages_done != null ? clog.pages_done : 0)}/${esc(clog.pages_todo != null ? clog.pages_todo : 0)}</span>
+      </div>
+      <div class="line meta">fixed this pass: C1 ${esc(clog.pages_c1_true != null ? clog.pages_c1_true : 0)} · O6 ${esc(clog.pages_o6_true != null ? clog.pages_o6_true : 0)}${clog.pages_left != null ? ` · left ${esc(clog.pages_left)}` : ""}</div>
+      ${recentPages}
+      ${doneLine}
+      <div class="line meta">log ${esc(c1.active_log || clog.log || "_recover_c1o6_9798.log")} · ${esc(fmtTs(clog.log_mtime))}</div>
+    </div>`;
+
+    const b6bYears = b6b.years || {};
+    const b6bYearKeys = Object.keys(b6bYears).sort();
+    const b6bRows = b6bYearKeys.map((y) => {
+      const r = b6bYears[y] || {};
+      const verd = r.b6b_verdict || r.b6b || "pending";
+      const fw = `F${r.b6b_fail != null ? r.b6b_fail : "—"} W${r.b6b_warn != null ? r.b6b_warn : "—"} P${r.b6b_pass != null ? r.b6b_pass : "—"}`;
+      return `<tr title="${esc(r.era || "")}"><td>${esc(y)}</td>
+        <td class="${flagClass(verd)}">${esc(verd)}${r.b6b_unlocked ? " ✓" : ""}</td>
+        <td>${esc(fw)}</td>
+        <td>${esc(fmtTs(r.b6b_done))}</td></tr>`;
+    }).join("");
+    const b6bCard = `<div class="ocr-card b6b-card">
+      <strong>B6b ingest audit</strong>${stateBadge(b6b.state)}
+      <div class="line meta">${esc(b6b.note || "Years 1984–2001")}</div>
+      ${b6b.running ? `<div class="line alive">audit PIDs ${(b6b.pids || []).join(", ")}</div>` : ""}
+      <table class="mini-table"><thead><tr><th>Year</th><th>Verdict</th><th>F/W/P</th><th>Done</th></tr></thead>
+      <tbody>${b6bRows || `<tr><td colspan="4">no year data</td></tr>`}</tbody></table>
+    </div>`;
+
+    const otherEntries = (other.entries || []).map((e) => {
+      const label = e.script || e.log || "recover";
+      return `<div class="line">${stateBadge(e.state)} ${esc(label)}
+        ${e.pid ? ` pid ${esc(e.pid)}` : ""}
+        ${e.log_mtime ? ` · ${esc(fmtTs(e.log_mtime))}` : ""}</div>
+        ${e.cmdline ? `<div class="line job-line">${esc(e.cmdline)}</div>` : ""}`;
+    }).join("") || `<div class="line meta">no other recover_*.py jobs / _recover_*.log</div>`;
+    const scriptsNote = (other.scripts_at_root || []).length
+      ? `<div class="line meta">root scripts: ${esc((other.scripts_at_root || []).join(", "))}</div>`
+      : "";
+    const otherCard = `<div class="ocr-card">
+      <strong>Other targeted recover</strong>
+      ${otherEntries}
+      ${scriptsNote}
+    </div>`;
+
+    $("targeted").innerHTML =
+      `<div class="targeted-row">${c1Card}${b6bCard}</div>` + otherCard;
+
+    function yearCardLive(y, r) {
+      r = r || {};
+      return `<div class="year-card"><h3>${esc(y)}</h3>
+        <div class="flags">
+          <span>hqmax</span><span>${esc(r.hqmax_count)}</span>
+          <span>A1</span><span class="${flagClass(r.a1)}">${esc(r.a1)}${r.a1_done != null ? ` (${esc(r.a1_done)}/${esc(r.a1_jobs)})` : ""}</span>
+          <span>A2</span><span class="${flagClass(r.a2)}">${esc(r.a2)}${r.a2_fail != null ? ` F${esc(r.a2_fail)} W${esc(r.a2_warn)}` : ""}</span>
+          <span>B6</span><span class="${flagClass(r.b6)}">${esc(r.b6)}</span>
+          <span>B6b</span><span class="${flagClass(r.b6b_verdict || r.b6b)}">${esc(r.b6b_verdict || r.b6b || "pending")}${r.b6b_unlocked ? " unlock" : ""}</span>
+          <span>C10</span><span class="${flagClass(r.c10)}">${esc(r.c10)}</span>
+        </div></div>`;
+    }
+
+    function yearCardParked(y, r) {
+      r = r || {};
+      const st = String(r.status || "parked").toLowerCase();
+      return `<div class="year-card ${esc(st)}"><h3>${esc(y)}</h3>
+        <div class="flags">
+          <span>status</span><span class="${flagClass(st)}">${esc(st)}</span>
+          <span>hqmax</span><span>${esc(r.hqmax_count != null ? r.hqmax_count : 0)}</span>
+        </div></div>`;
+    }
+
+    function eraBadge(st) {
+      const s = String(st || "pending").toLowerCase().replace(/\s+/g, "_");
+      return `<span class="era-badge ${esc(s)}">${esc(s.replace(/_/g, " "))}</span>`;
+    }
+
+    const eras = data.eras || {};
+    const rem = eras.remediation_1997_2001 || {};
+    const y9096 = eras.yearbook_1990_1996 || {};
+    const early = eras.early_1984_1990 || {};
+    const liveYears = rem.years || data.years || {};
+    const parkedYears = y9096.years || {};
+
+    let erasHtml = "";
+    erasHtml += `<div class="era-block live">
+      <h3>${esc(rem.label || "1997–2001 remediation")}${eraBadge(rem.status || "live")}</h3>
+      <div class="era-meta">${esc(rem.note || "Live remediation from manifest.")}</div>
+      <div class="years">${Object.keys(liveYears).sort().map((y) => yearCardLive(y, liveYears[y])).join("")}</div>
+    </div>`;
+
+    erasHtml += `<div class="era-block ${esc(String(y9096.status || "parked").toLowerCase())}">
+      <h3>${esc(y9096.label || "1990–1996 yearbook")}${eraBadge(y9096.status || "parked")}</h3>
+      <div class="era-meta">${esc(y9096.note || "A4 parked")}${y9096.plan_status ? ` · plan ${esc(y9096.plan_step || "A4")}: ${esc(y9096.plan_status)}` : ""}</div>
+      <div class="years">${Object.keys(parkedYears).sort().map((y) => yearCardParked(y, parkedYears[y])).join("") || "<div class='meta'>No year placeholders</div>"}</div>
+    </div>`;
+
+    const earlyKeys = early.years_keys || ["1984","1985","1986","1987","1988","1989","1990"];
+    erasHtml += `<div class="era-block ${esc(String(early.status || "parked").toLowerCase())}">
+      <h3>${esc(early.label || "1984–1990 early / non-yearbook")}${eraBadge(early.status || "parked")}</h3>
+      <div class="era-meta">${esc(early.note || "A5 parked")}${early.plan_status ? ` · plan ${esc(early.plan_step || "A5")}: ${esc(early.plan_status)}` : ""}</div>
+      <div class="years">${earlyKeys.map((y) => yearCardParked(y, { year: y, status: early.status || "parked", hqmax_count: "—" })).join("")}</div>
+    </div>`;
+
+    $("eras").innerHTML = erasHtml;
+
+    $("steps").innerHTML = (data.steps || []).map((s) => {
+      const sc = statusClass(s.status);
+      return `<article class="step ${esc(sc)}" title="${esc(s.detail)}">
+        <div class="id">${esc(s.id)}</div>
+        <div class="title">${esc(s.title)}</div>
+        <span class="status-label">${esc(s.status)}</span>
+        <div class="detail">${esc(s.detail)}</div>
+      </article>`;
+    }).join("");
+
+    $("footer").textContent = "Manifest updated: " + fmtTs(data.manifest_updated) +
+      " · A2: " + (data.a2_rollup || "—");
+  }
+
+  function showError(msg) {
+    const el = $("error");
+    el.hidden = false;
+    el.textContent = msg;
+    if (lastJson) render(lastJson);
+  }
+
+  async function refresh() {
+    try {
+      const url = STATUS_URL + "?t=" + Date.now();
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      render(data);
+    } catch (e) {
+      showError("Could not load status JSON (" + e.message + "). Serve via serve_pipeline_dashboard.py or open after generating _pipeline_dashboard_status.json.");
+    }
+  }
+
+  function schedule() {
+    if (timer) clearInterval(timer);
+    timer = null;
+    if ($("autoRefresh").checked) {
+      timer = setInterval(refresh, 15000);
+    }
+  }
+
+  $("btnRefresh").addEventListener("click", refresh);
+  $("autoRefresh").addEventListener("change", schedule);
+  refresh();
+  schedule();
+})();
+</script>
+</body>
+</html>

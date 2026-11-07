@@ -1,0 +1,761 @@
+{
+  "year": 1997,
+  "verdict": "WARN",
+  "volumes": [
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
+      "chars_before": 364245,
+      "chars_after": 364243,
+      "cleaned": true,
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 35,
+      "top_codes": "class_header_gap\u00d725,missing_owned_by\u00d74,owner_tail_trunc\u00d73,orphan_entry_count\u00d73",
+      "top_catalog": "C1\u00d725,S4/O\u00d74,O6\u00d73,C6\u00d73",
+      "by_code": {
+        "owner_tail_trunc": 3,
+        "missing_owned_by": 4,
+        "orphan_entry_count": 3,
+        "class_header_gap": 25
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Rustler's Emma Peel, owned by Tony & Lir"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Camerton Hall Impshi, owned by Jack & Pz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: THEY V MY WV VY IALIVIILIEW, WFWE TL HL ILC, = 1st: Farmcliff Monet, owned by Charles & Sally Hickey Tl: Eroclr lace stressed Bir BAA em"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Kingmont Harlaquin, owr 3d by Lynda Banducci"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Button, owner not provideditch Pups, 9 up to 12 months, r/br             Entries: 10"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Blackland Luckyog Pups, 9 up to 12 months, 12 1/2-15\" Entries: 5"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Buster, ownedby Tim & Wendy Griffith"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "26"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "23"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "1"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Dashaway Elly, owned by Suzanne Birdsall"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Fox Run Risk, owned by Linda Cowasjee"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxfield Garth, owned by Debbie McWilliams"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Button Top Lorrie, owned by Florence Clark"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Buttontop Jo Jo, owned by Florence Clark"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Buttontop Jack, owned by Brian Rowell"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Heaven Hill Zodiac, owned by Mike & Betty Bilinski"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Sarah Reese"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Corn Row Tyler, owned by Pam Simmons"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Spottie of Bogganza, owned by Bill Boggan"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Ashley Tomberg"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Clancy, owned by Wesley Husing"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Heaven Hill Nordic, owner not provided"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Taylor Ann Winn"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Runamuk Bailey Brouhaha, owned by Laurie & Earl Wats"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Sparkle, owned by Audie Sumner"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: * Farmcliff Fred, owned by J. Bjorkland & R. Staten"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Rocky, owned by Hugo Noa"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Loblolly Alexis, owned by Sally Gay"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Trebor Chase Black Jack"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Snickers"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Rustlers Emma Peel"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxy Roxy"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Heaven Hill Nordik Wolf, owned by Pam Williams"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Flashpoint Spat, owned by Linda Nash"
+        }
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
+      "chars_before": 207440,
+      "chars_after": 207437,
+      "cleaned": true,
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 30,
+      "top_codes": "class_header_gap\u00d725,owner_tail_trunc\u00d73,missing_owned_by\u00d72",
+      "top_catalog": "C1\u00d725,O6\u00d73,S4/O\u00d72",
+      "by_code": {
+        "owner_tail_trunc": 3,
+        "missing_owned_by": 2,
+        "class_header_gap": 25
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve: Fox Run Dagger, owned by Sandra Ferber Sr"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Al INA, Wo LESS Set UA Ser Used IL Xr d hing \"wl ERT Ter'ell Ber 1 4 EDT Hr nd er A ad rel 3rd: Farmcliff Duke, owned by Kim Hunter Atl LI TO El =. TEE WY "
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: rr 3n \u2014 \"TFTEIENENWSI WEVWI dm fp IW mr iul Hr w F< 1st: Farmcliff Monet, owned by Charles & Sally Hickey I 7nd: Earmetoasad Talli sumer Bar BAsvecmremd El"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: High Mountain Lucy, Karen Vernon"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: , Courtney Bottington"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmoliff Ben, owned by Bob Franklin"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Lizzie, owned by Rick & Mary Thornton"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Famliff Ben, owned by Bob Frankin"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Hopdiggity Star, owned by Kevin Winn"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Ridgeview Bon Bon, owned by D. Gough & J. L. Gibson"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: T.J. Farms Dare, owned by Georgia Fisher"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Seaview Soozi, owned by Didi Gough"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Riverview Calvin, owned by Karen Vernon"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Little Eden Snap, owned by Michelle Ward"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmliff Holland, owned by Douglas & Susan Tack"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Conquest Chaos, owned by Michelle Ward"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Sass N' Dash Peck's Bad Boy, owned by Sara Lou Peck"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Renegade Justice, owned by Donna Patten"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Somerwest Danny's Boy, owned by Mary Thorton"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Disqualified"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Eastlake Jobear, owned by Will Hahn"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Crossewinds Trask, owned by Will Hahn"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Maggie May, owned by Betty Jones"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: R.A. Bandit, owned by Mike & Betty Bilinski"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Button Top D.J, owned by Chris Boeddiker"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Russell-M-Up Cool Hand Luke, owned by Jamie Heiser"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxfield Garth, owned by Debbie McWilliams"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: eserve: Ally-Gator, owned by Grant & Jody Walston"
+        }
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
+      "chars_before": 322634,
+      "chars_after": 322463,
+      "cleaned": true,
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 44,
+      "top_codes": "class_header_gap\u00d725,owner_tail_trunc\u00d77,missing_owned_by\u00d76,orphan_entry_count\u00d76",
+      "top_catalog": "C1\u00d725,O6\u00d77,S4/O\u00d76,C6\u00d76",
+      "by_code": {
+        "owner_tail_trunc": 7,
+        "missing_owned_by": 6,
+        "orphan_entry_count": 6,
+        "class_header_gap": 25
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Farmcliff Hutch, owned by Dave & Marti McMahon New: Trmrermom di EE Tame ls mviaeme mod Loos BA"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: 1 RE Is FAVAMILA VE AWWYLE TD AAT WET WHET TA A a] wll hry 7 KLINE I) 5th: Farmcliff Spencer, owned by Bob Franklin FS ile, vedo obe oe BEA, 2.\" \u2122 LT meee "
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: TET) JT Ww Wivwdy IW MIM VY IK fa LIILIIGa, I= 1st: Farmcliff Tackle, owned by Megan Johnson be Sd, \"Tee be AA. TL PY"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "IVE I& /2 wlldiHPIVLEL T All VGH VIVE Y ICG, VIVIITU WY VAYIG JUILLTTIYO | 10-12 1/2\"2\" Reserve: Lickity Split Sassy, owned by Bob Franklin AN 1/7 APU HL vonnin"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "AUULI RAVING GAANMEIVN G REOERYL | 10-12 4\" Champion: Lickity Split Sassy, owned by Bob Franklin AA \u00a328 9780 Me ce cence . Foon a IEE T oo Lb lh vss cm mel Enns"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Blue Barns Tracker, R. & D. Zampella"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Katlin Cortenbach, handling Little Orbit of Cortenbach"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Kari Carlsen, handling Westgate Ruffian"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Ali Mae Hop, handling Hopdiggity Checkers"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Pat Martin, handling Bar-C Abilene Rose"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Matisse, Ruth Evans"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "8"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "31"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "16"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "17"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "5"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmclif Monet, owned by Charles & Sally hey"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: | 5th: Farmliff Elsie, owned by Chuck Schoebert - 4th: Invfiil Naoica 137 Auvimoed Bar Bade Toes"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Lizzie, owned by Rick & Mary Thornton"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Fox Run Dagger, owned by Sandra Ferber"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Sommerwest Danny's Boy, owned by Rick & Mary Thornton"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: ILE, 1 YI UIE, IVP WL HL /2 ENtES. 10 1st: Lickity Split Sassy, owned by Bob Franklin male Menerdlmm 3rd BA 7\u00b0 a mies mod Le: eo 11"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxnorton Tyke, owned by Karen Fitzpatrick"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Wesworld Chaps, owned by Christie Parkison"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Conquest Merit, owned by Gaye Redpath"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Patch, owned by Justin & Keven Yoerger"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Bob, owned by Mike & Cheri Scannell"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmcliff Ered, owned by Mark & Janice Borkland"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Amblin Buddy Ruff, owned by Allen L. Gero"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: The Hollow York, owned by M.Lobo/J.Rico"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Empress Jacquelin, owned by George Anderson"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Terrier Turf's Bandit, owned by David & Kay Richards"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Lickity Split Sassy, owned by Bob Franklin"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Sow's Ear Redwitch, owned by P.Hartman/K.McCarthy"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmcliff Sugar, owned by Genie Franklin"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Courtland Mi Girl, owned by Joseph Jankowski"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Briarpatch Hasty, owned by Jack & Terri Batzer"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmcliff Monet, owned by Charles & Sally Hickey"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Windy View Briar, owned by Eileen Koch"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Ravenswood Copper, owned by Charles & Sally Hickey"
+        }
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
+      "chars_before": 290421,
+      "chars_after": 290338,
+      "cleaned": true,
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 34,
+      "top_codes": "class_header_gap\u00d725,owner_tail_trunc\u00d73,missing_owned_by\u00d73,orphan_entry_count\u00d73",
+      "top_catalog": "C1\u00d725,O6\u00d73,S4/O\u00d73,C6\u00d73",
+      "by_code": {
+        "owner_tail_trunc": 3,
+        "missing_owned_by": 3,
+        "orphan_entry_count": 3,
+        "class_header_gap": 25
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Best: Farmcliff Holland, owned by Doug & Sue Tack EBacrnrmin' RDhiitn Bare fhicbhladt Atsneemel Inne Thm eed mie ie \"Fao ne on IT"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: uke AWATLg VRVIIWG WY CYTE LollliGr lida l 2nd: Farmcliff Becky, owned by D.Sturtz/J McCoy Trad: Datmir Arai me omoemd snimos of"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Woods End Cloudy, owned by Bob Franklin es Atlve removviaimil Toddler ovime sedi om od Exe os Fc of"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Champion: Blue Jeans, Donna Pierce"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Button Top Jim Winston, Joel Pritchet"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Showbizz Fizz, al Darlene Irvine"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "03"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "10"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "12"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Hopdiggity Star, owned by Kevin Winn"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmcliff Fred, owned by Mark & Janice Bjorkland--- column RIGHT"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Wild Child, owned by Samuel Hopewell"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Cromwell Token, owned by Heather Cromwell"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Terrier-ific Saranac, owned by Pam Williams"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Heaven Hill Jezebel, owned by Chris Fraley"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Westwood Paladin, owned by D.Hekkela/A.Reynolds"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Rainbow's Puzzle, owned by Heather Cromwell"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Rusty, owned by T.Arnold/R.Dolan"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: i."
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxfield Garth, owned by Debbie McWilliams"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Newmarket Trouble, owned by Barbara Adamiec"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Baybriar Mr. Timex, owned by Sandy Brown--- column RIGHT"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Wild Remain Chance, owned by Gary & Judy Vollrath"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Guinness, owned by Deanne Davenport"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Scamper, owned by Carole Nicholson"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmcliff Spencer, owned by Genie Franklin"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Riverview Calvin, owned by Karen Vernon"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxmoor Rudy Judy, owned by Ruth Cartier"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Whitegate Dutch, owned by Lynn May Measles"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: New Market Trouble, owned by Barbara Adamiec"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: ~ 5th: Cedarcrest Tyson, owned by Neil & Pam Caine"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Long Hope Minnie, owned by Nellie Niewola"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Sass N' Dash Darby, owned by Michael & Sally Murphy"
+        }
+      ]
+    }
+  ]
+}
