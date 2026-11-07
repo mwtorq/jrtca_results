@@ -1,0 +1,13 @@
+---
+description: On every yearbook OCR restart, report previous run PPM
+alwaysApply: true
+---
+
+# OCR restart — report previous PPM
+
+Whenever you restart `ocr_yearbook_baseline_v2` (or stop/wipe/restart HQ OCR):
+
+1. Measure the **previous run’s** pages-per-minute before/while restarting.
+2. Tell the user that PPM in the same message as the restart confirmation (e.g. `Previous run (rerun83): ~1.0 ppm (5 pages / 5.0 min)`).
+3. Prefer: max `OCR page N` from the previous `_ocr_9701_rerun*.log` ÷ wall minutes (process start → log last write, or log create → last write).
+4. If the previous run was too short (&lt; ~5 pages or &lt; ~2 min), say so and still report the noisy figure.

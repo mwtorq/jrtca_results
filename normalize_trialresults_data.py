@@ -232,23 +232,31 @@ def _normalize_division_part(part: str) -> str:
     return _canonical_division_part(part)
 
 
-def normalize_division_name_full(division_name: str) -> str:
+def normalize_division_name_full(division_name: str, class_name: str = "") -> str:
     """Canonicalize division names, including subdivision suffixes."""
     if not division_name:
         return division_name
 
+    from normalize_maps import canon_div
+
     division_name = normalize_stored_division_name(division_name.strip())
+    division_name = division_name.replace("COMFORMATION", "CONFORMATION")
+    division_name = division_name.replace(": ", " - ")
+    # Do not split racing dests: _canonical_division_part("RACING DIVISION")
+    # becomes flats, then "RACING DIVISION - STEEPLECHASE RACES" collapses.
+    if any(x in division_name.upper() for x in ("RACING", "FLAT RACE", "STEEPLE", "HURDLE")):
+        return canon_div(division_name, class_name)
     if ' - ' not in division_name:
-        return _canonical_division_part(division_name)
+        return canon_div(_canonical_division_part(division_name), class_name)
 
     main, sub = division_name.split(' - ', 1)
     main_norm = _canonical_division_part(main)
     sub_norm = _canonical_division_part(sub)
     if _is_redundant_subdivision(main_norm, sub_norm):
-        return main_norm
+        return canon_div(main_norm, class_name)
     if sub_norm:
-        return f'{main_norm} - {sub_norm}'
-    return main_norm
+        return canon_div(f'{main_norm} - {sub_norm}', class_name)
+    return canon_div(main_norm, class_name)
 
 
 def normalize_age_ranges(class_name: str) -> str:
@@ -1815,6 +1823,11 @@ def apply_majority_capitalization(
 
 
 def normalize_class_name_full(class_name: str, division_name: str | None = None) -> str:
+    if not class_name:
+        return class_name
+    from normalize_maps import canon_class
+
+    class_name = canon_class(class_name)
     if not class_name:
         return class_name
     if is_truncated_class_fragment(class_name):
