@@ -83,14 +83,15 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 **Exit:** Harvested cert section corpus for available years; advance more years as A1+A2 complete.
 
 ### B6b / ingest gate — Catalog cleanup + audit (required on ANY ingest)
-**Status:** IN PROGRESS (CLI live — **cleanup write-back**, then audit; prefer this over re-OCR)  
+**Status:** DONE for **1997–98** (FAIL=0, WARN eyes-on / C1 residual plateau; unlocked + C10 staged). Other years follow A1 completion.  
 **Intent:** Apply finalize/catalog lessons to stored HQ text (backup `*.pre_b6b`), then audit residuals. Re-OCR only if FAIL remains after cleanup. WARN OK for image-recovery debt (class titles).  
 **How:** `assess_ingest_quality_audit.py --years YYYY` → writes cleaned `*_ocr_hqmax.txt` + `_b6b_ingest_audit_{year}.*`; via `pipeline_advance_years.py` after B6. Taxonomy: `_OCR_CLEANUP_CATALOG_HANDOFF.md`.  
 **Exit:** Cleaned baseline + report + manifest `b6b_unlocked`; `--apply` blocked unless FAIL=0.
 
 ### B7 — Tighten NHC + TrialCertificates parsers
-**Status:** PENDING  
+**Status:** IN PROGRESS  
 **Intent:** Harden parsers for height garble, truncated cert sizes, name OCR; align with finalize vocabulary + catalog §1/§5.  
+**How:** `harvest_cert_sections_v2.py` (stricter heads — no Championship/Bronze-Class false hits) + `parse_cert_sections.py --spot-check`. Note: **1997–98 HQ baseline currently has no NHC list pages** (search zero); spot-check on 1990–96 harvest.  
 **Exit:** Parser tests / spot samples clean on harvested text.
 
 ### B8 — Ingest NHC / TrialCertificates with Dog links
@@ -108,7 +109,7 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 ## Phase C — Trial results rebuild / rematch
 
 ### C10 — Normalize baseline to `trial_results/`
-**Status:** PENDING  
+**Status:** PARTIAL — **1997–98 staged** under `_ocr_baseline_v2/trial_results_norm/{year}/` via `pipeline_advance_years.py --advance-c10`.  
 **Intent:** Export/normalize baseline OCR into a stable `trial_results/` (or agreed) tree for parsers.  
 **Exit:** Normalized text per trial/year ready for `process_trial` / fill pipeline.
 

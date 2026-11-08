@@ -1,0 +1,603 @@
+{
+  "rows": 1062,
+  "kinds": {
+    "nhc": 525,
+    "trial_cert": 65,
+    "bronze": 472
+  },
+  "quarries": {
+    "fox": 69,
+    "Groundhog": 487,
+    "Grey Fox": 6,
+    "Raccoon": 248,
+    "Red Fox": 114,
+    "Opossum": 134,
+    "Badger": 4
+  },
+  "missing_dog": 0,
+  "nhc_missing_quarry": 0,
+  "samples": [
+    {
+      "year": 1990,
+      "kind": "nhc",
+      "dog": "Windermere Wasp",
+      "owner": "Windermere Sizzle of Run",
+      "judge": "",
+      "quarry": "fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Windermere Sizzle of Fox Run"
+    },
+    {
+      "year": 1990,
+      "kind": "nhc",
+      "dog": "Teddy Moritz",
+      "owner": "",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Woodluck Gallahad of the Hollow J. Rico",
+      "owner": "P. Ross",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Woodluck Gallahad of the Hollow J. Rico                        P. Ross                     Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "R. Taylor",
+      "owner": "",
+      "judge": "",
+      "quarry": "Grey Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "R. Taylor                  Grey Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "J. C. Batzer",
+      "owner": "",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "J. C. Batzer              Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Briarpatch Jake",
+      "owner": "J.C, Batzer",
+      "judge": "J. Rico",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Briarpatch Jake                                  J.C, Batzer                     J. Rico                           Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "C. Philhower",
+      "owner": "",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "C. Philhower             Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "R. Taylor",
+      "owner": "",
+      "judge": "",
+      "quarry": "Red Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "R. Taylor              Red Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Stoutheart Penfold of Clay Dale = L. Thomas",
+      "owner": "T. Moritz",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Stoutheart Penfold of Clay Dale = _L. Thomas                 T. Moritz                  Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "C. Doran",
+      "owner": "",
+      "judge": "",
+      "quarry": "Red Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "C. Doran                Red Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "T. Moritz",
+      "owner": "",
+      "judge": "",
+      "quarry": "Opossum",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "T. Moritz                   Opossum"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "C. Doran",
+      "owner": "",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "C. Doran                  Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Windermere Boadacia",
+      "owner": "L. Cowasjee",
+      "judge": "T. Moritz",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Windermere Boadacia                    L. Cowasjee                 T. Moritz                    Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "B. Breakstone",
+      "owner": "",
+      "judge": "",
+      "quarry": "Red Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "B. Breakstone          Red Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "T. Moritz",
+      "owner": "",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "T. Moritz                   Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Blencathra Drummer",
+      "owner": "B. Breakstone",
+      "judge": "P. Ross",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Blencathra Drummer                          B. Breakstone                 P. Ross                         Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "L.Cowasjee",
+      "owner": "",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "L.Cowasjee               Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "T. Moritz",
+      "owner": "",
+      "judge": "",
+      "quarry": "Red Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "T. Moritz                Red Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Briarpatch Rudy of Runamuck",
+      "owner": "M. Farrace",
+      "judge": "J. C. Batzer",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Briarpatch Rudy of Runamuck         M. Farrace                 J. C. Batzer               Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Briarpatch Rudy of Runamuck",
+      "owner": "M. Farrace",
+      "judge": "J.C. Batzer",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Briarpatch Rudy of Runamuck         M. Farrace                 J.C. Batzer               Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Fox Run Cinder",
+      "owner": "Sandi Ferber",
+      "judge": "Bill Breakstone",
+      "quarry": "fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Fox Run Cinder                          Sandi Ferber              Bill Breakstone          Opossum"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Fox Run Sprint",
+      "owner": "Sandi Ferber",
+      "judge": "Bill Breakstone",
+      "quarry": "fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Fox Run Sprint                           Sandi Ferber              Bill Breakstone           Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Riverview Flare of Fox Run",
+      "owner": "Sandi Ferber",
+      "judge": "Bill Breakstone",
+      "quarry": "fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Riverview Flare of Fox Run           Sandi Ferber             Bill Breakstone          Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Be Nimble Molly",
+      "owner": "Pat Dyas",
+      "judge": "J.C. Batzer",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Be Nimble Molly                          Pat Dyas                    J.C. Batzer               Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Briarpatch Peig of Killare",
+      "owner": "Martin Roche",
+      "judge": "Bill Breakstone",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Briarpatch Peig of Killare             Martin Roche            Bill Breakstone         Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Stoutheart Penfold of Clay Dale \u2014 L. Thomas",
+      "owner": "C. Doran",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Stoutheart Penfold of Clay Dale \u2014_L. Thomas                 C. Doran                  Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Blencathra Drummer",
+      "owner": "B. Breakstone",
+      "judge": "Teddy Moritz",
+      "quarry": "Red Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Blencathra Drummer                       B. Breakstone               Teddy Moritz               Red Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Fox Run Tory",
+      "owner": "Sandi Ferber",
+      "judge": "Teddy Moritz",
+      "quarry": "fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Fox Run Tory                           Sandi Ferber             Teddy Moritz            Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Stoutheart Penfold of Clay Dale = L.Thomas",
+      "owner": "Teddy Moritz",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Stoutheart Penfold of Clay Dale = L.Thomas                  Teddy Moritz             Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Woodluck Gallahad of the Hollow \u2014 J. Rico",
+      "owner": "Rodney Taylor",
+      "judge": "",
+      "quarry": "Grey Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Woodluck Gallahad of the Hollow \u2014_ J. Rico                       Rodney Taylor           Grey Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Briarpatch Jake",
+      "owner": "J. C. Batzer",
+      "judge": "Rodney Taylor",
+      "quarry": "Red Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Briarpatch Jake                                 J. C. Batzer                    Rodney Taylor              Red Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Stoutheart Penfold of Clay Dale = L. Thomas",
+      "owner": "Teddy Moritz",
+      "judge": "",
+      "quarry": "Opossum",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Stoutheart Penfold of Clay Dale = _L. Thomas                 Teddy Moritz             Opossum"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Tek of Windermere",
+      "owner": "L. Cowasjee",
+      "judge": "Bill Breakstone",
+      "quarry": "Red Fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Tek of Windermere                        L. Cowasjee                Bill Breakstone           Red Fox"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "The North Country Pilgrim",
+      "owner": "Norah Risley",
+      "judge": "Teddy Moritz",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "The North Country Pilgrim              Norah Risley               Teddy Moritz              Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Treehouse Polly",
+      "owner": "Norah Risley",
+      "judge": "Teddy Moritz",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Treehouse Polly                           Norah Risley               Teddy Moritz              Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "trial_cert",
+      "dog": "Nf Se ald RR Ai",
+      "owner": "Run Tyler, owned by S",
+      "judge": "",
+      "quarry": "fox",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+      "raw": "Fox Run Tyler, owned by S"
+    },
+    {
+      "year": 1990,
+      "kind": "nhc",
+      "dog": "jarpatch J.C. Batzer Mary Vale",
+      "owner": "Paul Ross Rodney Taylor",
+      "judge": "",
+      "quarry": "Badger",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Badger Paul Ross Rodney Taylor"
+    },
+    {
+      "year": 1990,
+      "kind": "nhc",
+      "dog": "e of Terrier)",
+      "owner": "",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "nhc",
+      "dog": "ritz skunk",
+      "owner": "ee",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "ee raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "nhc",
+      "dog": "ritz skunk",
+      "owner": "ritz",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "ritz raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Mike Bales",
+      "owner": "",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Ken Chambers",
+      "owner": "",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Ken Chambers",
+      "owner": "",
+      "judge": "",
+      "quarry": "Opossum",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Opossum"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Teddy Moritz",
+      "owner": "",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Bill Breakstone",
+      "owner": "",
+      "judge": "",
+      "quarry": "Opossum",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Opossum"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Bill Breakstone",
+      "owner": "",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Raccoon"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Jose Rico",
+      "owner": "",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Martin Roche",
+      "owner": "",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Kemp Norman",
+      "owner": "",
+      "judge": "",
+      "quarry": "Groundhog",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Groundhog"
+    },
+    {
+      "year": 1990,
+      "kind": "bronze",
+      "dog": "Jose Rico",
+      "owner": "",
+      "judge": "",
+      "quarry": "Raccoon",
+      "source": "Updated Yearbook Scans\\1990 Yearbook Vol 2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+      "raw": "Raccoon"
+    }
+  ],
+  "per_file_top": [
+    [
+      "1994_yearbook_vol_0054.txt",
+      49
+    ],
+    [
+      "1996_yearbook_vol_0091.txt",
+      47
+    ],
+    [
+      "1991_yearbook_vol_0021.txt",
+      46
+    ],
+    [
+      "1994_yearbook_vol_0064.txt",
+      46
+    ],
+    [
+      "1996_yearbook_vol_0097.txt",
+      45
+    ],
+    [
+      "1993_yearbook_vol_0047.txt",
+      43
+    ],
+    [
+      "1995_yearbook_vol_0072.txt",
+      43
+    ],
+    [
+      "1994_yearbook_vol_0059.txt",
+      42
+    ],
+    [
+      "1995_yearbook_vol_0081.txt",
+      42
+    ],
+    [
+      "1992_yearbook_vol_0031.txt",
+      41
+    ],
+    [
+      "1995_yearbook_vol_0076.txt",
+      41
+    ],
+    [
+      "1994_yearbook_vol_0057.txt",
+      37
+    ],
+    [
+      "1995_yearbook_vol_0067.txt",
+      36
+    ],
+    [
+      "1995_yearbook_vol_0082.txt",
+      36
+    ],
+    [
+      "1990_yearbook_vol_0008.txt",
+      34
+    ],
+    [
+      "1991_yearbook_vol_0017.txt",
+      34
+    ],
+    [
+      "1993_yearbook_vol_0051.txt",
+      33
+    ],
+    [
+      "1990_yearbook_vol_0012.txt",
+      32
+    ],
+    [
+      "1992_yearbook_vol_0040.txt",
+      32
+    ],
+    [
+      "1995_yearbook_vol_0077.txt",
+      31
+    ]
+  ]
+}
