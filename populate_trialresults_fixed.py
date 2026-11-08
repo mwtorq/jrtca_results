@@ -2928,6 +2928,16 @@ def parse_placements(lines: List[str], trial_info: TrialInfo) -> List[PlacementR
                 safe_print(f"    Class: {current_class}", flush=True)
             i += 1 + extra
             continue
+
+        # Standalone "Entries: N" after a class header (yearbook OCR column split).
+        # try_parse_class_with_entries returns None for these so they don't wipe
+        # current_class — apply the count onto the class already in scope.
+        standalone_entries = re.match(r'^(?:entries?|entires?)\s*:?\s*(\d+)\s*$', line, re.IGNORECASE)
+        if standalone_entries and current_class:
+            current_entries = int(standalone_entries.group(1))
+            safe_print(f"    Class: {current_class} ({current_entries} entries)", flush=True)
+            i += 1
+            continue
         
         # Check for class name without entries (e.g., "BEST PUPPY BITCH & RESERVE")
         # These are all-caps lines that aren't divisions
@@ -5362,11 +5372,45 @@ def parse_trial_source_file(
     identical reading of the original downloaded text; error is None on success.
     """
     try:
-        if file_path.lower().endswith('.pdf'):
-            from scrape_trial_results_fixed import extract_text_from_pdf
-            raw_content = extract_text_from_pdf(file_path)
-            if not raw_content:
+        lower = file_path.lower()
+        image_exts = ('.jpg', '.jpeg', '.png', '.tif', '.tiff', '.webp', '.bmp')
+        if lower.endswith('.pdf') or lower.endswith(image_exts) or lower.endswith('_ocr.txt'):
+            raw_content = ''
+            if lower.endswith('.pdf'):
+                from scrape_trial_results_fixed import extract_text_from_pdf
+                raw_content = extract_text_from_pdf(file_path) or ''
+            elif lower.endswith('_ocr.txt') or lower.endswith('.txt'):
+                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    raw_content = f.read()
+            # Image PDFs / phone photos: OCR via yearbook helper (year from content).
+            if (not raw_content or len(raw_content.strip()) < 80) and not lower.endswith(('.txt', '_ocr.txt')):
+                try:
+                    from ocr_yearbook_source import write_ocr_sibling, derive_year_from_text, folder_year_hint
+                    ocr_path, derived_year, raw_content = write_ocr_sibling(file_path)
+                    if derived_year and (not year or year <= 0):
+                        year = derived_year
+                    elif derived_year and year and derived_year != int(year):
+                        # Content year wins over caller/folder year for yearbook sources.
+                        from ocr_yearbook_source import is_yearbook_path
+                        if is_yearbook_path(file_path):
+                            year = derived_year
+                    if not quiet:
+                        print(f"    OCR text from {os.path.basename(ocr_path)} year={year}")
+                except Exception as ocr_err:
+                    if lower.endswith('.pdf'):
+                        return None, None, f"ERROR: Could not extract text from PDF ({ocr_err})"
+                    return None, None, f"ERROR: Could not OCR image: {ocr_err}"
+            if not raw_content or len(raw_content.strip()) < 20:
                 return None, None, "ERROR: Could not extract text from PDF"
+            # Prefer DerivedYear header stamped by OCR helper.
+            if lower.endswith('_ocr.txt') or 'DerivedYear:' in raw_content[:400]:
+                try:
+                    from ocr_yearbook_source import derive_year_from_text, is_yearbook_path
+                    dy = derive_year_from_text(raw_content)
+                    if dy and (not year or year <= 0 or is_yearbook_path(file_path)):
+                        year = dy
+                except Exception:
+                    pass
         else:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 raw_content = f.read()

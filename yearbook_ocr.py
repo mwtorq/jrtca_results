@@ -577,6 +577,13 @@ def fix_place_rank_ocr(text: str) -> str:
         "5th: ",
         text,
     )
+    # "5th: th. Name" / "4th: th Name" — leftover ordinal dust (dup_place)
+    text = re.sub(
+        r"(?i)\b((?:\d+(?:st|nd|rd|th)|best|champion|reserve)\s*:)\s*"
+        r"(?:th|nd|rd|st)\s*[.:]?\s+",
+        r"\1 ",
+        text,
+    )
     for pat, repl in _PLACE_RANK_OCR:
         text = re.sub(pat, repl, text)
     # Scanner/rule dust between place and dog name:
@@ -636,6 +643,14 @@ def fix_place_rank_ocr(text: str) -> str:
     # "2nd: ond: Name" / "3rd: did: Name" / "3rd: rd: Name" — mangled place echo
     text = re.sub(
         r"(?i)\b((?:\d+(?:st|nd|rd|th)|best|champion|reserve)\s*:)\s*"
+        r"(?:ond|did|rd|st|th|nd|nnd|prd|ith)\s*:\s*",
+        r"\1 ",
+        text,
+    )
+    # "2nd: F-            ond: Name" — junk fragment then place-echo (1997 Vol I)
+    text = re.sub(
+        r"(?i)\b((?:\d+(?:st|nd|rd|th)|best|champion|reserve)\s*:)\s*"
+        r"[A-Za-z0-9]{1,6}[\-–—.]?\s{2,}"
         r"(?:ond|did|rd|st|th|nd|nnd|prd|ith)\s*:\s*",
         r"\1 ",
         text,
@@ -907,6 +922,10 @@ def fix_ocr_li_confusion(text: str) -> str:
     text = re.sub(r"(?i)\bEntriess\b", "Entries", text)
     text = re.sub(r"(?i)\bEntricer\s*:?\s*(\d+)\b", r"Entries: \1", text)
     text = re.sub(r"(?i)\bEntricer\b", "Entries", text)
+    # "Crntrine: OO" / "Entrine:" — Helvetica Entries mangling on handler headers
+    text = re.sub(r"(?i)\bCrntrines?\b", "Entries", text)
+    text = re.sub(r"(?i)\bEntrines?\b", "Entries", text)
+    text = re.sub(r"(?i)\bEntries\s*:\s*[Oo0]{1,2}\b", "Entries:", text)
     text = re.sub(r"(?i)\bFan+m?[il1]lv\s+Class\b", "Family Class", text)
 
     # Bare "Entries" / "Entries:" tidy
@@ -1023,13 +1042,41 @@ def _normalize_owned_by_ocr(text: str) -> str:
         low = word.lower()
         if low in ("owned", "bred"):
             return m.group(0)
+        if low in ("hy", "ny", "dowend", "owend", "owncd", "owmed", "ovned"):
+            return "owned by"
         if low == "hy" or (len(low) <= 6 and _levenshtein(low, "owned") <= 2):
+            return "owned by"
+        if len(low) <= 7 and _levenshtein(low, "owned") <= 3 and low.endswith("ed"):
             return "owned by"
         return m.group(0)
 
+    # Explicit near-misses before generic levenshtein
+    text = re.sub(r"(?i)\bdowend\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bowned\s+(?:hy|ny)\b", "owned by", text)
+    # "owned byJamie" (missing space after by) — before missing-by insert
+    text = re.sub(r"(?i)\bowned\s+by([A-Za-z])", r"owned by \1", text)
+    # "owned Butch Harris" (missing by) — capital owner token; never tokens
+    # that start with ``by`` (``byJamie`` is handled by the space-insert above).
+    text = re.sub(
+        r"(?i)\bowned\s+(?!by)([A-Z][A-Za-z.'\-]+)",
+        r"owned by \1",
+        text,
+    )
     # "owend by" / "owncd by" / "owned hy"
-    text = re.sub(r"(?i)\bowned\s+hy\b", "owned by", text)
     text = re.sub(r"(?i)\b([A-Za-z]{3,8})\s+by\b", repl, text)
+    # Trailing crumb: "owned by Will Hahn by" (not "… by Trial Chairperson")
+    text = re.sub(
+        r"(?im)(\bowned\s+by\b[^\n]{2,90}?)\s+by\s*$",
+        r"\1",
+        text,
+    )
+    # Trailing 1–2 lowercase dust: "owned by Debra Ellis i" / "… Reifel ed"
+    # (middle initials are uppercase / dotted; Jr/Sr kept)
+    text = re.sub(
+        r"(?im)(\bowned\s+by\b[^\n]{2,80}?[A-Za-z.]{2,})\s+(?!jr\b|sr\b)[a-z]{1,2}\s*$",
+        r"\1",
+        text,
+    )
     # Co-owner joiner OCR: "Whittaker! E." / "Whittaker` E." → "&"
     # (require Initial. after so O'Brien / possessive stay intact)
     text = re.sub(
@@ -1047,48 +1094,651 @@ def _normalize_owned_by_ocr(text: str) -> str:
 
 
 
-def _mark_missing_class_headers(text: str) -> str:
-    """Flag place-rank restarts with no class/section header between blocks.
+_PLACE_NON_FIRST_RE = re.compile(r"(?i)^(?:\d+)?(?:nd|rd|th)\s*:")
+# Accept Ist:/lst: — Helvetica often reads leading ``1`` as ``I``/``l``.
+_PLACE_FIRST_RE = re.compile(r"(?i)^(?:1|l|I)st\s*:")
+_CHAMP_RESERVE_ROLE_RE = re.compile(r"(?i)^(?:champion|reserve)\s*:")
+_SECTIONISH_RE = re.compile(
+    r"(?i)entries\s*:|division\b|champion\s*&\s*reserve|"
+    r"\bbest\b.+(?:bitch|dog|puppy)|"
+    r"\b(?:novice|open|bred by|puppies|adults|veteran)\b|"
+    r"missing class header|"
+    r"\b(?:smooth|rough|broken)\b|"
+    r"\b(?:bitches|dogs)\b|"
+    r"family\s+class|brace\b|stud\s+dog|brood\s+bitch|"
+    r"\b(?:youth|junior|child|pee\s*wee)\b.*\bhandler\b|"
+    r"\bhandler\s+class\b|\bshowmanship\b|"
+    r"\d+\s*(?:up to|/|-)\s*\d+"
+)
+_CLASS_HEADER_HINT_RE = re.compile(
+    r"(?i)entries\s*:|"
+    r"\b(?:novice|open|bred by|puppies|adults?|veteran)\b|"
+    r"\b(?:smooth|rough|broken)\b|"
+    r"\b(?:bitches|dogs)\b|"
+    r"\bbest\b.+(?:bitch|dog|puppy)|"
+    r"champion\s*&\s*reserve|"
+    r"family\s+class|brace\b|stud\s+dog|brood\s+bitch|"
+    r"\b(?:youth|junior|child|pee\s*wee)\s+handler\b|"
+    r"\bhandler\b|\bshowmanship\b|"
+    r"\d+\s*(?:up to|/|-)\s*\d+|"
+    r"yr\s*&?\s*older|months?\b"
+)
 
-    OCR often drops intervening class titles, so ``2nd:…`` is followed by a new
-    ``1st:…``. Insert ``[missing class header]`` — do not invent class names.
+
+def _looks_like_class_header_line(s: str) -> bool:
+    """True when a short line looks like a recovered class/section title."""
+    t = norm_space(s or "")
+    if not t or len(t) > 120:
+        return False
+    if _PLACE_FIRST_RE.match(t) or _PLACE_NON_FIRST_RE.match(t):
+        return False
+    if re.search(r"(?i)\bowned\s+by\b", t):
+        return False
+    if re.search(r"(?i)^(?:champion|reserve|best)\s*:", t):
+        return False
+    if t.lower().startswith("[missing class header]"):
+        return False
+    return bool(_CLASS_HEADER_HINT_RE.search(t))
+
+
+def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
+    """Indices of ``1st:`` lines that restart a class with no header above.
+
+    Arms on non-first places and on Champion/Reserve role lines (common before
+    Youth/Pee Wee handler blocks under BEST … CHAMPION & RESERVE).
+    """
+    gaps: list[int] = []
+    gap_armed = False
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if not s:
+            continue
+        if _PLACE_FIRST_RE.match(s):
+            if gap_armed:
+                gaps.append(i)
+            gap_armed = False
+        elif _PLACE_NON_FIRST_RE.match(s) or _CHAMP_RESERVE_ROLE_RE.match(s):
+            gap_armed = True
+        elif _SECTIONISH_RE.search(s) or _looks_like_class_header_line(s):
+            gap_armed = False
+    return gaps
+
+
+def _line_fingerprint_keys(s: str) -> set[str]:
+    """Alphanumeric stems ≥4 chars for matching OCR lines across passes."""
+    return {m.group(0).lower() for m in re.finditer(r"[A-Za-z]{4,}", s or "")}
+
+
+def _inject_peer_class_headers(primary: str, candidates: list[str]) -> str:
+    """Insert short class-header lines that peer ensemble passes already saw.
+
+    Primary scoring often discards sparse header-only lines; pull them back
+    when a place-rank gap aligns with a peer that kept the title.
+    """
+    if not primary or not candidates:
+        return primary
+    lines = primary.splitlines()
+    gaps = _iter_class_header_gap_indices(lines)
+    if not gaps:
+        return primary
+    others = [c for c in candidates if c and c != primary]
+    if not others:
+        return primary
+
+    def _prev_place_line(idx: int) -> str:
+        for j in range(idx - 1, -1, -1):
+            s = lines[j].strip()
+            if (
+                _PLACE_NON_FIRST_RE.match(s)
+                or _PLACE_FIRST_RE.match(s)
+                or _CHAMP_RESERVE_ROLE_RE.match(s)
+            ):
+                return s
+        return ""
+
+    def _prior_header_above(idx: int) -> str:
+        for j in range(idx - 1, -1, -1):
+            s = lines[j].strip()
+            if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+                return norm_space(s).lower()
+            if _PLACE_FIRST_RE.match(s) or _PLACE_NON_FIRST_RE.match(s):
+                # Keep scanning above this class block for its title.
+                continue
+        return ""
+
+    def _best_place_match(alines: list[str], keys: set[str]) -> int | None:
+        if len(keys) < 2:
+            return None
+        best_i, best_ov = None, 0
+        for i, aln in enumerate(alines):
+            if not (
+                _PLACE_FIRST_RE.match(aln)
+                or _PLACE_NON_FIRST_RE.match(aln)
+                or _CHAMP_RESERVE_ROLE_RE.match(aln)
+            ):
+                continue
+            ov = len(keys & _line_fingerprint_keys(aln))
+            if ov > best_ov:
+                best_ov, best_i = ov, i
+        return best_i if best_i is not None and best_ov >= 2 else None
+
+    inserts: dict[int, str] = {}
+    for gi in gaps:
+        nxt = lines[gi].strip()
+        prev = _prev_place_line(gi)
+        prev_keys = _line_fingerprint_keys(prev)
+        next_keys = _line_fingerprint_keys(nxt)
+        prior_hdr = _prior_header_above(gi)
+        best_hdr = ""
+        best_sc = -1
+        for alt in others:
+            alines = [ln.strip() for ln in alt.splitlines() if ln.strip()]
+            ip = _best_place_match(alines, prev_keys)
+            inn = _best_place_match(alines, next_keys)
+            if ip is None or inn is None or inn <= ip:
+                continue
+            # Only headers strictly between the matched place lines.
+            for i in range(ip + 1, inn):
+                aln = alines[i]
+                if not _looks_like_class_header_line(aln):
+                    continue
+                if prior_hdr and norm_space(aln).lower() == prior_hdr:
+                    continue  # don't re-insert the previous class title
+                sc = (
+                    (inn - ip)
+                    + (8 if re.search(r"(?i)entries\s*:", aln) else 0)
+                    + (6 if re.search(r"(?i)\bhandler\b", aln) else 0)
+                    + min(20, len(aln) // 4)
+                )
+                if sc > best_sc:
+                    best_sc, best_hdr = sc, aln
+        if best_hdr and best_sc >= 4:
+            inserts[gi] = best_hdr
+
+    if not inserts:
+        return primary
+    out: list[str] = []
+    for i, ln in enumerate(lines):
+        if i in inserts:
+            out.append(inserts[i])
+        out.append(ln)
+    return "\n".join(out)
+
+
+def _ocr_column_line_boxes(
+    img: Image.Image, conf_min: float = 20.0
+) -> list[tuple[str, int, int]]:
+    """Single-column ``image_to_data`` lines as ``(text, y0, y1)`` top→bottom."""
+    import pytesseract
+
+    with _tess_slots:
+        try:
+            data = pytesseract.image_to_data(
+                img,
+                config=_tesseract_cfg(4, _OCR_LANG),
+                output_type=pytesseract.Output.DICT,
+            )
+        except Exception:
+            data = pytesseract.image_to_data(
+                img,
+                config=_tesseract_cfg(4, "eng"),
+                output_type=pytesseract.Output.DICT,
+            )
+    n = len(data["text"])
+    words: list[dict] = []
+    for i in range(n):
+        txt = (data["text"][i] or "").strip()
+        try:
+            conf = float(data["conf"][i])
+        except Exception:
+            conf = -1.0
+        if not txt or conf < conf_min:
+            continue
+        x, y, w, h = data["left"][i], data["top"][i], data["width"][i], data["height"][i]
+        words.append(
+            {"t": txt, "x": x, "y": y, "w": w, "h": h, "cy": y + h / 2.0}
+        )
+    if len(words) < 4:
+        return []
+    words.sort(key=lambda z: (z["cy"], z["x"]))
+    lines_w: list[list[dict]] = []
+    for w in words:
+        if not lines_w:
+            lines_w.append([w])
+            continue
+        prev = lines_w[-1][-1]
+        if abs(w["cy"] - prev["cy"]) <= max(12, 0.65 * max(w["h"], prev["h"])):
+            lines_w[-1].append(w)
+        else:
+            lines_w.append([w])
+    out: list[tuple[str, int, int]] = []
+    for line in lines_w:
+        line.sort(key=lambda z: z["x"])
+        text = " ".join(z["t"] for z in line)
+        y0 = min(z["y"] for z in line)
+        y1 = max(z["y"] + z["h"] for z in line)
+        out.append((text, y0, y1))
+    return out
+
+
+def _match_text_line_to_box(
+    text_line: str, boxes: list[tuple[str, int, int]], used: set[int]
+) -> int | None:
+    """Best unused box index matching a finalized text line, or None."""
+    keys = _line_fingerprint_keys(text_line)
+    if len(keys) < 2 and not re.search(r"(?i)^\d*(?:st|nd|rd|th)\s*:", text_line):
+        return None
+    best_i, best_ov = None, 0
+    for i, (bt, _y0, _y1) in enumerate(boxes):
+        if i in used:
+            continue
+        bkeys = _line_fingerprint_keys(bt)
+        ov = len(keys & bkeys)
+        # Place-rank cue boost when stems are thin
+        if re.search(r"(?i)^\d*(?:st|nd|rd|th)\s*:", text_line) and re.search(
+            r"(?i)^\d*(?:st|nd|rd|th)\s*:", bt
+        ):
+            ov += 1
+        if ov > best_ov:
+            best_ov, best_i = ov, i
+    if best_i is None:
+        return None
+    need = 2 if len(keys) >= 3 else 1
+    return best_i if best_ov >= need else None
+
+
+def _ocr_interstitial_class_header(band: Image.Image) -> str:
+    """Re-OCR a tight Y-band between place blocks for a dropped class title."""
+    if band.size[0] < 8 or band.size[1] < 6:
+        return ""
+    # Upsample short header strips like highlight-band recovery.
+    scale = 3 if band.size[1] <= 40 else 2
+    big = band.resize(
+        (band.size[0] * scale, band.size[1] * scale), Image.Resampling.LANCZOS
+    )
+    variants = _preprocess_variants(big)
+    mid = next((im for name, im in variants if name == "mid"), variants[0][1])
+    crisp = next((im for name, im in variants if name == "crisp"), mid)
+    best = ""
+    best_sc = -1
+    for im in (mid, crisp):
+        for psm in (7, 6):
+            try:
+                raw = _tesseract_string(im, psm)
+            except Exception:
+                continue
+            flat = norm_space(fix_ocr_li_confusion(raw))
+            if not _looks_like_class_header_line(flat):
+                continue
+            sc = (
+                min(40, len(flat))
+                + (12 if re.search(r"(?i)entries\s*:", flat) else 0)
+                + (8 if re.search(r"(?i)\bhandler\b", flat) else 0)
+                + (4 if re.search(r"(?i)\b(?:bitch|dog|puppy|open|novice)\b", flat) else 0)
+            )
+            if sc > best_sc:
+                best_sc, best = sc, flat
+    return best
+
+
+def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
+    """Crop interstitial bands at place-rank gaps and insert recovered titles.
+
+    Finalize has no image — this must run on the column OCR path. Unrecovered
+    gaps still get ``[missing class header]`` later in finalize.
+    """
+    if not text or img is None:
+        return text
+    lines = text.splitlines()
+    gaps = _iter_class_header_gap_indices(lines)
+    if not gaps:
+        return text
+    boxes = _ocr_column_line_boxes(img)
+    if len(boxes) < 4:
+        return text
+
+    def _prev_place_idx(gi: int) -> int | None:
+        for j in range(gi - 1, -1, -1):
+            s = lines[j].strip()
+            if (
+                _PLACE_NON_FIRST_RE.match(s)
+                or _PLACE_FIRST_RE.match(s)
+                or _CHAMP_RESERVE_ROLE_RE.match(s)
+            ):
+                return j
+        return None
+
+    def _prior_header_above(idx: int) -> str:
+        for j in range(idx - 1, -1, -1):
+            s = lines[j].strip()
+            if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+                return norm_space(s).lower()
+        return ""
+
+    used: set[int] = set()
+    inserts: dict[int, str] = {}
+    h = img.size[1]
+    for gi in gaps:
+        pi = _prev_place_idx(gi)
+        if pi is None:
+            continue
+        prior_hdr = _prior_header_above(gi)
+        bi_prev = _match_text_line_to_box(lines[pi], boxes, used)
+        bi_next = _match_text_line_to_box(lines[gi], boxes, used)
+        if bi_prev is None or bi_next is None:
+            continue
+        if bi_next <= bi_prev:
+            continue
+        used.add(bi_prev)
+        used.add(bi_next)
+        y0 = boxes[bi_prev][2]  # bottom of prior place
+        y1 = boxes[bi_next][1]  # top of new 1st
+        # Prefer any already-visible box text in the interstitial that looks
+        # like a header (cheap win before a re-OCR).
+        for bj in range(bi_prev + 1, bi_next):
+            bt = norm_space(fix_ocr_li_confusion(boxes[bj][0]))
+            if not _looks_like_class_header_line(bt):
+                continue
+            if prior_hdr and _headers_near_duplicate(bt, prior_hdr):
+                continue
+            if _text_has_near_header(lines, bt):
+                continue
+            inserts[gi] = bt
+            break
+        if gi in inserts:
+            continue
+        gap_h = y1 - y0
+        if gap_h < 6:
+            continue
+        if gap_h > max(120, h // 8):
+            # Too tall — likely misaligned boxes; skip rather than invent.
+            continue
+        pad = max(2, gap_h // 6)
+        band = img.crop((0, max(0, y0 - pad), img.size[0], min(h, y1 + pad)))
+        hdr = _ocr_interstitial_class_header(band)
+        if (
+            hdr
+            and not (prior_hdr and _headers_near_duplicate(hdr, prior_hdr))
+            and not _text_has_near_header(lines, hdr)
+        ):
+            inserts[gi] = hdr
+
+    if not inserts:
+        return text
+    out: list[str] = []
+    for i, ln in enumerate(lines):
+        if i in inserts:
+            out.append(inserts[i])
+        out.append(ln)
+    return "\n".join(out)
+
+
+_ENTRIES_COUNT_RE = re.compile(r"(?i)entries\s*:\s*(\d+)")
+
+
+def _header_line_key(s: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", norm_space(s or "").lower())
+
+
+def _header_stems(s: str) -> set[str]:
+    """Class-title stems, ignoring Entries/count noise.
+
+    Extract from the original words (not the compacted key) so
+    ``Child Handler`` → {child, handler}, not {childhandler}.
+    """
+    return {
+        t.lower()
+        for t in re.findall(r"[A-Za-z]{3,}", s or "")
+        if t.lower() not in {"entries", "entry", "owned", "class"}
+    }
+
+
+def _headers_near_duplicate(a: str, b: str) -> bool:
+    """True when two header lines are the same class (count may differ)."""
+    sa, sb = _header_stems(a), _header_stems(b)
+    if not sa or not sb:
+        return False
+    ov = len(sa & sb)
+    need = min(2, len(sa), len(sb))
+    if ov < need:
+        return False
+    # Avoid collapsing distinct coat/height variants (smooth vs r/br).
+    for coat in ("smooth", "rbr", "rough", "broken"):
+        if (coat in sa) != (coat in sb):
+            return False
+    # Dog vs Bitch / Child vs Junior are different classes.
+    if (bool(sa & {"dog", "dogs"}) and bool(sb & {"bitch", "bitches"})) or (
+        bool(sa & {"bitch", "bitches"}) and bool(sb & {"dog", "dogs"})
+    ):
+        return False
+    for pair in (("child", "junior"), ("junior", "youth"), ("child", "youth")):
+        if (pair[0] in sa and pair[1] in sb) or (pair[1] in sa and pair[0] in sb):
+            return False
+    return True
+
+
+def _find_near_header_index(lines: list[str], hdr: str) -> int | None:
+    """Index of an existing similar class header, or None."""
+    stems = _header_stems(hdr)
+    if not stems:
+        return None
+    best_i, best_ov = None, 0
+    for i, ln in enumerate(lines):
+        if not (_looks_like_class_header_line(ln) or _SECTIONISH_RE.search(ln or "")):
+            continue
+        ov = len(stems & _header_stems(ln))
+        if ov > best_ov:
+            best_ov, best_i = ov, i
+    need = min(2, len(stems))
+    return best_i if best_i is not None and best_ov >= need else None
+
+
+def _text_has_near_header(lines: list[str], hdr: str) -> bool:
+    return _find_near_header_index(lines, hdr) is not None
+
+
+def _prefer_header_with_entries(a: str, b: str) -> str:
+    """Keep the header that carries ``Entries: N`` (prefer richer text)."""
+    a_n = _ENTRIES_COUNT_RE.search(a or "")
+    b_n = _ENTRIES_COUNT_RE.search(b or "")
+    if b_n and not a_n:
+        return b
+    if a_n and not b_n:
+        return a
+    return a if len(a or "") >= len(b or "") else b
+
+
+def _dedupe_adjacent_class_headers(text: str) -> str:
+    """Collapse duplicated class titles; keep the copy with Entries: N."""
+    if not text:
+        return text
+    out: list[str] = []
+    for ln in text.splitlines():
+        if (
+            out
+            and (
+                _looks_like_class_header_line(ln)
+                or (_SECTIONISH_RE.search(ln) and not _PLACE_FIRST_RE.match(ln.strip()))
+            )
+            and (
+                _looks_like_class_header_line(out[-1])
+                or _SECTIONISH_RE.search(out[-1])
+            )
+            and _headers_near_duplicate(out[-1], ln)
+        ):
+            out[-1] = _prefer_header_with_entries(out[-1], ln)
+            continue
+        out.append(ln)
+    return "\n".join(out)
+
+
+def _merge_entry_counts_from_boxes(
+    lines: list[str], boxes: list[tuple[str, int, int]]
+) -> list[str]:
+    """Attach ``Entries: N`` from word-boxes onto titles that lack a count."""
+    out = list(lines)
+    drop: set[int] = set()
+    for i, ln in enumerate(out):
+        if i in drop:
+            continue
+        if not (_looks_like_class_header_line(ln) or _SECTIONISH_RE.search(ln or "")):
+            continue
+        if _ENTRIES_COUNT_RE.search(ln):
+            continue
+        stems = _header_stems(ln)
+        if not stems:
+            continue
+        best = ""
+        best_ov = 0
+        for raw, _y0, _y1 in boxes:
+            hdr = norm_space(fix_ocr_li_confusion(fix_place_rank_ocr(raw)))
+            if not _ENTRIES_COUNT_RE.search(hdr):
+                continue
+            if not _looks_like_class_header_line(hdr):
+                continue
+            ov = len(stems & _header_stems(hdr))
+            if ov > best_ov and _headers_near_duplicate(ln, hdr):
+                best_ov, best = ov, hdr
+        if best:
+            out[i] = best
+            continue
+        # Orphan digit on the next line after a bare ``Entries:`` / title
+        if i + 1 < len(out) and re.fullmatch(r"\d{1,2}", out[i + 1].strip()):
+            n = out[i + 1].strip()
+            base = re.sub(r"(?i)\bentries\s*:\s*$", "", ln).rstrip()
+            out[i] = norm_space(f"{base} Entries: {n}")
+            drop.add(i + 1)
+    return [ln for i, ln in enumerate(out) if i not in drop]
+
+
+def _inject_headers_from_column_boxes(img: Image.Image, text: str) -> str:
+    """Merge entry counts / insert missing titles from column word-boxes.
+
+    Only inserts at place-rank gaps (never scatter-insert), and upgrades an
+    existing title in place when boxes have ``Entries: N`` and text does not.
+    """
+    if not text or img is None:
+        return text
+    boxes = _ocr_column_line_boxes(img)
+    if len(boxes) < 4:
+        return text
+    lines = [fix_place_rank_ocr(ln) for ln in text.splitlines()]
+    lines = _merge_entry_counts_from_boxes(lines, boxes)
+
+    gaps = _iter_class_header_gap_indices(lines)
+    inserts: dict[int, str] = {}
+    for gi in gaps:
+        nxt = lines[gi].strip()
+        nxt_keys = _line_fingerprint_keys(nxt)
+        if len(nxt_keys) < 2:
+            continue
+        if gi > 0 and (
+            _looks_like_class_header_line(lines[gi - 1])
+            or _SECTIONISH_RE.search(lines[gi - 1])
+        ):
+            continue
+        best_hdr = ""
+        best_ov = 0
+        for bi, (raw, _y0, _y1) in enumerate(boxes):
+            hdr = norm_space(fix_ocr_li_confusion(fix_place_rank_ocr(raw)))
+            if not _looks_like_class_header_line(hdr):
+                continue
+            # Skip BEST/division banners here — gap fill wants class titles.
+            if re.search(r"(?i)champion\s*&\s*reserve|^best\b|division\b", hdr):
+                continue
+            # Next place under this header (tight window)
+            next_place = ""
+            for j in range(bi + 1, min(len(boxes), bi + 4)):
+                bt = fix_place_rank_ocr(boxes[j][0]).strip()
+                if _PLACE_FIRST_RE.match(bt) or _PLACE_NON_FIRST_RE.match(bt):
+                    next_place = bt
+                    break
+                if _CHAMP_RESERVE_ROLE_RE.match(bt):
+                    break
+            if not next_place:
+                continue
+            ov = len(nxt_keys & _line_fingerprint_keys(next_place))
+            if ov > best_ov:
+                best_ov, best_hdr = ov, hdr
+        if best_hdr and best_ov >= 2 and not _text_has_near_header(lines, best_hdr):
+            inserts[gi] = best_hdr
+
+    if inserts:
+        out: list[str] = []
+        for i, ln in enumerate(lines):
+            if i in inserts:
+                out.append(inserts[i])
+            out.append(ln)
+        lines = out
+    return _dedupe_adjacent_class_headers("\n".join(lines))
+
+
+def _fill_missing_class_titles(
+    img: Image.Image, text: str, candidates: list[str] | None = None
+) -> str:
+    """Peer-mine then image-recover dropped class titles before finalize.
+
+    Always normalize ``Ist:``→``1st:`` first — otherwise place-rank gaps (and
+    Child/Junior Handler recovery) never arm. Dedupes adjacent headers and
+    prefers the copy that kept ``Entries: N``.
     """
     if not text:
         return text
-    place_non_first = re.compile(r"(?i)^(?:\d+)?(?:nd|rd|th)\s*:")
-    place_first = re.compile(r"(?i)^1st\s*:")
-    sectionish = re.compile(
-        r"(?i)entries\s*:|division\b|champion\s*&\s*reserve|"
-        r"\bbest\b.+(?:bitch|dog|puppy)|"
-        r"\b(?:novice|open|bred by|puppies|adults|veteran)\b|"
-        r"missing class header"
-    )
+    text = fix_place_rank_ocr(text)
+    text = _inject_headers_from_column_boxes(img, text)
+    if candidates:
+        text = _inject_peer_class_headers(
+            text, [fix_place_rank_ocr(c) for c in candidates]
+        )
+    text = _recover_class_titles_from_image(img, text)
+    return _dedupe_adjacent_class_headers(text)
+
+
+def _drop_duplicate_owner_crumb_lines(lines: list[str]) -> list[str]:
+    """Drop a lone owner-name line that repeats the prior place's owned-by tail.
+
+    Example::
+        3rd: Westmorland's Best Bet Yet, owned by L.Westmorland/D. Whitaker
+        L.Westmorland/D.Whitaker
+    """
     out: list[str] = []
-    prev_place_non_first = False
-    for line in text.splitlines():
-        s = line.strip()
-        if place_first.match(s) and prev_place_non_first:
-            out.append("[missing class header]")
-        out.append(line)
-        if not s:
-            continue
-        if place_first.match(s):
-            prev_place_non_first = False
-        elif place_non_first.match(s):
-            prev_place_non_first = True
-        elif sectionish.search(s):
-            prev_place_non_first = False
-    return "\n".join(out)
+    for ln in lines:
+        s = ln.strip()
+        if (
+            out
+            and s
+            and not _PLACE_FIRST_RE.match(s)
+            and not _PLACE_NON_FIRST_RE.match(s)
+            and not _CHAMP_RESERVE_ROLE_RE.match(s)
+            and not _looks_like_class_header_line(s)
+            and not _SECTIONISH_RE.search(s)
+            and not re.search(r"(?i)\bowned\s+by\b", s)
+            and not re.match(r"(?i)^(?:best|champion|reserve)\s*:", s)
+        ):
+            prev = out[-1]
+            m = re.search(r"(?i)\bowned\s+by\s+(.+)$", prev)
+            if m:
+                owner = re.sub(r"[^a-z0-9]", "", m.group(1).lower())
+                cur = re.sub(r"[^a-z0-9]", "", s.lower())
+                if cur and owner and len(cur) >= 6 and (cur in owner or owner in cur):
+                    continue
+        out.append(ln)
+    return out
 
 
 def finalize_results_ocr(text: str) -> str:
     """Structure cleanup first, then lexical OCR fixes.
 
-    Name phrases like ``Huinter→Hunter`` only match after mid-line wraps are
-    rejoined, so strip/rejoin must run before ``fix_ocr_li_confusion``.
+    Name phrases like Huinter->Hunter only match after mid-line wraps are
+    rejoined, so strip/rejoin must run before fix_ocr_li_confusion.
     Column-bleed smash repair runs after lexical owned-by normalization.
     Height Champ/Reserve rehome runs last so place-prefix stripping has already
-    turned ``4th: 10-12 1/2" Champion:`` into a bare height role line.
+    turned height-role crumbs into bare height role lines.
+
+    Never insert [missing class header] placeholders — dropped titles are
+    recovered from the column image / ensemble peers in
+    _fill_missing_class_titles. Dedupes adjacent class titles and keeps the
+    copy with Entries: N.
     """
     if not text:
         return text
@@ -1096,7 +1746,32 @@ def finalize_results_ocr(text: str) -> str:
         fix_ocr_li_confusion(_strip_gutter_noise(text))
     )
     text = "\n".join(_rehome_orphan_adult_height_champs(text.splitlines()))
-    return _mark_missing_class_headers(text)
+    # Glue orphan entry-count digit onto prior bare Entries: / class title
+    glued: list[str] = []
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        ln = lines[i]
+        if (
+            i + 1 < len(lines)
+            and re.fullmatch(r"\d{1,2}", lines[i + 1].strip())
+            and (
+                re.search(r"(?i)entries\s*:\s*$", ln)
+                or (
+                    _looks_like_class_header_line(ln)
+                    and not _ENTRIES_COUNT_RE.search(ln)
+                )
+            )
+        ):
+            base = re.sub(r"(?i)\bentries\s*:\s*$", "", ln).rstrip()
+            glued.append(norm_space(f"{base} Entries: {lines[i + 1].strip()}"))
+            i += 2
+            continue
+        glued.append(ln)
+        i += 1
+    return _dedupe_adjacent_class_headers(
+        "\n".join(_drop_duplicate_owner_crumb_lines(glued))
+    )
 
 
 # Residual OCR failure signatures — if these remain AFTER finalize, the page
@@ -1108,7 +1783,8 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("height_4slash2", re.compile(r"(?i)\b12\s*4/2\b|\b10\s*-\s*12\s*4/2\b|\b40\s*-\s*12\s*4/2\b")),
     ("height_101212", re.compile(r'(?i)\b10\s*-\s*1212\s*"?')),
     ("height_bare2", re.compile(
-        r'(?i)\b10\s*-\s*12\s+2\s*"?|\b10\s*-\s*12\s+12\s*"?|\b12\s+2\s*-\s*15\s*"?|\b12\s*%\s*2\b'
+        r'(?i)\b10\s*-\s*12\s+2\s*"?|\b10\s*-\s*12\s+12\s*"?|\b12\s+2\s*-\s*15\s*"?|'
+        r'\b12\s*%\s*2\b|\b12\s+2\s+up\s+to\s+15\b'
     )),
     ("champ_abbrev", re.compile(r"(?i)\bChamp\s*:")),
     ("height_40_42", re.compile(
@@ -1120,7 +1796,6 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("vog_fups", re.compile(r"(?i)\bVog\s+Fups\b|\bDog\s+Fups\b")),
     ("place_ith", re.compile(r"(?i)\bith\s*:")),
     ("place_ond", re.compile(r"(?i)\b(?:ond|did)\s*:")),
-    ("class_header_gap", re.compile(r"(?i)\[missing class header\]")),
     ("place_smash", re.compile(
         r"(?i)\bowned\s*,\s*owned\b|\bowned\s+by\s+owned\b|"
         r"\bowned\s+by\b.+\bowned\s+by\b|\bowned\s+by\b.+\bby\b.+\bby\b"
@@ -1241,6 +1916,11 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
             n += 1
             if n >= max_samples:
                 break
+    # Place-rank / Champ-Reserve → 1st gaps with no recoverable title yet
+    lines = text.splitlines()
+    for gi in _iter_class_header_gap_indices(lines)[:max_samples]:
+        sample = lines[gi].strip()[:160]
+        hits.append(("class_header_gap", sample))
     return hits
 
 
@@ -2098,6 +2778,7 @@ def normalize_height_class_ocr(text: str) -> str:
         return text
     reps = (
         (r'(?i)\b1211215\s*"', '12 1/2-15"'),
+        (r"(?i)\b1211215\s*['’]?", '12 1/2-15"'),  # single-quote OCR of "
         (r'(?i)\b12\s*1215\s*"', '12 1/2-15"'),
         (r'(?i)\b12\s*\.\s*1/2\s*-\s*15\s*"', '12 1/2-15"'),
         (r'(?i)\b12\s*4112\s*-?\s*15\s*"?', '12 1/2-15"'),
@@ -2120,12 +2801,21 @@ def normalize_height_class_ocr(text: str) -> str:
         (r'(?i)\b10\s*-\s*12\s*%', '10-12 1/2"'),
         (r'(?i)\b12\s*-\s*15\s*%', '12 1/2-15"'),
         (r'(?i)\b12\s*%\s*-\s*15', '12 1/2-15'),
+        # "12 %--15"" / "12%--15"" — % for 1/2 plus doubled dash (B6b / 1998 Vol III)
+        (r'(?i)\b12\s*%\s*-{1,2}\s*15\s*"?', '12 1/2-15"'),
+        (r'(?i)\b10\s*-\s*12\s*%\s*-{1,2}', '10-12 1/2"'),
+        # Class header: "10 up to 12 %-"" / "10 up to 12%"
+        (r'(?i)\b(10\s+up\s+to\s+12)\s*%\s*-?\s*"?', r'\1 1/2"'),
+        (r'(?i)\b(10\s+up\s+to\s+12)\s*%', r'\1 1/2"'),
         # "12 %2" / "10-12 2"" / "10-12 12"" / "12 2-15"" — 1/2 → 2 or %2
         (r'(?i)\b12\s*%\s*2\b', '12 1/2'),
         (r'(?i)\b10\s*-\s*12\s+2\s*"?:?', '10-12 1/2"'),
         (r'(?i)\b10\s*-\s*12\s+12\s*"?:?', '10-12 1/2"'),
         (r'(?i)\b12\s+2\s*-\s*15\s*"?:?', '12 1/2-15"'),
         (r'(?i)\b12\s*2\s*-\s*15\s*"?:?', '12 1/2-15"'),
+        # Certificate band: ``12 2 up to 15"`` → ``12 1/2 up to 15"``
+        (r'(?i)\b12\s+2\s+up\s+to\s+15\s*"?', '12 1/2 up to 15"'),
+        (r'(?i)\b12\s+2\s+up\s+to\s+15\b', '12 1/2 up to 15'),
 
         # Leading 1→4 / 10→40 / 12→42 digit noise on racing/adult heights
         (r'(?i)\b40\s*-\s*12\s*4/2\s*"?:?', '10-12 1/2"'),
@@ -2312,6 +3002,8 @@ def normalize_cert_entries_glue(text: str) -> str:
         r'\1) Entries:',
         text,
     )
+    # Height/class title glued to Entries: ``12 1/2-15"Entries: 7``
+    text = re.sub(r'(?i)(")\s*(Entries\s*:)', r"\1 \2", text)
     return text
 
 
@@ -2844,7 +3536,7 @@ def _join_class_header_with_entries(lines: list[str]) -> list[str]:
 
 
 def _reattach_orphan_entry_counts(lines: list[str]) -> list[str]:
-    """Pull a stray entry count back onto a bare ``Entries:`` line.
+    """Pull a stray entry count back onto a bare ``Entries:`` / header line.
 
     OCR/column order often yields::
 
@@ -2884,6 +3576,46 @@ def _reattach_orphan_entry_counts(lines: list[str]) -> list[str]:
             out[i] = f"Entries: {out[found]}"
             del out[found]
         i += 1
+
+    # Second pass: digit-only line after places → prior class header lacking a count
+    i = 0
+    while i < len(out):
+        if not _NUM_ONLY_RE.match(out[i].strip()):
+            i += 1
+            continue
+        try:
+            n = int(out[i].strip())
+        except ValueError:
+            i += 1
+            continue
+        if n < 1 or n > 40:
+            i += 1
+            continue
+        k = i - 1
+        while k >= 0:
+            s = out[k].strip()
+            if _MARKER_RE.match(s):
+                break
+            if re.match(
+                r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:", s
+            ) or re.search(r"(?i)\bowned\s+by\b", s):
+                k -= 1
+                continue
+            if _ENTRIES_ONLY_RE.match(s):
+                out[k] = f"Entries: {n}"
+                del out[i]
+                i = k
+                break
+            if re.search(r"(?i)\bEntries\s*:\s*\d+", s):
+                break
+            if _is_results_section_header(s) or _looks_like_class_header_line(s):
+                if not re.search(r"(?i)\bEntries\s*:", s):
+                    out[k] = f"{s}  Entries: {n}"
+                    del out[i]
+                    i = k
+                break
+            break
+        i += 1
     return out
 
 
@@ -2897,18 +3629,24 @@ def _strip_trailing_column_bleed(s: str) -> str:
         return s
     # Leading column bleed before a class header:
     # ``ah             California Bred … Entries: 11``
+    # ``n—            Dog Pups, 6 up to 9 months… Entries: 9``
     s = re.sub(
-        r"(?i)^[a-z0-9]{1,4}\s{2,}(?=[A-Z][A-Za-z].{0,100}\bEntries\s*:)",
+        r"(?i)^[a-z0-9]{1,4}(?:\s*[–—\-−_./|]+)?\s{2,}"
+        r"(?=[A-Z][A-Za-z].{0,120}\bEntries\s*:)",
         "",
         s,
     )
+    # Collapse ``Entries:      7`` → ``Entries: 7`` BEFORE crumb stripping.
+    # 1998 yearbooks right-align the count; a prior EOL crumb rule that allowed
+    # digits was matching the wide gap and deleting the count.
+    s = re.sub(r"(?i)\bEntries\s*:\s*(\d+)\b", r"Entries: \1", s)
     # After owner name, drop wide-gap trailing junk / next-column start
     s = re.sub(r"(?i)(\bowned by\b.{3,90}?)(\s{2,}\S.*)$", r"\1", s)
     # Class header ending in Entries: N — keep count, drop rest after a wide gap
     s = re.sub(r"(?i)(\bEntries:\s*\d+)(\s{2,}\S.*)$", r"\1", s)
-    # Generic crumb: 1–6 junk letters/digits after a wide gap at EOL
-    # (header dates/judges lines also pick up far-right dust: aon/anes/teed)
-    s = re.sub(r"(?<=\S)\s{3,}[A-Za-z0-9]{1,6}\s*$", "", s)
+    # Letters-only EOL crumb (aon/anes/teed). Digits are never crumbs here —
+    # they are entry counts (or ages) after a right-aligned gap.
+    s = re.sub(r"(?<=\S)\s{3,}[A-Za-z]{1,6}\s*$", "", s)
     # Double commas from highlight/gutter noise
     s = re.sub(r",\s*,+", ",", s)
     return s.rstrip(" ,;")
@@ -2936,7 +3674,8 @@ def _is_ocr_noise_line(s: str) -> bool:
     if re.search(
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
         r"go-?to-?ground|conformation|novice|open|puppy|working\s+terrier|"
-        r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veteran)\b",
+        r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veteran|"
+        r"handler|showmanship|pee\s*wee)\b",
         s,
     ):
         return False
@@ -2948,7 +3687,8 @@ def _is_ocr_noise_line(s: str) -> bool:
             return False
         if re.search(
             r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|adults?|pair|"
-            r"family|bred|youth|working|veteran|racing|agility|steeple|"
+            r"family|bred|youth|child|junior|handler|pee\s*wee|showmanship|"
+            r"working|veteran|racing|agility|steeple|"
             r"championship|certificate|pre-|gtg|smooth|broken|rough|"
             r"puppies|bitches|dogs)\b",
             s,
@@ -3025,6 +3765,7 @@ def _is_solid_results_line(s: str) -> bool:
     if re.match(
         r"(?i)^(?:puppies|adults?|dogs?,?|bitches?,?|racing\s+champions?|"
         r"steeplechase|flat\s+races|novice|open|pups?|"
+        r"(?:child|junior|youth|pee\s*wee)\s+handler|handler\b|"
         r"(?:conformation|racing|agility|obedience|go-?to-?ground|working)"
         r"(?:\s+division)?)\b",
         s,
@@ -3271,9 +4012,12 @@ def _ocr_leaf_fast(img: Image.Image) -> str:
     if not candidates:
         return ""
     # Trial leaves: vote place tokens across passes before BOD-style merge
-    if re.search(r"(?i)\b(?:1st|2nd|3rd)\s*:", "\n".join(candidates)):
-        return _reconcile_trial_ocr_candidates(candidates)
-    return _merge_ocr_texts(candidates)
+    if re.search(r"(?i)\b(?:1|l|I)st\s*:|\b(?:2nd|3rd)\s*:", "\n".join(candidates)):
+        text = _reconcile_trial_ocr_candidates(candidates)
+    else:
+        text = _merge_ocr_texts(candidates)
+    # Use original leaf image — preprocess mid often drops Child/Junior Handler.
+    return _fill_missing_class_titles(img, text, candidates)
 
 
 def _ocr_highlight_bands(img: Image.Image) -> str:
@@ -3883,6 +4627,8 @@ def _ocr_single_column(img: Image.Image) -> str:
     if not candidates:
         return ""
     primary = _reconcile_trial_ocr_candidates(candidates)
+    # Original column image — mid preprocess drops Child/Junior Handler boxes.
+    primary = _fill_missing_class_titles(img, primary, candidates)
     return _inject_highlight_lines(primary, hb)
 
 
