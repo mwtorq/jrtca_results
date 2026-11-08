@@ -4,16 +4,16 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
-      "chars_before": 364245,
-      "chars_after": 364243,
+      "chars_before": 364523,
+      "chars_after": 364240,
       "cleaned": true,
       "verdict": "WARN",
       "fail_hits": 0,
-      "warn_hits": 35,
-      "top_codes": "class_header_gap\u00d725,missing_owned_by\u00d74,owner_tail_trunc\u00d73,orphan_entry_count\u00d73",
-      "top_catalog": "C1\u00d725,S4/O\u00d74,O6\u00d73,C6\u00d73",
+      "warn_hits": 34,
+      "top_codes": "class_header_gap\u00d725,missing_owned_by\u00d74,orphan_entry_count\u00d73,owner_tail_trunc\u00d72",
+      "top_catalog": "C1\u00d725,S4/O\u00d74,C6\u00d73,O6\u00d72",
       "by_code": {
-        "owner_tail_trunc": 3,
+        "owner_tail_trunc": 2,
         "missing_owned_by": 4,
         "orphan_entry_count": 3,
         "class_header_gap": 25
@@ -28,11 +28,6 @@
           "code": "owner_tail_trunc",
           "catalog": "O6",
           "line": "5th: Camerton Hall Impshi, owned by Jack & Pz"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: THEY V MY WV VY IALIVIILIEW, WFWE TL HL ILC, = 1st: Farmcliff Monet, owned by Charles & Sally Hickey Tl: Eroclr lace stressed Bir BAA em"
         },
         {
           "code": "missing_owned_by",
@@ -198,16 +193,16 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
-      "chars_before": 207440,
-      "chars_after": 207437,
+      "chars_before": 207944,
+      "chars_after": 207606,
       "cleaned": true,
       "verdict": "WARN",
       "fail_hits": 0,
-      "warn_hits": 30,
-      "top_codes": "class_header_gap\u00d725,owner_tail_trunc\u00d73,missing_owned_by\u00d72",
-      "top_catalog": "C1\u00d725,O6\u00d73,S4/O\u00d72",
+      "warn_hits": 29,
+      "top_codes": "class_header_gap\u00d725,owner_tail_trunc\u00d72,missing_owned_by\u00d72",
+      "top_catalog": "C1\u00d725,O6\u00d72,S4/O\u00d72",
       "by_code": {
-        "owner_tail_trunc": 3,
+        "owner_tail_trunc": 2,
         "missing_owned_by": 2,
         "class_header_gap": 25
       },
@@ -216,11 +211,6 @@
           "code": "owner_tail_trunc",
           "catalog": "O6",
           "line": "Reserve: Fox Run Dagger, owned by Sandra Ferber Sr"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Al INA, Wo LESS Set UA Ser Used IL Xr d hing \"wl ERT Ter'ell Ber 1 4 EDT Hr nd er A ad rel 3rd: Farmcliff Duke, owned by Kim Hunter Atl LI TO El =. TEE WY "
         },
         {
           "code": "owner_tail_trunc",
@@ -356,36 +346,21 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 322634,
-      "chars_after": 322463,
+      "chars_before": 323025,
+      "chars_after": 322596,
       "cleaned": true,
       "verdict": "WARN",
       "fail_hits": 0,
-      "warn_hits": 44,
-      "top_codes": "class_header_gap\u00d725,owner_tail_trunc\u00d77,missing_owned_by\u00d76,orphan_entry_count\u00d76",
-      "top_catalog": "C1\u00d725,O6\u00d77,S4/O\u00d76,C6\u00d76",
+      "warn_hits": 41,
+      "top_codes": "class_header_gap\u00d725,missing_owned_by\u00d76,orphan_entry_count\u00d76,owner_tail_trunc\u00d74",
+      "top_catalog": "C1\u00d725,S4/O\u00d76,C6\u00d76,O6\u00d74",
       "by_code": {
-        "owner_tail_trunc": 7,
+        "owner_tail_trunc": 4,
         "missing_owned_by": 6,
         "orphan_entry_count": 6,
         "class_header_gap": 25
       },
       "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Farmcliff Hutch, owned by Dave & Marti McMahon New: Trmrermom di EE Tame ls mviaeme mod Loos BA"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "6th: 1 RE Is FAVAMILA VE AWWYLE TD AAT WET WHET TA A a] wll hry 7 KLINE I) 5th: Farmcliff Spencer, owned by Bob Franklin FS ile, vedo obe oe BEA, 2.\" \u2122 LT meee "
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "6th: TET) JT Ww Wivwdy IW MIM VY IK fa LIILIIGa, I= 1st: Farmcliff Tackle, owned by Megan Johnson be Sd, \"Tee be AA. TL PY"
-        },
         {
           "code": "owner_tail_trunc",
           "catalog": "O6",
@@ -570,21 +545,31 @@
           "code": "class_header_gap",
           "catalog": "C1",
           "line": "1st: Ravenswood Copper, owned by Charles & Sally Hickey"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Cid TOWER YTEVWVMY) WiFi TOM WY TANGIGH I HZYALUTUR 4th: Farmcliff Spencer, owned by Bob Franklin wow"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Jasper, owned by J.NefflJ.Gay"
         }
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 290421,
-      "chars_after": 290338,
+      "chars_before": 290864,
+      "chars_after": 290527,
       "cleaned": true,
       "verdict": "WARN",
       "fail_hits": 0,
-      "warn_hits": 34,
-      "top_codes": "class_header_gap\u00d725,owner_tail_trunc\u00d73,missing_owned_by\u00d73,orphan_entry_count\u00d73",
-      "top_catalog": "C1\u00d725,O6\u00d73,S4/O\u00d73,C6\u00d73",
+      "warn_hits": 33,
+      "top_codes": "class_header_gap\u00d725,missing_owned_by\u00d73,orphan_entry_count\u00d73,owner_tail_trunc\u00d72",
+      "top_catalog": "C1\u00d725,S4/O\u00d73,C6\u00d73,O6\u00d72",
       "by_code": {
-        "owner_tail_trunc": 3,
+        "owner_tail_trunc": 2,
         "missing_owned_by": 3,
         "orphan_entry_count": 3,
         "class_header_gap": 25
@@ -598,12 +583,7 @@
         {
           "code": "owner_tail_trunc",
           "catalog": "O6",
-          "line": "2nd: uke AWATLg VRVIIWG WY CYTE LollliGr lida l 2nd: Farmcliff Becky, owned by D.Sturtz/J McCoy Trad: Datmir Arai me omoemd snimos of"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Woods End Cloudy, owned by Bob Franklin es Atlve removviaimil Toddler ovime sedi om od Exe os Fc of"
+          "line": "3rd: Woods End Cloudy, owned by Bob Franklin es Atlve removviaimil Toddler ovime sedi om od Exe os Fc"
         },
         {
           "code": "missing_owned_by",

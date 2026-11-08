@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1998
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 7  cleaned=5  PASS=1  WARN=6  FAIL=0
+Volumes: 7  cleaned=6  PASS=1  WARN=6  FAIL=0
 Year verdict: **WARN**  SQL-apply unlock: YES
 
 ## Intent
@@ -20,10 +20,10 @@ Year verdict: **WARN**  SQL-apply unlock: YES
 | WARN | True | 0 | 34 | C1×25,C6×4,S4/O×3,O6×1,C6/O1×1 | `1998 Vol I, pt 1_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1998 Vol I, pt 2_ocr_hqmax.txt` |
 | WARN | True | 0 | 29 | C6×25,C1×3,O6×1 | `1998 Vol I, pt 3_ocr_hqmax.txt` |
-| WARN | True | 0 | 36 | C1×25,S4/O×7,C6×3,O6×1 | `1998 Vol II, pt 1_ocr_hqmax.txt` |
-| WARN | True | 0 | 35 | C1×23,O6×5,S4/O×5,?/4th_then_6th_no_5×1,C6×1 | `1998 Vol II, pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 35 | C1×25,S4/O×7,C6×3 | `1998 Vol II, pt 1_ocr_hqmax.txt` |
+| WARN | True | 0 | 34 | C1×23,S4/O×5,O6×4,?/4th_then_6th_no_5×1,C6×1 | `1998 Vol II, pt 2_ocr_hqmax.txt` |
 | WARN | True | 0 | 29 | C1×25,S4/O×2,C6×2 | `1998 Vol III, pt 1_ocr_hqmax.txt` |
-| WARN | False | 0 | 30 | C1×25,S4/O×5 | `1998 Vol III, pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 30 | C1×25,S4/O×5 | `1998 Vol III, pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -56,7 +56,6 @@ Year verdict: **WARN**  SQL-apply unlock: YES
 - `C1` / `class_header_gap`: 1st: Romney Victoria, owned by L.Godin/C.Elwood
 
 ### `1998 Vol II, pt 1_ocr_hqmax.txt` (WARN)
-- `O6` / `owner_tail_trunc`: 5th: Long Hope Mickey, owned by Bob Franklin CTT EERE SE ES rr CEE LV ET TEE BET RI EEE MEY oo
 - `S4/O` / `missing_owned_by`: 2nd: Peck's Bad Boy JJ, ow
 - `S4/O` / `missing_owned_by`: 6th: Indian River Spencer, Mike & Betty Bilinski
 - `S4/O` / `missing_owned_by`: 1st: Camerton Hall Allure, Ann Coffin
@@ -68,14 +67,14 @@ Year verdict: **WARN**  SQL-apply unlock: YES
 - `C6` / `orphan_entry_count`: 28
 - `C6` / `orphan_entry_count`: 35
 - `C1` / `class_header_gap`: 1st: Sunny Ridge Gypsy, owned by James Gupko
+- `C1` / `class_header_gap`: 1st: Briarpatch Hasty, owned by Jack & Terri Batzer
 
 ### `1998 Vol II, pt 2_ocr_hqmax.txt` (WARN)
 - `?` / `4th_then_6th_no_5`: 4th: Whispering Winds Sir Willie, owned by Ken & Mary Winfield
 6th: Farmcliff Snowflake, owned by Genie Franklin AIL IZ 90 UT miiomm Ad bie: vrs IirmnlAarr
 - `O6` / `owner_tail_trunc`: 10-12 1/2"" Champion: Northgate Scoundrel, owned by Doug & St
 - `O6` / `owner_tail_trunc`: 10-12 5" Champion: Big Sky Annie, owned by Doug & Sue
-- `O6` / `owner_tail_trunc`: NUvL! NAVING UWiIAKIFIVII & RESERVE 10-12 1/2" Champion: Lickity Split Sassy, owned by Bob Franklin | 10-12 14" Racarva: | abachmra Emami: Ae? abcd oe
-- `O6` / `owner_tail_trunc`: Reserve: Farmcliff Kermit, owned by Bob Franklin Es 19D" Fl Py EL, JLT 1 Ee EE YT
+- `O6` / `owner_tail_trunc`: Reserve: Farmcliff Kermit, owned by Bob Franklin Es 19D" Fl Py EL, JLT 1 Ee EE
 - `O6` / `owner_tail_trunc`: v FOr TT == 3rd: Farmclifft Snowflake, owned by Genie Franklin Al "To ow bewe be Tom micivm mead Ie, TY, om OM mle mille RA: sien bn ro om
 - `S4/O` / `missing_owned_by`: Champion: Windriver Teal, Bev Dalton
 - `S4/O` / `missing_owned_by`: 2nd: Fox Run Jackie, Sustell th BIC yk Fiore ty Mary Web
@@ -83,6 +82,7 @@ Year verdict: **WARN**  SQL-apply unlock: YES
 - `S4/O` / `missing_owned_by`: 1st: B.J. Duty, Ill
 - `S4/O` / `missing_owned_by`: 4th: Rock Rest Sadie, Judi Buckowski
 - `C6` / `orphan_entry_count`: 11
+- `C1` / `class_header_gap`: 1st: Copper, owned by Ken & Mary Winfield
 
 ### `1998 Vol III, pt 1_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 1st: Marvelous Myron, Megan Walker

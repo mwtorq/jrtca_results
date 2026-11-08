@@ -1,5 +1,5 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 1_ocr_hqmax.txt,True,364245,364243,WARN,0,35,"class_header_gap×25,missing_owned_by×4,owner_tail_trunc×3,orphan_entry_count×3","C1×25,S4/O×4,O6×3,C6×3"
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 2_ocr_hqmax.txt,True,207440,207437,WARN,0,30,"class_header_gap×25,owner_tail_trunc×3,missing_owned_by×2","C1×25,O6×3,S4/O×2"
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 1_ocr_hqmax.txt,True,322634,322463,WARN,0,44,"class_header_gap×25,owner_tail_trunc×7,missing_owned_by×6,orphan_entry_count×6","C1×25,O6×7,S4/O×6,C6×6"
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 2_ocr_hqmax.txt,True,290421,290338,WARN,0,34,"class_header_gap×25,owner_tail_trunc×3,missing_owned_by×3,orphan_entry_count×3","C1×25,O6×3,S4/O×3,C6×3"
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 1_ocr_hqmax.txt,True,364523,364240,WARN,0,34,"class_header_gap×25,missing_owned_by×4,orphan_entry_count×3,owner_tail_trunc×2","C1×25,S4/O×4,C6×3,O6×2"
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 2_ocr_hqmax.txt,True,207944,207606,WARN,0,29,"class_header_gap×25,owner_tail_trunc×2,missing_owned_by×2","C1×25,O6×2,S4/O×2"
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 1_ocr_hqmax.txt,True,323025,322596,WARN,0,41,"class_header_gap×25,missing_owned_by×6,orphan_entry_count×6,owner_tail_trunc×4","C1×25,S4/O×6,C6×6,O6×4"
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 2_ocr_hqmax.txt,True,290864,290527,WARN,0,33,"class_header_gap×25,missing_owned_by×3,orphan_entry_count×3,owner_tail_trunc×2","C1×25,S4/O×3,C6×3,O6×2"
