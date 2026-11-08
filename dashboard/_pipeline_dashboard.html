@@ -214,6 +214,40 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .b6b-detail {
+    margin-top: 0.45rem;
+    max-height: 22rem;
+    overflow: auto;
+    border-top: 1px solid var(--border, #ddd);
+    padding-top: 0.35rem;
+  }
+  .b6b-detail .yr-head {
+    font-weight: 600;
+    margin: 0.35rem 0 0.15rem;
+  }
+  .b6b-detail .vol {
+    margin: 0.2rem 0 0.35rem 0.15rem;
+  }
+  .b6b-detail .vol-name {
+    font-weight: 600;
+  }
+  .b6b-detail .hit {
+    display: block;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+    margin: 0.1rem 0 0.1rem 0.4rem;
+    color: var(--muted, #666);
+  }
+  .b6b-detail .hit .tag {
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+  .b6b-detail .hit.fail .tag { color: var(--fail); }
+  .b6b-detail .hit.warn .tag { color: var(--warn); }
+  .b6b-detail .cats {
+    margin: 0.1rem 0 0.25rem;
+  }
   @media (max-width: 640px) {
     .targeted-row { grid-template-columns: 1fr; }
   }
@@ -590,17 +624,39 @@
       const r = b6bYears[y] || {};
       const verd = r.b6b_verdict || r.b6b || "pending";
       const fw = `F${r.b6b_fail != null ? r.b6b_fail : "—"} W${r.b6b_warn != null ? r.b6b_warn : "—"} P${r.b6b_pass != null ? r.b6b_pass : "—"}`;
-      return `<tr title="${esc(r.era || "")}"><td>${esc(y)}</td>
+      const cats = r.by_catalog && Object.keys(r.by_catalog).length
+        ? " · " + Object.entries(r.by_catalog).slice(0, 6).map(([k, n]) => `${k}×${n}`).join(" ")
+        : "";
+      return `<tr title="${esc((r.era || "") + cats)}"><td>${esc(y)}</td>
         <td class="${flagClass(verd)}">${esc(verd)}${r.b6b_unlocked ? " ✓" : ""}</td>
-        <td>${esc(fw)}</td>
+        <td title="${esc(cats.trim())}">${esc(fw)}</td>
         <td>${esc(fmtTs(r.b6b_done))}</td></tr>`;
     }).join("");
+    const b6bDetails = (b6b.details || []).map((d) => {
+      const catLine = d.by_catalog && Object.keys(d.by_catalog).length
+        ? `<div class="cats meta">${Object.entries(d.by_catalog).map(([k, n]) => `${esc(k)}×${esc(n)}`).join(" · ")}</div>`
+        : "";
+      const vols = (d.volumes || []).map((v) => {
+        const hits = (v.samples || []).map((s) => {
+          const kind = (d.verdict === "FAIL" || v.verdict === "FAIL") && (s.code || "").match(/smash|placeholder|garble/i)
+            ? "fail" : (v.verdict === "FAIL" ? "fail" : "warn");
+          const tag = `${s.catalog || "?"} ${s.code || ""}`.trim();
+          return `<span class="hit ${kind}"><span class="tag">${esc(tag)}</span>${esc(s.line || "")}</span>`;
+        }).join("");
+        return `<div class="vol"><span class="vol-name ${flagClass(v.verdict)}">${esc(v.verdict)}</span>
+          <span class="meta"> F${esc(v.fail_hits)} W${esc(v.warn_hits)} · ${esc(v.file || "")}</span>
+          <div class="meta">${esc(v.top_catalog || "")}</div>
+          ${hits}</div>`;
+      }).join("") || `<div class="meta">no volume residuals</div>`;
+      return `<div class="yr-head ${flagClass(d.verdict)}">${esc(d.year)} · ${esc(d.verdict || "")}</div>${catLine}${vols}`;
+    }).join("") || `<div class="meta">no FAIL/WARN volume detail yet</div>`;
     const b6bCard = `<div class="ocr-card b6b-card">
       <strong>B6b ingest audit</strong>${stateBadge(b6b.state)}
       <div class="line meta">${esc(b6b.note || "Years 1984–2001")}</div>
       ${b6b.running ? `<div class="line alive">audit PIDs ${(b6b.pids || []).join(", ")}</div>` : ""}
       <table class="mini-table"><thead><tr><th>Year</th><th>Verdict</th><th>F/W/P</th><th>Done</th></tr></thead>
       <tbody>${b6bRows || `<tr><td colspan="4">no year data</td></tr>`}</tbody></table>
+      <div class="b6b-detail"><div class="line meta">FAIL / WARN detail</div>${b6bDetails}</div>
     </div>`;
 
     const otherEntries = (other.entries || []).map((e) => {

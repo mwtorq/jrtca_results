@@ -764,10 +764,107 @@ def _b6b_verdict_from_audit_md(year: str) -> dict:
     return out
 
 
+def _b6b_detail_from_audit_json(year: str, *, max_samples_per_vol: int = 8) -> dict:
+    """Volume FAIL/WARN detail + sample hits from ``_b6b_ingest_audit_{year}.json``."""
+    path = ROOT / f"_b6b_ingest_audit_{year}.json"
+    out: dict = {"volumes": [], "by_catalog": {}, "fail_samples": [], "warn_samples": []}
+    if not path.is_file():
+        return out
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8", errors="replace"))
+    except (OSError, json.JSONDecodeError):
+        return out
+    if not isinstance(raw, dict):
+        return out
+    cat_totals: dict[str, int] = {}
+    fail_samples: list[dict] = []
+    warn_samples: list[dict] = []
+    volumes_out: list[dict] = []
+    for vol in raw.get("volumes") or []:
+        if not isinstance(vol, dict):
+            continue
+        verd = str(vol.get("verdict") or "")
+        if verd not in ("FAIL", "WARN"):
+            continue
+        fpath = str(vol.get("file") or "")
+        short = Path(fpath).name if fpath else "?"
+        by_code = vol.get("by_code") if isinstance(vol.get("by_code"), dict) else {}
+        top_catalog = str(vol.get("top_catalog") or "")
+        samples_in = vol.get("samples") if isinstance(vol.get("samples"), list) else []
+        code_to_cat: dict[str, str] = {}
+        for s in samples_in:
+            if isinstance(s, dict) and s.get("code"):
+                code_to_cat[str(s["code"])] = str(s.get("catalog") or s["code"])
+        for code, n in by_code.items():
+            cat = code_to_cat.get(str(code)) or str(code)
+            try:
+                ni = int(n)
+            except (TypeError, ValueError):
+                ni = 0
+            cat_totals[cat] = cat_totals.get(cat, 0) + ni
+        if not by_code and top_catalog:
+            for bit in top_catalog.split(","):
+                bit = bit.strip().replace("×", "x")
+                m = re.match(r"^([A-Za-z0-9/?]+).*?[x\-]?(\d+)\s*$", bit)
+                if not m:
+                    continue
+                cat_totals[m.group(1)] = cat_totals.get(m.group(1), 0) + int(m.group(2))
+        samples_out: list[dict] = []
+        for s in samples_in:
+            if not isinstance(s, dict):
+                continue
+            code = str(s.get("code") or "")
+            catalog = str(s.get("catalog") or "")
+            line = str(s.get("line") or "").replace("\n", " ").strip()
+            if len(line) > 160:
+                line = line[:157] + "…"
+            entry = {
+                "year": year,
+                "file": short,
+                "code": code,
+                "catalog": catalog,
+                "line": line,
+                "vol_verdict": verd,
+            }
+            samples_out.append(entry)
+            if verd == "FAIL":
+                fail_samples.append(entry)
+            else:
+                warn_samples.append(entry)
+            if len(samples_out) >= max_samples_per_vol:
+                break
+        volumes_out.append(
+            {
+                "file": short,
+                "verdict": verd,
+                "fail_hits": int(vol.get("fail_hits") or 0),
+                "warn_hits": int(vol.get("warn_hits") or 0),
+                "top_catalog": top_catalog,
+                "by_code": {str(k): int(v) for k, v in by_code.items()},
+                "samples": samples_out,
+            }
+        )
+    # Prefer FAIL samples, then non-C1 WARN, then C1 WARN — cap list size
+    def _rank(s: dict) -> tuple[int, str]:
+        cat = (s.get("catalog") or "").upper()
+        if cat == "C1":
+            return (2, s.get("code") or "")
+        return (0 if s.get("catalog") else 1, s.get("code") or "")
+
+    fail_samples.sort(key=_rank)
+    warn_samples.sort(key=_rank)
+    out["volumes"] = volumes_out
+    out["by_catalog"] = dict(sorted(cat_totals.items(), key=lambda kv: (-kv[1], kv[0])))
+    out["fail_samples"] = fail_samples[:20]
+    out["warn_samples"] = warn_samples[:24]
+    return out
+
+
 def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
     """B6b gate snapshot for 1984–2001; note pending re-run if recover still live."""
     audit_proc = assess_ingest_audit_alive()
     years_out: dict[str, dict] = {}
+    details: list[dict] = []
     for y in YEARS_B6B_ALL:
         yinfo = myears.get(y) or {}
         ts = yinfo.get("timestamps") or {}
@@ -783,6 +880,9 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
             era = "remediation"
         else:
             era = "remediation" if y >= "1997" else ("early" if y < "1990" else "yearbook_9096")
+        detail = _b6b_detail_from_audit_json(y) if verdict in ("FAIL", "WARN") or (
+            (file_bits.get("b6b_fail") or 0) > 0 or (file_bits.get("b6b_warn") or 0) > 0
+        ) else {"volumes": [], "by_catalog": {}, "fail_samples": [], "warn_samples": []}
         years_out[y] = {
             "b6b": b6b,
             "b6b_verdict": verdict,
@@ -800,7 +900,20 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
             else file_bits.get("b6b_pass"),
             "b6b_done": _iso_to_local(ts.get("b6b_done")) or file_bits.get("b6b_done"),
             "era": era,
+            "by_catalog": detail.get("by_catalog") or {},
+            "volumes": detail.get("volumes") or [],
         }
+        if detail.get("volumes"):
+            details.append(
+                {
+                    "year": y,
+                    "verdict": verdict,
+                    "by_catalog": detail.get("by_catalog") or {},
+                    "volumes": detail.get("volumes") or [],
+                    "fail_samples": detail.get("fail_samples") or [],
+                    "warn_samples": detail.get("warn_samples") or [],
+                }
+            )
 
     if audit_proc["alive"]:
         state = "running"
@@ -824,6 +937,7 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
         "recover_still_running": recover_running,
         "note": note,
         "years": years_out,
+        "details": details,
     }
 
 
