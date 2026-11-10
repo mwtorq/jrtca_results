@@ -1,7 +1,9 @@
 {
-  "note": "Published app tries these URLs in order (cache-busted). Keep GitHub raw first so hosted UI updates when status.json is pushed without republishing.",
+  "note": "Published app tries these URLs in order (cache-busted query). GitHub feeds update when watch_pull_ldahsar_status.py --git-push-status pushes status.json.",
   "urls": [
+    "https://cdn.jsdelivr.net/gh/mwtorq/jrtca_results@cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
     "https://raw.githubusercontent.com/mwtorq/jrtca_results/cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
+    "https://cdn.jsdelivr.net/gh/mwtorq/jrtca_results@main/dashboard/cloud/status.json",
     "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/dashboard/cloud/status.json",
     "./status.json"
   ]

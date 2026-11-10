@@ -554,7 +554,9 @@
   // Local/cloud server uses ./status.json; published app prefers GitHub raw
   // (see status-feed.json) so Auto-refresh updates without republishing the app.
   const DEFAULT_STATUS_URLS = [
+    "https://cdn.jsdelivr.net/gh/mwtorq/jrtca_results@cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
     "https://raw.githubusercontent.com/mwtorq/jrtca_results/cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
+    "https://cdn.jsdelivr.net/gh/mwtorq/jrtca_results@main/dashboard/cloud/status.json",
     "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/dashboard/cloud/status.json",
     "./status.json",
   ];
