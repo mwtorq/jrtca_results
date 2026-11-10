@@ -1,0 +1,4 @@
+{
+  "name": "jrtca_results",
+  "install": "bash .cursor/install.sh"
+}
