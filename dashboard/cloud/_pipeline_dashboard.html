@@ -553,13 +553,17 @@
 (function () {
   // Local/cloud server uses ./status.json; published app prefers GitHub raw
   // (see status-feed.json) so Auto-refresh updates without republishing the app.
-  // raw.githubusercontent.com only — jsDelivr caches branch files for hours/days.
-  const DEFAULT_STATUS_URLS = [
-    "https://raw.githubusercontent.com/mwtorq/jrtca_results/cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
-    "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/dashboard/cloud/status.json",
-    "./status.json",
-  ];
-  let statusUrls = DEFAULT_STATUS_URLS.slice();
+  // Branch-tip raw.githubusercontent.com URLs are often CDN-stale. Prefer the
+  // latest commit SHA for status.json (GitHub commits API), then SHA raw, then local.
+  const STATUS_BRANCH = "cursor/cloud-pipeline-dashboard-d76e";
+  const STATUS_PATH = "dashboard/cloud/status.json";
+  const COMMITS_API =
+    "https://api.github.com/repos/mwtorq/jrtca_results/commits?path=" +
+    encodeURIComponent(STATUS_PATH) +
+    "&sha=" +
+    encodeURIComponent(STATUS_BRANCH) +
+    "&per_page=1";
+  let statusUrls = ["./" + STATUS_PATH.split("/").pop()];
   let timer = null;
   let lastJson = null;
   let activeStatusUrl = null;
@@ -1038,17 +1042,39 @@
     if (lastJson) render(lastJson);
   }
 
-  async function loadStatusFeed() {
+  async function resolveStatusUrls() {
+    const urls = [];
     try {
-      const res = await fetch("./status-feed.json?t=" + Date.now(), { cache: "no-store" });
-      if (!res.ok) return;
-      const cfg = await res.json();
-      if (cfg && Array.isArray(cfg.urls) && cfg.urls.length) {
-        statusUrls = cfg.urls.map(String);
+      const res = await fetch(COMMITS_API + "&t=" + Date.now(), {
+        cache: "no-store",
+        headers: { Accept: "application/vnd.github+json" },
+      });
+      if (res.ok) {
+        const commits = await res.json();
+        const sha = commits && commits[0] && commits[0].sha;
+        if (sha) {
+          urls.push(
+            "https://raw.githubusercontent.com/mwtorq/jrtca_results/" +
+              sha +
+              "/" +
+              STATUS_PATH
+          );
+        }
       }
     } catch (_e) {
-      /* keep defaults */
+      /* fall through */
     }
+    urls.push(
+      "https://raw.githubusercontent.com/mwtorq/jrtca_results/" +
+        STATUS_BRANCH +
+        "/" +
+        STATUS_PATH
+    );
+    urls.push(
+      "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/" + STATUS_PATH
+    );
+    urls.push("./status.json");
+    statusUrls = urls;
   }
 
   async function fetchFirstJson(urls) {
@@ -1070,6 +1096,7 @@
 
   async function refresh() {
     try {
+      await resolveStatusUrls();
       const data = await fetchFirstJson(statusUrls);
       render(data);
       const banner = $("cloudBanner");
@@ -1101,7 +1128,7 @@
 
   $("btnRefresh").addEventListener("click", refresh);
   $("autoRefresh").addEventListener("change", schedule);
-  loadStatusFeed().finally(function () {
+  resolveStatusUrls().finally(function () {
     refresh();
     schedule();
   });
