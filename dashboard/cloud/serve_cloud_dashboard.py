@@ -33,6 +33,8 @@ CLOUD_DIR = Path(__file__).resolve().parent
 DASHBOARD_DIR = CLOUD_DIR.parent  # original Windows dashboard (left intact)
 REPO_ROOT = CLOUD_DIR.parent.parent
 STATUS_NAME = "_pipeline_dashboard_status.json"
+# Committed/publishable snapshot name (HTML fetches this; kept in sync on each regen).
+STATUS_PUBLISH_NAME = "status.json"
 PORT_DEFAULT = 8766
 
 # Runtime config set in main()
@@ -42,6 +44,23 @@ STATUS_FILE: Path | None = None
 
 def _status_out_path() -> Path:
     return CLOUD_DIR / STATUS_NAME
+
+
+def _status_publish_path() -> Path:
+    return CLOUD_DIR / STATUS_PUBLISH_NAME
+
+
+def _write_both_status(data: dict) -> None:
+    """Write underscore runtime artifact + publishable status.json."""
+    import importlib
+
+    if str(CLOUD_DIR) not in sys.path:
+        sys.path.insert(0, str(CLOUD_DIR))
+    import pipeline_dashboard_status as pds  # noqa: WPS433
+
+    pds = importlib.reload(pds)
+    pds.atomic_write_json(_status_out_path(), data)
+    pds.atomic_write_json(_status_publish_path(), data)
 
 
 def regenerate_status() -> dict | None:
@@ -60,6 +79,7 @@ def regenerate_status() -> dict | None:
             # Prefer a synced copy dropped next to this server, else Windows dashboard artifact.
             for candidate in (
                 CLOUD_DIR / "_synced_pipeline_dashboard_status.json",
+                CLOUD_DIR / STATUS_PUBLISH_NAME,
                 DASHBOARD_DIR / STATUS_NAME,
             ):
                 if candidate.is_file():
@@ -68,16 +88,13 @@ def regenerate_status() -> dict | None:
         if src is None or not Path(src).is_file():
             raise FileNotFoundError(
                 "synced mode needs --status-file, JRTCA_DASHBOARD_STATUS_JSON, "
-                "dashboard/cloud/_synced_pipeline_dashboard_status.json, or "
-                "dashboard/_pipeline_dashboard_status.json"
+                "dashboard/cloud/_synced_pipeline_dashboard_status.json, "
+                "dashboard/cloud/status.json, or dashboard/_pipeline_dashboard_status.json"
             )
         src_p = Path(src)
-        if src_p.resolve() != out.resolve():
-            shutil.copy2(src_p, out)
-        try:
-            return json.loads(out.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return None
+        data = json.loads(src_p.read_text(encoding="utf-8"))
+        _write_both_status(data)
+        return data
 
     import importlib
 
@@ -101,7 +118,7 @@ def regenerate_status() -> dict | None:
         "proxy_env": "JRTCA_WORKER_CONTROL_PROXY",
         "windows_url": "http://127.0.0.1:8765/api/track/set-workers",
     }
-    pds.atomic_write_json(out, data)
+    _write_both_status(data)
     return data
 
 
@@ -127,6 +144,7 @@ class Handler(SimpleHTTPRequestHandler):
         if path.endswith((".html", ".json")) or path in (
             "/_pipeline_dashboard.html",
             "/_pipeline_dashboard_status.json",
+            "/status.json",
             "/api/status",
             "/",
             "/index.html",
@@ -139,15 +157,23 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):  # noqa: N802
         path = urlparse(self.path).path
         if path in ("/", "/index.html"):
-            self.path = "/_pipeline_dashboard.html"
+            # Prefer publishable index.html when present; fall back to underscore name.
+            if (CLOUD_DIR / "index.html").is_file():
+                self.path = "/index.html"
+            else:
+                self.path = "/_pipeline_dashboard.html"
             path = self.path
-        if path in ("/_pipeline_dashboard_status.json", "/api/status"):
+        if path in (
+            "/_pipeline_dashboard_status.json",
+            "/status.json",
+            "/api/status",
+        ):
             try:
                 regenerate_status()
             except Exception as exc:  # keep serving last good file if regen fails
                 sys.stderr.write(f"status regen failed: {exc}\n")
             if path == "/api/status":
-                self.path = "/" + STATUS_NAME
+                self.path = "/" + STATUS_PUBLISH_NAME
             else:
                 self.path = path
         return super().do_GET()

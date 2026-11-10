@@ -68,7 +68,15 @@ python -u dashboard/cloud/serve_cloud_dashboard.py --port 8766
 | `serve_cloud_dashboard.py` | HTTP server (port **8766**); live or synced status |
 | `pipeline_dashboard_status.py` | Cloud gatherer (Linux `/proc` process scan; repo root = `../..`) |
 | `track_worker_control.py` | Same Apply API; Linux → proxy / remote-hint |
-| `_pipeline_dashboard.html` | Full UI (cloud banner only additive) |
-| `_pipeline_dashboard_status.json` | Generated artifact (do not edit) |
+| `index.html` | Publishable UI entry (Cursor web app) |
+| `_pipeline_dashboard.html` | Same UI (underscore name kept for parity) |
+| `status.json` | Publishable status snapshot (HTML fetches this) |
+| `_pipeline_dashboard_status.json` | Runtime artifact (gitignored; mirrored from gather) |
 
 Pipeline inputs remain at the **repo root**.
+
+## Cursor web app publish
+
+`dashboard/cloud/` is the publish folder (`index.html` + `status.json`). Local preview:
+`http://127.0.0.1:8766/`. Published hosting serves the committed snapshot; re-gather with
+`serve_cloud_dashboard.py` and re-publish (or sync `status.json`) for fresher data.
