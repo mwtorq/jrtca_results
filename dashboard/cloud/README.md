@@ -39,19 +39,34 @@ OCR PIDs live on Ldahsar; this VM cannot resolve `ldahsar` by DNS. Auto mode pre
 2. Synced JSON file (`JRTCA_DASHBOARD_STATUS_JSON`, `dashboard/cloud/_synced_pipeline_dashboard_status.json`, or Project store `internal/ldahsar-pipeline-status.json`)
 3. Local gather (fallback; OCR alive will be false)
 
-On **Ldahsar**:
+### 1-minute sync (recommended)
 
-```bash
-python -u dashboard/cloud/export_ldahsar_status.py
+On **Ldahsar** (do not stop re-OCR — run in a separate window / self-hosted agent):
+
+```bat
+cd /d "C:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results"
+"C:\Users\mw\AppData\Local\Python\pythoncore-3.14-64\python.exe" -u dashboard\cloud\watch_export_ldahsar_status.py --interval 60
 ```
 
-Then copy/sync the written JSON onto this VM (or the Project store path above).
+(OneDrive path may vary; any `jrtca_results` checkout on Ldahsar works. Equivalent PowerShell:)
+
+```powershell
+cd $env:USERPROFILE\OneDrive*\repos\jrtca_results
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" -u dashboard\cloud\watch_export_ldahsar_status.py --interval 60
+```
+
+On **this cloud VM** (already startable alongside `:8766`):
 
 ```bash
-export JRTCA_DASHBOARD_STATUS_URL='http://HOST:8765/api/status'   # if reachable
-# or:
-export JRTCA_DASHBOARD_STATUS_JSON=/path/to/ldahsar-status.json
-python -u dashboard/cloud/serve_cloud_dashboard.py --port 8766
+python -u dashboard/cloud/watch_pull_ldahsar_status.py --interval 60
+```
+
+Exporter writes Project store `internal/ldahsar-pipeline-status.json`; puller refreshes `:8766` runtime JSON each minute. Published Cursor app still needs an explicit republish to pick up a new `status.json` snapshot.
+
+One-shot export on Ldahsar:
+
+```bat
+"C:\Users\mw\AppData\Local\Python\pythoncore-3.14-64\python.exe" -u dashboard\cloud\export_ldahsar_status.py
 ```
 
 ## Proxy Apply to Ldahsar
