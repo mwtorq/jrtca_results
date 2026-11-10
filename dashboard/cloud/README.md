@@ -61,7 +61,7 @@ On **this cloud VM** (already startable alongside `:8766`):
 python -u dashboard/cloud/watch_pull_ldahsar_status.py --interval 60 --git-push-status
 ```
 
-Exporter writes Project store `internal/ldahsar-pipeline-status.json`; puller refreshes `:8766` and (with `--git-push-status`) commits/pushes `status.json` each minute. The **published** app loads status from GitHub raw via `status-feed.json` (15s Auto-refresh) so the hosted UI updates without republishing the HTML every minute.
+Exporter writes Project store `internal/ldahsar-pipeline-status.json`; puller refreshes `:8766` and (with `--git-push-status`) commits/pushes `status.json` each minute to unprotected branch **`cloud-status-feeds`** (not `main` — PR-protected). The **published** app’s Auto-refresh (~20s) resolves the latest commit on that feed branch via the GitHub commits API, then loads SHA raw — no HTML republish needed for status ticks.
 
 One-shot export on Ldahsar:
 

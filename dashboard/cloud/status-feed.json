@@ -1,9 +1,9 @@
 {
-  "note": "Published HTML uses GitHub commits API against main; this file is fallback only.",
-  "branch": "main",
+  "note": "Published HTML uses GitHub commits API against cloud-status-feeds (main is PR-protected). This file is fallback only.",
+  "branch": "cloud-status-feeds",
   "path": "dashboard/cloud/status.json",
   "urls": [
-    "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/dashboard/cloud/status.json",
+    "https://raw.githubusercontent.com/mwtorq/jrtca_results/cloud-status-feeds/dashboard/cloud/status.json",
     "./status.json"
   ]
 }
