@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JRTCA Pipeline A1–D17 (cloud)</title>
+<style>
+  :root {
+    --bg: #f6f3ee;
+    --ink: #1c2420;
+    --muted: #5c6a63;
+    --card: #fffdf9;
+    --line: #d5ddd6;
+    --done: #1f6b45;
+    --done-bg: #e4f3ea;
+    --prog: #1d5f8a;
+    --prog-bg: #e5f1f8;
+    --pend: #6b736e;
+    --pend-bg: #eceeeb;
+    --fail: #9b2c2c;
+    --fail-bg: #f8e6e6;
+    --warn: #8a5a10;
+    --warn-bg: #f8efd9;
+    --partial: #8a5a10;
+    --partial-bg: #f8efd9;
+    --accent: #2a4a3a;
+    --mono: "IBM Plex Mono", "Cascadia Mono", "Consolas", monospace;
+    --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    --display: "Fraunces", "Palatino Linotype", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse 80% 50% at 10% -10%, #e8efe6 0%, transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, #e4ebe8 0%, transparent 50%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  header {
+    padding: 1.25rem 1.5rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 253, 249, 0.85);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  header .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 1.25rem;
+    justify-content: space-between;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 650;
+    font-size: 1.55rem;
+    margin: 0;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .meta code { font-family: var(--mono); font-size: 0.82rem; }
+  .controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  button {
+    font: inherit;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    padding: 0.4rem 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button.primary {
+    background: var(--accent);
+    color: #f4f8f5;
+    border-color: var(--accent);
+  }
+  main { padding: 1rem 1.5rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+  section { margin-top: 1.35rem; }
+  h2 {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    margin: 0 0 0.65rem;
+    color: var(--accent);
+  }
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .pill {
+    font-size: 0.82rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--card);
+  }
+  .pill.DONE { background: var(--done-bg); color: var(--done); border-color: #b7d9c4; }
+  .pill.IN\ PROGRESS, .pill.IN_PROGRESS { background: var(--prog-bg); color: var(--prog); border-color: #b5d0e2; }
+  .pill.PENDING { background: var(--pend-bg); color: var(--pend); }
+  .pill.BLOCKED, .pill.FAIL { background: var(--fail-bg); color: var(--fail); border-color: #e0b4b4; }
+  .pill.WARN, .pill.PARTIAL { background: var(--warn-bg); color: var(--warn); border-color: #e4d2a4; }
+
+  .years {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.55rem;
+  }
+  .year-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.65rem 0.75rem;
+  }
+  .year-card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+    font-family: var(--display);
+  }
+  .flags {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    font-family: var(--mono);
+  }
+  .flag-ok { color: var(--done); }
+  .flag-run { color: var(--prog); }
+  .flag-bad { color: var(--fail); }
+  .flag-warn { color: var(--warn); }
+  .flag-muted { color: var(--muted); }
+
+  .ocr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+  }
+  @media (max-width: 720px) { .ocr { grid-template-columns: 1fr; } }
+  .ocr-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.88rem;
+    min-width: 0;
+  }
+  .ocr-card strong { font-family: var(--display); }
+  .ocr-card .line {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    margin-top: 0.35rem;
+    color: var(--ink);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .ocr-card .job-line {
+    display: block;
+    width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .alive { color: var(--done); font-weight: 600; }
+  .dead { color: var(--muted); }
+  .worker-adj { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; }
+  .worker-adj input { font: inherit; padding: 0.15rem 0.3rem; }
+  .btn-set-workers {
+    font: inherit;
+    font-size: 0.78rem;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .btn-set-workers:disabled { opacity: 0.55; cursor: wait; }
+
+  .targeted-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .targeted-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: stretch;
+  }
+  .targeted-row > .ocr-card {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    font-size: 0.78rem;
+  }
+  .targeted-row > .ocr-card .line,
+  .targeted-row > .ocr-card .count-chip,
+  .targeted-row > .ocr-card .meta {
+    font-size: 0.78rem;
+  }
+  .targeted-row .mini-table {
+    table-layout: fixed;
+    font-size: 0.78rem;
+  }
+  .targeted-row .mini-table th:nth-child(1),
+  .targeted-row .mini-table td:nth-child(1) { width: 22%; }
+  .targeted-row .mini-table th:nth-child(2),
+  .targeted-row .mini-table td:nth-child(2) { width: 28%; }
+  .targeted-row .mini-table th:nth-child(3),
+  .targeted-row .mini-table td:nth-child(3) { width: 22%; }
+  .targeted-row .mini-table th:nth-child(4),
+  .targeted-row .mini-table td:nth-child(4) { width: 28%; }
+  .targeted-row .mini-table th,
+  .targeted-row .mini-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .b6b-detail {
+    margin-top: 0.45rem;
+    max-height: 22rem;
+    overflow: auto;
+    border-top: 1px solid var(--border, #ddd);
+    padding-top: 0.35rem;
+  }
+  .b6b-detail .yr-head {
+    font-weight: 600;
+    margin: 0.35rem 0 0.15rem;
+  }
+  .b6b-detail .vol {
+    margin: 0.2rem 0 0.35rem 0.15rem;
+  }
+  .b6b-detail .vol-name {
+    font-weight: 600;
+  }
+  .b6b-detail .hit {
+    display: block;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+    margin: 0.1rem 0 0.1rem 0.4rem;
+    color: var(--muted, #666);
+  }
+  .b6b-detail .hit .tag {
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+  .b6b-detail .hit.fail .tag { color: var(--fail); }
+  .b6b-detail .hit.warn .tag { color: var(--warn); }
+  .b6b-detail .cats {
+    margin: 0.1rem 0 0.25rem;
+  }
+  @media (max-width: 640px) {
+    .targeted-row { grid-template-columns: 1fr; }
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.4rem;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 0.35rem;
+  }
+  .badge.running { background: var(--prog-bg); color: var(--prog); }
+  .badge.done { background: var(--done-bg); color: var(--done); }
+  .badge.idle, .badge.idle_with_results, .badge.log_only { background: var(--pend-bg); color: var(--pend); }
+  .badge.pending_rerun, .badge.queued { background: var(--fail-bg); color: var(--fail); }
+  .count-pair {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+  }
+  .count-chip {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: #f3f6f4;
+  }
+  .count-chip.c1 { border-color: #b5d0e2; background: var(--prog-bg); color: var(--prog); }
+  .count-chip.o6 { border-color: #d4c4a0; background: var(--warn-bg); color: var(--warn); }
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin-top: 0.45rem;
+  }
+  .mini-table th, .mini-table td {
+    text-align: left;
+    padding: 0.2rem 0.35rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .mini-table th { color: var(--muted); font-weight: 600; }
+
+  .era-block {
+    margin-bottom: 1rem;
+    padding: 0.75rem 0.85rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .era-block.parked, .era-block.pending {
+    background: #f0f1ef;
+    border-color: #cfd5d1;
+  }
+  .era-block.live {
+    border-color: #b5d0e2;
+    background: linear-gradient(180deg, var(--prog-bg), var(--card) 70%);
+  }
+  .era-block h3 {
+    margin: 0 0 0.25rem;
+    font-family: var(--display);
+    font-size: 1.02rem;
+    color: var(--accent);
+  }
+  .era-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.55rem;
+  }
+  .era-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.4rem;
+    border-radius: 3px;
+    margin-left: 0.35rem;
+    vertical-align: middle;
+  }
+  .era-badge.live { background: var(--prog-bg); color: var(--prog); }
+  .era-badge.parked, .era-badge.pending { background: var(--pend-bg); color: var(--pend); }
+  .era-badge.partial { background: var(--warn-bg); color: var(--warn); }
+  .year-card.parked, .year-card.pending {
+    background: #f0f1ef;
+    opacity: 0.92;
+  }
+  .year-card.partial { background: var(--warn-bg); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 0.75rem;
+  }
+  .step {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left-width: 4px;
+    border-radius: 6px;
+    padding: 0.75rem 0.9rem;
+    min-height: 7.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .step-detail {
+    margin-top: 0.2rem;
+    max-height: 28rem;
+    overflow: auto;
+    font-size: 0.76rem;
+    line-height: 1.3;
+    border-top: 1px solid var(--line);
+    padding-top: 0.35rem;
+  }
+  .step-detail .sec-label {
+    font-weight: 700;
+    color: var(--muted);
+    margin: 0.3rem 0 0.1rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .step-detail .sec-line {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    margin: 0.08rem 0;
+    color: var(--ink, #222);
+  }
+  .year-detail {
+    margin-top: 0.4rem;
+    font-size: 0.74rem;
+    line-height: 1.3;
+    max-height: 22rem;
+    overflow: auto;
+    border-top: 1px solid var(--line);
+    padding-top: 0.3rem;
+  }
+  .year-detail .hit {
+    display: block;
+    margin: 0.12rem 0 0.12rem 0.35rem;
+    padding: 0.15rem 0.35rem;
+    border-left: 3px solid var(--line);
+    font-size: 0.72rem;
+  }
+  .year-detail .hit.warn { border-left-color: var(--warn); background: var(--warn-bg); }
+  .year-detail .hit.fail { border-left-color: var(--fail); background: var(--fail-bg); }
+  .year-detail .hit .tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-right: 0.35rem;
+    color: var(--muted);
+  }
+  .year-detail .sec-label {
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0.25rem 0 0.08rem;
+  }
+  .year-detail .sec-line {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    margin: 0.05rem 0;
+  }
+  .step:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(28, 36, 32, 0.06); }
+  .step.DONE { border-left-color: var(--done); background: linear-gradient(180deg, var(--done-bg), var(--card) 55%); }
+  .step.IN_PROGRESS { border-left-color: var(--prog); background: linear-gradient(180deg, var(--prog-bg), var(--card) 55%); }
+  .step.PENDING { border-left-color: #b8c0ba; }
+  .step.BLOCKED, .step.FAIL { border-left-color: var(--fail); background: linear-gradient(180deg, var(--fail-bg), var(--card) 55%); }
+  .step.WARN, .step.PARTIAL { border-left-color: var(--warn); background: linear-gradient(180deg, var(--warn-bg), var(--card) 55%); }
+  .step .id {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .step .title { font-weight: 600; font-size: 0.95rem; line-height: 1.25; }
+  .step .status-label {
+    align-self: flex-start;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+  }
+  .step.DONE .status-label { background: var(--done-bg); color: var(--done); }
+  .step.IN_PROGRESS .status-label { background: var(--prog-bg); color: var(--prog); }
+  .step.PENDING .status-label { background: var(--pend-bg); color: var(--pend); }
+  .step.BLOCKED .status-label, .step.FAIL .status-label { background: var(--fail-bg); color: var(--fail); }
+  .step.WARN .status-label, .step.PARTIAL .status-label { background: var(--warn-bg); color: var(--warn); }
+  .step .detail {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.35;
+    flex: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+  .err {
+    color: var(--fail);
+    background: var(--fail-bg);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #e0b4b4;
+  }
+  footer {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .cloud-banner {
+    margin: 0.55rem 0 0;
+    padding: 0.4rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #eef4f0;
+    color: var(--muted);
+    font-size: 0.82rem;
+    max-width: 52rem;
+  }
+  .cloud-banner code { font-family: var(--mono); font-size: 0.78rem; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,650&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<header>
+  <div class="row">
+    <div>
+      <h1>JRTCA yearbook pipeline</h1>
+      <div class="meta">Steps A1–D17 (+B6b) · cloud Linux variant · status from <code>_pipeline_dashboard_status.json</code></div>
+      <div class="cloud-banner" id="cloudBanner">
+        Cloud dashboard — loading status source…
+      </div>
+    </div>
+    <div class="controls">
+      <span class="meta" id="generated">—</span>
+      <button type="button" class="primary" id="btnRefresh">Refresh</button>
+      <label class="meta"><input type="checkbox" id="autoRefresh" checked /> Auto 20s</label>
+    </div>
+  </div>
+</header>
+<main>
+  <div id="error" class="err" hidden></div>
+
+  <section>
+    <h2>Summary</h2>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <section>
+    <h2>Live OCR tracks</h2>
+    <div class="ocr" id="ocr"></div>
+  </section>
+
+  <section>
+    <h2>Re-OCR queue (FAIL → force rework)</h2>
+    <div class="targeted-grid" id="reocr"></div>
+  </section>
+
+  <section>
+    <h2>Targeted OCR / recovery</h2>
+    <div class="targeted-grid" id="targeted"></div>
+  </section>
+
+  <section>
+    <h2>Years / eras</h2>
+    <div id="eras"></div>
+  </section>
+
+  <section>
+    <h2>Plan steps</h2>
+    <div class="grid" id="steps"></div>
+  </section>
+
+  <footer id="footer"></footer>
+</main>
+<script>
+(function () {
+  // Local/cloud server uses ./status.json; published app prefers GitHub raw
+  // (see status-feed.json) so Auto-refresh updates without republishing the app.
+  // Branch-tip raw.githubusercontent.com URLs are often CDN-stale. Prefer the
+  // latest commit SHA for status.json (GitHub commits API), then SHA raw, then local.
+  const STATUS_BRANCH = "cursor/cloud-pipeline-dashboard-d76e";
+  const STATUS_PATH = "dashboard/cloud/status.json";
+  const COMMITS_API =
+    "https://api.github.com/repos/mwtorq/jrtca_results/commits?path=" +
+    encodeURIComponent(STATUS_PATH) +
+    "&sha=" +
+    encodeURIComponent(STATUS_BRANCH) +
+    "&per_page=1";
+  let statusUrls = ["./" + STATUS_PATH.split("/").pop()];
+  let timer = null;
+  let lastJson = null;
+  let activeStatusUrl = null;
+
+  const $ = (id) => document.getElementById(id);
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function statusClass(st) {
+    return String(st || "PENDING").replace(/\s+/g, "_");
+  }
+
+  function flagClass(v) {
+    const s = String(v || "pending").toLowerCase();
+    if (s === "done" || s === "true") return "flag-ok";
+    if (s === "fail" || s === "blocked") return "flag-bad";
+    if (s === "warn" || s === "partial") return "flag-warn";
+    if (s === "in progress" || s === "running") return "flag-run";
+    return "flag-muted";
+  }
+
+  /** Always short CST/CDT — never Windows long names / GMT-6. */
+  function chicagoAbbr(d) {
+    const hourUTC = d.getUTCHours();
+    const hourLocal = Number(
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago",
+        hour: "2-digit",
+        hour12: false,
+      }).format(d)
+    );
+    let diff = hourLocal - hourUTC;
+    if (diff > 12) diff -= 24;
+    if (diff < -12) diff += 24;
+    return diff === -5 ? "CDT" : "CST";
+  }
+
+  /** Convert any ISO/UTC timestamp to America/Chicago with CST/CDT abbrev. */
+  function fmtTs(raw) {
+    if (raw == null || raw === "") return "—";
+    let s = String(raw).trim();
+    if (!s || s === "?" || s === "missing" || s === "—") return s;
+    // Strip long Windows tz names if a gatherer/browser leaked them
+    s = s
+      .replace(/\s*Central (?:Standard|Daylight) Time\b/gi, "")
+      .replace(/\s*GMT[+-]\d{1,2}(?::?\d{2})?\b/gi, "")
+      .trim();
+    // Already local short form from gatherer
+    if (/\b(CST|CDT)\b/.test(s) && !/T\d{2}:\d{2}/.test(s)) {
+      return s.replace(/\bCentral (?:Standard|Daylight) Time\b/gi, "").trim();
+    }
+    const m = s.match(
+      /^(\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2}:\d{2})(?:\.\d+)?(Z|[+-]\d{2}:?\d{2})?\s*(?:CST|CDT)?$/
+    );
+    if (!m) return s;
+    let iso = m[1] + "T" + m[2];
+    const off = m[3];
+    if (!off || off === "Z") iso += "Z";
+    else if (/^[+-]\d{4}$/.test(off)) iso += off.slice(0, 3) + ":" + off.slice(3);
+    else iso += off;
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return s;
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    }).formatToParts(d);
+    const get = (t) => (parts.find((p) => p.type === t) || {}).value || "";
+    return `${get("year")}-${get("month")}-${get("day")} ${get("hour")}:${get("minute")}:${get("second")} ${chicagoAbbr(d)}`;
+  }
+
+  function render(data) {
+    lastJson = data;
+    $("error").hidden = true;
+    $("generated").textContent = "Updated " + fmtTs(data.generated_at);
+    const banner = $("cloudBanner");
+    if (banner) {
+      const src = data.status_source || "unknown";
+      const detail = data.status_source_detail ? ` · ${esc(data.status_source_detail)}` : "";
+      const fb = data.status_source_fallback_error
+        ? ` · fallback: ${esc(data.status_source_fallback_error)}`
+        : "";
+      banner.innerHTML =
+        `Status source: <strong>${esc(src)}</strong>${detail}${fb}. ` +
+        `Same cards / dual re-OCR A·B / baseline A·B / queue / PPM / Apply. ` +
+        `Worker Apply proxies via <code>JRTCA_WORKER_CONTROL_PROXY</code> or returns a remote hint.`;
+    }
+
+    const counts = (data.summary && data.summary.counts) || {};
+    const order = ["DONE", "IN PROGRESS", "PARTIAL", "WARN", "PENDING", "BLOCKED", "FAIL"];
+    const keys = order.filter((k) => counts[k]).concat(Object.keys(counts).filter((k) => !order.includes(k)));
+    $("summary").innerHTML = keys.map((k) =>
+      `<span class="pill ${esc(statusClass(k))}">${esc(k)} ${esc(counts[k])}</span>`
+    ).join("") +
+      `<span class="pill">steps ${esc((data.summary && data.summary.total_steps) || (data.steps || []).length)}</span>`;
+
+    const ocr = data.ocr_live || {};
+    const proc = ocr.processes || {};
+    const alive = proc.alive
+      ? `<span class="alive">OCR python alive (PIDs ${(proc.pids || []).join(", ") || "?"})</span>`
+      : `<span class="dead">No OCR python match</span>`;
+    function stateBadge(st) {
+      const s = String(st || "idle").toLowerCase().replace(/\s+/g, "_");
+      return `<span class="badge ${esc(s)}">${esc(s.replace(/_/g, " "))}</span>`;
+    }
+    function workersLine(t) {
+      t = t || {};
+      const parts = [];
+      if (t.workers != null) parts.push(`<strong>${esc(t.workers)}w</strong>`);
+      if (t.workers_cmdline != null) parts.push(`cmdline ${esc(t.workers_cmdline)}`);
+      else if (t.workers_log != null) parts.push(`log ${esc(t.workers_log)}`);
+      if (t.page_workers != null) parts.push(`page_workers ${esc(t.page_workers)}`);
+      if (t.tess_live != null) parts.push(`tess_live ${esc(t.tess_live)}`);
+      if ((t.pids || []).length) parts.push(`pids ${(t.pids || []).join(",")}`);
+      return parts.length ? parts.join(" · ") : "workers —";
+    }
+    function workerAdjust(kind, trackLabel, t) {
+      t = t || {};
+      if (!t.adjustable) return "";
+      const cur = t.workers_cmdline != null ? t.workers_cmdline : (t.workers != null ? t.workers : 7);
+      const id = `wadj-${kind}-${trackLabel}`;
+      return `<div class="line worker-adj">
+        <label>workers <input id="${id}" type="number" min="1" max="16" value="${esc(cur)}" style="width:3.2rem"></label>
+        <button type="button" data-kind="${esc(kind)}" data-track="${esc(trackLabel)}" data-input="${id}" class="btn-set-workers">Apply (restarts track)</button>
+        <span class="meta" data-status-for="${id}"></span>
+      </div>`;
+    }
+    function trackCard(name, t, trackLetter) {
+      t = t || {};
+      const page = t.page_line_full || t.page || "—";
+      const job = t.job_line_full || t.job || "—";
+      const ppm = t.ppm != null ? `${esc(t.ppm)} ppm` : "ppm —";
+      const ppmJob = t.ppm_job != null ? ` · job ${esc(t.ppm_job)} ppm` : "";
+      const pages = t.pages_total != null
+        ? ` · ${esc(t.pages_total)} pages` + (t.pages_this_job != null ? ` (${esc(t.pages_this_job)} this job)` : "")
+        : "";
+      return `<div class="ocr-card"><strong>${esc(name)}</strong>${t.running ? stateBadge("running") : stateBadge("idle")}
+        <div class="line">${esc(page)}</div>
+        <div class="line job-line">${esc(job)}</div>
+        <div class="line"><strong>${ppm}</strong>${ppmJob}${pages}</div>
+        <div class="line">${workersLine(t)}</div>
+        <div class="line meta">log ${esc(t.log || "—")} · ${esc(fmtTs(t.log_mtime))}${t.elapsed_min != null ? ` · ${esc(t.elapsed_min)} min wall` : ""}${t.worker_min != null ? ` · ${esc(t.worker_min)} tess-min` : ""}</div>
+        ${workerAdjust("baseline", trackLetter, t)}
+      </div>`;
+    }
+    $("ocr").innerHTML = trackCard("Track A", ocr.trackA, "A") + trackCard("Track B", ocr.trackB, "B") +
+      `<div class="ocr-card" style="grid-column:1/-1">${alive}${ocr.tess_live != null ? ` · tess_live ${esc(ocr.tess_live)}` : ""}</div>`;
+
+    const tgt = data.targeted_ocr || {};
+    const c1 = tgt.c1_o6 || {};
+    const clog = c1.log || {};
+    const b6b = tgt.b6b || {};
+    const reocr = tgt.reocr || data.reocr || {};
+    const other = tgt.other || {};
+
+    const reocrRows = (reocr.entries || []).map((e) => {
+      const codes = (e.codes || []).join(", ") || "—";
+      return `<tr><td>${esc(e.year)}</td>
+        <td class="flag-bad">FAIL</td>
+        <td>${esc(codes)}</td>
+        <td title="${esc(e.hqmax_full || "")}">${esc(e.hqmax || "")}</td>
+        <td>${esc(e.top_catalog || "")}</td></tr>`;
+    }).join("");
+    const reocrByYear = reocr.by_year && Object.keys(reocr.by_year).length
+      ? Object.entries(reocr.by_year).map(([y, n]) => `${esc(y)}×${esc(n)}`).join(" · ")
+      : "—";
+    function reocrTrackCard(name, t) {
+      t = t || {};
+      const yrs = t.years_label || (t.years || []).join(" ") || "—";
+      const prog = t.job_index != null ? `job ${esc(t.job_index)}/${esc(t.job_total)}` : "—";
+      const ppm = t.ppm != null ? `${esc(t.ppm)} ppm` : "ppm —";
+      const ppmJob = t.ppm_job != null ? ` · job ${esc(t.ppm_job)} ppm` : "";
+      const pages = t.pages_total != null
+        ? ` · ${esc(t.pages_total)} pages` + (t.pages_this_job != null ? ` (${esc(t.pages_this_job)} this job)` : "")
+        : "";
+      const pids = (t.pids || []).length
+        ? `<div class="line alive">PIDs ${(t.pids || []).join(", ")}</div>`
+        : `<div class="line dead">no process</div>`;
+      const letter = t.label || (String(name).indexOf("B") >= 0 ? "B" : "A");
+      return `<div class="ocr-card b6b-card" style="border-left:4px solid var(--fail)">
+        <strong>${esc(name)}</strong>${stateBadge(t.state)} <span class="badge">${esc(yrs)}</span>
+        ${pids}
+        <div class="line">${prog}</div>
+        <div class="line">${esc(t.page_line || "—")}</div>
+        <div class="line job-line">${esc(t.job_line || "—")}</div>
+        <div class="line"><strong>${ppm}</strong>${ppmJob}${pages}</div>
+        <div class="line">${workersLine(t)}</div>
+        <div class="line meta">log ${esc(t.active_log || "—")} · ${esc(fmtTs(t.log_mtime))}${t.elapsed_min != null ? ` · ${esc(t.elapsed_min)} min wall` : ""}${t.worker_min != null ? ` · ${esc(t.worker_min)} tess-min` : ""}</div>
+        ${workerAdjust("reocr", letter, t)}
+      </div>`;
+    }
+    const hasDual = !!(reocr.trackA || reocr.trackB);
+    const reocrTracksHtml = hasDual
+      ? `<div class="targeted-row">${reocrTrackCard("Force re-OCR Track A", reocr.trackA)}${reocrTrackCard("Force re-OCR Track B", reocr.trackB)}</div>`
+      : "";
+    $("reocr").innerHTML = `${reocrTracksHtml}<div class="ocr-card b6b-card" style="border-left:4px solid var(--fail)">
+      <strong>Force re-OCR queue</strong>${stateBadge(reocr.state)}
+      <div class="line meta">${esc(reocr.note || "Volumes that FAILED B6b (O6/C1/…) must re-OCR before unlock")}</div>
+      ${reocr.running ? `<div class="line alive">schedule_reocr PIDs ${(reocr.pids || []).join(", ")}</div>` : `<div class="line dead">No schedule_reocr_from_queue process</div>`}
+      <div class="line">queued: <strong>${esc(reocr.queue_count != null ? reocr.queue_count : 0)}</strong> · by year: ${reocrByYear}</div>
+      <table class="mini-table"><thead><tr><th>Year</th><th>Gate</th><th>Codes</th><th>HQ volume</th><th>Catalog</th></tr></thead>
+      <tbody>${reocrRows || `<tr><td colspan="5">queue empty</td></tr>`}</tbody></table>
+    </div>`;
+    const yearsArg = (c1.years_argv || []).join(", ") || "—";
+    const curBits = [
+      clog.current_year ? `y=${clog.current_year}` : null,
+      clog.current_file || null,
+    ].filter(Boolean).join(" · ") || "—";
+    const recentPages = (clog.recent_page_lines || []).map((ln) =>
+      `<div class="line">${esc(ln)}</div>`
+    ).join("") || `<div class="line meta">no page result lines yet</div>`;
+    const doneLine = clog.done && clog.done.line
+      ? `<div class="line">${esc(clog.done.line)}</div>`
+      : "";
+    const passLabel = c1.pass_label || clog.pass_label || "pass1";
+    const c1Card = `<div class="ocr-card">
+      <strong>C1/O6 targeted recover</strong>${stateBadge(c1.state)}
+        <span class="badge">${esc(passLabel)}</span>
+      <div class="line meta">${esc(c1.script || "recover_ocr_gaps_targeted.py")}
+        ${c1.running ? ` · pid ${esc(c1.pid)}` : ""}
+        ${c1.pids && c1.pids.length > 1 ? ` (+${esc(c1.pids.length - 1)} more)` : ""}</div>
+      <div class="line">years argv: ${esc(yearsArg)}</div>
+      <div class="line job-line">current: ${esc(curBits)}</div>
+      <div class="count-pair">
+        <span class="count-chip c1">C1 ${esc(clog.c1_done != null ? clog.c1_done : 0)}/${esc(clog.c1_todo != null ? clog.c1_todo : 0)}</span>
+        <span class="count-chip o6">O6 ${esc(clog.o6_done != null ? clog.o6_done : 0)}/${esc(clog.o6_todo != null ? clog.o6_todo : 0)}</span>
+        <span class="count-chip">pages ${esc(clog.pages_done != null ? clog.pages_done : 0)}/${esc(clog.pages_todo != null ? clog.pages_todo : 0)}</span>
+      </div>
+      <div class="line meta">fixed this pass: C1 ${esc(clog.pages_c1_true != null ? clog.pages_c1_true : 0)} · O6 ${esc(clog.pages_o6_true != null ? clog.pages_o6_true : 0)}${clog.pages_left != null ? ` · left ${esc(clog.pages_left)}` : ""}</div>
+      ${recentPages}
+      ${doneLine}
+      <div class="line meta">log ${esc(c1.active_log || clog.log || "_recover_c1o6_9798.log")} · ${esc(fmtTs(clog.log_mtime))}</div>
+    </div>`;
+
+    const b6bYears = b6b.years || {};
+    const b6bYearKeys = Object.keys(b6bYears).sort();
+    const b6bRows = b6bYearKeys.map((y) => {
+      const r = b6bYears[y] || {};
+      const verd = r.b6b_verdict || r.b6b || "pending";
+      const fw = `F${r.b6b_fail != null ? r.b6b_fail : "—"} W${r.b6b_warn != null ? r.b6b_warn : "—"} P${r.b6b_pass != null ? r.b6b_pass : "—"}`;
+      const cats = r.by_catalog && Object.keys(r.by_catalog).length
+        ? " · " + Object.entries(r.by_catalog).slice(0, 6).map(([k, n]) => `${k}×${n}`).join(" ")
+        : "";
+      return `<tr title="${esc((r.era || "") + cats)}"><td>${esc(y)}</td>
+        <td class="${flagClass(verd)}">${esc(verd)}${r.b6b_unlocked ? " ✓" : ""}</td>
+        <td title="${esc(cats.trim())}">${esc(fw)}</td>
+        <td>${esc(fmtTs(r.b6b_done))}</td></tr>`;
+    }).join("");
+    const b6bDetails = (b6b.details || []).map((d) => {
+      const catLine = d.by_catalog && Object.keys(d.by_catalog).length
+        ? `<div class="cats meta">${Object.entries(d.by_catalog).map(([k, n]) => `${esc(k)}×${esc(n)}`).join(" · ")}</div>`
+        : "";
+      const vols = (d.volumes || []).map((v) => {
+        const hits = (v.samples || []).map((s) => {
+          const kind = (d.verdict === "FAIL" || v.verdict === "FAIL") && (s.code || "").match(/smash|placeholder|garble/i)
+            ? "fail" : (v.verdict === "FAIL" ? "fail" : "warn");
+          const tag = `${s.catalog || "?"} ${s.code || ""}`.trim();
+          return `<span class="hit ${kind}"><span class="tag">${esc(tag)}</span>${esc(s.line || "")}</span>`;
+        }).join("");
+        return `<div class="vol"><span class="vol-name ${flagClass(v.verdict)}">${esc(v.verdict)}</span>
+          <span class="meta"> F${esc(v.fail_hits)} W${esc(v.warn_hits)} · ${esc(v.file || "")}</span>
+          <div class="meta">${esc(v.top_catalog || "")}</div>
+          ${hits}</div>`;
+      }).join("") || `<div class="meta">no volume residuals</div>`;
+      return `<div class="yr-head ${flagClass(d.verdict)}">${esc(d.year)} · ${esc(d.verdict || "")}</div>${catLine}${vols}`;
+    }).join("") || `<div class="meta">no FAIL/WARN volume detail yet</div>`;
+    const b6bCard = `<div class="ocr-card b6b-card">
+      <strong>B6b ingest audit</strong>${stateBadge(b6b.state)}
+      <div class="line meta">${esc(b6b.note || "Years 1984–2001")}</div>
+      ${b6b.running ? `<div class="line alive">audit PIDs ${(b6b.pids || []).join(", ")}</div>` : ""}
+      <table class="mini-table"><thead><tr><th>Year</th><th>Verdict</th><th>F/W/P</th><th>Done</th></tr></thead>
+      <tbody>${b6bRows || `<tr><td colspan="4">no year data</td></tr>`}</tbody></table>
+      <div class="b6b-detail"><div class="line meta">FAIL / WARN detail</div>${b6bDetails}</div>
+    </div>`;
+
+    const otherEntries = (other.entries || []).map((e) => {
+      const label = e.script || e.log || "recover";
+      return `<div class="line">${stateBadge(e.state)} ${esc(label)}
+        ${e.pid ? ` pid ${esc(e.pid)}` : ""}
+        ${e.log_mtime ? ` · ${esc(fmtTs(e.log_mtime))}` : ""}</div>
+        ${e.cmdline ? `<div class="line job-line">${esc(e.cmdline)}</div>` : ""}`;
+    }).join("") || `<div class="line meta">no other recover_*.py jobs / _recover_*.log</div>`;
+    const scriptsNote = (other.scripts_at_root || []).length
+      ? `<div class="line meta">root scripts: ${esc((other.scripts_at_root || []).join(", "))}</div>`
+      : "";
+    const otherCard = `<div class="ocr-card">
+      <strong>Other targeted recover</strong>
+      ${otherEntries}
+      ${scriptsNote}
+    </div>`;
+
+    $("targeted").innerHTML =
+      `<div class="targeted-row">${c1Card}${b6bCard}</div>` + otherCard;
+
+    function yearCardLive(y, r) {
+      r = r || {};
+      const ts = r.timestamps_local || {};
+      const tsLines = Object.keys(ts).length
+        ? Object.entries(ts).map(([k, v]) => `<div class="sec-line">${esc(k)}: ${esc(fmtTs(v))}</div>`).join("")
+        : "";
+      const a2 = r.a2_detail || {};
+      const a2Vols = (a2.volumes || []).map((v) =>
+        `<div class="sec-line ${flagClass(v.verdict)}">${esc(v.verdict)} · ${esc(v.file)} · ${esc(v.top_codes || "")}</div>`
+      ).join("");
+      const cats = r.b6b_by_catalog && Object.keys(r.b6b_by_catalog).length
+        ? Object.entries(r.b6b_by_catalog).map(([k, n]) => `${esc(k)}×${esc(n)}`).join(" · ")
+        : "";
+      const b6bVols = (r.b6b_volumes || []).slice(0, 8).map((v) => {
+        const hits = (v.samples || []).slice(0, 5).map((s) => {
+          const kind = (String(r.b6b_verdict || "").toUpperCase() === "FAIL"
+            || String(v.verdict || "").toUpperCase() === "FAIL")
+            && String(s.code || "").match(/smash|placeholder|garble/i)
+            ? "fail" : (String(v.verdict || "").toUpperCase() === "FAIL" ? "fail" : "warn");
+          const tag = `${s.catalog || "?"} ${s.code || ""}`.trim();
+          return `<span class="hit ${kind}"><span class="tag">${esc(tag)}</span>${esc(s.line || "")}</span>`;
+        }).join("");
+        return `<div class="sec-line ${flagClass(v.verdict)}">${esc(v.verdict)} F${esc(v.fail_hits)} W${esc(v.warn_hits)} · ${esc(v.file)} · ${esc(v.top_catalog || "")}</div>${hits}`;
+      }).join("");
+      const detail = `<div class="year-detail">
+        ${a2.rollup ? `<div class="sec-label">A2</div><div class="sec-line">${esc(a2.rollup)}</div>${a2Vols}` : ""}
+        ${r.b6_sections != null ? `<div class="sec-label">B6</div><div class="sec-line">sections=${esc(r.b6_sections)} · ${esc(r.b6)}</div>` : ""}
+        ${cats || b6bVols ? `<div class="sec-label">B6b</div>${cats ? `<div class="sec-line">${cats}</div>` : ""}${b6bVols}` : ""}
+        ${r.b6b_detail ? `<div class="sec-line meta">${esc(r.b6b_detail)}</div>` : ""}
+        ${r.c10 ? `<div class="sec-label">C10</div><div class="sec-line">${esc(r.c10)}</div>` : ""}
+        ${tsLines ? `<div class="sec-label">Timestamps</div>${tsLines}` : ""}
+      </div>`;
+      return `<div class="year-card"><h3>${esc(y)}</h3>
+        <div class="flags">
+          <span>hqmax</span><span>${esc(r.hqmax_count)}</span>
+          <span>A1</span><span class="${flagClass(r.a1)}">${esc(r.a1)}${r.a1_done != null ? ` (${esc(r.a1_done)}/${esc(r.a1_jobs)})` : ""}</span>
+          <span>A2</span><span class="${flagClass(r.a2)}">${esc(r.a2)}${r.a2_fail != null ? ` F${esc(r.a2_fail)} W${esc(r.a2_warn)}` : ""}${r.a2_unlocked ? " ✓" : ""}</span>
+          <span>B6</span><span class="${flagClass(r.b6)}">${esc(r.b6)}${r.b6_sections != null ? ` s${esc(r.b6_sections)}` : ""}</span>
+          <span>B6b</span><span class="${flagClass(r.b6b_verdict || r.b6b)}">${esc(r.b6b_verdict || r.b6b || "pending")}${r.b6b_unlocked ? " unlock" : ""} F${esc(r.b6b_fail != null ? r.b6b_fail : "—")} W${esc(r.b6b_warn != null ? r.b6b_warn : "—")}</span>
+          <span>C10</span><span class="${flagClass(r.c10)}">${esc(r.c10)}</span>
+        </div>${detail}</div>`;
+    }
+
+    function yearCardParked(y, r) {
+      r = r || {};
+      const st = String(r.status || "parked").toLowerCase();
+      return `<div class="year-card ${esc(st)}"><h3>${esc(y)}</h3>
+        <div class="flags">
+          <span>status</span><span class="${flagClass(st)}">${esc(st)}</span>
+          <span>hqmax</span><span>${esc(r.hqmax_count != null ? r.hqmax_count : 0)}</span>
+        </div></div>`;
+    }
+
+    function eraBadge(st) {
+      const s = String(st || "pending").toLowerCase().replace(/\s+/g, "_");
+      return `<span class="era-badge ${esc(s)}">${esc(s.replace(/_/g, " "))}</span>`;
+    }
+
+    const eras = data.eras || {};
+    const rem = eras.remediation_1997_2001 || {};
+    const y9096 = eras.yearbook_1990_1996 || {};
+    const early = eras.early_1984_1990 || {};
+    const liveYears = rem.years || data.years || {};
+    const parkedYears = y9096.years || {};
+
+    let erasHtml = "";
+    erasHtml += `<div class="era-block live">
+      <h3>${esc(rem.label || "1997–2001 remediation")}${eraBadge(rem.status || "live")}</h3>
+      <div class="era-meta">${esc(rem.note || "Live remediation from manifest.")}</div>
+      <div class="years">${Object.keys(liveYears).sort().map((y) => yearCardLive(y, liveYears[y])).join("")}</div>
+    </div>`;
+
+    erasHtml += `<div class="era-block ${esc(String(y9096.status || "parked").toLowerCase())}">
+      <h3>${esc(y9096.label || "1990–1996 yearbook")}${eraBadge(y9096.status || "parked")}</h3>
+      <div class="era-meta">${esc(y9096.note || "A4 parked")}${y9096.plan_status ? ` · plan ${esc(y9096.plan_step || "A4")}: ${esc(y9096.plan_status)}` : ""}</div>
+      <div class="years">${Object.keys(parkedYears).sort().map((y) => yearCardParked(y, parkedYears[y])).join("") || "<div class='meta'>No year placeholders</div>"}</div>
+    </div>`;
+
+    const earlyKeys = early.years_keys || ["1984","1985","1986","1987","1988","1989","1990"];
+    erasHtml += `<div class="era-block ${esc(String(early.status || "parked").toLowerCase())}">
+      <h3>${esc(early.label || "1984–1990 early / non-yearbook")}${eraBadge(early.status || "parked")}</h3>
+      <div class="era-meta">${esc(early.note || "A5 parked")}${early.plan_status ? ` · plan ${esc(early.plan_step || "A5")}: ${esc(early.plan_status)}` : ""}</div>
+      <div class="years">${earlyKeys.map((y) => yearCardParked(y, { year: y, status: early.status || "parked", hqmax_count: "—" })).join("")}</div>
+    </div>`;
+
+    $("eras").innerHTML = erasHtml;
+
+    $("steps").innerHTML = (data.steps || []).map((s) => {
+      const sc = statusClass(s.status);
+      const secs = (s.sections || []).map((sec) => {
+        const body = (sec.lines || []).map((ln) =>
+          `<div class="sec-line">${esc(ln)}</div>`
+        ).join("");
+        return `<div class="sec-label">${esc(sec.label || "")}</div>${body}`;
+      }).join("");
+      const extraLines = (s.lines || []).map((ln) =>
+        `<div class="sec-line">${esc(ln)}</div>`
+      ).join("");
+      const detailBlock = (secs || extraLines)
+        ? `<div class="step-detail">${secs}${extraLines && !secs ? extraLines : ""}</div>`
+        : "";
+      return `<article class="step ${esc(sc)}">
+        <div class="id">${esc(s.id)}</div>
+        <div class="title">${esc(s.title)}</div>
+        <span class="status-label">${esc(s.status)}</span>
+        <div class="detail">${esc(s.detail)}</div>
+        ${s.years_touch && s.years_touch.length ? `<div class="meta">years: ${esc(s.years_touch.join(", "))}</div>` : ""}
+        ${detailBlock}
+      </article>`;
+    }).join("");
+
+    $("footer").textContent = "Manifest updated: " + fmtTs(data.manifest_updated) +
+      " · A2: " + (data.a2_rollup || "—");
+    bindWorkerButtons();
+  }
+
+  async function applyTrackWorkers(kind, track, workers, statusEl, btn) {
+    if (statusEl) statusEl.textContent = "restarting…";
+    if (btn) btn.disabled = true;
+    try {
+      const res = await fetch("/api/track/set-workers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind, track, workers, page_workers: 2 }),
+        cache: "no-store",
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || !body.ok) {
+        const err = (body && (body.error || body.detail)) || ("HTTP " + res.status);
+        if (statusEl) statusEl.textContent = "fail: " + err;
+        return;
+      }
+      if (statusEl) {
+        statusEl.textContent =
+          `ok · prior ${body.prior_ppm != null ? body.prior_ppm + " ppm" : "ppm —"}` +
+          (body.new_pids && body.new_pids.length ? ` · pid ${body.new_pids.join(",")}` : "") +
+          ` · now ${body.workers}w`;
+      }
+      await refresh();
+    } catch (e) {
+      if (statusEl) statusEl.textContent = "error: " + e.message;
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  }
+
+  function bindWorkerButtons() {
+    document.querySelectorAll(".btn-set-workers").forEach((btn) => {
+      if (btn.dataset.bound === "1") return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", () => {
+        const kind = btn.getAttribute("data-kind") || "reocr";
+        const track = btn.getAttribute("data-track") || "A";
+        const inputId = btn.getAttribute("data-input");
+        const input = inputId ? document.getElementById(inputId) : null;
+        const workers = input ? parseInt(input.value, 10) : NaN;
+        const statusEl = document.querySelector(`[data-status-for="${inputId}"]`);
+        if (!Number.isFinite(workers) || workers < 1 || workers > 16) {
+          if (statusEl) statusEl.textContent = "workers must be 1..16";
+          return;
+        }
+        applyTrackWorkers(kind, track, workers, statusEl, btn);
+      });
+    });
+  }
+
+  function showError(msg) {
+    const el = $("error");
+    el.hidden = false;
+    el.textContent = msg;
+    if (lastJson) render(lastJson);
+  }
+
+  async function resolveStatusUrls() {
+    const urls = [];
+    try {
+      const res = await fetch(COMMITS_API + "&t=" + Date.now(), {
+        cache: "no-store",
+        headers: { Accept: "application/vnd.github+json" },
+      });
+      if (res.ok) {
+        const commits = await res.json();
+        const sha = commits && commits[0] && commits[0].sha;
+        if (sha) {
+          urls.push(
+            "https://raw.githubusercontent.com/mwtorq/jrtca_results/" +
+              sha +
+              "/" +
+              STATUS_PATH
+          );
+        }
+      }
+    } catch (_e) {
+      /* fall through */
+    }
+    urls.push(
+      "https://raw.githubusercontent.com/mwtorq/jrtca_results/" +
+        STATUS_BRANCH +
+        "/" +
+        STATUS_PATH
+    );
+    urls.push(
+      "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/" + STATUS_PATH
+    );
+    urls.push("./status.json");
+    statusUrls = urls;
+  }
+
+  async function fetchFirstJson(urls) {
+    const errors = [];
+    for (const base of urls) {
+      const url = base + (base.includes("?") ? "&" : "?") + "t=" + Date.now();
+      try {
+        const res = await fetch(url, { cache: "no-store", mode: "cors" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        activeStatusUrl = base;
+        return data;
+      } catch (e) {
+        errors.push(base + ": " + (e && e.message ? e.message : e));
+      }
+    }
+    throw new Error(errors.join(" | ") || "no status URL");
+  }
+
+  async function refresh() {
+    try {
+      await resolveStatusUrls();
+      const data = await fetchFirstJson(statusUrls);
+      render(data);
+      const banner = $("cloudBanner");
+      if (banner && activeStatusUrl) {
+        const feedNote = document.getElementById("statusFeedNote");
+        const line = `Feed: <code>${esc(activeStatusUrl)}</code>`;
+        if (feedNote) feedNote.innerHTML = line;
+        else {
+          const div = document.createElement("div");
+          div.id = "statusFeedNote";
+          div.style.marginTop = "0.35rem";
+          div.innerHTML = line;
+          banner.appendChild(div);
+        }
+      }
+    } catch (e) {
+      showError("Could not load status JSON (" + e.message + "). Serve via serve_cloud_dashboard.py or open after generating status.json.");
+    }
+  }
+
+  function schedule() {
+    if (timer) clearInterval(timer);
+    timer = null;
+    if ($("autoRefresh").checked) {
+      // 20s — aligns with ~60s Ldahsar dumps without hammering GitHub raw
+      timer = setInterval(refresh, 20000);
+    }
+  }
+
+  $("btnRefresh").addEventListener("click", refresh);
+  $("autoRefresh").addEventListener("change", schedule);
+  resolveStatusUrls().finally(function () {
+    refresh();
+    schedule();
+  });
+})();
+</script>
+</body>
+</html>

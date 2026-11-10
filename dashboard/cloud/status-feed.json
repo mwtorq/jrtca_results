@@ -1,0 +1,10 @@
+{
+  "note": "Published HTML resolves the latest status.json commit via GitHub commits API (branch-tip raw CDN is often stale). This file is a fallback hint only.",
+  "branch": "cursor/cloud-pipeline-dashboard-d76e",
+  "path": "dashboard/cloud/status.json",
+  "urls": [
+    "https://raw.githubusercontent.com/mwtorq/jrtca_results/cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
+    "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/dashboard/cloud/status.json",
+    "./status.json"
+  ]
+}
