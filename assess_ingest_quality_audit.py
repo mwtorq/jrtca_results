@@ -8,11 +8,12 @@ baseline text, **writes cleaned text back**, then audits residuals against
 Intent: scrub OCR issues we already know how to fix so SQL ingest sees cleaner
 text — **do not re-OCR** unless cleanup cannot clear FAIL defects.
 
-Policy:
-  - FAIL (blocks ``--apply``): smash, placeholders, leftover height/place garble
-    / owned-by typos that remain *after* cleanup.
-  - WARN (allowed with report): class_header_gap, owner_tail_trunc, structure
-    residuals that need image recovery (not inventable in finalize).
+Policy (2026-11-08 — user):
+  - FAIL (blocks unlock / ``--apply``): smash, placeholders, height/place garble,
+    **owner_tail_trunc (O6)**, **class_header_gap (C1)**, and other catalog residuals
+    that remain *after* cleanup. Eyes-on WARN is not an unlock path for these.
+  - Re-OCR: any FAIL class that finalize cannot invent (O6 right-edge cutoff, C1
+    missing titles, residual smash/height) must be queued for force/targeted re-OCR.
   - Handler ``handled by`` lines are not scored as mangled_by / missing_owned_by.
 
 Usage:
@@ -86,16 +87,33 @@ FAIL_CODES = {
     "height_bare2",
     "height_40_42",
     "height_glued",
+    "height_trunc_paren",
     "place_ond",
     "place_ith",
     "place_bang",
+    "place_rank_dust",
     "owend_by",
     "champ_abbrev",
+    # User paste / catalog — must FAIL and schedule re-OCR (not inventable)
+    "owner_tail_trunc",
+    "class_header_gap",
 }
 
-OWNER_TAIL_TRUNC_RE = re.compile(
-    r"(?i)\bowned\s+by\s+[A-Z][A-Za-z .&']{0,40}?\b([A-Za-z]{1,3})\s*$"
-)
+# Codes that require image re-OCR / targeted recover (not finalize-only)
+REOCR_CODES = {
+    "owner_tail_trunc",
+    "class_header_gap",
+    "placeholder",
+    "place_smash",
+    "height_pct",
+    "height_4slash2",
+    "height_101212",
+    "height_bare2",
+    "height_40_42",
+    "height_glued",
+    "height_trunc_paren",
+}
+
 PLACEHOLDER_RE = re.compile(r"(?i)\[missing class header\]")
 HANDLED_BY_RE = re.compile(r"(?i)\bhandled\s+by\b")
 
@@ -158,25 +176,6 @@ def extra_hits(text: str, *, max_samples: int = 20) -> list[tuple[str, str]]:
         n += 1
         if n >= max_samples:
             break
-    n = 0
-    for ln in text.splitlines():
-        s = ln.strip()
-        if HANDLED_BY_RE.search(s):
-            continue
-        if not OWNER_TAIL_TRUNC_RE.search(s):
-            continue
-        if re.search(r"(?i)\b(?:Jr|Sr|II|III|IV|Inc)\.?$", s):
-            continue
-        if len(s) > 90 and re.search(r"(?i)owned\s+by\s+\S+\s+\S+", s):
-            m = OWNER_TAIL_TRUNC_RE.search(s)
-            if m and len(m.group(1)) <= 3:
-                hits.append(("owner_tail_trunc", s[:160]))
-                n += 1
-        elif re.search(r"(?i)owned\s+by\s+\S{1,12}$", s):
-            hits.append(("owner_tail_trunc", s[:160]))
-            n += 1
-        if n >= max_samples:
-            break
     return hits
 
 
@@ -221,6 +220,7 @@ def cleanup_file(path: Path, *, dry_run: bool, max_samples: int = 25) -> dict:
         if len(samples) >= 40:
             break
     rel = str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path)
+    reocr_codes = sorted(c for c in fail_codes if c in REOCR_CODES)
     return {
         "file": rel,
         "chars_before": len(raw),
@@ -233,6 +233,8 @@ def cleanup_file(path: Path, *, dry_run: bool, max_samples: int = 25) -> dict:
         "top_catalog": ",".join(f"{c}×{n}" for c, n in catalog_hits.most_common(8)),
         "by_code": dict(by_code),
         "samples": samples,
+        "reocr_required": bool(reocr_codes),
+        "reocr_codes": reocr_codes,
     }
 
 
@@ -304,8 +306,8 @@ def write_reports(year: int, rows: list[dict]) -> tuple[Path, Path]:
         "- Re-OCR only if FAIL remains after cleanup — not as the default path.",
         "",
         "## Policy",
-        "- FAIL (blocks apply): smash, placeholders, leftover height/place garble after cleanup",
-        "- WARN: class_header_gap / owner_tail_trunc / structure residuals (image recovery debt)",
+        "- FAIL (blocks apply/unlock): smash, height/place garble, **O6 owner_tail_trunc**, **C1 class_header_gap**, placeholders",
+        "- Re-OCR queued when FAIL includes REOCR_CODES (O6/C1/smash/height) — do not invent surnames/titles",
         "- `handled by` lines excluded from mangled_by / missing_owned_by",
         "",
         "## Per volume",
@@ -372,6 +374,7 @@ def main() -> int:
     years = list(args.years) or [1997, 1998]
     by_year = collect_paths(years, list(args.path))
     any_fail = False
+    reocr_queue: list[dict] = []
     for year in sorted(by_year):
         paths = by_year[year]
         if not paths:
@@ -393,8 +396,48 @@ def main() -> int:
             f"-> {md_path.name}",
             flush=True,
         )
+        for r in rows:
+            if r.get("reocr_required"):
+                reocr_queue.append(
+                    {
+                        "year": year,
+                        "hqmax": r["file"],
+                        "codes": r.get("reocr_codes") or [],
+                        "fail_hits": r.get("fail_hits"),
+                        "top_catalog": r.get("top_catalog"),
+                        "reason": "B6b FAIL after finalize — re-OCR required",
+                    }
+                )
         if fails:
             any_fail = True
+    # Refresh queue for audited years: drop prior entries for those years, keep others,
+    # then add any new FAIL-driven re-OCR rows (cleared years leave the queue).
+    audited_years = set(years)
+    qpath = ROOT / "_reocr_queue.json"
+    prior: list[dict] = []
+    if qpath.is_file():
+        try:
+            prior = json.loads(qpath.read_text(encoding="utf-8"))
+            if not isinstance(prior, list):
+                prior = []
+        except Exception:
+            prior = []
+    kept = [
+        e
+        for e in prior
+        if isinstance(e, dict) and e.get("year") not in audited_years
+    ]
+    by_hq = {e.get("hqmax"): e for e in kept if e.get("hqmax")}
+    for e in reocr_queue:
+        by_hq[e["hqmax"]] = e
+    merged = list(by_hq.values())
+    qpath.write_text(json.dumps(merged, indent=2) + "\n", encoding="utf-8")
+    print(
+        f"Re-OCR queue refreshed: {len(merged)} vols "
+        f"(audited years {sorted(audited_years)}; new FAIL={len(reocr_queue)}) "
+        f"-> {qpath.name}",
+        flush=True,
+    )
     return 1 if any_fail else 0
 
 

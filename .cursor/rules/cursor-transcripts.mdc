@@ -1,0 +1,41 @@
+---
+description: Log all agent transcript content into repo cursor-transcripts/
+alwaysApply: true
+---
+
+# Cursor transcript logging (`cursor-transcripts/`)
+
+**Applies to every agent session in this repo**, including any session that inherits, resumes, or continues from a parent chat that used this rule.
+
+## Required behavior
+
+1. **Destination:** All session transcript content for work in `jrtca_results` goes under:
+
+   `cursor-transcripts/`
+
+2. **Continuous logging (not summary-only):**
+   - Append **as you work**, not only at the end.
+   - After **each material tool batch** (edits, audits, OCR kicks, status checks), append what you did, commands/scripts run, key outputs, and file paths touched.
+   - Log user messages that change requirements (verbatim short quotes OK).
+   - Log failures, gate misses, PIDs, queue sizes, and next step.
+
+3. **When to write:**
+   - Session start → ensure a dated note exists
+   - After each material action batch → append an `## HH:MM` (local) action block
+   - Before handoff / end of turn with pending work → flush status
+
+4. **File naming:**
+   - `cursor-transcripts/YYYY-MM-DD_<short-slug>.md` active session note
+   - Optional: `cursor-transcripts/sessions/<cursor-session-id>.md`
+   - Never write secrets, credentials, or full `.env` contents
+
+5. **Minimum content:**
+   - Session / parent session IDs (when known)
+   - User-reported OCR/rework failure reasons
+   - Gate/audit outcomes (pass/fail counts, worst volumes)
+   - Re-OCR / recover jobs scheduled or running (PIDs, logs)
+   - Pointers to canon docs (`_OCR_CLEANUP_CATALOG_HANDOFF.md`, `_plan_a1_d17_handoff.md`)
+
+6. **Inheritance:** Child/continued/compacted agents for this repo **must keep appending** to `cursor-transcripts/`. Do not stop because a parent already created a file.
+
+7. Cursor’s private agent-transcripts folder is **not** a substitute for this repo log.

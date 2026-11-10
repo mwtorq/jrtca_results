@@ -43,15 +43,14 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 ## Phase A — HQ OCR baseline
 
 ### A1 — Force HQ re-OCR 1997–2001 into `_ocr_baseline_v2`
-**Status:** IN PROGRESS  
+**Status:** DONE  
 **Intent:** Re-OCR yearbook PDFs for 1997–2001 with structure OCR (`ocr_pdf_hq` / `ocr_page_best`), font langs `jrtca_helv` / `jrtca_mono`, finalize+audit, into `_ocr_baseline_v2/yearbook_1990_2001/{year}/…`.  
 **How:** `ocr_yearbook_baseline_v2.py --force --workers 10 --page-workers 2`  
-**Tracks now:** `trackA=[1999, 2001]`, `trackB=[2000]` (1997–98 complete: 4 + 7 hqmax).  
-**Snapshot:** 1997=4, 1998=7 hqmax DONE; 1999–2001 OCR running.  
+**Snapshot:** hqmax 1997=4, 1998=7, 1999=6, 2000=5, 2001=14 — tracks A/B DONE.  
 **Exit:** All 1997–2001 volume PDFs have fresh `*_ocr_hqmax.txt` (+ `.meta.txt`); paste-driven defects largely cleaned on re-run.
 
 ### A2 — Quality gate on baseline samples
-**Status:** IN PROGRESS (year-pipelined)  
+**Status:** DONE for 1997–2001 (FAIL=0 / WARN OK; year-pipelined)  
 **Intent:** Sample pages/trials from baseline v2; score place lines, heights, smash, class headers, owned-by; compare to known-good pastes / DB.  
 **How:** `assess_ocr_baseline_a2_gate.py --years YYYY` → `_a2_quality_gate_{year}.md/.csv` + rollup `_a2_quality_gate.md`. Or `pipeline_advance_years.py --years …`.  
 **Unlock:** FAIL=0 → B6 for that year (WARN OK). Re-gate each year when its A1 completes — do not block on other years.  
@@ -63,14 +62,16 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 **Exit:** Failed vols re-pass A2 samples.
 
 ### A4 — HQ baseline 1990–96 yearbook volumes
-**Status:** PENDING (parked — laptop thrash at 4 tracks)  
-**Intent:** Same pipeline as A1 for 1990–1996. Sources: `Yearbook Scans` + `Updated Yearbook Scans`.  
-**Note:** Prior trackC/D (1990–96) killed; trackD had 0 jobs for some years — verify folder naming under `Yearbook Scans`.  
+**Status:** IN PROGRESS  
+**Intent:** Same pipeline as A1 for 1990–1996. Sources: `Yearbook Scans` + `Updated Yearbook Scans` (Updated is the real PDF source; Yearbook Scans 1990–95 Vol II often empty).  
+**How:** `ocr_yearbook_baseline_v2.py --phase a4 --force --workers 10 --page-workers 2` → logs `_ocr_a4_trackA.log` / `_ocr_a4_trackB.log`. Queue prefers full Document_/scan volumes over page leaves.  
+**Tracks:** A=[1990,1992,1994,1996] B=[1991,1993,1995].  
 **Exit:** `_ocr_baseline_v2/yearbook_1990_2001/{1990–96}/…` populated.
 
 ### A5 — HQ OCR 1984–90 non-yearbook (early packs)
-**Status:** PENDING  
+**Status:** PENDING (queued after A4 tracks settle — same machine tess budget)  
 **Intent:** OCR early non-yearbook / special packs (`EARLY` folders in `yearbook_ocr.py`, Updated Yearbook Scans 1984–89, etc.) into baseline v2 layout.  
+**How:** `ocr_yearbook_baseline_v2.py --phase a5 --force --workers 10 --page-workers 2`.  
 **Exit:** Baseline coverage for 1984–1990 sources used by TrialList.
 
 ---
@@ -78,19 +79,21 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 ## Phase B — Certificates (NHC / TrialCertificates)
 
 ### B6 — Re-harvest cert sections from baseline v2
-**Status:** IN PROGRESS (year-pipelined; **1997–98 B6 done** in manifest — section counts thin, verify 97+ header patterns)  
+**Status:** DONE for 1997–2001 in manifest (section counts still thin / often 0 for 1997+ — header patterns need B7 eyes-on)  
 **Intent:** Run cert harvest against `_ocr_baseline_v2` (canon: `harvest_cert_sections_v2.py --years …`), not old sidecars. 1997+ reads HQ under `yearbook_1990_2001/{year}/`.  
 **Exit:** Harvested cert section corpus for available years; advance more years as A1+A2 complete.
 
 ### B6b / ingest gate — Catalog cleanup + audit (required on ANY ingest)
-**Status:** IN PROGRESS (CLI live — **cleanup write-back**, then audit; prefer this over re-OCR)  
+**Status:** DONE for **1997–2001** (FAIL=0, WARN eyes-on / C1 residual; unlocked + C10 staged). Finalize extended for `place_ond` punct dust, multi-place smash after owned-by, mid-line `ond:`, bare `12% -`.  
 **Intent:** Apply finalize/catalog lessons to stored HQ text (backup `*.pre_b6b`), then audit residuals. Re-OCR only if FAIL remains after cleanup. WARN OK for image-recovery debt (class titles).  
 **How:** `assess_ingest_quality_audit.py --years YYYY` → writes cleaned `*_ocr_hqmax.txt` + `_b6b_ingest_audit_{year}.*`; via `pipeline_advance_years.py` after B6. Taxonomy: `_OCR_CLEANUP_CATALOG_HANDOFF.md`.  
 **Exit:** Cleaned baseline + report + manifest `b6b_unlocked`; `--apply` blocked unless FAIL=0.
 
 ### B7 — Tighten NHC + TrialCertificates parsers
-**Status:** PENDING  
+**Status:** IN PROGRESS (spot-check green on 1990–96 harvest)  
 **Intent:** Harden parsers for height garble, truncated cert sizes, name OCR; align with finalize vocabulary + catalog §1/§5.  
+**How:** `harvest_cert_sections_v2.py` (stricter heads — no Championship/Bronze-Class false hits) + `parse_cert_sections.py --spot-check`.  
+**Snapshot:** `_b7_cert_parse_spot.json` — 1062 rows; kinds nhc=525 trial_cert=65 bronze=472; missing_dog=0; nhc_missing_quarry=0. **1997–2001 HQ has no NHC/Trial Certificate list pages** (only conformation “Bronze Medallion Dog/Bitch/Class” false heads — correctly excluded).  
 **Exit:** Parser tests / spot samples clean on harvested text.
 
 ### B8 — Ingest NHC / TrialCertificates with Dog links
@@ -108,7 +111,7 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 ## Phase C — Trial results rebuild / rematch
 
 ### C10 — Normalize baseline to `trial_results/`
-**Status:** PENDING  
+**Status:** DONE for **1997–2001 staged** under `_ocr_baseline_v2/trial_results_norm/{year}/` via `pipeline_advance_years.py --advance-c10` (no SQL yet).  
 **Intent:** Export/normalize baseline OCR into a stable `trial_results/` (or agreed) tree for parsers.  
 **Exit:** Normalized text per trial/year ready for `process_trial` / fill pipeline.
 
@@ -155,10 +158,10 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 ---
 
 ## Suggested next-session order
-1. Let **A1** 1999–2001 tracks finish (`trackA=[1999,2001]`, `trackB=[2000]`).  
-2. Re-run **A2** gate including 1999–2001; **A3** only for FAIL volumes.  
-3. **A4/A5** when machine load allows.  
-4. **B6→B9**, then **C10→C14**, then **D15–D17**.
+1. Let **A4** 1990–96 tracks finish (`_ocr_a4_trackA/B.log`); then kick **A5** (`--phase a5`).  
+2. Year-pipeline A2→B6→B6b→C10 for each unlocked A4/A5 year.  
+3. **B7** polish (owner/dog column swaps on some trial_cert rows) + **B8** when harvest is enough.  
+4. **C11** anchors; then **C12+** / **D15–D17**.
 
 ## Key CLIs / modules
 | Role | Path |

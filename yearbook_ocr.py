@@ -655,8 +655,17 @@ def fix_place_rank_ocr(text: str) -> str:
         r"\1 ",
         text,
     )
-    # Bare "ond: Name" line (lost leading "2")
-    text = re.sub(r"(?im)^ond\s*:\s*", "2nd: ", text)
+    # "2nd: ;         ond: Name" / "2nd: :          ond:" / "2nd: ]        ond:"
+    # punct/symbol dust between place and place-echo (1999–2001)
+    text = re.sub(
+        r"(?i)\b((?:\d+(?:st|nd|rd|th)|best|champion|reserve)\s*:)\s*"
+        r"[^\w\n]{1,8}\s*"
+        r"(?:ond|did|rd|st|th|nd|nnd|prd|ith)\s*:\s*",
+        r"\1 ",
+        text,
+    )
+    # Bare "ond: Name" (lost leading "2") — line-start or mid-line after non-letters
+    text = re.sub(r"(?i)(?<![A-Za-z])ond\s*:\s*", "2nd: ", text)
     # "{st Name" / "{nd Name" after place (brace OCR of 1/2)
     text = re.sub(
         r"(?i)\b((?:\d+(?:st|nd|rd|th)|best|champion|reserve)\s*:)\s*"
@@ -700,6 +709,20 @@ def fix_place_rank_ocr(text: str) -> str:
     text = re.sub(
         r"(?i)\b((?:\d*(?:st|nd|rd|th)|best|champion|reserve))\s*;",
         r"\1:",
+        text,
+    )
+    # "Champion: Babe, owned by Reserve: Pepper, owned by …" — role glued after owned-by
+    text = re.sub(
+        r"(?i),\s*owned\s+by\s+(?=(?:reserve|champion|best)\s*:)",
+        "\n",
+        text,
+    )
+    # Multi-place smash after an owned-by: "…owned by X 4th: Y" / "… Cilliers i 3rd: Y"
+    # (gated on owned-by so normal "10-12 1/2\" Champion:" stays one line)
+    text = re.sub(
+        r"(?i)(owned\s+by\b[^\n]{1,90}?)\s+"
+        r"(?=(\d+(?:st|nd|rd|th)|best|champion|reserve)\s*:)",
+        r"\1\n",
         text,
     )
     # Doubled place ranks: "2nd: 3rd: Name" → keep the last place
@@ -1856,16 +1879,281 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("4th_then_2nd", re.compile(r"(?im)^4th\s*:.*\n2nd\s*:")),
     ("4th_then_6th_no_5", re.compile(r"(?im)^4th\s*:.*\n6th\s*:")),
     ("ree_oaks", re.compile(r"(?i)\bree\s+Oaks\b")),
-    # Owner surname / co-owner cut at column edge (crop/bleed). Finalize must
-    # NOT invent missing letters — only OCR ensemble / wider crop can restore.
-    # High-confidence stubs only: "& Lir" / "& Pz" / "Donna Pi" (≤3-letter tail).
-    # 4-letter stubs (Louc/Piel/Linc) are ambiguous with real short surnames.
-    ("owner_tail_trunc", re.compile(
-        r"(?im)\bowned\s+by\b[^\n]*?"
-        r"(?:&\s+[A-Z][A-Za-z']{0,2}|[A-Z][A-Za-z']+\s+[A-Z][A-Za-z']{0,1})"
-        r"\s*$"
-    )),
 )
+
+# Known truncated owner tails from pastes / catalog (O6). Finalize must NOT invent
+# missing letters — only OCR ensemble / wider crop can restore.
+_OWNER_TAIL_STUBS = frozenset(
+    {
+        "ste",
+        "steph",
+        "stephel",
+        "crom",
+        "louc",
+        "lir",
+        "alte",
+        "bilinsk",
+        "linc",
+        "bett",
+        "mi",
+        # Observed post-reOCR crop stubs (not complete surnames)
+        "pryc",
+        "veaz",
+        "vea",
+        "kman",
+        "ost",
+        "osb",
+        "tho",
+        "brut",
+        "hop",
+        "kru",
+        "beli",
+        "kell",  # "...Brooks Kell" cut before Kelley
+        "vin",  # "...Patricia Vin" → Vinet
+        "bos",  # "...Lea Bos" → Boa/Boast trunc variants
+        "tuy",  # "...Van Tuy" → Tuyl
+        "gil",  # "...Susan Gil" → Gill
+        "eic",  # "...Cathy Eic" → Eick
+        "tes",  # "...Priscilla Tes" → Testa
+        "tac",  # "...Sue Tac" → Tack
+        "nel",  # "...Laura Nel" → Nelson
+        "tri",  # "...Valerie Tri" → ?
+        "sul",  # "...Barbara Sul" → Sullivan
+    }
+)
+
+# Complete owner tokens that must NOT trip O6. Prior bug: any short surname
+# matched. Prefer allowlisting real short names over flagging them.
+_OWNER_TAIL_COMPLETE = frozenset(
+    {
+        # ultra-common / previously false-positive surnames (2–5 letters)
+        "king",
+        "smith",
+        "hall",
+        "brown",
+        "jones",
+        "davis",
+        "fox",
+        "day",
+        "ward",
+        "bell",
+        "kent",
+        "yee",
+        "wren",
+        "quick",
+        "wilde",
+        "healy",
+        "frank",
+        "meyer",
+        "faust",
+        "lynch",
+        "ellis",
+        "horn",
+        "boa",
+        "kemp",
+        "guja",
+        "robin",
+        "burke",
+        "gough",
+        "smoke",
+        "petty",
+        "tatum",
+        "white",
+        "black",
+        "green",
+        "clark",
+        "young",
+        "allen",
+        "adams",
+        "baker",
+        "cook",
+        "gray",
+        "grey",
+        "hill",
+        "hunt",
+        "long",
+        "reed",
+        "ross",
+        "ryan",
+        "scott",
+        "wood",
+        "cole",
+        "cross",
+        "ford",
+        "shaw",
+        "west",
+        "lane",
+        "page",
+        "pope",
+        "snow",
+        "stone",
+        "vinet",
+        "franklin",
+        "gottlieb",
+        "beaudoin",
+        "maher",
+        "heym",
+        "tack",
+        "hart",
+        "nash",
+        "hahn",
+        "tait",
+        "rose",
+        "best",
+        "glen",
+        "rich",
+        "ladd",
+        "bird",
+        "ries",
+        "buck",
+        "love",
+        "monk",
+        "erb",
+        "lowe",
+        "gay",
+        "saul",
+        "eick",
+        "tuyl",
+        "vega",
+        "peck",
+        "roth",
+        "osby",
+        "rico",
+        "cox",
+        "camp",
+        "dye",
+        "gill",
+        "carr",
+        "port",
+        "byrd",
+        "owen",
+        "paff",
+        "rowe",
+        "mann",
+        "neff",
+        "lino",
+        "jino",
+        "mei",
+        "vale",
+        "inia",
+        "gero",
+        "kee",
+        "webb",
+        "jrt",
+        "spec",
+        "poe",
+        "noa",
+        "leo",
+        "ary",
+        "piel",
+        "fed",
+        "moe",
+        "bay",
+        "hom",
+        "kem",
+        "dog",  # "owned by Exhibitor Dog" boilerplate
+        "verg",
+        # short given / co-owner tokens (& Sue, & Ann, …)
+        "lee",
+        "sue",
+        "ann",
+        "amy",
+        "joy",
+        "kay",
+        "may",
+        "kim",
+        "pat",
+        "jim",
+        "joe",
+        "tom",
+        "sam",
+        "max",
+        "ben",
+        "dan",
+        "meg",
+        "deb",
+        "don",
+        "tim",
+        "bob",
+        "ron",
+        "roy",
+        "ray",
+        "ned",
+        "nan",
+        "bea",
+        "ada",
+        "eva",
+        "ida",
+        "ora",
+        "una",
+        "lyn",
+        "gail",
+        "dale",
+        "kirk",
+        "kurt",
+        "mark",
+        "mary",
+        "paul",
+        "ruth",
+        "todd",
+        "wade",
+        "yale",
+        "zack",
+        "john",
+        "jon",
+        "ali",
+        "miwa",
+    }
+)
+
+
+def is_owner_tail_trunc_line(line: str) -> bool:
+    """True when owned-by clause ends in a crop/bleed stub (O6), not a short real name."""
+    s = (line or "").strip()
+    if not s or not re.search(r"(?i)\bowned\s+by\b", s):
+        return False
+    # Section boilerplate, not an owner surname crop
+    if re.search(r"(?i)conformation\s+champion|exhibitor\s+dog", s):
+        return False
+    m = re.search(r"(?i)\bowned\s+by\b(.+)$", s)
+    if not m:
+        return False
+    tail = m.group(1).strip()
+    # Co-owner cut: "... & Lir" / "& Bett" / "& Mi"
+    m_amp = re.search(r"&\s+([A-Za-z']+)\s*$", tail)
+    if m_amp:
+        tok = m_amp.group(1).lower().rstrip(".")
+        if tok in _OWNER_TAIL_STUBS:
+            return True
+        if 1 <= len(tok) <= 3 and tok not in _OWNER_TAIL_COMPLETE:
+            return True
+        return False
+    # Given + surname at EOL
+    m_name = re.search(r"\b([A-Z][A-Za-z']+)\s+([A-Z][A-Za-z']+)\s*$", tail)
+    if not m_name:
+        # Bare single token after owned by — only stubs / very short unknowns
+        m_one = re.search(r"^([A-Za-z']+)\s*$", tail)
+        if m_one:
+            tok = m_one.group(1).lower().rstrip(".")
+            if tok in _OWNER_TAIL_STUBS:
+                return True
+            if tok in _OWNER_TAIL_COMPLETE:
+                return False
+            # "owned by Jon" alone is incomplete (needs surname), flag
+            return len(tok) <= 4
+        return False
+    last = m_name.group(2).lower().rstrip(".")
+    if last in _OWNER_TAIL_STUBS:
+        return True
+    if last in _OWNER_TAIL_COMPLETE:
+        return False
+    # Unknown short surname: only 2–3 letters (4-letter unknowns are usually real)
+    # Exception: trailing particle "Van"/"Der" often cut before the rest of the name.
+    if last in {"van", "der", "de", "di", "le", "la", "du"}:
+        return True
+    if 2 <= len(last) <= 3:
+        return True
+    return False
 
 
 def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str, str]]:
@@ -1885,6 +2173,16 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
             n += 1
             if n >= max_samples:
                 break
+    # O6 — owner tail truncation (function, not broad 2–5 letter surname regex)
+    n = 0
+    for ln in text.splitlines():
+        s = ln.strip()
+        if not is_owner_tail_trunc_line(s):
+            continue
+        hits.append(("owner_tail_trunc", s[:160]))
+        n += 1
+        if n >= max_samples:
+            break
     # Structural: place/champ line with a comma but no owned/bred by
     # (Junior/Child Handler names have no comma — skipped).
     n = 0
@@ -2801,6 +3099,8 @@ def normalize_height_class_ocr(text: str) -> str:
         (r'(?i)\b10\s*-\s*12\s*%', '10-12 1/2"'),
         (r'(?i)\b12\s*-\s*15\s*%', '12 1/2-15"'),
         (r'(?i)\b12\s*%\s*-\s*15', '12 1/2-15'),
+        # "Working Terrier Dog, 12% - oy" — bare 12% dash (½ misread; 1999–2001)
+        (r'(?i)\b12\s*%\s*-', '12 1/2" -'),
         # "12 %--15"" / "12%--15"" — % for 1/2 plus doubled dash (B6b / 1998 Vol III)
         (r'(?i)\b12\s*%\s*-{1,2}\s*15\s*"?', '12 1/2-15"'),
         (r'(?i)\b10\s*-\s*12\s*%\s*-{1,2}', '10-12 1/2"'),

@@ -28,19 +28,28 @@ RAW = OUT / "raw_sections"
 RAW.mkdir(parents=True, exist_ok=True)
 IDX_PATH = OUT / "cert_sections_index.json"
 
+# True yearbook *lists* — not go-to-ground "Championship Certificate" classes
+# and not conformation "Bronze Medallion Class".
 HEAD_RX = re.compile(
     r"(?is)(?:"
-    r"natural\s+hunting\s+certificates?(?:\s+below\s+ground|\s+in\s+the\s+field)?"
-    r"|trial\s+certificates?"
-    r"|bronze\s+medallions?(?:\s+for\s+special\s+merit)?"
+    r"natural\s+hunting\s+certificates?(?:\s+below\s+ground|\s+in\s+the\s+field|\s*\(cont)?"
+    r"|trial\s+certificates?(?:\s*\(cont)?"
+    r"|bronze\s+medallions?\s+for\s+special\s+merit"
     r"|working\s+achievement\s+awards?"
     r")"
+)
+# Explicit false positives (trial-result class titles / ads).
+FALSE_HEAD_RX = re.compile(
+    r"(?is)(?:championship\s+certificate|advanced\s+certificate|"
+    r"agility\s+[il1]{1,2}\s+certificate|bronze\s+medallion\s+class|"
+    r"bronze\s+medallion\s+(?:dog|bitch)\b)"
 )
 STOP_RX = re.compile(
     r"(?is)^(?:sanctioned\s+trial\s+results|conformation\s+division|"
     r"go-?to-?ground|racing\s+division|new\s+members|board\s+of\s+directors|"
     r"state\s+representatives|table\s+of\s+contents)\b"
 )
+MIN_SECTION_CHARS = 280
 
 
 def split_pages(text: str) -> list[tuple[str, str]]:
@@ -63,15 +72,33 @@ def harvest_file(path: Path, year: int | None, source_kind: str) -> list[dict]:
     pages = split_pages(text)
     hits = []
     for label, body in pages:
+        # Drop pages that are only false-positive class titles.
+        if FALSE_HEAD_RX.search(body) and not HEAD_RX.search(body) and not HEAD_RX.search(label):
+            continue
         if not HEAD_RX.search(body) and not HEAD_RX.search(label):
-            if not re.search(r"(?is)certificates?\s*\(continued\)", body):
+            if not re.search(r"(?is)natural\s+hunting\s+certificates?\s*\(cont", body):
                 continue
         m = HEAD_RX.search(body)
-        start = m.start() if m else 0
+        if not m:
+            continue
+        # Skip if the match itself is a false class title (e.g. bronze…class).
+        head_line = body[m.start() : m.start() + 80]
+        if FALSE_HEAD_RX.search(head_line):
+            continue
+        start = m.start()
         chunk = body[start:]
         stop = STOP_RX.search(chunk[200:]) if len(chunk) > 200 else None
         if stop:
             chunk = chunk[: 200 + stop.start()]
+        chunk = chunk.strip()
+        if len(chunk) < MIN_SECTION_CHARS:
+            continue
+        has_nhc = bool(re.search(r"(?is)natural\s+hunting", chunk))
+        has_trial = bool(re.search(r"(?is)trial\s+certificates?", chunk))
+        has_bronze = bool(re.search(r"(?is)bronze\s+medallions?\s+for\s+special\s+merit", chunk))
+        # Require at least one real list signal (not a stray mention in an ad).
+        if not (has_nhc or has_trial or has_bronze):
+            continue
         hits.append(
             {
                 "year": year,
@@ -79,10 +106,10 @@ def harvest_file(path: Path, year: int | None, source_kind: str) -> list[dict]:
                 "source_path": str(path.relative_to(ROOT)),
                 "page": label,
                 "chars": len(chunk),
-                "has_nhc": bool(re.search(r"(?is)natural\s+hunting", chunk)),
-                "has_trial_cert": bool(re.search(r"(?is)trial\s+certificates?", chunk)),
-                "has_bronze": bool(re.search(r"(?is)bronze\s+medallion", chunk)),
-                "text": chunk.strip(),
+                "has_nhc": has_nhc,
+                "has_trial_cert": has_trial,
+                "has_bronze": has_bronze,
+                "text": chunk,
             }
         )
     return hits
