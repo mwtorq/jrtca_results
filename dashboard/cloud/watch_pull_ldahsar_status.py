@@ -30,12 +30,17 @@ import time
 from pathlib import Path
 
 CLOUD_DIR = Path(__file__).resolve().parent
+REPO_ROOT = CLOUD_DIR.parent.parent
 PROJECT_STORE_STATUS = Path(
     "/cursor/stores/bc-de650876-a88d-45ea-a369-e7942cc3084e/internal/ldahsar-pipeline-status.json"
 )
 SYNCED = CLOUD_DIR / "_synced_pipeline_dashboard_status.json"
 RUNTIME = CLOUD_DIR / "_pipeline_dashboard_status.json"
 PUBLISH = CLOUD_DIR / "status.json"
+# main is branch-protected (PR-only). Minute status pushes go to this unprotected
+# feed branch; published index.html STATUS_BRANCH must match.
+DEFAULT_STATUS_FEED_BRANCH = "cloud-status-feeds"
+STATUS_FEED_WORKTREE = Path("/tmp/jrtca-cloud-status-feed-wt")
 
 
 def _candidates(extra: Path | None) -> list[Path]:
@@ -94,94 +99,176 @@ def _atomic_write(path: Path, data: dict) -> None:
     tmp.replace(path)
 
 
-def _git_push_status(generated_at: str | None) -> dict:
-    """Commit+push dashboard/cloud/status.json when content changed (public raw feed)."""
+def _status_feed_branch() -> str:
+    return (
+        os.environ.get("JRTCA_STATUS_FEED_BRANCH") or DEFAULT_STATUS_FEED_BRANCH
+    ).strip() or DEFAULT_STATUS_FEED_BRANCH
+
+
+def _ensure_status_feed_worktree(branch: str) -> Path:
+    """Dedicated worktree so minute pushes never touch protected main / agent HEAD."""
     import subprocess
 
-    repo = CLOUD_DIR.parent.parent
-    rel = "dashboard/cloud/status.json"
-    try:
-        diff = subprocess.run(
-            ["git", "diff", "--", rel],
-            cwd=str(repo),
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        staged = subprocess.run(
-            ["git", "status", "--porcelain", "--", rel],
-            cwd=str(repo),
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        if not (diff.stdout or "").strip() and not (staged.stdout or "").strip():
-            return {"pushed": False, "reason": "clean"}
-        subprocess.run(["git", "add", "--", rel], cwd=str(repo), check=True, timeout=30)
-        msg = f"chore(cloud): refresh Ldahsar status.json ({generated_at or 'unknown'})"
+    wt = STATUS_FEED_WORKTREE
+    gitdir = wt / ".git"
+    if gitdir.exists() or gitdir.is_file():
+        # Refresh remote tip; ignore failures (offline / first push).
         subprocess.run(
-            ["git", "commit", "-m", msg],
-            cwd=str(repo),
-            check=True,
-            timeout=60,
+            ["git", "fetch", "origin", branch],
+            cwd=str(wt),
             capture_output=True,
             text=True,
+            timeout=120,
         )
-        branch = subprocess.run(
-            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-            cwd=str(repo),
+        subprocess.run(
+            ["git", "checkout", "-B", branch, f"origin/{branch}"],
+            cwd=str(wt),
             capture_output=True,
             text=True,
-            timeout=30,
+            timeout=60,
+        )
+        return wt
+
+    subprocess.run(
+        ["git", "fetch", "origin", branch],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    # Prefer existing remote feed branch; else start from origin/main.
+    start_ref = f"origin/{branch}"
+    probe = subprocess.run(
+        ["git", "rev-parse", "--verify", start_ref],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    if probe.returncode != 0:
+        start_ref = "origin/main"
+        subprocess.run(
+            ["git", "fetch", "origin", "main"],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+    if wt.exists():
+        # Stale partial dir
+        import shutil
+
+        shutil.rmtree(wt, ignore_errors=True)
+    add = subprocess.run(
+        ["git", "worktree", "add", "-B", branch, str(wt), start_ref],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    if add.returncode != 0:
+        raise RuntimeError(
+            f"worktree add failed: {(add.stderr or add.stdout or '').strip()}"
+        )
+    return wt
+
+
+def _git_push_status(generated_at: str | None) -> dict:
+    """Commit+push status.json on the unprotected status-feed branch (not main)."""
+    import subprocess
+
+    rel = "dashboard/cloud/status.json"
+    branch = _status_feed_branch()
+    try:
+        if not PUBLISH.is_file():
+            return {"pushed": False, "reason": "missing_publish"}
+        payload = PUBLISH.read_text(encoding="utf-8")
+        wt = _ensure_status_feed_worktree(branch)
+        dest = wt / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        prev = dest.read_text(encoding="utf-8") if dest.is_file() else None
+        if prev == payload:
+            return {"pushed": False, "reason": "clean", "branch": branch}
+        dest.write_text(payload, encoding="utf-8", newline="\n")
+        subprocess.run(
+            ["git", "add", "--", rel],
+            cwd=str(wt),
             check=True,
-        ).stdout.strip()
-        # Parallel minute ticks can diverge; rebase before push so raw feed advances.
+            timeout=30,
+        )
+        msg = f"chore(cloud): refresh Ldahsar status.json ({generated_at or 'unknown'})"
+        commit = subprocess.run(
+            ["git", "commit", "-m", msg],
+            cwd=str(wt),
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        if commit.returncode != 0:
+            err = (commit.stderr or commit.stdout or "").strip()
+            if "nothing to commit" in err.lower():
+                return {"pushed": False, "reason": "clean", "branch": branch}
+            return {
+                "pushed": False,
+                "branch": branch,
+                "returncode": commit.returncode,
+                "stderr": err[-600:],
+            }
+        # Rebase onto remote tip before push (parallel ticks / other writers).
         pull = subprocess.run(
             ["git", "pull", "--rebase", "--autostash", "origin", branch],
-            cwd=str(repo),
+            cwd=str(wt),
             capture_output=True,
             text=True,
             timeout=120,
         )
         if pull.returncode != 0:
-            # status.json-only conflict: keep ours, continue
             subprocess.run(
                 ["git", "checkout", "--ours", "--", rel],
-                cwd=str(repo),
+                cwd=str(wt),
                 capture_output=True,
                 text=True,
                 timeout=30,
             )
             subprocess.run(
                 ["git", "add", "--", rel],
-                cwd=str(repo),
+                cwd=str(wt),
                 capture_output=True,
                 text=True,
                 timeout=30,
             )
             subprocess.run(
                 ["git", "-c", "core.editor=true", "rebase", "--continue"],
-                cwd=str(repo),
+                cwd=str(wt),
                 capture_output=True,
                 text=True,
                 timeout=60,
             )
         push = subprocess.run(
             ["git", "push", "-u", "origin", branch],
-            cwd=str(repo),
+            cwd=str(wt),
             capture_output=True,
             text=True,
             timeout=120,
         )
+        # Keep agent checkout clean: do not leave status commits on main/feature HEAD.
+        subprocess.run(
+            ["git", "checkout", "--", rel],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
         return {
             "pushed": push.returncode == 0,
             "branch": branch,
+            "worktree": str(wt),
             "pull_returncode": pull.returncode,
             "returncode": push.returncode,
             "stderr": ((pull.stderr or "") + "\n" + (push.stderr or ""))[-600:],
         }
     except Exception as exc:
-        return {"pushed": False, "error": str(exc)}
+        return {"pushed": False, "branch": branch, "error": str(exc)}
 
 
 def pull_once(

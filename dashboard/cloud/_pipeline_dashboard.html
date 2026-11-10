@@ -555,7 +555,8 @@
   // (see status-feed.json) so Auto-refresh updates without republishing the app.
   // Branch-tip raw.githubusercontent.com URLs are often CDN-stale. Prefer the
   // latest commit SHA for status.json (GitHub commits API), then SHA raw, then local.
-  const STATUS_BRANCH = "main";
+  // Unprotected feed branch — main rejects direct status pushes (GH006).
+  const STATUS_BRANCH = "cloud-status-feeds";
   const STATUS_PATH = "dashboard/cloud/status.json";
   const COMMITS_API =
     "https://api.github.com/repos/mwtorq/jrtca_results/commits?path=" +
