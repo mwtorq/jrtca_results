@@ -58,10 +58,10 @@ cd $env:USERPROFILE\OneDrive*\repos\jrtca_results
 On **this cloud VM** (already startable alongside `:8766`):
 
 ```bash
-python -u dashboard/cloud/watch_pull_ldahsar_status.py --interval 60
+python -u dashboard/cloud/watch_pull_ldahsar_status.py --interval 60 --git-push-status
 ```
 
-Exporter writes Project store `internal/ldahsar-pipeline-status.json`; puller refreshes `:8766` runtime JSON each minute. Published Cursor app still needs an explicit republish to pick up a new `status.json` snapshot.
+Exporter writes Project store `internal/ldahsar-pipeline-status.json`; puller refreshes `:8766` and (with `--git-push-status`) commits/pushes `status.json` each minute. The **published** app loads status from GitHub raw via `status-feed.json` (15s Auto-refresh) so the hosted UI updates without republishing the HTML every minute.
 
 One-shot export on Ldahsar:
 

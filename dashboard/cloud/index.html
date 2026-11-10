@@ -551,9 +551,17 @@
 </main>
 <script>
 (function () {
-  const STATUS_URL = "./status.json";
+  // Local/cloud server uses ./status.json; published app prefers GitHub raw
+  // (see status-feed.json) so Auto-refresh updates without republishing the app.
+  const DEFAULT_STATUS_URLS = [
+    "https://raw.githubusercontent.com/mwtorq/jrtca_results/cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
+    "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/dashboard/cloud/status.json",
+    "./status.json",
+  ];
+  let statusUrls = DEFAULT_STATUS_URLS.slice();
   let timer = null;
   let lastJson = null;
+  let activeStatusUrl = null;
 
   const $ = (id) => document.getElementById(id);
 
@@ -1029,15 +1037,55 @@
     if (lastJson) render(lastJson);
   }
 
+  async function loadStatusFeed() {
+    try {
+      const res = await fetch("./status-feed.json?t=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) return;
+      const cfg = await res.json();
+      if (cfg && Array.isArray(cfg.urls) && cfg.urls.length) {
+        statusUrls = cfg.urls.map(String);
+      }
+    } catch (_e) {
+      /* keep defaults */
+    }
+  }
+
+  async function fetchFirstJson(urls) {
+    const errors = [];
+    for (const base of urls) {
+      const url = base + (base.includes("?") ? "&" : "?") + "t=" + Date.now();
+      try {
+        const res = await fetch(url, { cache: "no-store", mode: "cors" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        activeStatusUrl = base;
+        return data;
+      } catch (e) {
+        errors.push(base + ": " + (e && e.message ? e.message : e));
+      }
+    }
+    throw new Error(errors.join(" | ") || "no status URL");
+  }
+
   async function refresh() {
     try {
-      const url = STATUS_URL + "?t=" + Date.now();
-      const res = await fetch(url, { cache: "no-store" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const data = await res.json();
+      const data = await fetchFirstJson(statusUrls);
       render(data);
+      const banner = $("cloudBanner");
+      if (banner && activeStatusUrl) {
+        const feedNote = document.getElementById("statusFeedNote");
+        const line = `Feed: <code>${esc(activeStatusUrl)}</code>`;
+        if (feedNote) feedNote.innerHTML = line;
+        else {
+          const div = document.createElement("div");
+          div.id = "statusFeedNote";
+          div.style.marginTop = "0.35rem";
+          div.innerHTML = line;
+          banner.appendChild(div);
+        }
+      }
     } catch (e) {
-      showError("Could not load status JSON (" + e.message + "). Serve via serve_pipeline_dashboard.py or open after generating _pipeline_dashboard_status.json.");
+      showError("Could not load status JSON (" + e.message + "). Serve via serve_cloud_dashboard.py or open after generating status.json.");
     }
   }
 
@@ -1051,8 +1099,10 @@
 
   $("btnRefresh").addEventListener("click", refresh);
   $("autoRefresh").addEventListener("change", schedule);
-  refresh();
-  schedule();
+  loadStatusFeed().finally(function () {
+    refresh();
+    schedule();
+  });
 })();
 </script>
 </body>

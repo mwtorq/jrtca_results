@@ -85,7 +85,70 @@ def _atomic_write(path: Path, data: dict) -> None:
     tmp.replace(path)
 
 
-def pull_once(extra: Path | None, *, write_publish: bool) -> dict:
+def _git_push_status(generated_at: str | None) -> dict:
+    """Commit+push dashboard/cloud/status.json when content changed (public raw feed)."""
+    import subprocess
+
+    repo = CLOUD_DIR.parent.parent
+    rel = "dashboard/cloud/status.json"
+    try:
+        diff = subprocess.run(
+            ["git", "diff", "--", rel],
+            cwd=str(repo),
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        staged = subprocess.run(
+            ["git", "status", "--porcelain", "--", rel],
+            cwd=str(repo),
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        if not (diff.stdout or "").strip() and not (staged.stdout or "").strip():
+            return {"pushed": False, "reason": "clean"}
+        subprocess.run(["git", "add", "--", rel], cwd=str(repo), check=True, timeout=30)
+        msg = f"chore(cloud): refresh Ldahsar status.json ({generated_at or 'unknown'})"
+        subprocess.run(
+            ["git", "commit", "-m", msg],
+            cwd=str(repo),
+            check=True,
+            timeout=60,
+            capture_output=True,
+            text=True,
+        )
+        branch = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=str(repo),
+            capture_output=True,
+            text=True,
+            timeout=30,
+            check=True,
+        ).stdout.strip()
+        push = subprocess.run(
+            ["git", "push", "-u", "origin", branch],
+            cwd=str(repo),
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        return {
+            "pushed": push.returncode == 0,
+            "branch": branch,
+            "returncode": push.returncode,
+            "stderr": (push.stderr or "")[-400:],
+        }
+    except Exception as exc:
+        return {"pushed": False, "error": str(exc)}
+
+
+def pull_once(
+    extra: Path | None,
+    *,
+    write_publish: bool,
+    git_push_status: bool = False,
+) -> dict:
     found = _newest_valid(_candidates(extra))
     if found is None:
         return {"ok": False, "error": "no usable Ldahsar status JSON"}
@@ -110,11 +173,14 @@ def pull_once(extra: Path | None, *, write_publish: bool) -> dict:
         or mtime > runtime_mtime + 0.01
         or data.get("generated_at") != prev_gen
     )
+    push_info = None
     if changed:
         _atomic_write(SYNCED, data)
         _atomic_write(RUNTIME, data)
-        if write_publish:
+        if write_publish or git_push_status:
             _atomic_write(PUBLISH, data)
+        if git_push_status:
+            push_info = _git_push_status(data.get("generated_at"))
     reocr = (data.get("targeted_ocr") or {}).get("reocr") or {}
     return {
         "ok": True,
@@ -122,7 +188,8 @@ def pull_once(extra: Path | None, *, write_publish: bool) -> dict:
         "source": str(src_path),
         "generated_at": data.get("generated_at"),
         "reocr_pids": reocr.get("pids"),
-        "wrote_publish": write_publish,
+        "wrote_publish": bool(write_publish or git_push_status),
+        "git_push": push_info,
     }
 
 
@@ -140,23 +207,37 @@ def main() -> int:
         action="store_true",
         help="Also refresh dashboard/cloud/status.json (git-tracked publish snapshot)",
     )
+    ap.add_argument(
+        "--git-push-status",
+        action="store_true",
+        help="Commit+push status.json when it changes (feeds published app via GitHub raw)",
+    )
     args = ap.parse_args()
     interval = max(5.0, float(args.interval))
     extra = Path(args.status_file) if args.status_file else None
     write_publish = bool(args.write_publish) or os.environ.get(
         "JRTCA_DASHBOARD_WRITE_PUBLISH_STATUS"
     ) == "1"
+    git_push_status = bool(args.git_push_status) or os.environ.get(
+        "JRTCA_DASHBOARD_GIT_PUSH_STATUS"
+    ) == "1"
 
     print(
-        f"Cloud Ldahsar pull watcher: interval={interval}s write_publish={write_publish}",
+        f"Cloud Ldahsar pull watcher: interval={interval}s "
+        f"write_publish={write_publish} git_push_status={git_push_status}",
         flush=True,
     )
     n = 0
+    result: dict = {"ok": False}
     while True:
         n += 1
         t0 = time.time()
         try:
-            result = pull_once(extra, write_publish=write_publish)
+            result = pull_once(
+                extra,
+                write_publish=write_publish,
+                git_push_status=git_push_status,
+            )
             print(
                 f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] tick={n} {json.dumps(result, ensure_ascii=False)}",
                 flush=True,
