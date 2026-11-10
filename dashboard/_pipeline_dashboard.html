@@ -172,6 +172,18 @@
   }
   .alive { color: var(--done); font-weight: 600; }
   .dead { color: var(--muted); }
+  .worker-adj { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; }
+  .worker-adj input { font: inherit; padding: 0.15rem 0.3rem; }
+  .btn-set-workers {
+    font: inherit;
+    font-size: 0.78rem;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .btn-set-workers:disabled { opacity: 0.55; cursor: wait; }
 
   .targeted-grid {
     display: flex;
@@ -265,7 +277,7 @@
   .badge.running { background: var(--prog-bg); color: var(--prog); }
   .badge.done { background: var(--done-bg); color: var(--done); }
   .badge.idle, .badge.idle_with_results, .badge.log_only { background: var(--pend-bg); color: var(--pend); }
-  .badge.pending_rerun { background: var(--warn-bg); color: var(--warn); }
+  .badge.pending_rerun, .badge.queued { background: var(--fail-bg); color: var(--fail); }
   .count-pair {
     display: flex;
     flex-wrap: wrap;
@@ -344,20 +356,81 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 0.65rem;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 0.75rem;
   }
   .step {
     background: var(--card);
     border: 1px solid var(--line);
     border-left-width: 4px;
     border-radius: 6px;
-    padding: 0.7rem 0.8rem;
+    padding: 0.75rem 0.9rem;
     min-height: 7.2rem;
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .step-detail {
+    margin-top: 0.2rem;
+    max-height: 28rem;
+    overflow: auto;
+    font-size: 0.76rem;
+    line-height: 1.3;
+    border-top: 1px solid var(--line);
+    padding-top: 0.35rem;
+  }
+  .step-detail .sec-label {
+    font-weight: 700;
+    color: var(--muted);
+    margin: 0.3rem 0 0.1rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .step-detail .sec-line {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    margin: 0.08rem 0;
+    color: var(--ink, #222);
+  }
+  .year-detail {
+    margin-top: 0.4rem;
+    font-size: 0.74rem;
+    line-height: 1.3;
+    max-height: 22rem;
+    overflow: auto;
+    border-top: 1px solid var(--line);
+    padding-top: 0.3rem;
+  }
+  .year-detail .hit {
+    display: block;
+    margin: 0.12rem 0 0.12rem 0.35rem;
+    padding: 0.15rem 0.35rem;
+    border-left: 3px solid var(--line);
+    font-size: 0.72rem;
+  }
+  .year-detail .hit.warn { border-left-color: var(--warn); background: var(--warn-bg); }
+  .year-detail .hit.fail { border-left-color: var(--fail); background: var(--fail-bg); }
+  .year-detail .hit .tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-right: 0.35rem;
+    color: var(--muted);
+  }
+  .year-detail .sec-label {
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0.25rem 0 0.08rem;
+  }
+  .year-detail .sec-line {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    margin: 0.05rem 0;
   }
   .step:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(28, 36, 32, 0.06); }
   .step.DONE { border-left-color: var(--done); background: linear-gradient(180deg, var(--done-bg), var(--card) 55%); }
@@ -438,6 +511,11 @@
   <section>
     <h2>Live OCR tracks</h2>
     <div class="ocr" id="ocr"></div>
+  </section>
+
+  <section>
+    <h2>Re-OCR queue (FAIL → force rework)</h2>
+    <div class="targeted-grid" id="reocr"></div>
   </section>
 
   <section>
@@ -559,7 +637,33 @@
     const alive = proc.alive
       ? `<span class="alive">OCR python alive (PIDs ${(proc.pids || []).join(", ") || "?"})</span>`
       : `<span class="dead">No OCR python match</span>`;
-    function trackCard(name, t) {
+    function stateBadge(st) {
+      const s = String(st || "idle").toLowerCase().replace(/\s+/g, "_");
+      return `<span class="badge ${esc(s)}">${esc(s.replace(/_/g, " "))}</span>`;
+    }
+    function workersLine(t) {
+      t = t || {};
+      const parts = [];
+      if (t.workers != null) parts.push(`<strong>${esc(t.workers)}w</strong>`);
+      if (t.workers_cmdline != null) parts.push(`cmdline ${esc(t.workers_cmdline)}`);
+      else if (t.workers_log != null) parts.push(`log ${esc(t.workers_log)}`);
+      if (t.page_workers != null) parts.push(`page_workers ${esc(t.page_workers)}`);
+      if (t.tess_live != null) parts.push(`tess_live ${esc(t.tess_live)}`);
+      if ((t.pids || []).length) parts.push(`pids ${(t.pids || []).join(",")}`);
+      return parts.length ? parts.join(" · ") : "workers —";
+    }
+    function workerAdjust(kind, trackLabel, t) {
+      t = t || {};
+      if (!t.adjustable) return "";
+      const cur = t.workers_cmdline != null ? t.workers_cmdline : (t.workers != null ? t.workers : 7);
+      const id = `wadj-${kind}-${trackLabel}`;
+      return `<div class="line worker-adj">
+        <label>workers <input id="${id}" type="number" min="1" max="16" value="${esc(cur)}" style="width:3.2rem"></label>
+        <button type="button" data-kind="${esc(kind)}" data-track="${esc(trackLabel)}" data-input="${id}" class="btn-set-workers">Apply (restarts track)</button>
+        <span class="meta" data-status-for="${id}"></span>
+      </div>`;
+    }
+    function trackCard(name, t, trackLetter) {
       t = t || {};
       const page = t.page_line_full || t.page || "—";
       const job = t.job_line_full || t.job || "—";
@@ -568,25 +672,73 @@
       const pages = t.pages_total != null
         ? ` · ${esc(t.pages_total)} pages` + (t.pages_this_job != null ? ` (${esc(t.pages_this_job)} this job)` : "")
         : "";
-      return `<div class="ocr-card"><strong>${esc(name)}</strong>
+      return `<div class="ocr-card"><strong>${esc(name)}</strong>${t.running ? stateBadge("running") : stateBadge("idle")}
         <div class="line">${esc(page)}</div>
         <div class="line job-line">${esc(job)}</div>
         <div class="line"><strong>${ppm}</strong>${ppmJob}${pages}</div>
-        <div class="line meta">log ${esc(fmtTs(t.log_mtime))}${t.elapsed_min != null ? ` · ${esc(t.elapsed_min)} min wall` : ""}${t.workers != null ? ` ÷${esc(t.workers)}w` : ""}</div></div>`;
+        <div class="line">${workersLine(t)}</div>
+        <div class="line meta">log ${esc(t.log || "—")} · ${esc(fmtTs(t.log_mtime))}${t.elapsed_min != null ? ` · ${esc(t.elapsed_min)} min wall` : ""}${t.worker_min != null ? ` · ${esc(t.worker_min)} tess-min` : ""}</div>
+        ${workerAdjust("baseline", trackLetter, t)}
+      </div>`;
     }
-    $("ocr").innerHTML = trackCard("Track A", ocr.trackA) + trackCard("Track B", ocr.trackB) +
-      `<div class="ocr-card" style="grid-column:1/-1">${alive}</div>`;
-
-    function stateBadge(st) {
-      const s = String(st || "idle").toLowerCase().replace(/\s+/g, "_");
-      return `<span class="badge ${esc(s)}">${esc(s.replace(/_/g, " "))}</span>`;
-    }
+    $("ocr").innerHTML = trackCard("Track A", ocr.trackA, "A") + trackCard("Track B", ocr.trackB, "B") +
+      `<div class="ocr-card" style="grid-column:1/-1">${alive}${ocr.tess_live != null ? ` · tess_live ${esc(ocr.tess_live)}` : ""}</div>`;
 
     const tgt = data.targeted_ocr || {};
     const c1 = tgt.c1_o6 || {};
     const clog = c1.log || {};
     const b6b = tgt.b6b || {};
+    const reocr = tgt.reocr || data.reocr || {};
     const other = tgt.other || {};
+
+    const reocrRows = (reocr.entries || []).map((e) => {
+      const codes = (e.codes || []).join(", ") || "—";
+      return `<tr><td>${esc(e.year)}</td>
+        <td class="flag-bad">FAIL</td>
+        <td>${esc(codes)}</td>
+        <td title="${esc(e.hqmax_full || "")}">${esc(e.hqmax || "")}</td>
+        <td>${esc(e.top_catalog || "")}</td></tr>`;
+    }).join("");
+    const reocrByYear = reocr.by_year && Object.keys(reocr.by_year).length
+      ? Object.entries(reocr.by_year).map(([y, n]) => `${esc(y)}×${esc(n)}`).join(" · ")
+      : "—";
+    function reocrTrackCard(name, t) {
+      t = t || {};
+      const yrs = t.years_label || (t.years || []).join(" ") || "—";
+      const prog = t.job_index != null ? `job ${esc(t.job_index)}/${esc(t.job_total)}` : "—";
+      const ppm = t.ppm != null ? `${esc(t.ppm)} ppm` : "ppm —";
+      const ppmJob = t.ppm_job != null ? ` · job ${esc(t.ppm_job)} ppm` : "";
+      const pages = t.pages_total != null
+        ? ` · ${esc(t.pages_total)} pages` + (t.pages_this_job != null ? ` (${esc(t.pages_this_job)} this job)` : "")
+        : "";
+      const pids = (t.pids || []).length
+        ? `<div class="line alive">PIDs ${(t.pids || []).join(", ")}</div>`
+        : `<div class="line dead">no process</div>`;
+      const letter = t.label || (String(name).indexOf("B") >= 0 ? "B" : "A");
+      return `<div class="ocr-card b6b-card" style="border-left:4px solid var(--fail)">
+        <strong>${esc(name)}</strong>${stateBadge(t.state)} <span class="badge">${esc(yrs)}</span>
+        ${pids}
+        <div class="line">${prog}</div>
+        <div class="line">${esc(t.page_line || "—")}</div>
+        <div class="line job-line">${esc(t.job_line || "—")}</div>
+        <div class="line"><strong>${ppm}</strong>${ppmJob}${pages}</div>
+        <div class="line">${workersLine(t)}</div>
+        <div class="line meta">log ${esc(t.active_log || "—")} · ${esc(fmtTs(t.log_mtime))}${t.elapsed_min != null ? ` · ${esc(t.elapsed_min)} min wall` : ""}${t.worker_min != null ? ` · ${esc(t.worker_min)} tess-min` : ""}</div>
+        ${workerAdjust("reocr", letter, t)}
+      </div>`;
+    }
+    const hasDual = !!(reocr.trackA || reocr.trackB);
+    const reocrTracksHtml = hasDual
+      ? `<div class="targeted-row">${reocrTrackCard("Force re-OCR Track A", reocr.trackA)}${reocrTrackCard("Force re-OCR Track B", reocr.trackB)}</div>`
+      : "";
+    $("reocr").innerHTML = `${reocrTracksHtml}<div class="ocr-card b6b-card" style="border-left:4px solid var(--fail)">
+      <strong>Force re-OCR queue</strong>${stateBadge(reocr.state)}
+      <div class="line meta">${esc(reocr.note || "Volumes that FAILED B6b (O6/C1/…) must re-OCR before unlock")}</div>
+      ${reocr.running ? `<div class="line alive">schedule_reocr PIDs ${(reocr.pids || []).join(", ")}</div>` : `<div class="line dead">No schedule_reocr_from_queue process</div>`}
+      <div class="line">queued: <strong>${esc(reocr.queue_count != null ? reocr.queue_count : 0)}</strong> · by year: ${reocrByYear}</div>
+      <table class="mini-table"><thead><tr><th>Year</th><th>Gate</th><th>Codes</th><th>HQ volume</th><th>Catalog</th></tr></thead>
+      <tbody>${reocrRows || `<tr><td colspan="5">queue empty</td></tr>`}</tbody></table>
+    </div>`;
     const yearsArg = (c1.years_argv || []).join(", ") || "—";
     const curBits = [
       clog.current_year ? `y=${clog.current_year}` : null,
@@ -680,15 +832,45 @@
 
     function yearCardLive(y, r) {
       r = r || {};
+      const ts = r.timestamps_local || {};
+      const tsLines = Object.keys(ts).length
+        ? Object.entries(ts).map(([k, v]) => `<div class="sec-line">${esc(k)}: ${esc(fmtTs(v))}</div>`).join("")
+        : "";
+      const a2 = r.a2_detail || {};
+      const a2Vols = (a2.volumes || []).map((v) =>
+        `<div class="sec-line ${flagClass(v.verdict)}">${esc(v.verdict)} · ${esc(v.file)} · ${esc(v.top_codes || "")}</div>`
+      ).join("");
+      const cats = r.b6b_by_catalog && Object.keys(r.b6b_by_catalog).length
+        ? Object.entries(r.b6b_by_catalog).map(([k, n]) => `${esc(k)}×${esc(n)}`).join(" · ")
+        : "";
+      const b6bVols = (r.b6b_volumes || []).slice(0, 8).map((v) => {
+        const hits = (v.samples || []).slice(0, 5).map((s) => {
+          const kind = (String(r.b6b_verdict || "").toUpperCase() === "FAIL"
+            || String(v.verdict || "").toUpperCase() === "FAIL")
+            && String(s.code || "").match(/smash|placeholder|garble/i)
+            ? "fail" : (String(v.verdict || "").toUpperCase() === "FAIL" ? "fail" : "warn");
+          const tag = `${s.catalog || "?"} ${s.code || ""}`.trim();
+          return `<span class="hit ${kind}"><span class="tag">${esc(tag)}</span>${esc(s.line || "")}</span>`;
+        }).join("");
+        return `<div class="sec-line ${flagClass(v.verdict)}">${esc(v.verdict)} F${esc(v.fail_hits)} W${esc(v.warn_hits)} · ${esc(v.file)} · ${esc(v.top_catalog || "")}</div>${hits}`;
+      }).join("");
+      const detail = `<div class="year-detail">
+        ${a2.rollup ? `<div class="sec-label">A2</div><div class="sec-line">${esc(a2.rollup)}</div>${a2Vols}` : ""}
+        ${r.b6_sections != null ? `<div class="sec-label">B6</div><div class="sec-line">sections=${esc(r.b6_sections)} · ${esc(r.b6)}</div>` : ""}
+        ${cats || b6bVols ? `<div class="sec-label">B6b</div>${cats ? `<div class="sec-line">${cats}</div>` : ""}${b6bVols}` : ""}
+        ${r.b6b_detail ? `<div class="sec-line meta">${esc(r.b6b_detail)}</div>` : ""}
+        ${r.c10 ? `<div class="sec-label">C10</div><div class="sec-line">${esc(r.c10)}</div>` : ""}
+        ${tsLines ? `<div class="sec-label">Timestamps</div>${tsLines}` : ""}
+      </div>`;
       return `<div class="year-card"><h3>${esc(y)}</h3>
         <div class="flags">
           <span>hqmax</span><span>${esc(r.hqmax_count)}</span>
           <span>A1</span><span class="${flagClass(r.a1)}">${esc(r.a1)}${r.a1_done != null ? ` (${esc(r.a1_done)}/${esc(r.a1_jobs)})` : ""}</span>
-          <span>A2</span><span class="${flagClass(r.a2)}">${esc(r.a2)}${r.a2_fail != null ? ` F${esc(r.a2_fail)} W${esc(r.a2_warn)}` : ""}</span>
-          <span>B6</span><span class="${flagClass(r.b6)}">${esc(r.b6)}</span>
-          <span>B6b</span><span class="${flagClass(r.b6b_verdict || r.b6b)}">${esc(r.b6b_verdict || r.b6b || "pending")}${r.b6b_unlocked ? " unlock" : ""}</span>
+          <span>A2</span><span class="${flagClass(r.a2)}">${esc(r.a2)}${r.a2_fail != null ? ` F${esc(r.a2_fail)} W${esc(r.a2_warn)}` : ""}${r.a2_unlocked ? " ✓" : ""}</span>
+          <span>B6</span><span class="${flagClass(r.b6)}">${esc(r.b6)}${r.b6_sections != null ? ` s${esc(r.b6_sections)}` : ""}</span>
+          <span>B6b</span><span class="${flagClass(r.b6b_verdict || r.b6b)}">${esc(r.b6b_verdict || r.b6b || "pending")}${r.b6b_unlocked ? " unlock" : ""} F${esc(r.b6b_fail != null ? r.b6b_fail : "—")} W${esc(r.b6b_warn != null ? r.b6b_warn : "—")}</span>
           <span>C10</span><span class="${flagClass(r.c10)}">${esc(r.c10)}</span>
-        </div></div>`;
+        </div>${detail}</div>`;
     }
 
     function yearCardParked(y, r) {
@@ -737,16 +919,81 @@
 
     $("steps").innerHTML = (data.steps || []).map((s) => {
       const sc = statusClass(s.status);
-      return `<article class="step ${esc(sc)}" title="${esc(s.detail)}">
+      const secs = (s.sections || []).map((sec) => {
+        const body = (sec.lines || []).map((ln) =>
+          `<div class="sec-line">${esc(ln)}</div>`
+        ).join("");
+        return `<div class="sec-label">${esc(sec.label || "")}</div>${body}`;
+      }).join("");
+      const extraLines = (s.lines || []).map((ln) =>
+        `<div class="sec-line">${esc(ln)}</div>`
+      ).join("");
+      const detailBlock = (secs || extraLines)
+        ? `<div class="step-detail">${secs}${extraLines && !secs ? extraLines : ""}</div>`
+        : "";
+      return `<article class="step ${esc(sc)}">
         <div class="id">${esc(s.id)}</div>
         <div class="title">${esc(s.title)}</div>
         <span class="status-label">${esc(s.status)}</span>
         <div class="detail">${esc(s.detail)}</div>
+        ${s.years_touch && s.years_touch.length ? `<div class="meta">years: ${esc(s.years_touch.join(", "))}</div>` : ""}
+        ${detailBlock}
       </article>`;
     }).join("");
 
     $("footer").textContent = "Manifest updated: " + fmtTs(data.manifest_updated) +
       " · A2: " + (data.a2_rollup || "—");
+    bindWorkerButtons();
+  }
+
+  async function applyTrackWorkers(kind, track, workers, statusEl, btn) {
+    if (statusEl) statusEl.textContent = "restarting…";
+    if (btn) btn.disabled = true;
+    try {
+      const res = await fetch("/api/track/set-workers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind, track, workers, page_workers: 2 }),
+        cache: "no-store",
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || !body.ok) {
+        const err = (body && (body.error || body.detail)) || ("HTTP " + res.status);
+        if (statusEl) statusEl.textContent = "fail: " + err;
+        return;
+      }
+      if (statusEl) {
+        statusEl.textContent =
+          `ok · prior ${body.prior_ppm != null ? body.prior_ppm + " ppm" : "ppm —"}` +
+          (body.new_pids && body.new_pids.length ? ` · pid ${body.new_pids.join(",")}` : "") +
+          ` · now ${body.workers}w`;
+      }
+      await refresh();
+    } catch (e) {
+      if (statusEl) statusEl.textContent = "error: " + e.message;
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  }
+
+  function bindWorkerButtons() {
+    document.querySelectorAll(".btn-set-workers").forEach((btn) => {
+      if (btn.dataset.bound === "1") return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", () => {
+        const kind = btn.getAttribute("data-kind") || "reocr";
+        const track = btn.getAttribute("data-track") || "A";
+        const inputId = btn.getAttribute("data-input");
+        const input = inputId ? document.getElementById(inputId) : null;
+        const workers = input ? parseInt(input.value, 10) : NaN;
+        const statusEl = document.querySelector(`[data-status-for="${inputId}"]`);
+        if (!Number.isFinite(workers) || workers < 1 || workers > 16) {
+          if (statusEl) statusEl.textContent = "workers must be 1..16";
+          return;
+        }
+        applyTrackWorkers(kind, track, workers, statusEl, btn);
+      });
+    });
   }
 
   function showError(msg) {

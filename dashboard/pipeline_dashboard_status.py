@@ -60,6 +60,24 @@ STATUS_NORM = {
     "WARN": "WARN",
 }
 
+# Fallback How lines when handoff omits **How:** (keeps step cards OCR-complete).
+STEP_HOW_FALLBACK = {
+    "A3": "Fix yearbook_ocr.py / crop/PSM for A2 FAIL vols; ocr_yearbook_baseline_v2.py --force on failing PDFs only.",
+    "A4": "Same as A1 for 1990–96: ocr_yearbook_baseline_v2.py --force --years 1990-1996 (parked while remediation strip runs).",
+    "A5": "OCR EARLY / non-yearbook packs via yearbook_ocr.py into _ocr_baseline_v2 layout.",
+    "B6": "harvest_cert_sections_v2.py --years YYYY → _ocr_baseline_v2/certs/; pipeline_advance_years.py after A2 unlock.",
+    "B8": "yearbook_certs_ingest.py into SQL with Dog FK — only after B6b FAIL=0 on harvest corpus.",
+    "B9": "SQL/manual orphan rematch on ingested certs; document residual orphans.",
+    "C10": "pipeline_advance_years.py --advance-c10 → _ocr_baseline_v2/trial_results_norm/{year}/.",
+    "C11": "Parse anchor years 1990/1997/2001; compare placement counts; B6b audit on samples.",
+    "C12": "Rebuild TrialResults from norm text for unlocked years; attach per-year audit before --apply.",
+    "C13": "remount_source_divisions.py / fill_from_parse.py vs TrialList 1984–2001.",
+    "C14": "Prefer baseline OCR fills for 1984–1996 after A4/A5 + C12/C13.",
+    "D15": "yearbook_extract_photos.py + map/cleanup/resplit helpers on Yearbook Photos.",
+    "D16": "Cross-check dogs, certs, placements, photos, breeders; fix systematic mismatches.",
+    "D17": "Write PRIMARY vs REFERENCE handoff note; freeze operating rules for next session.",
+}
+
 
 def _fmt_local(dt: datetime) -> str:
     """Format as ``YYYY-MM-DD HH:MM:SS CST`` / ``CDT`` (never long tz names)."""
@@ -158,15 +176,83 @@ def parse_handoff_statuses() -> dict[str, dict]:
             norm = "PENDING"
         else:
             norm = "PENDING"
-        # First Intent line as detail seed
-        intent_m = re.search(r"^\*\*Intent:\*\*\s*(.+)$", body, re.MULTILINE)
-        snapshot_m = re.search(r"^\*\*Snapshot:\*\*\s*(.+)$", body, re.MULTILINE)
+        def _field(name: str) -> str | None:
+            m = re.search(rf"^\*\*{name}:\*\*\s*(.+)$", body, re.MULTILINE)
+            return m.group(1).strip() if m else None
+
+        intent = _field("Intent")
+        how = _field("How")
+        exit_ = _field("Exit")
+        snapshot = _field("Snapshot")
+        done = _field("Done")
+        remaining = _field("Remaining")
+        # D15-style notes use Done/Remaining instead of Exit
+        if not exit_ and remaining:
+            exit_ = remaining
         detail_parts = [raw]
-        if snapshot_m:
-            detail_parts.append(snapshot_m.group(1).strip())
-        elif intent_m:
-            detail_parts.append(intent_m.group(1).strip()[:160])
-        out[sid] = {"status": norm, "detail": " — ".join(detail_parts)}
+        if snapshot:
+            detail_parts.append(snapshot)
+        elif intent:
+            detail_parts.append(intent[:220])
+        out[sid] = {
+            "status": norm,
+            "detail": " — ".join(detail_parts),
+            "intent": intent,
+            "how": how,
+            "exit": exit_,
+            "snapshot": snapshot,
+            "done": done,
+            "remaining": remaining,
+            "status_raw": raw,
+        }
+    return out
+
+
+def _a2_detail_from_csv(year: str, *, max_vols: int = 12) -> dict:
+    """Per-volume A2 gate rows from ``_a2_quality_gate_{year}.csv``."""
+    path = ROOT / f"_a2_quality_gate_{year}.csv"
+    out: dict = {
+        "volumes": [],
+        "unlock": None,
+        "rollup": None,
+        "path": path.name if path.is_file() else None,
+    }
+    md = ROOT / f"_a2_quality_gate_{year}.md"
+    if md.is_file():
+        for line in _read_text(md, max_bytes=40_000).splitlines()[:20]:
+            if "Volumes scored" in line or "PASS=" in line:
+                out["rollup"] = line.strip()
+            if "B6 unlock" in line or "unlock" in line.lower():
+                if "YES" in line.upper():
+                    out["unlock"] = True
+                elif "NO" in line.upper():
+                    out["unlock"] = False
+    if not path.is_file():
+        return out
+    try:
+        import csv
+
+        with path.open("r", encoding="utf-8", errors="replace", newline="") as f:
+            reader = csv.DictReader(f)
+            for i, row in enumerate(reader):
+                if i >= max_vols:
+                    break
+                fpath = str(row.get("file") or "")
+                short = Path(fpath).name if fpath else "?"
+                out["volumes"].append(
+                    {
+                        "file": short,
+                        "verdict": str(row.get("verdict") or ""),
+                        "owned_per_10k": row.get("owned_per_10k"),
+                        "place_per_10k": row.get("place_per_10k"),
+                        "audit_per_10k": row.get("audit_per_10k"),
+                        "fail_code_hits": row.get("fail_code_hits"),
+                        "top_codes": str(row.get("top_codes") or ""),
+                        "chars": row.get("chars"),
+                    }
+                )
+    except OSError:
+        pass
     return out
 
 
@@ -218,12 +304,23 @@ def b6b_year_detail(year: str, yinfo: dict) -> str:
     return ""
 
 
-def parse_ocr_track(log_name: str) -> dict:
+def parse_ocr_track(
+    log_name: str,
+    *,
+    workers_cmdline: int | None = None,
+    page_workers_cmdline: int | None = None,
+    pids: list[int] | None = None,
+    tess_live: int | None = None,
+) -> dict:
     """Parse last OCR job + page from a track log (full paths; no short slice).
 
-    Session PPM uses page-line count / wall minutes. Log birth→now is treated as
-    summed tess-worker minutes (N workers accumulate in parallel); divide by
-    workers=N from the track start line so elapsed/PPM are wall-clock.
+    Elapsed = wall clock (log birth → now/mtime). Do **not** divide by tess
+    workers — that under-reports runtime by ~N× (e.g. 3h → 18 min at workers=10).
+    PPM = pages_total / wall_minutes. ``worker_min`` is optional capacity metric
+    (wall × workers).
+
+    ``workers`` prefers live ``--workers`` from process cmdline over log text
+    (logs often retain stale ``workers=`` from earlier runs).
     """
     path = ROOT / log_name
     job_index = None
@@ -236,7 +333,7 @@ def parse_ocr_track(log_name: str) -> dict:
     page_line_full = ""
     pages_total = 0
     pages_this_job = 0
-    workers = None
+    workers_log = None
     job_re = re.compile(r"OCR\s+(\d+)/(\d+)\s+y=(\d{4})\s+(.+)")
     page_re = re.compile(r"OCR page\s+(\d+)\b")
     workers_re = re.compile(r"\bworkers=(\d+)\b")
@@ -246,10 +343,10 @@ def parse_ocr_track(log_name: str) -> dict:
         try:
             with path.open("r", encoding="utf-8", errors="replace") as f:
                 for line in f:
-                    if workers is None:
-                        wm = workers_re.search(line)
-                        if wm:
-                            workers = max(1, int(wm.group(1)))
+                    wm = workers_re.search(line)
+                    if wm:
+                        # Keep *last* workers= (restarts append; first hit is stale).
+                        workers_log = max(1, int(wm.group(1)))
                     jm = job_re.search(line)
                     if jm:
                         pages_this_job = 0
@@ -283,6 +380,7 @@ def parse_ocr_track(log_name: str) -> dict:
                         page_line_full = f"OCR page {page}"
         except OSError:
             pass
+    workers = _effective_workers(workers_cmdline, workers_log)
     if workers is None:
         workers = max(1, int(os.environ.get("JRTCA_OCR_WORKERS", "10")))
     if not page_line_full:
@@ -309,9 +407,9 @@ def parse_ocr_track(log_name: str) -> dict:
             # Actively writing → measure to now (running PPM)
             if now - end < 180:
                 end = now
-            # Birth→now sums parallel tess slots; collapse to wall minutes.
-            worker_min = max((end - start) / 60.0, 0.01)
-            elapsed_min = max(worker_min / max(workers, 1), 0.01)
+            # File birth→now is already wall clock (not tess-slot sum).
+            elapsed_min = max((end - start) / 60.0, 0.01)
+            worker_min = round(elapsed_min * max(workers, 1), 2)
             ppm = round(pages_total / elapsed_min, 2)
             # Current-job PPM ≈ session rate scaled by page share (no per-job timestamps)
             if pages_this_job > 0 and pages_total > 0:
@@ -340,6 +438,11 @@ def parse_ocr_track(log_name: str) -> dict:
         "pages_total": pages_total,
         "pages_this_job": pages_this_job,
         "workers": workers,
+        "workers_log": workers_log,
+        "workers_cmdline": workers_cmdline,
+        "page_workers": page_workers_cmdline,
+        "pids": list(pids or []),
+        "tess_live": tess_live,
         "ppm": ppm,
         "ppm_job": ppm_job,
         "elapsed_min": round(elapsed_min, 1) if elapsed_min is not None else None,
@@ -482,7 +585,7 @@ def ocr_processes_alive() -> dict:
     """Optional: detect python OCR driver processes (Windows). Never kill."""
     rows = _win32_python_cmdlines(r"ocr_yearbook_baseline_v2|ocr_yearbook")
     pids = [r["pid"] for r in rows]
-    return {"alive": bool(pids), "pids": pids}
+    return {"alive": bool(pids), "pids": pids, "rows": rows}
 
 
 def _parse_years_from_cmdline(cmdline: str) -> list[int]:
@@ -490,6 +593,79 @@ def _parse_years_from_cmdline(cmdline: str) -> list[int]:
     if not m:
         return []
     return [int(x) for x in re.findall(r"\d{4}", m.group(1))]
+
+
+def _workers_from_cmdline(cmdline: str) -> int | None:
+    m = re.search(r"--workers\s+(\d+)", cmdline or "", re.I)
+    if not m:
+        return None
+    try:
+        return max(1, int(m.group(1)))
+    except ValueError:
+        return None
+
+
+def _page_workers_from_cmdline(cmdline: str) -> int | None:
+    m = re.search(r"--page-workers\s+(\d+)", cmdline or "", re.I)
+    if not m:
+        return None
+    try:
+        return max(1, int(m.group(1)))
+    except ValueError:
+        return None
+
+
+def _tess_count_live() -> int:
+    """Live tesseract.exe count (all tracks combined)."""
+    try:
+        import subprocess
+
+        r = subprocess.run(
+            [
+                "powershell",
+                "-NoProfile",
+                "-Command",
+                "(Get-Process tesseract -ErrorAction SilentlyContinue | Measure-Object).Count",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        tok = (r.stdout or "").strip().splitlines()
+        if tok and tok[-1].isdigit():
+            return int(tok[-1])
+    except Exception:
+        pass
+    return 0
+
+
+def _effective_workers(workers_cmdline: int | None, workers_log: int | None) -> int | None:
+    """Prefer live process cmdline over log (log may retain stale workers= from prior runs)."""
+    if workers_cmdline is not None:
+        return workers_cmdline
+    if workers_log is not None:
+        return workers_log
+    return None
+
+
+def _classify_baseline_ocr_track(cmdline: str) -> str | None:
+    """Map baseline OCR process to trackA/trackB via log path or years in cmdline."""
+    cmd = cmdline or ""
+    low = cmd.lower()
+    if "tracka" in low or "_ocr_a4_tracka" in low or "_ocr_a5_tracka" in low or "_ocr_9701_tracka" in low:
+        return "trackA"
+    if "trackb" in low or "_ocr_a4_trackb" in low or "_ocr_a5_trackb" in low or "_ocr_9701_trackb" in low:
+        return "trackB"
+    years = set(_parse_years_from_cmdline(cmd))
+    # Historical dual-track splits (non-overlapping)
+    if years and years <= {1999, 2001}:
+        return "trackA"
+    if years and years <= {2000}:
+        return "trackB"
+    if years and years <= {1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001}:
+        # A4/A5 style: if track token absent, leave unclassified
+        return None
+    return None
 
 
 def parse_c1o6_recover_log(log_name: str = "_recover_c1o6_9798.log") -> dict:
@@ -941,6 +1117,305 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
     }
 
 
+def reocr_queue_live() -> dict:
+    """FAIL→re-OCR queue + dual-track live ``schedule_reocr_from_queue`` (Track A/B).
+
+    Convention (non-overlapping years):
+      Track A: ``--years 1998 2000`` → ``_reocr_9800_trackA.log``
+      Track B: ``--years 1999 2001`` → ``_reocr_9901_trackB.log``
+    """
+    qpath = ROOT / "_reocr_queue.json"
+    entries: list[dict] = []
+    if qpath.is_file():
+        try:
+            raw = json.loads(qpath.read_text(encoding="utf-8"))
+            if isinstance(raw, list):
+                entries = [e for e in raw if isinstance(e, dict)]
+        except (OSError, json.JSONDecodeError):
+            entries = []
+
+    # Live processes: PID + command line (for year-set → track mapping)
+    proc_rows = [
+        {"pid": r["pid"], "cmd": r.get("cmdline") or ""}
+        for r in _win32_python_cmdlines(r"schedule_reocr_from_queue")
+    ]
+    pids = [p["pid"] for p in proc_rows]
+
+    def _read_reocr_log_text(path: Path) -> str:
+        """Read re-OCR logs; PowerShell Tee-Object often writes UTF-16 LE."""
+        raw = path.read_bytes()
+        if not raw:
+            return ""
+        if raw.startswith(b"\xff\xfe") or raw.startswith(b"\xfe\xff"):
+            return raw.decode("utf-16", errors="replace")
+        # UTF-16 without BOM (nulls between ASCII)
+        if b"\x00" in raw[: min(200, len(raw))]:
+            return raw.decode("utf-16-le", errors="replace")
+        return raw.decode("utf-8", errors="replace")
+
+    def _parse_reocr_log(path: Path) -> dict:
+        """Same wall PPM model as ``parse_ocr_track`` (birth→now; not ÷ workers)."""
+        job_line = page_line = ""
+        job_index = job_total = None
+        pages_total = 0
+        pages_this_job = 0
+        workers_log = None
+        page_re = re.compile(r"OCR page\s+(\d+)\b")
+        workers_re = re.compile(r"\bworkers=(\d+)\b")
+        try:
+            text = _read_reocr_log_text(path)
+            for line in text.splitlines():
+                wm = workers_re.search(line)
+                if wm:
+                    workers_log = max(1, int(wm.group(1)))
+                if "REOCR " in line:
+                    job_line = line.strip()
+                    m = re.search(r"REOCR\s+(\d+)/(\d+)", line)
+                    if m:
+                        job_index = int(m.group(1))
+                        job_total = int(m.group(2))
+                    pages_this_job = 0
+                    continue
+                if re.search(r"OCR\s+\d+/\d+\s+y=", line) and "REOCR" not in line:
+                    pages_this_job = 0
+                    if not job_line:
+                        job_line = line.strip()
+                    continue
+                pm = page_re.search(line)
+                if pm:
+                    pages_total += 1
+                    pages_this_job += 1
+                    page_line = f"OCR page {int(pm.group(1))}"
+        except OSError:
+            pass
+
+        return {
+            "job_line": job_line,
+            "page_line": page_line,
+            "job_index": job_index,
+            "job_total": job_total,
+            "pages_total": pages_total,
+            "pages_this_job": pages_this_job,
+            "workers_log": workers_log,
+            "ppm": None,
+            "ppm_job": None,
+            "elapsed_min": None,
+            "worker_min": None,
+            "_pages_total_raw": pages_total,
+            "_pages_this_job_raw": pages_this_job,
+            "_path": path,
+        }
+
+    def _finish_reocr_parsed(parsed: dict, workers: int) -> dict:
+        """Attach wall PPM using effective worker count."""
+        path = parsed.pop("_path", None)
+        pages_total = int(parsed.pop("_pages_total_raw", 0) or 0)
+        pages_this_job = int(parsed.pop("_pages_this_job_raw", 0) or 0)
+        parsed["pages_total"] = pages_total
+        parsed["pages_this_job"] = pages_this_job
+        parsed["workers"] = workers
+        ppm = ppm_job = elapsed_min = worker_min = None
+        if path is not None and path.is_file() and pages_total > 0:
+            try:
+                import time as _time
+
+                st = path.stat()
+                start = getattr(st, "st_ctime", None) or st.st_mtime
+                end = st.st_mtime
+                now = _time.time()
+                if now - end < 180:
+                    end = now
+                elapsed_min = max((end - start) / 60.0, 0.01)
+                worker_min = round(elapsed_min * max(workers, 1), 2)
+                ppm = round(pages_total / elapsed_min, 2)
+                if pages_this_job > 0 and pages_total > 0:
+                    job_frac = pages_this_job / max(pages_total, 1)
+                    job_min = max(elapsed_min * job_frac, 0.01)
+                    ppm_job = round(pages_this_job / job_min, 2)
+            except OSError:
+                pass
+        parsed["ppm"] = ppm
+        parsed["ppm_job"] = ppm_job
+        parsed["elapsed_min"] = round(elapsed_min, 1) if elapsed_min is not None else None
+        parsed["worker_min"] = round(worker_min, 1) if worker_min is not None else None
+        return parsed
+
+    def _years_from_cmd(cmd: str) -> set[int]:
+        # ``--years 1998 2000 --workers`` → {1998, 2000}
+        m = re.search(r"--years\s+((?:\d{4}\s*)+)", cmd or "", re.I)
+        if not m:
+            return set()
+        out: set[int] = set()
+        for tok in m.group(1).split():
+            try:
+                out.add(int(tok))
+            except ValueError:
+                pass
+        return out
+
+    TRACK_A_YEARS = {1998, 2000}
+    TRACK_B_YEARS = {1999, 2001}
+    TRACK_LOGS = {
+        "trackA": ROOT / "_reocr_9800_trackA.log",
+        "trackB": ROOT / "_reocr_9901_trackB.log",
+    }
+
+    def _classify_track(years: set[int]) -> str | None:
+        if not years:
+            return None
+        if years <= TRACK_A_YEARS or years == TRACK_A_YEARS:
+            return "trackA"
+        if years <= TRACK_B_YEARS or years == TRACK_B_YEARS:
+            return "trackB"
+        # Prefer majority membership for odd one-offs
+        if years & TRACK_A_YEARS and not (years & TRACK_B_YEARS):
+            return "trackA"
+        if years & TRACK_B_YEARS and not (years & TRACK_A_YEARS):
+            return "trackB"
+        return None
+
+    track_pids: dict[str, list[int]] = {"trackA": [], "trackB": []}
+    track_cmds: dict[str, list[str]] = {"trackA": [], "trackB": []}
+    for row in proc_rows:
+        label = _classify_track(_years_from_cmd(row["cmd"]))
+        if label:
+            track_pids[label].append(row["pid"])
+            track_cmds[label].append(row["cmd"])
+        else:
+            # Unclassified (e.g. old 1998-2001 single queue): attach to A for visibility
+            track_pids["trackA"].append(row["pid"])
+            track_cmds["trackA"].append(row["cmd"])
+
+    tess_live = _tess_count_live()
+
+    def _track_payload(label: str, years: set[int]) -> dict:
+        log_path = TRACK_LOGS[label]
+        raw = (
+            _parse_reocr_log(log_path)
+            if log_path.is_file()
+            else {
+                "job_line": "",
+                "page_line": "",
+                "job_index": None,
+                "job_total": None,
+                "pages_total": 0,
+                "pages_this_job": 0,
+                "workers_log": None,
+                "ppm": None,
+                "ppm_job": None,
+                "elapsed_min": None,
+                "worker_min": None,
+                "_pages_total_raw": 0,
+                "_pages_this_job_raw": 0,
+                "_path": None,
+            }
+        )
+        tpids = track_pids.get(label) or []
+        cmds = track_cmds.get(label) or []
+        workers_cmdline = None
+        page_workers = None
+        for cmd in cmds:
+            w = _workers_from_cmdline(cmd)
+            if w is not None:
+                workers_cmdline = w
+            pw = _page_workers_from_cmdline(cmd)
+            if pw is not None:
+                page_workers = pw
+        workers_log = raw.get("workers_log")
+        workers = _effective_workers(workers_cmdline, workers_log)
+        if workers is None:
+            workers = max(1, int(os.environ.get("JRTCA_OCR_WORKERS", "10")))
+        parsed = _finish_reocr_parsed(raw, workers)
+        running = bool(tpids)
+        y_sorted = sorted(years)
+        return {
+            "label": "A" if label == "trackA" else "B",
+            "kind": "reocr",
+            "years": y_sorted,
+            "years_label": " ".join(str(y) for y in y_sorted),
+            "running": running,
+            "state": "running" if running else ("queued" if entries else "idle"),
+            "pids": tpids,
+            "active_log": log_path.name if log_path.is_file() else None,
+            "log_mtime": _mtime_local(log_path) if log_path.is_file() else None,
+            "job_line": parsed.get("job_line") or "",
+            "page_line": parsed.get("page_line") or "",
+            "job_index": parsed.get("job_index"),
+            "job_total": parsed.get("job_total"),
+            "pages_total": parsed.get("pages_total"),
+            "pages_this_job": parsed.get("pages_this_job"),
+            "workers": parsed.get("workers"),
+            "workers_log": workers_log,
+            "workers_cmdline": workers_cmdline,
+            "page_workers": page_workers,
+            "tess_live": tess_live,
+            "adjustable": True,
+            "ppm": parsed.get("ppm"),
+            "ppm_job": parsed.get("ppm_job"),
+            "elapsed_min": parsed.get("elapsed_min"),
+            "worker_min": parsed.get("worker_min"),
+        }
+
+    trackA = _track_payload("trackA", TRACK_A_YEARS)
+    trackB = _track_payload("trackB", TRACK_B_YEARS)
+
+    # Aggregate compat fields (prefer busier / trackA then trackB)
+    def _score(t: dict) -> int:
+        return int(t.get("pages_total") or 0) + (1000 if t.get("running") else 0)
+
+    primary = trackA if _score(trackA) >= _score(trackB) else trackB
+
+    by_year: dict[str, int] = {}
+    for e in entries:
+        y = str(e.get("year") or "?")
+        by_year[y] = by_year.get(y, 0) + 1
+
+    running = bool(pids)
+    state = "running" if running else ("queued" if entries else "idle")
+    return {
+        "kind": "reocr_queue",
+        "state": state,
+        "running": running,
+        "pids": pids,
+        "queue_count": len(entries),
+        "by_year": by_year,
+        "entries": [
+            {
+                "year": e.get("year"),
+                "hqmax": Path(str(e.get("hqmax") or "")).name,
+                "hqmax_full": e.get("hqmax"),
+                "codes": e.get("codes") or [],
+                "fail_hits": e.get("fail_hits"),
+                "top_catalog": e.get("top_catalog"),
+                "reason": e.get("reason"),
+            }
+            for e in entries[:40]
+        ],
+        "trackA": trackA,
+        "trackB": trackB,
+        # Backward-compatible single-card fields (aggregate / primary track)
+        "job_line": primary.get("job_line") or "",
+        "page_line": primary.get("page_line") or "",
+        "job_index": primary.get("job_index"),
+        "job_total": primary.get("job_total"),
+        "pages_total": primary.get("pages_total"),
+        "pages_this_job": primary.get("pages_this_job"),
+        "workers": primary.get("workers"),
+        "ppm": primary.get("ppm"),
+        "ppm_job": primary.get("ppm_job"),
+        "elapsed_min": primary.get("elapsed_min"),
+        "worker_min": primary.get("worker_min"),
+        "active_log": primary.get("active_log"),
+        "log_mtime": primary.get("log_mtime"),
+        "tess_live": tess_live,
+        "note": (
+            "B6b FAIL → force re-OCR dual-track: "
+            "A={1998,2000} / B={1999,2001}; workers from live cmdline; "
+            "unlock blocked until FAIL=0"
+        ),
+    }
+
+
 def other_targeted_recoveries(c1o6_pids: list[int] | None = None) -> dict:
     """Cheap scan: root _recover_*.log + other recover_*.py processes. Cap few entries."""
     skip_pids = set(c1o6_pids or [])
@@ -1009,6 +1484,13 @@ def other_targeted_recoveries(c1o6_pids: list[int] | None = None) -> dict:
 
 
 def year_pipeline_row(year: str, yinfo: dict, hqmax: int) -> dict:
+    a2_detail = _a2_detail_from_csv(year)
+    b6b_json = _b6b_detail_from_audit_json(year) if (
+        yinfo.get("b6b_verdict") in ("FAIL", "WARN")
+        or (yinfo.get("b6b_fail") or 0) > 0
+        or (yinfo.get("b6b_warn") or 0) > 0
+        or yinfo.get("b6b") == "done"
+    ) else {"volumes": [], "by_catalog": {}}
     return {
         "year": year,
         "a1": yinfo.get("a1", "pending"),
@@ -1020,6 +1502,7 @@ def year_pipeline_row(year: str, yinfo: dict, hqmax: int) -> dict:
         "a2_warn": yinfo.get("a2_warn"),
         "a2_fail": yinfo.get("a2_fail"),
         "a2_unlocked": yinfo.get("a2_unlocked"),
+        "a2_detail": a2_detail,
         "b6": yinfo.get("b6", "pending"),
         "b6_sections": yinfo.get("b6_sections"),
         "b6b": yinfo.get("b6b", "pending"),
@@ -1031,6 +1514,8 @@ def year_pipeline_row(year: str, yinfo: dict, hqmax: int) -> dict:
         "b6b_done": _iso_to_local(
             (yinfo.get("timestamps") or {}).get("b6b_done")
         ),
+        "b6b_by_catalog": b6b_json.get("by_catalog") or {},
+        "b6b_volumes": b6b_json.get("volumes") or [],
         "c10": yinfo.get("c10", "pending"),
         "hqmax_count": hqmax,
         "b6b_detail": b6b_year_detail(year, yinfo),
@@ -1050,52 +1535,350 @@ def enrich_step(
     years_summary: dict[str, dict],
     a2_summary: str,
     ocr_live: dict,
+    targeted: dict | None = None,
 ) -> dict:
     h = handoff.get(sid, {"status": "PENDING", "detail": "not found in handoff"})
     status = h["status"]
     detail = h["detail"]
+    lines: list[str] = []
+    sections: list[dict] = []
 
-    if sid == "A1":
-        bits = [f"hqmax: " + ", ".join(f"{y}={years_summary.get(y, {}).get('hqmax_count', 0)}" for y in YEARS)]
+    def _add_section(label: str, body_lines: list[str]) -> None:
+        body_lines = [x for x in body_lines if x]
+        if body_lines:
+            sections.append({"label": label, "lines": body_lines})
+
+    how = h.get("how") or STEP_HOW_FALLBACK.get(sid)
+    if h.get("intent"):
+        _add_section("Intent", [str(h["intent"])])
+    if how:
+        _add_section("How", [str(how)])
+    if h.get("done"):
+        _add_section("Done", [str(h["done"])])
+    if h.get("remaining"):
+        _add_section("Remaining", [str(h["remaining"])])
+    elif h.get("exit"):
+        _add_section("Exit", [str(h["exit"])])
+    if h.get("snapshot"):
+        _add_section("Snapshot", [str(h["snapshot"])])
+
+    def _live_track_lines() -> list[str]:
         ta = ocr_live.get("trackA", {})
         tb = ocr_live.get("trackB", {})
+        track_lines: list[str] = []
+        log_a = ocr_live.get("log_trackA")
+        log_b = ocr_live.get("log_trackB")
+        if log_a or log_b:
+            track_lines.append(f"logs: {log_a or '—'} / {log_b or '—'}")
+        for label, t in (("A", ta), ("B", tb)):
+            if not (t.get("job_line_full") or t.get("job") or t.get("exists")):
+                continue
+            track_lines.append(t.get("job_line_full") or t.get("job") or "")
+            track_lines.append(t.get("page_line_full") or t.get("page") or "")
+            if t.get("ppm") is not None:
+                track_lines.append(
+                    f"Track {label}: {t.get('ppm')} ppm · "
+                    f"{t.get('elapsed_min')} min wall · "
+                    f"{t.get('workers')}w · {t.get('pages_total')} pages"
+                )
+            if t.get("log_mtime"):
+                track_lines.append(f"Track {label} log {t.get('log_mtime')}")
+        procs = ocr_live.get("processes") or {}
+        if procs.get("alive"):
+            track_lines.append(
+                f"OCR python PIDs: {', '.join(str(p) for p in (procs.get('pids') or []))}"
+            )
+        return track_lines
 
-        def _track_bit(label: str, t: dict) -> str:
-            page = t.get("page_line_full") or t.get("page") or ""
-            job = t.get("job_line_full") or t.get("job") or ""
-            return f"{label}: {page} | {job}"
-
-        if ta.get("job_line_full") or ta.get("job"):
-            bits.append(_track_bit("A", ta))
-        if tb.get("job_line_full") or tb.get("job"):
-            bits.append(_track_bit("B", tb))
+    if sid == "A1":
+        hq_line = "hqmax: " + ", ".join(
+            f"{y}={years_summary.get(y, {}).get('hqmax_count', 0)}" for y in YEARS
+        )
+        bits = [hq_line]
+        track_lines = _live_track_lines()
+        bits.extend(track_lines[:2])
         detail = " — ".join([detail] + bits)
+        _add_section("HQ counts", [hq_line])
+        _add_section("Live tracks", track_lines)
+        lines.extend(track_lines)
+    elif sid == "A4":
+        a4_lines = [f"{y}: hqmax={count_hqmax(y) if OCR_BASE.is_dir() else 0}" for y in YEARS_9096]
+        _add_section("1990–96 HQ counts", a4_lines)
+        track_lines = _live_track_lines()
+        if track_lines:
+            _add_section("Live tracks", track_lines)
+            lines.extend(track_lines)
+    elif sid == "A5":
+        _add_section(
+            "Early-year scope",
+            [
+                "years: " + ", ".join(YEARS_EARLY),
+                "sources: EARLY packs + Updated Yearbook Scans 1984–89",
+                "queued after A4 tess budget frees (`--phase a5`)",
+            ],
+        )
+        track_lines = _live_track_lines()
+        if track_lines:
+            _add_section("Live tracks", track_lines)
+            lines.extend(track_lines)
     elif sid == "A2":
         detail = f"{detail} | {a2_summary}"
-        # Reflect year flags
         done_yrs = [y for y, r in years_summary.items() if r.get("a2") == "done"]
         if done_yrs:
             detail += f" | years done: {', '.join(done_yrs)}"
+        _add_section("Rollup", [a2_summary])
+        for y in YEARS:
+            r = years_summary.get(y) or {}
+            ad = r.get("a2_detail") or {}
+            vol_lines = [
+                f"{y}: a2={r.get('a2')} F{r.get('a2_fail')} W{r.get('a2_warn')} P{r.get('a2_pass')} "
+                f"unlock={r.get('a2_unlocked')}"
+            ]
+            if ad.get("rollup"):
+                vol_lines.append(str(ad["rollup"]))
+            for v in (ad.get("volumes") or [])[:8]:
+                vol_lines.append(
+                    f"  {v.get('verdict')} · {v.get('file')} · top {v.get('top_codes')}"
+                )
+            _add_section(f"A2 {y}", vol_lines)
+    elif sid == "A3":
+        fail_yrs = [
+            y
+            for y, r in years_summary.items()
+            if (r.get("a2_fail") or 0) > 0
+        ]
+        _add_section(
+            "A2 FAIL years (A3 candidates)",
+            [", ".join(fail_yrs) if fail_yrs else "none — no A2 FAIL volumes in remediation strip"],
+        )
     elif sid == "B6":
         done = [y for y, r in years_summary.items() if r.get("b6") == "done"]
         detail = f"{detail} | B6 done years: {', '.join(done) if done else 'none'}"
+        b6_lines = [
+            f"{y}: b6={r.get('b6')} sections={r.get('b6_sections')}"
+            for y, r in years_summary.items()
+        ]
+        _add_section("Harvest", b6_lines)
+        idx_path = OCR_V2 / "certs" / "cert_sections_index.json"
+        if idx_path.is_file():
+            try:
+                idx = json.loads(idx_path.read_text(encoding="utf-8"))
+                by_year: dict[str, int] = {}
+                flags = {"nhc": 0, "trial_cert": 0, "bronze": 0}
+                if isinstance(idx, list):
+                    for it in idx:
+                        if not isinstance(it, dict):
+                            continue
+                        yk = str(it.get("year") or "?")
+                        by_year[yk] = by_year.get(yk, 0) + 1
+                        if it.get("has_nhc"):
+                            flags["nhc"] += 1
+                        if it.get("has_trial_cert"):
+                            flags["trial_cert"] += 1
+                        if it.get("has_bronze"):
+                            flags["bronze"] += 1
+                idx_lines = [
+                    f"index={idx_path.name} entries={len(idx) if isinstance(idx, list) else '?'}",
+                    "flags: " + " · ".join(f"{k}×{n}" for k, n in flags.items()),
+                    "by year: "
+                    + ", ".join(f"{y}={by_year[y]}" for y in sorted(by_year, key=lambda x: (len(x), x))),
+                ]
+                rem_missing = [y for y in YEARS if by_year.get(y, 0) == 0]
+                if rem_missing:
+                    idx_lines.append(
+                        "remediation years with 0 index rows: " + ", ".join(rem_missing)
+                    )
+                _add_section("Cert sections index", idx_lines)
+            except (OSError, json.JSONDecodeError, TypeError):
+                pass
+        for log_name in ("_harvest_certs_9798.log", "_harvest_certs_9798.err.log"):
+            lp = ROOT / log_name
+            if lp.is_file():
+                _add_section(
+                    "Harvest log",
+                    [f"{log_name} mtime={_mtime_local(lp)} size={lp.stat().st_size}"],
+                )
+                break
     elif sid == "B6b":
         parts = []
         for y, r in years_summary.items():
             if r.get("b6b"):
-                parts.append(f"{y}:{r.get('b6b_verdict') or r.get('b6b')} unlock={r.get('b6b_unlocked')}")
+                parts.append(
+                    f"{y}:{r.get('b6b_verdict') or r.get('b6b')} "
+                    f"F{r.get('b6b_fail')} W{r.get('b6b_warn')} P{r.get('b6b_pass')} "
+                    f"unlock={r.get('b6b_unlocked')}"
+                )
         if parts:
             detail = f"{detail} | " + "; ".join(parts)
-        # Escalate status if any FAIL verdict
+        _add_section("Year verdicts", parts)
+        tgt = (targeted or {}).get("b6b") or {}
+        for d in (tgt.get("details") or [])[:6]:
+            cat = d.get("by_catalog") or {}
+            cat_s = " ".join(f"{k}×{n}" for k, n in list(cat.items())[:8])
+            vol_lines = [f"{d.get('year')} {d.get('verdict')} · {cat_s}"]
+            for v in (d.get("volumes") or [])[:6]:
+                vol_lines.append(
+                    f"  {v.get('verdict')} F{v.get('fail_hits')} W{v.get('warn_hits')} · {v.get('file')} · {v.get('top_catalog')}"
+                )
+                for s in (v.get("samples") or [])[:4]:
+                    vol_lines.append(
+                        f"    [{s.get('catalog')} {s.get('code')}] {s.get('line')}"
+                    )
+            _add_section(f"B6b {d.get('year')}", vol_lines)
         for r in years_summary.values():
             if (r.get("b6b_verdict") or "").upper() == "FAIL" or (r.get("b6b_fail") or 0) > 0:
                 if status not in ("DONE",):
                     status = "WARN" if status == "IN PROGRESS" else status
                 detail += " | note: FAIL residual on a year"
                 break
+    elif sid == "B7":
+        spot = ROOT / "_b7_cert_parse_spot.json"
+        if spot.is_file():
+            try:
+                payload = json.loads(spot.read_text(encoding="utf-8"))
+                kinds = payload.get("kinds") or {}
+                quarries = payload.get("quarries") or {}
+                spot_lines = [
+                    f"artifact={spot.name} mtime={_mtime_local(spot)}",
+                    f"rows={payload.get('rows')} · missing_dog={payload.get('missing_dog')} · "
+                    f"nhc_missing_quarry={payload.get('nhc_missing_quarry')}",
+                    "kinds: "
+                    + (
+                        " · ".join(f"{k}×{n}" for k, n in kinds.items())
+                        if isinstance(kinds, dict)
+                        else str(kinds)
+                    ),
+                    "quarries: "
+                    + (
+                        " · ".join(
+                            f"{k}×{n}"
+                            for k, n in sorted(
+                                quarries.items(), key=lambda kv: -int(kv[1] or 0)
+                            )[:8]
+                        )
+                        if isinstance(quarries, dict)
+                        else str(quarries)
+                    ),
+                ]
+                _add_section("Spot-check rollup", spot_lines)
+                sample_lines = []
+                for s in (payload.get("samples") or [])[:12]:
+                    if not isinstance(s, dict):
+                        continue
+                    sample_lines.append(
+                        f"{s.get('year')} {s.get('kind')}: {s.get('dog')} · "
+                        f"owner={s.get('owner')} · quarry={s.get('quarry')}"
+                    )
+                if sample_lines:
+                    _add_section("Spot samples", sample_lines)
+                top_files = []
+                for row in (payload.get("per_file_top") or [])[:10]:
+                    if isinstance(row, (list, tuple)) and len(row) >= 2:
+                        top_files.append(f"{row[1]}× {row[0]}")
+                    elif isinstance(row, dict):
+                        top_files.append(
+                            f"{row.get('count') or row.get('n')}× {row.get('file') or row.get('name')}"
+                        )
+                if top_files:
+                    _add_section("Top source files", top_files)
+            except (OSError, json.JSONDecodeError, TypeError):
+                pass
+        else:
+            _add_section("Spot-check", ["_b7_cert_parse_spot.json not found yet"])
     elif sid == "C10":
-        pending = [y for y, r in years_summary.items() if r.get("c10") != "done"]
-        detail = f"{detail} | c10 pending years: {', '.join(pending) if pending else 'none'}"
+        staged = [y for y, r in years_summary.items() if r.get("c10") in ("staged", "done")]
+        pending = [y for y, r in years_summary.items() if r.get("c10") not in ("staged", "done")]
+        detail = (
+            f"{detail} | staged={', '.join(staged) or 'none'} · "
+            f"pending={', '.join(pending) or 'none'}"
+        )
+        _add_section(
+            "Normalize staging",
+            [
+                f"staged: {', '.join(staged) or 'none'}",
+                f"pending: {', '.join(pending) or 'none'}",
+                "path: _ocr_baseline_v2/trial_results_norm/{year}/",
+            ],
+        )
+        norm_root = OCR_V2 / "trial_results_norm"
+        norm_lines = []
+        for y in YEARS:
+            yd = norm_root / y
+            if not yd.is_dir():
+                norm_lines.append(f"{y}: (no norm dir)")
+                continue
+            files = [p for p in yd.rglob("*") if p.is_file()]
+            bytes_ = sum(p.stat().st_size for p in files)
+            names = ", ".join(p.name for p in sorted(files, key=lambda p: p.name)[:6])
+            more = f" (+{len(files) - 6})" if len(files) > 6 else ""
+            norm_lines.append(
+                f"{y}: files={len(files)} bytes={bytes_} · {names}{more}"
+            )
+        if norm_lines:
+            _add_section("Norm tree", norm_lines)
+    elif sid == "D15":
+        photo_scripts = [
+            "yearbook_extract_photos.py",
+            "yearbook_map_photos.py",
+            "yearbook_cleanup_photo_names.py",
+            "yearbook_resplit_photo_names.py",
+        ]
+        present = [n for n in photo_scripts if (ROOT / n).is_file()]
+        photo_dir = ROOT / "Yearbook Photos"
+        n_photos = 0
+        if photo_dir.is_dir():
+            try:
+                n_photos = sum(1 for _ in photo_dir.rglob("*") if _.is_file())
+            except OSError:
+                n_photos = -1
+        _add_section(
+            "Photo pipeline",
+            [
+                f"scripts present: {', '.join(present) or 'none'}",
+                f"Yearbook Photos files≈{n_photos if n_photos >= 0 else '?'}",
+            ],
+        )
+        touch = [
+            f"{y}: a1={r.get('a1')} a2={r.get('a2')} b6b={r.get('b6b_verdict') or r.get('b6b')} c10={r.get('c10')}"
+            for y, r in years_summary.items()
+        ]
+        if touch:
+            _add_section("Related year flags", touch)
+    elif sid in ("C11", "C12", "C13", "C14", "B8", "B9", "D16", "D17"):
+        touch = [
+            f"{y}: a1={r.get('a1')} a2={r.get('a2')} b6b={r.get('b6b_verdict') or r.get('b6b')} c10={r.get('c10')}"
+            for y, r in years_summary.items()
+            if not years_touch or y in years_touch
+        ]
+        if touch:
+            _add_section("Related year flags", touch)
+        if sid == "C11":
+            _add_section(
+                "Anchor years",
+                ["1990 / 1997 / 2001 — parse + validate vs placement counts; B6b audit on samples"],
+            )
+        elif sid == "B8":
+            _add_section(
+                "Gate",
+                ["Blocked until B6b FAIL=0 on harvest corpus; script yearbook_certs_ingest.py"],
+            )
+        elif sid == "D17":
+            _add_section(
+                "Doctrine",
+                [
+                    "PRIMARY = this handoff + live artifacts; REFERENCE = OCR_PIPELINE.md / catalog notes",
+                ],
+            )
+
+    # Always include per-touched-year timestamp snapshot when present
+    ts_lines = []
+    for y in years_touch or list(years_summary):
+        r = years_summary.get(y) or {}
+        ts = r.get("timestamps_local") or {}
+        if ts:
+            ts_lines.append(f"{y}: " + ", ".join(f"{k}={v}" for k, v in ts.items()))
+    if ts_lines:
+        _add_section("Timestamps", ts_lines)
 
     return {
         "id": sid,
@@ -1103,6 +1886,11 @@ def enrich_step(
         "status": status,
         "detail": detail,
         "years_touch": years_touch,
+        "intent": h.get("intent"),
+        "how": how,
+        "exit": h.get("exit"),
+        "lines": lines,
+        "sections": sections,
     }
 
 
@@ -1114,21 +1902,82 @@ def gather() -> dict:
     years_summary = {
         y: year_pipeline_row(y, myears.get(y) or {}, hq[y]) for y in YEARS
     }
+    def _newest_track_log(label: str) -> str:
+        """Prefer live A4/A5 logs over finished A1 9701 logs when newer."""
+        cands = [
+            f"_ocr_a4_{label}.log",
+            f"_ocr_a5_{label}.log",
+            f"_ocr_9701_{label}.log",
+        ]
+        best = cands[-1]
+        best_mtime = -1.0
+        for name in cands:
+            p = ROOT / name
+            if p.is_file():
+                mt = p.stat().st_mtime
+                if mt >= best_mtime:
+                    best_mtime = mt
+                    best = name
+        return best
+
+    ocr_procs = ocr_processes_alive()
+    tess_live = _tess_count_live()
+    ocr_track_pids: dict[str, list[int]] = {"trackA": [], "trackB": []}
+    ocr_track_cmds: dict[str, list[str]] = {"trackA": [], "trackB": []}
+    for row in ocr_procs.get("rows") or []:
+        label = _classify_baseline_ocr_track(row.get("cmdline") or "")
+        if not label:
+            continue
+        ocr_track_pids[label].append(row["pid"])
+        ocr_track_cmds[label].append(row.get("cmdline") or "")
+
+    def _ocr_track_enriched(label: str) -> dict:
+        log_name = _newest_track_log(label)
+        cmds = ocr_track_cmds.get(label) or []
+        w_cmd = None
+        pw_cmd = None
+        for cmd in cmds:
+            w = _workers_from_cmdline(cmd)
+            if w is not None:
+                w_cmd = w
+            pw = _page_workers_from_cmdline(cmd)
+            if pw is not None:
+                pw_cmd = pw
+        t = parse_ocr_track(
+            log_name,
+            workers_cmdline=w_cmd,
+            page_workers_cmdline=pw_cmd,
+            pids=ocr_track_pids.get(label) or [],
+            tess_live=tess_live,
+        )
+        t["kind"] = "baseline_ocr"
+        t["label"] = "A" if label == "trackA" else "B"
+        t["running"] = bool(ocr_track_pids.get(label))
+        t["adjustable"] = True
+        return t
+
     ocr_live = {
-        "trackA": parse_ocr_track("_ocr_9701_trackA.log"),
-        "trackB": parse_ocr_track("_ocr_9701_trackB.log"),
-        "processes": ocr_processes_alive(),
+        "trackA": _ocr_track_enriched("trackA"),
+        "trackB": _ocr_track_enriched("trackB"),
+        "processes": ocr_procs,
+        "tess_live": tess_live,
+        "log_trackA": _newest_track_log("trackA"),
+        "log_trackB": _newest_track_log("trackB"),
     }
     c1o6 = c1o6_recover_live()
+    reocr = reocr_queue_live()
     targeted_ocr = {
         "c1_o6": c1o6,
         "b6b": b6b_ingest_audit_status(myears, bool(c1o6.get("running"))),
+        "reocr": reocr,
         "other": other_targeted_recoveries(c1o6.get("pids") or []),
     }
     a2_summary = a2_rollup_summary()
     eras = gather_eras(handoff, years_summary)
     steps = [
-        enrich_step(sid, title, yt, handoff, years_summary, a2_summary, ocr_live)
+        enrich_step(
+            sid, title, yt, handoff, years_summary, a2_summary, ocr_live, targeted_ocr
+        )
         for sid, title, yt in STEP_META
     ]
     counts: dict[str, int] = {}

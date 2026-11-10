@@ -1,0 +1,46 @@
+Year,Folder,PDF,Pages,LandscapeShare,OcrFile,OcrBytes,OwnedBy,Garbage,HasCertHeading,Flags
+1997,1997 Vol I,1997 Vol I pt 1.pdf,74,0.0,,0,0,1.0,False,NO_OCR
+1997,1997 Vol I,1997 Vol I pt 2.pdf,40,0.0,,0,0,1.0,False,NO_OCR
+1997,1997 Vol II,1997 Vol II pt 1.pdf,62,0.0,,0,0,1.0,False,NO_OCR
+1997,1997 Vol II,1997 Vol II pt 2.pdf,56,0.0,,0,0,1.0,False,NO_OCR
+1998,1998 Vol I,"1998 Vol I, pt 1.pdf",68,0.0,,0,0,1.0,False,NO_OCR
+1998,1998 Vol I,"1998 Vol I, pt 2.pdf",2,0.0,,0,0,1.0,False,NO_OCR
+1998,1998 Vol I,"1998 Vol I, pt 3.pdf",4,0.0,,0,0,1.0,False,NO_OCR
+1998,1998 Vol II,"1998 Vol II, pt 1.pdf",36,0.0,,0,0,1.0,False,NO_OCR
+1998,1998 Vol II,"1998 Vol II, pt 2.pdf",34,0.0,,0,0,1.0,False,NO_OCR
+1998,1998 Vol III,"1998 Vol III, pt 1.pdf",42,0.0,,0,0,1.0,False,NO_OCR
+1998,1998 Vol III,"1998 Vol III, pt 2.pdf",42,0.0,,0,0,1.0,False,NO_OCR
+1999,1999 National Entries Catalog,1999 National Entries Catalog - Flat Racing & GTG.pdf,13,0.0,,0,0,1.0,False,NO_OCR
+1999,1999 National Entries Catalog,1999 National Entries Catalog - Flat Racing pg 2.pdf,1,0.0,,0,0,1.0,False,NO_OCR
+1999,1999 Vol I,"1999 Vol I, pt 1.pdf",42,0.0,,0,0,1.0,False,NO_OCR
+1999,1999 Vol I,"1999 Vol I, pt 2.pdf",42,0.0,,0,0,1.0,False,NO_OCR
+1999,1999 Vol II,"1999 Vol II, pt 1.pdf",32,0.0,,0,0,1.0,False,NO_OCR
+1999,1999 Vol II,"1999 Vol II, pt 2.pdf",32,0.0,,0,0,1.0,False,NO_OCR
+1999,1999 Vol III,"1999 Vol III, pt 1.pdf",48,0.0,,0,0,1.0,False,NO_OCR
+1999,1999 Vol III,"1999 Vol III, pt 2.pdf",58,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol I,2000 Vol I trunc.pdf,105,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol I,2000 Vol I.pdf,159,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol II,2000 Vol II pg 77.pdf,1,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol II,2000 Vol II pg 83.pdf,1,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol II,2000 Vol II trunc.pdf,72,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol II,2000 Vol II.pdf,108,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol III,2000 vol 3 pt 1.pdf,48,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol III,2000 Vol III pt 1.pdf,69,0.0,,0,0,1.0,False,NO_OCR
+2000,2000 Vol III,2000 Vol III pt 2.pdf,46,0.0,,0,0,1.0,False,NO_OCR
+2001,2001 Vol I,2001 Coal Tree Farm.pdf,4,0.0,2001 Coal Tree Farm_ocr.txt,23773,379,0.0046,True,CERT_SECTION
+2001,2001 Vol I,2001 South Coast.pdf,4,0.0,2001 South Coast_ocr.txt,23351,359,0.0049,True,CERT_SECTION
+2001,2001 Vol I,2001 Troon Quarry.pdf,8,0.0,2001 Troon Quarry_ocr.txt,46639,738,0.004,True,CERT_SECTION
+2001,2001 Vol I,2001 Vol I.pdf,117,0.0,,0,0,1.0,False,NO_OCR
+2001,2001 Vol I,DocScan.pdf,1,0.0,,0,0,1.0,False,NO_OCR
+2001,2001 Vol II,2001 MWJRTC II Wheatland I & II.pdf,12,0.0,2001 MWJRTC II Wheatland I & II_ocr.txt,57781,871,0.0039,True,CERT_SECTION
+2001,2001 Vol II,2001 OH-PA II.pdf,3,0.0,2001 OH-PA II_ocr.txt,16772,260,0.0043,True,CERT_SECTION
+2001,2001 Vol II,2001 Paumanok Farmstead Dutchess County.pdf,12,0.0,2001 Paumanok Farmstead Dutchess County_ocr.txt,41048,629,0.0048,True,CERT_SECTION
+2001,2001 Vol II,2001 PNWJRTN.pdf,4,0.0,2001 PNWJRTN_ocr.txt,23233,358,0.0049,False,
+2001,2001 Vol II,2001 Summer Celebration.pdf,8,0.0,2001 Summer Celebration_ocr.txt,40626,632,0.0035,False,
+2001,2001 Vol II,2001 Vol 2 pg 75-78.pdf,4,0.0,,0,0,1.0,False,NO_OCR
+2001,2001 Vol II,2001 Vol II pt 1.pdf,66,0.0,,0,0,1.0,False,NO_OCR
+2001,2001 Vol II,2001 Vol II pt 2 even only.pdf,22,0.0,,0,0,1.0,False,NO_OCR
+2001,2001 Vol II,2001 Vol II pt 2.pdf,66,0.0,,0,0,1.0,False,NO_OCR
+2001,2001 Vol II,2001 Yankee.pdf,8,0.0,2001 Yankee_ocr.txt,44908,668,0.0042,True,CERT_SECTION
+2001,2001 Vol III,2001 Vol III pt 1.pdf,63,0.0,,0,0,1.0,False,NO_OCR
+2001,2001 Vol III,2001 Vol III pt 2.pdf,66,0.0,,0,0,1.0,False,NO_OCR

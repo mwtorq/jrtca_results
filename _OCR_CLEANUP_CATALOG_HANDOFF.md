@@ -86,7 +86,7 @@ This lists **defect types we had to clean** while building the HQ yearbook basel
 | O3 | Missing comma before owned by | `Kid owned by` | insert `, owned by` |
 | O4 | Gutter letter between commas | `Ringlet,t, owned by` | strip |
 | O5 | OCR owned typos | `owend by`, `owned hy` | `_normalize_owned_by_ocr` |
-| O6 | Truncated owner tail (column crop) | `owned by George & Linda Louc`, `& Lir`, `Donna Pi` | **Do not invent**; audit `owner_tail_trunc` only; fix via wider crop / ensemble |
+| O6 | Truncated owner tail (column crop) | `owned by George & Linda Louc`, `& Lir`, `Donna Pi`, `Vincent Ste`, `Doug Steph` | **Do not invent**; **FAIL** `owner_tail_trunc` → queue re-OCR / wider crop / ensemble (`_reocr_queue.json`) |
 | O7 | Incomplete `owned by` EOL | `Champion: Jezebel, owned by` | leave incomplete; don’t fabricate |
 
 ---
@@ -143,7 +143,7 @@ Only after OCR+finalize. Examples used: `Qaldield`→`Oakfield`, `Bianquita`→`
 4. `1st:` repeats with no class title → §4 **C1 (recover from image)**  
 5. Racing champ under Veteran/conformation → §4 **C2**  
 6. `STEEPLECHASE` / `RACING CHAMPIONS` on owner → §4 **C3**  
-7. Owner ends mid-word → §5 **O6** (audit only)  
+7. Owner ends mid-word → §5 **O6** (**FAIL** + schedule re-OCR)  
 8. Random crumb lines / trial name bleed → §7  
 
 ---
