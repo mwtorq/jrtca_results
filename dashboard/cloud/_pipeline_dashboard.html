@@ -510,7 +510,7 @@
     <div class="controls">
       <span class="meta" id="generated">—</span>
       <button type="button" class="primary" id="btnRefresh">Refresh</button>
-      <label class="meta"><input type="checkbox" id="autoRefresh" checked /> Auto 15s</label>
+      <label class="meta"><input type="checkbox" id="autoRefresh" checked /> Auto 20s</label>
     </div>
   </div>
 </header>
@@ -553,10 +553,9 @@
 (function () {
   // Local/cloud server uses ./status.json; published app prefers GitHub raw
   // (see status-feed.json) so Auto-refresh updates without republishing the app.
+  // raw.githubusercontent.com only — jsDelivr caches branch files for hours/days.
   const DEFAULT_STATUS_URLS = [
-    "https://cdn.jsdelivr.net/gh/mwtorq/jrtca_results@cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
     "https://raw.githubusercontent.com/mwtorq/jrtca_results/cursor/cloud-pipeline-dashboard-d76e/dashboard/cloud/status.json",
-    "https://cdn.jsdelivr.net/gh/mwtorq/jrtca_results@main/dashboard/cloud/status.json",
     "https://raw.githubusercontent.com/mwtorq/jrtca_results/main/dashboard/cloud/status.json",
     "./status.json",
   ];
@@ -1095,7 +1094,8 @@
     if (timer) clearInterval(timer);
     timer = null;
     if ($("autoRefresh").checked) {
-      timer = setInterval(refresh, 15000);
+      // 20s — aligns with ~60s Ldahsar dumps without hammering GitHub raw
+      timer = setInterval(refresh, 20000);
     }
   }
 

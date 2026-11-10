@@ -57,7 +57,13 @@ def _candidates(extra: Path | None) -> list[Path]:
     return uniq
 
 
+def _generated_key(data: dict) -> str:
+    """Sort key: prefer generated_at text; fall back to empty."""
+    return str(data.get("generated_at") or "")
+
+
 def _newest_valid(paths: list[Path]) -> tuple[Path, dict, float] | None:
+    """Pick newest dump by generated_at (not mtime — synced copies can outrank store)."""
     best = None
     for p in paths:
         try:
@@ -70,11 +76,14 @@ def _newest_valid(paths: list[Path]) -> tuple[Path, dict, float] | None:
             if data.get("status_source") == "ldahsar_synced_restored":
                 continue
             mtime = p.stat().st_mtime
-            if best is None or mtime > best[2]:
-                best = (p, data, mtime)
+            key = (_generated_key(data), mtime)
+            if best is None or key > (best[3], best[2]):
+                best = (p, data, mtime, key[0])
         except (OSError, json.JSONDecodeError):
             continue
-    return best
+    if best is None:
+        return None
+    return best[0], best[1], best[2]
 
 
 def _atomic_write(path: Path, data: dict) -> None:
@@ -126,6 +135,37 @@ def _git_push_status(generated_at: str | None) -> dict:
             timeout=30,
             check=True,
         ).stdout.strip()
+        # Parallel minute ticks can diverge; rebase before push so raw feed advances.
+        pull = subprocess.run(
+            ["git", "pull", "--rebase", "--autostash", "origin", branch],
+            cwd=str(repo),
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        if pull.returncode != 0:
+            # status.json-only conflict: keep ours, continue
+            subprocess.run(
+                ["git", "checkout", "--ours", "--", rel],
+                cwd=str(repo),
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            subprocess.run(
+                ["git", "add", "--", rel],
+                cwd=str(repo),
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            subprocess.run(
+                ["git", "-c", "core.editor=true", "rebase", "--continue"],
+                cwd=str(repo),
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
         push = subprocess.run(
             ["git", "push", "-u", "origin", branch],
             cwd=str(repo),
@@ -136,8 +176,9 @@ def _git_push_status(generated_at: str | None) -> dict:
         return {
             "pushed": push.returncode == 0,
             "branch": branch,
+            "pull_returncode": pull.returncode,
             "returncode": push.returncode,
-            "stderr": (push.stderr or "")[-400:],
+            "stderr": ((pull.stderr or "") + "\n" + (push.stderr or ""))[-600:],
         }
     except Exception as exc:
         return {"pushed": False, "error": str(exc)}
