@@ -31,26 +31,28 @@ Open:
 - http://127.0.0.1:8766/_pipeline_dashboard.html
 - http://127.0.0.1:8766/api/status
 
-## Synced status (OCR only on Ldahsar)
+## Ldahsar status (default `--mode auto`)
 
-If this VM has repo artifacts/logs but not live OCR PIDs, default `live` mode still
-shows log-derived PPM/queue/year cards. For a byte-identical status dump from the
-Windows host:
+OCR PIDs live on Ldahsar; this VM cannot resolve `ldahsar` by DNS. Auto mode prefers:
 
-```bash
-# Copy Ldahsar's dashboard/_pipeline_dashboard_status.json here, then:
-python -u dashboard/cloud/serve_cloud_dashboard.py --mode synced \
-  --status-file /path/to/_pipeline_dashboard_status.json
-```
+1. `JRTCA_DASHBOARD_STATUS_URL` → e.g. `http://HOST:8765/api/status`
+2. Synced JSON file (`JRTCA_DASHBOARD_STATUS_JSON`, `dashboard/cloud/_synced_pipeline_dashboard_status.json`, or Project store `internal/ldahsar-pipeline-status.json`)
+3. Local gather (fallback; OCR alive will be false)
 
-Or:
+On **Ldahsar**:
 
 ```bash
-export JRTCA_DASHBOARD_STATUS_JSON=/path/to/_pipeline_dashboard_status.json
-python -u dashboard/cloud/serve_cloud_dashboard.py --mode synced
+python -u dashboard/cloud/export_ldahsar_status.py
 ```
 
-You can also drop a file at `dashboard/cloud/_synced_pipeline_dashboard_status.json`.
+Then copy/sync the written JSON onto this VM (or the Project store path above).
+
+```bash
+export JRTCA_DASHBOARD_STATUS_URL='http://HOST:8765/api/status'   # if reachable
+# or:
+export JRTCA_DASHBOARD_STATUS_JSON=/path/to/ldahsar-status.json
+python -u dashboard/cloud/serve_cloud_dashboard.py --port 8766
+```
 
 ## Proxy Apply to Ldahsar
 

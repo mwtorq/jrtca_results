@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # Cloud / Linux alternate of the Windows pipeline dashboard.
 # Same feature surface as dashboard/serve_pipeline_dashboard.py:
-#   GET  /  · /_pipeline_dashboard.html · /_pipeline_dashboard_status.json · /api/status
+#   GET  /  · /_pipeline_dashboard.html · /status.json · /api/status
 #   POST /api/track/set-workers  (localhost; Linux → remote-hint / optional proxy)
+#
+# Default --mode auto prefers Ldahsar status:
+#   1) JRTCA_DASHBOARD_STATUS_URL  (HTTP GET of Windows /api/status or status JSON)
+#   2) synced file (JRTCA_DASHBOARD_STATUS_JSON / _synced_*.json / Project store drop)
+#   3) local live gather (no OCR PIDs on this VM — labeled status_source=local_cloud)
 #
 # How to run (from repo root):
 #   python -u dashboard/cloud/serve_cloud_dashboard.py --port 8766
 #   open http://127.0.0.1:8766/
 #
-# Synced status (when OCR lives only on Ldahsar):
-#   export JRTCA_DASHBOARD_STATUS_JSON=/path/to/_pipeline_dashboard_status.json
-#   python -u dashboard/cloud/serve_cloud_dashboard.py --mode synced
-# Or: --status-file /path/to/synced.json
-#
-# Optional worker-control proxy to the Windows host:
-#   export JRTCA_WORKER_CONTROL_PROXY=http://ldahsar:8765
+# On Ldahsar, export a sync file for this VM / Project store:
+#   python -u dashboard/cloud/export_ldahsar_status.py --out .../ldahsar-pipeline-status.json
 
 """Linux-cloud HTTP server for the A1–D17 pipeline dashboard (stdlib only)."""
 
@@ -23,8 +23,9 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import shutil
 import sys
+import urllib.error
+import urllib.request
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
@@ -33,13 +34,18 @@ CLOUD_DIR = Path(__file__).resolve().parent
 DASHBOARD_DIR = CLOUD_DIR.parent  # original Windows dashboard (left intact)
 REPO_ROOT = CLOUD_DIR.parent.parent
 STATUS_NAME = "_pipeline_dashboard_status.json"
-# Committed/publishable snapshot name (HTML fetches this; kept in sync on each regen).
 STATUS_PUBLISH_NAME = "status.json"
 PORT_DEFAULT = 8766
 
+# Shared Project store drop (written by Ldahsar export / worker).
+PROJECT_STORE_STATUS = Path(
+    "/cursor/stores/bc-de650876-a88d-45ea-a369-e7942cc3084e/internal/ldahsar-pipeline-status.json"
+)
+
 # Runtime config set in main()
-MODE = "live"  # live | synced
+MODE = "auto"  # auto | remote | synced | live
 STATUS_FILE: Path | None = None
+STATUS_URL: str | None = None
 
 
 def _status_out_path() -> Path:
@@ -60,44 +66,99 @@ def _write_runtime_status(data: dict, *, also_publish_snapshot: bool = False) ->
 
     pds = importlib.reload(pds)
     pds.atomic_write_json(_status_out_path(), data)
-    # Keep status.json stable for Cursor publish-app (git-tracked snapshot) unless asked.
     if also_publish_snapshot or os.environ.get("JRTCA_DASHBOARD_WRITE_PUBLISH_STATUS") == "1":
         pds.atomic_write_json(_status_publish_path(), data)
 
 
-def regenerate_status() -> dict | None:
-    """Build or copy status JSON into dashboard/cloud/.
+def _annotate(data: dict, *, source: str, detail: str | None = None) -> dict:
+    out = dict(data)
+    out["dashboard_variant"] = "cloud"
+    out["dashboard_host"] = "linux"
+    out["status_source"] = source
+    if detail:
+        out["status_source_detail"] = detail
+    out.setdefault(
+        "worker_control",
+        {
+            "local": False,
+            "hint": (
+                "OCR / re-OCR PIDs run on Ldahsar (Windows). "
+                "POST /api/track/set-workers on this cloud server returns a remote hint "
+                "or proxies when JRTCA_WORKER_CONTROL_PROXY is set."
+            ),
+            "proxy_env": "JRTCA_WORKER_CONTROL_PROXY",
+            "windows_url": "http://127.0.0.1:8765/api/track/set-workers",
+        },
+    )
+    return out
 
-    live   — run cloud gatherer (Linux /proc process scan; same schema as Windows).
-    synced — copy/serve a status file from Ldahsar (or any host) without local OCR PIDs.
-    """
-    out = _status_out_path()
-    if MODE == "synced":
-        src = STATUS_FILE
-        if src is None:
-            env = (os.environ.get("JRTCA_DASHBOARD_STATUS_JSON") or "").strip()
-            src = Path(env) if env else None
-        if src is None:
-            # Prefer a synced copy dropped next to this server, else Windows dashboard artifact.
-            for candidate in (
-                CLOUD_DIR / "_synced_pipeline_dashboard_status.json",
-                CLOUD_DIR / STATUS_PUBLISH_NAME,
-                DASHBOARD_DIR / STATUS_NAME,
-            ):
-                if candidate.is_file():
-                    src = candidate
-                    break
-        if src is None or not Path(src).is_file():
-            raise FileNotFoundError(
-                "synced mode needs --status-file, JRTCA_DASHBOARD_STATUS_JSON, "
-                "dashboard/cloud/_synced_pipeline_dashboard_status.json, "
-                "dashboard/cloud/status.json, or dashboard/_pipeline_dashboard_status.json"
-            )
-        src_p = Path(src)
-        data = json.loads(src_p.read_text(encoding="utf-8"))
-        _write_runtime_status(data, also_publish_snapshot=False)
-        return data
 
+def _fetch_remote_status(url: str, timeout: float = 20.0) -> dict:
+    req = urllib.request.Request(
+        url,
+        headers={"Accept": "application/json", "User-Agent": "jrtca-cloud-dashboard/1.0"},
+        method="GET",
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        raw = resp.read().decode("utf-8", errors="replace")
+    data = json.loads(raw)
+    if not isinstance(data, dict):
+        raise ValueError(f"remote status is not a JSON object ({type(data).__name__})")
+    return data
+
+
+def _synced_candidates() -> list[Path]:
+    out: list[Path] = []
+    if STATUS_FILE is not None:
+        out.append(STATUS_FILE)
+    env = (os.environ.get("JRTCA_DASHBOARD_STATUS_JSON") or "").strip()
+    if env:
+        out.append(Path(env))
+    out.extend(
+        [
+            CLOUD_DIR / "_synced_pipeline_dashboard_status.json",
+            PROJECT_STORE_STATUS,
+            Path(
+                os.environ.get(
+                    "JRTCA_PROJECT_STORE_STATUS",
+                    str(PROJECT_STORE_STATUS),
+                )
+            ),
+            DASHBOARD_DIR / STATUS_NAME,
+        ]
+    )
+    # Dedupe while preserving order
+    seen: set[str] = set()
+    uniq: list[Path] = []
+    for p in out:
+        key = str(p)
+        if key in seen:
+            continue
+        seen.add(key)
+        uniq.append(p)
+    return uniq
+
+
+def _load_synced_status() -> tuple[dict, Path]:
+    errors: list[str] = []
+    for candidate in _synced_candidates():
+        try:
+            if not candidate.is_file():
+                continue
+            data = json.loads(candidate.read_text(encoding="utf-8"))
+            if isinstance(data, dict) and data.get("steps") is not None:
+                return data, candidate
+            errors.append(f"{candidate}: missing steps")
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"{candidate}: {exc}")
+    raise FileNotFoundError(
+        "no usable synced Ldahsar status JSON; tried: "
+        + "; ".join(str(p) for p in _synced_candidates())
+        + (f" ({'; '.join(errors)})" if errors else "")
+    )
+
+
+def _gather_local() -> dict:
     import importlib
 
     if str(CLOUD_DIR) not in sys.path:
@@ -105,21 +166,63 @@ def regenerate_status() -> dict | None:
     import pipeline_dashboard_status as pds  # noqa: WPS433
 
     pds = importlib.reload(pds)
-    data = pds.gather()
-    # Annotate cloud origin without dropping any Windows-schema fields.
-    data = dict(data)
-    data["dashboard_variant"] = "cloud"
-    data["dashboard_host"] = "linux"
-    data["worker_control"] = {
-        "local": False,
-        "hint": (
-            "OCR / re-OCR PIDs usually run on Ldahsar (Windows). "
-            "POST /api/track/set-workers on this cloud server returns a remote hint "
-            "or proxies when JRTCA_WORKER_CONTROL_PROXY is set."
-        ),
-        "proxy_env": "JRTCA_WORKER_CONTROL_PROXY",
-        "windows_url": "http://127.0.0.1:8765/api/track/set-workers",
-    }
+    return pds.gather()
+
+
+def regenerate_status() -> dict | None:
+    """Resolve status for the cloud dashboard (prefer Ldahsar)."""
+    mode = (MODE or "auto").strip().lower()
+    url = (STATUS_URL or os.environ.get("JRTCA_DASHBOARD_STATUS_URL") or "").strip()
+
+    def from_remote() -> dict:
+        if not url:
+            raise RuntimeError("remote mode needs --status-url or JRTCA_DASHBOARD_STATUS_URL")
+        data = _fetch_remote_status(url)
+        return _annotate(data, source="ldahsar_remote", detail=url)
+
+    def from_synced() -> dict:
+        data, path = _load_synced_status()
+        return _annotate(data, source="ldahsar_synced", detail=str(path))
+
+    def from_live() -> dict:
+        data = _gather_local()
+        return _annotate(
+            data,
+            source="local_cloud",
+            detail=(
+                "Local gather on cloud VM (no Ldahsar OCR PIDs). "
+                "Set JRTCA_DASHBOARD_STATUS_URL or drop "
+                "internal/ldahsar-pipeline-status.json from Ldahsar."
+            ),
+        )
+
+    data: dict | None = None
+    last_err: Exception | None = None
+
+    if mode == "remote":
+        data = from_remote()
+    elif mode == "synced":
+        data = from_synced()
+    elif mode == "live":
+        data = from_live()
+    else:  # auto
+        if url:
+            try:
+                data = from_remote()
+            except Exception as exc:
+                last_err = exc
+                sys.stderr.write(f"auto: remote status failed ({exc}); trying synced\n")
+        if data is None:
+            try:
+                data = from_synced()
+            except Exception as exc:
+                last_err = exc
+                sys.stderr.write(f"auto: synced status failed ({exc}); falling back to local live\n")
+        if data is None:
+            data = from_live()
+            if last_err is not None:
+                data["status_source_fallback_error"] = str(last_err)
+
     _write_runtime_status(data, also_publish_snapshot=False)
     return data
 
@@ -159,7 +262,6 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):  # noqa: N802
         path = urlparse(self.path).path
         if path in ("/", "/index.html"):
-            # Prefer publishable index.html when present; fall back to underscore name.
             if (CLOUD_DIR / "index.html").is_file():
                 self.path = "/index.html"
             else:
@@ -172,10 +274,8 @@ class Handler(SimpleHTTPRequestHandler):
         ):
             try:
                 regenerate_status()
-            except Exception as exc:  # keep serving last good file if regen fails
+            except Exception as exc:
                 sys.stderr.write(f"status regen failed: {exc}\n")
-            # Always serve the runtime underscore artifact so git-tracked status.json
-            # stays clean for publish-app while local preview stays live.
             self.path = "/" + STATUS_NAME
         return super().do_GET()
 
@@ -188,6 +288,10 @@ class Handler(SimpleHTTPRequestHandler):
             self._send_json(403, {"ok": False, "error": "localhost only"})
             return
         length = int(self.headers.get("Content-Length") or "0")
+        # Bound body size (security review: unbounded Content-Length).
+        if length < 0 or length > 64_000:
+            self._send_json(400, {"ok": False, "error": "body too large or invalid Content-Length"})
+            return
         raw = self.rfile.read(length) if length > 0 else b"{}"
         try:
             body = json.loads(raw.decode("utf-8") or "{}")
@@ -234,7 +338,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 def main() -> int:
-    global MODE, STATUS_FILE
+    global MODE, STATUS_FILE, STATUS_URL
 
     ap = argparse.ArgumentParser(
         description="Serve JRTCA pipeline dashboard (Linux cloud alternate)"
@@ -247,29 +351,39 @@ def main() -> int:
     )
     ap.add_argument(
         "--mode",
-        choices=("live", "synced"),
-        default=os.environ.get("JRTCA_DASHBOARD_MODE", "live"),
-        help="live=gather from repo artifacts; synced=serve a copied status JSON",
+        choices=("auto", "remote", "synced", "live"),
+        default=os.environ.get("JRTCA_DASHBOARD_MODE", "auto"),
+        help="auto=Ldahsar URL then synced file then local; remote/synced/live force one path",
     )
     ap.add_argument(
         "--status-file",
         default=os.environ.get("JRTCA_DASHBOARD_STATUS_JSON") or None,
-        help="Path to synced _pipeline_dashboard_status.json (synced mode)",
+        help="Path to synced Ldahsar status JSON",
+    )
+    ap.add_argument(
+        "--status-url",
+        default=os.environ.get("JRTCA_DASHBOARD_STATUS_URL") or None,
+        help="HTTP URL of Ldahsar status (e.g. http://HOST:8765/api/status)",
     )
     args = ap.parse_args()
     MODE = args.mode
     STATUS_FILE = Path(args.status_file) if args.status_file else None
+    STATUS_URL = args.status_url
 
     try:
-        regenerate_status()
-        print(f"Initial status written: {_status_out_path()} (mode={MODE})")
+        data = regenerate_status()
+        src = (data or {}).get("status_source")
+        print(f"Initial status written: {_status_out_path()} (mode={MODE}, source={src})")
     except Exception as exc:
         print(f"Warning: initial status regen failed: {exc}", file=sys.stderr)
 
     httpd = ThreadingHTTPServer((args.host, args.port), Handler)
     print(f"Cloud dashboard serving {CLOUD_DIR} (repo {REPO_ROOT})")
-    print(f"Open http://{args.host}:{args.port}/_pipeline_dashboard.html")
-    print(f"Also: http://127.0.0.1:{args.port}/  ·  /api/status")
+    print(f"Open http://{args.host}:{args.port}/")
+    print(f"Also: http://127.0.0.1:{args.port}/status.json · /api/status")
+    if STATUS_URL or (os.environ.get("JRTCA_DASHBOARD_STATUS_URL") or "").strip():
+        print(f"Status URL: {STATUS_URL or os.environ.get('JRTCA_DASHBOARD_STATUS_URL')}")
+    print(f"Sync drop: {PROJECT_STORE_STATUS}")
     print("API: POST /api/track/set-workers {kind,track,workers} (localhost; remote-hint/proxy on Linux)")
     proxy = (os.environ.get("JRTCA_WORKER_CONTROL_PROXY") or "").strip()
     if proxy:

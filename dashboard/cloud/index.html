@@ -504,8 +504,7 @@
       <h1>JRTCA yearbook pipeline</h1>
       <div class="meta">Steps A1–D17 (+B6b) · cloud Linux variant · status from <code>_pipeline_dashboard_status.json</code></div>
       <div class="cloud-banner" id="cloudBanner">
-        Cloud entry (<code>dashboard/cloud/</code>): same cards / dual re-OCR A·B / baseline A·B / queue / PPM / Apply.
-        Worker Apply on this VM returns a remote hint (or proxies via <code>JRTCA_WORKER_CONTROL_PROXY</code>) when OCR PIDs live on Ldahsar.
+        Cloud dashboard — loading status source…
       </div>
     </div>
     <div class="controls">
@@ -638,6 +637,18 @@
     lastJson = data;
     $("error").hidden = true;
     $("generated").textContent = "Updated " + fmtTs(data.generated_at);
+    const banner = $("cloudBanner");
+    if (banner) {
+      const src = data.status_source || "unknown";
+      const detail = data.status_source_detail ? ` · ${esc(data.status_source_detail)}` : "";
+      const fb = data.status_source_fallback_error
+        ? ` · fallback: ${esc(data.status_source_fallback_error)}`
+        : "";
+      banner.innerHTML =
+        `Status source: <strong>${esc(src)}</strong>${detail}${fb}. ` +
+        `Same cards / dual re-OCR A·B / baseline A·B / queue / PPM / Apply. ` +
+        `Worker Apply proxies via <code>JRTCA_WORKER_CONTROL_PROXY</code> or returns a remote hint.`;
+    }
 
     const counts = (data.summary && data.summary.counts) || {};
     const order = ["DONE", "IN PROGRESS", "PARTIAL", "WARN", "PENDING", "BLOCKED", "FAIL"];

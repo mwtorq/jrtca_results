@@ -29,6 +29,7 @@ dashboard/cloud/_synced_pipeline_dashboard_status.json
 dashboard/cloud/_pipeline_dashboard_serve.log
 dashboard/cloud/_pipeline_dashboard_serve.err.log
 dashboard/cloud/__pycache__/
+# Runtime mirror of Ldahsar export (committed status.json is the publish snapshot)
 _font_train/
 _debug_cols/
 *.bak
