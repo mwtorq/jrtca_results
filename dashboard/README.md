@@ -22,3 +22,14 @@ Open http://127.0.0.1:8765/_pipeline_dashboard.html (or `/`).
 | `_pipeline_dashboard_status.json` | Generated artifact (do not edit) |
 
 Pipeline inputs (`_pipeline_year_manifest.json`, OCR logs, HQ baseline, …) remain at the **repo root**; only dashboard code and its generated JSON live here.
+
+## Linux cloud alternate
+
+For Cursor/Linux cloud VMs (full UI parity; worker Apply → remote-hint or proxy), see
+[`cloud/README.md`](cloud/README.md):
+
+```text
+python -u dashboard/cloud/serve_cloud_dashboard.py --port 8766
+```
+
+Open http://127.0.0.1:8766/ — leaves this Windows `:8765` entry intact.

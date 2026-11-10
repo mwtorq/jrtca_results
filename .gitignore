@@ -24,6 +24,11 @@ _pipeline_advance.log
 dashboard/_pipeline_dashboard_status.json
 dashboard/_pipeline_dashboard_serve.log
 dashboard/_pipeline_dashboard_serve.err.log
+dashboard/cloud/_pipeline_dashboard_status.json
+dashboard/cloud/_synced_pipeline_dashboard_status.json
+dashboard/cloud/_pipeline_dashboard_serve.log
+dashboard/cloud/_pipeline_dashboard_serve.err.log
+dashboard/cloud/__pycache__/
 _font_train/
 _debug_cols/
 *.bak
