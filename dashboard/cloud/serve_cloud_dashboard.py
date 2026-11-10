@@ -50,8 +50,8 @@ def _status_publish_path() -> Path:
     return CLOUD_DIR / STATUS_PUBLISH_NAME
 
 
-def _write_both_status(data: dict) -> None:
-    """Write underscore runtime artifact + publishable status.json."""
+def _write_runtime_status(data: dict, *, also_publish_snapshot: bool = False) -> None:
+    """Write underscore runtime artifact; optionally refresh committed status.json."""
     import importlib
 
     if str(CLOUD_DIR) not in sys.path:
@@ -60,7 +60,9 @@ def _write_both_status(data: dict) -> None:
 
     pds = importlib.reload(pds)
     pds.atomic_write_json(_status_out_path(), data)
-    pds.atomic_write_json(_status_publish_path(), data)
+    # Keep status.json stable for Cursor publish-app (git-tracked snapshot) unless asked.
+    if also_publish_snapshot or os.environ.get("JRTCA_DASHBOARD_WRITE_PUBLISH_STATUS") == "1":
+        pds.atomic_write_json(_status_publish_path(), data)
 
 
 def regenerate_status() -> dict | None:
@@ -93,7 +95,7 @@ def regenerate_status() -> dict | None:
             )
         src_p = Path(src)
         data = json.loads(src_p.read_text(encoding="utf-8"))
-        _write_both_status(data)
+        _write_runtime_status(data, also_publish_snapshot=False)
         return data
 
     import importlib
@@ -118,7 +120,7 @@ def regenerate_status() -> dict | None:
         "proxy_env": "JRTCA_WORKER_CONTROL_PROXY",
         "windows_url": "http://127.0.0.1:8765/api/track/set-workers",
     }
-    _write_both_status(data)
+    _write_runtime_status(data, also_publish_snapshot=False)
     return data
 
 
@@ -172,10 +174,9 @@ class Handler(SimpleHTTPRequestHandler):
                 regenerate_status()
             except Exception as exc:  # keep serving last good file if regen fails
                 sys.stderr.write(f"status regen failed: {exc}\n")
-            if path == "/api/status":
-                self.path = "/" + STATUS_PUBLISH_NAME
-            else:
-                self.path = path
+            # Always serve the runtime underscore artifact so git-tracked status.json
+            # stays clean for publish-app while local preview stays live.
+            self.path = "/" + STATUS_NAME
         return super().do_GET()
 
     def do_POST(self):  # noqa: N802
