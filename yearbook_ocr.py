@@ -421,9 +421,14 @@ _OCR_NAME_PHRASES = (
     (r"(?im)^lovice\b", "Novice"),
     (r"(?im)^\\?dvanced\b", "Advanced"),
     (r"(?im)^dvanced\b", "Advanced"),
+    (r"(?im)^eterans\b", "Veterans"),
     (r"(?im)^hild\s+Handler\b", "Child Handler"),
     (r"(?im)^hampion\s*:", "Champion:"),
     (r"(?im)^eserve\s*:", "Reserve:"),
+    # Agility Roman II misread as Il after level word
+    (r"(?i)\b(Agility)\s+Il\b", r"\1 II"),
+    (r"(?i)\b(Veterans\s+Agility)\s+Il\b", r"\1 II"),
+
 
     # Place-body ate leading Y: ``Galterioouth Handler`` → ``Galterio Youth Handler``
     (r"(?i)(?<=[a-z])outh\s+Handler\b", " Youth Handler"),
@@ -1146,7 +1151,7 @@ _COLUMN_MARK_RE = re.compile(r"(?i)^---\s*column\s+(?:LEFT|RIGHT)\s*---$")
 _SECTIONISH_RE = re.compile(
     r"(?i)entries\s*:|division\b|champion\s*&\s*reserve|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
-    r"\b(?:novice|open|advanced|bred by|puppies|adults|veteran)\b|"
+    r"\b(?:novice|open|advanced|bred by|puppies|pups|adults|veterans?)\b|"
     r"missing class header|"
     r"\b(?:smooth|rough|broken)\b|"
     r"\b(?:bitches|dogs)\b|"
@@ -1154,6 +1159,7 @@ _SECTIONISH_RE = re.compile(
     r"\b(?:youth|junior|child|pee\s*wee)\b.*\bhandler\b|"
     r"\bhandler\s+class\b|\bshowmanship\b|"
     r"\b(?:on|off)\s+lead\b|"
+    r"\btrailing\b|\blocating\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
@@ -1161,7 +1167,7 @@ _SECTIONISH_RE = re.compile(
 )
 _CLASS_HEADER_HINT_RE = re.compile(
     r"(?i)entries\s*:|"
-    r"\b(?:novice|open|advanced|bred by|puppies|adults?|veteran)\b|"
+    r"\b(?:novice|open|advanced|bred by|puppies|pups|adults?|veterans?)\b|"
     r"\b(?:smooth|rough|broken)\b|"
     r"\b(?:bitches|dogs)\b|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
@@ -1170,6 +1176,7 @@ _CLASS_HEADER_HINT_RE = re.compile(
     r"\b(?:youth|junior|child|pee\s*wee)\s+handler\b|"
     r"\bhandler\b|\bshowmanship\b|"
     r"\b(?:on|off)\s+lead\b|"
+    r"\btrailing\b|\blocating\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
@@ -4178,11 +4185,11 @@ def _is_ocr_noise_line(s: str) -> bool:
     # short-token noise ratio and drop the title → false C1 (1998 pt3 Lickity).
     if re.search(
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
-        r"go-?to-?ground|conformation|novice|open|advanced|starters|"
+        r"        go-?to-?ground|conformation|novice|open|advanced|starters|"
         r"puppy|puppies|working\s+terrier|"
-        r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veteran|"
+        r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veterans?|"
         r"handler|showmanship|pee\s*wee|suitability|spayed|neutered|"
-        r"(?:on|off)\s+lead|"
+        r"(?:on|off)\s+lead|trailing|locating|"
         r"bitches|dogs|pups|older|months?|"
         r"red\s+fox|bronze|silver|gold)\b",
         s,
@@ -4200,8 +4207,8 @@ def _is_ocr_noise_line(s: str) -> bool:
             r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|advanced|"
             r"starters|adults?|pair|"
             r"family|bred|youth|child|junior|handler|pee\s*wee|showmanship|"
-            r"working|veteran|racing|agility|steeple|"
-            r"(?:on|off)\s+lead|"
+            r"working|veterans?|racing|agility|steeple|"
+            r"(?:on|off)\s+lead|trailing|locating|"
             r"suitability|spayed|neutered|fox|bronze|silver|gold|"
             r"championship|certificate|pre-|gtg|smooth|broken|rough|"
             r"puppies|bitches|dogs)\b",
@@ -5038,15 +5045,24 @@ def _lift_class_header_before_orphan_first(text: str) -> str:
         j = i + 1
         while j < len(lines) and not lines[j].strip():
             j += 1
+        # Immediate header, or one Champ/Reserve then header (Working Terrier delay)
+        j_hdr = j
+        if j_hdr < len(lines) and _CHAMP_RESERVE_ROLE_RE.match(lines[j_hdr].strip()):
+            j2 = j_hdr + 1
+            while j2 < len(lines) and not lines[j2].strip():
+                j2 += 1
+            j_hdr = j2
         if (
-            j < len(lines)
-            and _looks_like_class_header_line(lines[j].strip())
-            and not _PLACE_FIRST_RE.match(lines[j].strip())
-            and not _PLACE_NON_FIRST_RE.match(lines[j].strip())
+            j_hdr < len(lines)
+            and _looks_like_class_header_line(lines[j_hdr].strip())
+            and not _PLACE_FIRST_RE.match(lines[j_hdr].strip())
+            and not _PLACE_NON_FIRST_RE.match(lines[j_hdr].strip())
         ):
-            out.append(lines[j])
+            out.append(lines[j_hdr])
             out.append(lines[i])
-            i = j + 1
+            for u in range(i + 1, j_hdr):
+                out.append(lines[u])
+            i = j_hdr + 1
             continue
 
         # Delayed header: 1st + non-first places then header with matching Entries
