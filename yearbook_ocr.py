@@ -2710,6 +2710,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "jon",
         "jan",  # yearbook mononym (Paumanok Glimmer); image shows no surname
         "nel",  # 1998 Vol I pt1 p66 image: Andre & Laura Nel (complete)
+        "lyda",  # 1998 Vol II pt2 p24 image: Vistara Ransom owned by Lyda only
         "ali",
         "miwa",
     }
@@ -2876,13 +2877,15 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
                 count=1,
             )
             continue
-        # Same given-name prefix, OCR-garbled last (Ost→Osby): unique longer
-        # last for this prefix sharing the stub's first two letters.
+        # Same given-name prefix, OCR-garbled last (Ost→Osby / Beli→Bell):
+        # unique longer-or-equal complete last sharing the stub's first two letters.
         if prefix and len(last) >= 2:
             pref_cands = {
                 c
                 for c in by_prefix_lasts.get(prefix, set())
-                if len(c) > len(last) and c.lower().startswith(last[:2])
+                if len(c) >= len(last)
+                and c.lower() != last
+                and c.lower().startswith(last[:2])
             }
             if len(pref_cands) == 1:
                 completion = next(iter(pref_cands))
@@ -2895,13 +2898,24 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
                     count=1,
                 )
                 continue
-        # Bare / ultra-short stub: unique longer owner on the same dog
+        # Same dog: unique complete owner elsewhere (Doug & St→Doug & Sue Tack;
+        # Sue Any→Sue Army; Jan Beli→Jan Bell). Evidence-only — never invent.
         dog = _dog_name_before_owned_by(out[i])
         if not dog:
             continue
+        dog_owners = by_dog.get(dog, set())
+        if len(dog_owners) == 1:
+            full = next(iter(dog_owners))
+            if len(full) >= len(raw_tail) and full.lower() != raw_tail.lower():
+                out[i] = re.sub(
+                    r"(?i)(\bowned\s+by\b\s+).+$",
+                    r"\1" + full,
+                    out[i],
+                )
+                continue
         dog_cands = {
             t
-            for t in by_dog.get(dog, set())
+            for t in dog_owners
             if len(t) > len(raw_tail)
             and t.lower().startswith(raw_tail.lower().rstrip(".,;:"))
         }
