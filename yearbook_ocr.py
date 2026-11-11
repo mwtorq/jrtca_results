@@ -4092,12 +4092,16 @@ def _is_ocr_noise_line(s: str) -> bool:
         r"(?i)\b(?:owned\s+by|entries\s*:)\b", s
     ):
         return True
-    # Keep real results / role lines (owned-by, champ, class keywords)
+    # Keep real results / role lines (owned-by, champ, class keywords).
+    # NOTE: bare ``Bitches/Dogs, 1 yr & older, 10 up to 12…`` must stay even
+    # without Entries — short tokens ``yr``/``up``/``to`` otherwise trip the
+    # short-token noise ratio and drop the title → false C1 (1998 pt3 Lickity).
     if re.search(
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
-        r"go-?to-?ground|conformation|novice|open|puppy|working\s+terrier|"
+        r"go-?to-?ground|conformation|novice|open|puppy|puppies|working\s+terrier|"
         r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veteran|"
         r"handler|showmanship|pee\s*wee|suitability|spayed|neutered|"
+        r"bitches|dogs|pups|older|months?|"
         r"red\s+fox|bronze|silver|gold)\b",
         s,
     ):
