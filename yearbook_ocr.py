@@ -414,6 +414,17 @@ _OCR_NAME_PHRASES = (
     (r"(?im)^ACING\s+CHAMPIONS\b", "RACING CHAMPIONS"),
     (r"(?im)^UPPIES\b", "PUPPIES"),
     (r"(?im)^DULTS\b", "ADULTS"),
+    # Cut-off leading letter on division / youth / agility / role headers
+    (r"(?im)^GILITY\b", "AGILITY"),
+    (r"(?im)^OUTH\b", "YOUTH"),
+    (r"(?im)^tarters\b", "Starters"),
+    (r"(?im)^hild\s+Handler\b", "Child Handler"),
+    (r"(?im)^hampion\s*:", "Champion:"),
+    (r"(?im)^eserve\s*:", "Reserve:"),
+    # Place-body ate leading Y: ``Galterioouth Handler`` → ``Galterio Youth Handler``
+    (r"(?i)(?<=[a-z])outh\s+Handler\b", " Youth Handler"),
+    (r"(?i)(?<=[a-z])outh\s+Handling\b", " Youth Handling"),
+
     (r"(?i)\bJUQGES\b", "Judges"),
     (r"(?i)\bJUOCES\b", "Judges"),
     (r"(?i)\bJUDCFS\b", "Judges"),
@@ -1131,13 +1142,14 @@ _COLUMN_MARK_RE = re.compile(r"(?i)^---\s*column\s+(?:LEFT|RIGHT)\s*---$")
 _SECTIONISH_RE = re.compile(
     r"(?i)entries\s*:|division\b|champion\s*&\s*reserve|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
-    r"\b(?:novice|open|bred by|puppies|adults|veteran)\b|"
+    r"\b(?:novice|open|advanced|bred by|puppies|adults|veteran)\b|"
     r"missing class header|"
     r"\b(?:smooth|rough|broken)\b|"
     r"\b(?:bitches|dogs)\b|"
     r"family\s+class|brace\b|stud\s+dog|brood\s+bitch|"
     r"\b(?:youth|junior|child|pee\s*wee)\b.*\bhandler\b|"
     r"\bhandler\s+class\b|\bshowmanship\b|"
+    r"\b(?:on|off)\s+lead\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
@@ -1145,7 +1157,7 @@ _SECTIONISH_RE = re.compile(
 )
 _CLASS_HEADER_HINT_RE = re.compile(
     r"(?i)entries\s*:|"
-    r"\b(?:novice|open|bred by|puppies|adults?|veteran)\b|"
+    r"\b(?:novice|open|advanced|bred by|puppies|adults?|veteran)\b|"
     r"\b(?:smooth|rough|broken)\b|"
     r"\b(?:bitches|dogs)\b|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
@@ -1153,6 +1165,7 @@ _CLASS_HEADER_HINT_RE = re.compile(
     r"family\s+class|brace\b|stud\s+dog|brood\s+bitch|"
     r"\b(?:youth|junior|child|pee\s*wee)\s+handler\b|"
     r"\bhandler\b|\bshowmanship\b|"
+    r"\b(?:on|off)\s+lead\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
@@ -1880,6 +1893,14 @@ def finalize_results_ocr(text: str) -> str:
     # Multi-place glue before smash unsmash — clears false C1 from ``1st:…5th:``
     text = _split_glued_multi_place_lines(text)
     text = _repair_smashed_place_lines(text)
+    # Youth/Agility headers glued onto prior place bodies (``Galterio Youth Handler``)
+    text = _unglue_place_embedded_class_headers(text)
+    # Champ → false ``1st:`` → column → Reserve (Puppy Champ bleed)
+    text = _drop_false_first_between_champ_and_column_reserve(text)
+    # Reserve: Dog → ``1st:`` same Dog (High Score role replayed as a class)
+    text = _drop_false_first_restarting_reserve_dog(text)
+    # Champion/Reserve parked before the real class, HIGH SCORE header below
+    text = _reorder_premature_high_score_roles(text)
     text = _demote_false_first_using_entries(text)
     text = _lift_class_header_before_orphan_first(text)
     text = "\n".join(_rehome_orphan_adult_height_champs(text.splitlines()))
@@ -4670,11 +4691,76 @@ def _demote_false_first_using_entries(text: str) -> str:
     return "\n".join(out)
 
 
-def _lift_class_header_before_orphan_first(text: str) -> str:
-    """If a gap ``1st:`` is immediately followed by a class header, lift the header above.
+# Place line with next class title smashed onto the owner/name body.
+# After leading-Y repair: ``2nd: Carley Galterio Youth Handler Entries: 3``.
+_PLACE_EMBEDDED_HEADER_RE = re.compile(
+    r"(?i)^("
+    r"(?:\d+(?:st|nd|rd|th)|best|champion|reserve)\s*:\s*.+?"
+    r")\s+("
+    r"(?:Youth|Child|Junior)\s+Handler(?:\s+Class)?|"
+    r"(?:Youth|Child|Junior)\s+Handling(?:\s+(?:Go-?to-?Ground|Agility\b[^:\n]*?))?|"
+    r"Starters\s+Agility\b[^:\n]*?|"
+    r"Agility\s+(?:I{1,3}|[123]|IV)\s*,?\s*(?:On|Off)\s+Lead|"
+    r"(?:Novice|Open|Advanced)\s*,?\s*(?:On|Off)\s+Lead"
+    r")(\s+Entries\s*:\s*\d+)?\s*$"
+)
 
-    Pattern: ``… 6th: …`` / ``1st: Dog…`` / ``Championship Certificate… Entries:``
-    → header then ``1st:``.
+
+def _unglue_place_embedded_class_headers(text: str) -> str:
+    """Split place+class-header smash; defer headers until the next orphan ``1st:``.
+
+    Yearbook OCR often glues the *next* class title onto the previous class's
+    last place (``…Galterio Youth Handler Entries: 3``). Emitting the header
+    immediately parks it mid-class; deferring until the next ``1st:`` restores
+    the printed order without inventing titles.
+    """
+    if not text:
+        return text
+    out: list[str] = []
+    pending: list[str] = []
+
+    def _flush_pending() -> None:
+        nonlocal pending
+        out.extend(pending)
+        pending = []
+
+    for ln in text.splitlines():
+        s = ln.strip()
+        m = _PLACE_EMBEDDED_HEADER_RE.match(s) if s else None
+        if m:
+            place = norm_space(m.group(1))
+            hdr = norm_space(f"{m.group(2)}{m.group(3) or ''}")
+            if place and _PLACE_FIRST_RE.match(place):
+                _flush_pending()
+            if place:
+                out.append(place)
+            if hdr:
+                pending.append(hdr)
+            continue
+        if s and _PLACE_FIRST_RE.match(s):
+            _flush_pending()
+            out.append(ln)
+            continue
+        if s and (
+            _COLUMN_MARK_RE.match(s)
+            or _MARKER_RE.match(s)
+            or _looks_like_class_header_line(s)
+            or (_SECTIONISH_RE.search(s) and not _CHAMP_RESERVE_ROLE_RE.match(s))
+        ):
+            _flush_pending()
+            out.append(ln)
+            continue
+        out.append(ln)
+    _flush_pending()
+    return "\n".join(out)
+
+
+def _drop_false_first_between_champ_and_column_reserve(text: str) -> str:
+    """Drop bleed ``1st:`` between ``Champion:`` and a column-break ``Reserve:``.
+
+    Pattern: Champion / ``1st: <other class dog>`` / ``--- column … ---`` / Reserve
+    — the ``1st`` is almost always a neighboring-class Champion line that lost
+    its role prefix. Removing it clears a false C1 without inventing a title.
     """
     if not text:
         return text
@@ -4683,33 +4769,252 @@ def _lift_class_header_before_orphan_first(text: str) -> str:
     i = 0
     while i < len(lines):
         s = lines[i].strip()
-        if _PLACE_FIRST_RE.match(s):
-            prev_place = False
-            for k in range(len(out) - 1, -1, -1):
-                ps = out[k].strip()
-                if not ps:
-                    continue
-                if (
-                    _PLACE_NON_FIRST_RE.match(ps)
-                    or _PLACE_FIRST_RE.match(ps)
-                    or _CHAMP_RESERVE_ROLE_RE.match(ps)
-                ):
-                    prev_place = True
-                break
+        if re.match(r"(?i)^champion\s*:", s):
+            j = i + 1
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+            if j < len(lines) and _PLACE_FIRST_RE.match(lines[j].strip()):
+                k = j + 1
+                while k < len(lines) and not lines[k].strip():
+                    k += 1
+                if k < len(lines) and _COLUMN_MARK_RE.match(lines[k].strip()):
+                    m = k + 1
+                    while m < len(lines) and not lines[m].strip():
+                        m += 1
+                    if m < len(lines) and re.match(r"(?i)^reserve\s*:", lines[m].strip()):
+                        out.append(lines[i])
+                        for t in range(i + 1, j):
+                            out.append(lines[t])
+                        # skip false 1st at j
+                        for t in range(j + 1, k):
+                            out.append(lines[t])
+                        out.append(lines[k])
+                        i = k + 1
+                        continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
+
+def _place_dog_fingerprint(s: str) -> str:
+    """Normalize dog-name stem from a place/role body for duplicate detection."""
+    body = re.sub(
+        r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*",
+        "",
+        (s or "").strip(),
+    )
+    body = re.split(r"(?i),\s*owned\s+by\b", body, maxsplit=1)[0]
+    return re.sub(r"[^a-z0-9]+", "", body.lower())
+
+
+def _drop_false_first_restarting_reserve_dog(text: str) -> str:
+    """Drop a false class that restarts with the same dog as the prior ``Reserve:``.
+
+    Pattern: ``Reserve: Katie Clover…`` / ``1st: Katie Clover…`` / ``2nd:…`` —
+    OCR replayed High Score Reserve as an orphan class before the real next
+    ``1st:``. Drop the duplicate ``1st`` block (non-first places too) until the
+    next ``1st:`` / header / marker.
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        s = lines[i].strip()
+        if re.match(r"(?i)^reserve\s*:", s):
+            fp = _place_dog_fingerprint(s)
             j = i + 1
             while j < len(lines) and not lines[j].strip():
                 j += 1
             if (
-                prev_place
+                fp
+                and len(fp) >= 6
                 and j < len(lines)
-                and _looks_like_class_header_line(lines[j].strip())
-                and not _PLACE_FIRST_RE.match(lines[j].strip())
-                and not _PLACE_NON_FIRST_RE.match(lines[j].strip())
+                and _PLACE_FIRST_RE.match(lines[j].strip())
+                and _place_dog_fingerprint(lines[j]) == fp
             ):
-                out.append(lines[j])
                 out.append(lines[i])
-                i = j + 1
+                for t in range(i + 1, j):
+                    out.append(lines[t])
+                # skip false 1st + following non-first places
+                k = j + 1
+                while k < len(lines):
+                    ks = lines[k].strip()
+                    if not ks:
+                        k += 1
+                        continue
+                    if _PLACE_NON_FIRST_RE.match(ks):
+                        k += 1
+                        continue
+                    break
+                i = k
                 continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
+
+_HIGH_SCORE_HEADER_RE = re.compile(
+    r"(?i)^(?:AGILITY|YOUTH|RACING|GTG|GO-?TO-?GROUND|OVERALL)?\s*"
+    r"HIGH\s+SCORE\s+CHAMPION(?:\s*(?:&|AND)\s*RESERVE)?\s*$"
+)
+
+
+def _reorder_premature_high_score_roles(text: str) -> str:
+    """Move Champion/Reserve that sit above their class to after HIGH SCORE header.
+
+    OCR sometimes emits High Score roles, then the preceding class's ``1st:…6th:``,
+    then ``AGILITY HIGH SCORE CHAMPION & RESERVE``. Printed order is class places,
+    then the HIGH SCORE header, then Champion/Reserve.
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        s = lines[i].strip()
+        if not re.match(r"(?i)^champion\s*:", s):
+            out.append(lines[i])
+            i += 1
+            continue
+        # Champion + optional Reserve
+        role_block = [lines[i]]
+        j = i + 1
+        while j < len(lines) and not lines[j].strip():
+            role_block.append(lines[j])
+            j += 1
+        if j < len(lines) and re.match(r"(?i)^reserve\s*:", lines[j].strip()):
+            role_block.append(lines[j])
+            j += 1
+            while j < len(lines) and not lines[j].strip():
+                role_block.append(lines[j])
+                j += 1
+        if j >= len(lines) or not _PLACE_FIRST_RE.match(lines[j].strip()):
+            out.append(lines[i])
+            i += 1
+            continue
+        # Collect orphan class places until HIGH SCORE header
+        place_block: list[str] = []
+        k = j
+        found_hdr = None
+        while k < len(lines):
+            ks = lines[k].strip()
+            if _HIGH_SCORE_HEADER_RE.match(ks):
+                found_hdr = k
+                break
+            if (
+                ks
+                and not _PLACE_FIRST_RE.match(ks)
+                and not _PLACE_NON_FIRST_RE.match(ks)
+                and not _CHAMP_RESERVE_ROLE_RE.match(ks)
+                and (
+                    _looks_like_class_header_line(ks)
+                    or _SECTIONISH_RE.search(ks)
+                    or _COLUMN_MARK_RE.match(ks)
+                    or _MARKER_RE.match(ks)
+                )
+            ):
+                break
+            place_block.append(lines[k])
+            k += 1
+        if found_hdr is None or not place_block:
+            out.append(lines[i])
+            i += 1
+            continue
+        # places → HIGH SCORE header → Champion/Reserve → rest after header
+        out.extend(place_block)
+        out.append(lines[found_hdr])
+        out.extend(role_block)
+        i = found_hdr + 1
+    return "\n".join(out)
+
+
+def _lift_class_header_before_orphan_first(text: str) -> str:
+    """If a gap ``1st:`` is immediately followed by a class header, lift the header above.
+
+    Pattern: ``… 6th: …`` / ``1st: Dog…`` / ``Championship Certificate… Entries:``
+    → header then ``1st:``.
+
+    Also: header appears after 1..N places of the orphan class when
+    ``Entries: N`` matches that place count (e.g. ``Advanced, On Lead Entries: 2``
+    after ``1st``+``2nd``).
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        s = lines[i].strip()
+        if not _PLACE_FIRST_RE.match(s):
+            out.append(lines[i])
+            i += 1
+            continue
+
+        prev_place = False
+        for k in range(len(out) - 1, -1, -1):
+            ps = out[k].strip()
+            if not ps:
+                continue
+            if (
+                _PLACE_NON_FIRST_RE.match(ps)
+                or _PLACE_FIRST_RE.match(ps)
+                or _CHAMP_RESERVE_ROLE_RE.match(ps)
+            ):
+                prev_place = True
+            break
+
+        if not prev_place:
+            out.append(lines[i])
+            i += 1
+            continue
+
+        j = i + 1
+        while j < len(lines) and not lines[j].strip():
+            j += 1
+        if (
+            j < len(lines)
+            and _looks_like_class_header_line(lines[j].strip())
+            and not _PLACE_FIRST_RE.match(lines[j].strip())
+            and not _PLACE_NON_FIRST_RE.match(lines[j].strip())
+        ):
+            out.append(lines[j])
+            out.append(lines[i])
+            i = j + 1
+            continue
+
+        # Delayed header: 1st + non-first places then header with matching Entries
+        place_n = 1
+        t = i + 1
+        lifted = False
+        while t < len(lines) and place_n <= 6:
+            ts = lines[t].strip()
+            if not ts:
+                t += 1
+                continue
+            if _PLACE_NON_FIRST_RE.match(ts):
+                place_n += 1
+                t += 1
+                continue
+            if (
+                _looks_like_class_header_line(ts)
+                and not _PLACE_FIRST_RE.match(ts)
+                and not _PLACE_NON_FIRST_RE.match(ts)
+            ):
+                em = _ENTRIES_COUNT_RE.search(ts)
+                if em and int(em.group(1)) == place_n:
+                    out.append(lines[t])
+                    out.append(lines[i])
+                    for u in range(i + 1, t):
+                        out.append(lines[u])
+                    i = t + 1
+                    lifted = True
+            break
+        if lifted:
+            continue
+
         out.append(lines[i])
         i += 1
     return "\n".join(out)
