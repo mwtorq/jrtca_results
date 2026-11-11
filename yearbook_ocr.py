@@ -1527,6 +1527,11 @@ def _repair_truncated_class_header(s: str) -> str:
         (r"(?i)^ups\b", "Pups"),
         (r"(?i)^amily\b", "Family"),
         (r"(?i)^airs\b", "Pairs"),
+        # Right-col clip: ``ced, On Lead Entries: 15`` → Advanced, On Lead
+        (r"(?i)^(?:ced|vanced)\s*,?\s*((?:On|Off)\s+Lead)\b", r"Advanced, \1"),
+        (r"(?i)^ers\s+agility\b", "Starters Agility"),
+        (r"(?i)^lity\s+(I{1,3}|[123])\b", r"Agility \1"),
+        (r"(?i)^gility\s+(I{1,3}|[123])\b", r"Agility \1"),
     )
     for pat, repl in reps:
         nt = re.sub(pat, repl, t, count=1)
@@ -1536,6 +1541,8 @@ def _repair_truncated_class_header(s: str) -> str:
     # OCR often reads ½ as % or drops it: ``over 12 %-15`` / ``over 12 15-15``.
     t = re.sub(r"(?i)\b(over\s+12)\s*%\s*-?\s*15\b", r"\1 1/2-15", t)
     t = re.sub(r"(?i)\b(over\s+12)\s+15\s*-\s*15\b", r"\1 1/2-15", t)
+    # ``over 12 1-15`` missing the ½ slash
+    t = re.sub(r"(?i)\b(over\s+12)\s+1\s*-\s*15\b", r"\1 1/2-15", t)
     t = re.sub(r"(?i)\b(up\s+to\s+12)\s*%\b", r"\1 1/2", t)
     # Band OCR sometimes emits ``Entries: x``; drop the bogus count marker.
     t = re.sub(r"(?i)\sentries\s*:\s*[^\d\s].*$", "", t)
@@ -1599,6 +1606,15 @@ def _extract_class_header_span(s: str, prior_hdr: str = "") -> str:
         cand = norm_space(raw)
         cand = re.split(r"(?i)\b(?:\d+|l|I)?(?:st|nd|rd|th)\s*:", cand)[0]
         return norm_space(cand.strip(" ,;|._-'\"`´"))
+
+    # Mid-band clip: ``… Priscilla … ced, On Lead Entries: 15`` (Advanced).
+    m_adv = re.search(
+        r"(?i)\b(?:ced|vanced|advanced)\s*,?\s*((?:On|Off)\s+Lead)\b"
+        r"[^|\n]{0,40}?entries\s*:\s*(\d+)",
+        flat,
+    )
+    if m_adv:
+        return norm_space(f"Advanced, {m_adv.group(1)} Entries: {m_adv.group(2)}")
 
     # Prefer title glued immediately before a place rank (right-col swallow).
     # OCR often splits ``Advanced, On Lead Entries: 2`` as
@@ -1854,6 +1870,41 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
                 if _try_insert_from_boxes(hb, hp, hn, x_off=x_off):
                     placed = True
                     break
+            if not placed:
+                # Last resort: vertical band sweep on right then left half.
+                # Catches clipped agility titles like ``ced, On Lead Entries: 15``.
+                for x0, x1 in ((w // 2 + 4, w), (0, max(8, w // 2 - 4))):
+                    best = ""
+                    best_sc = -1
+                    step = max(24, h // 40)
+                    band_h = max(48, h // 18)
+                    for y0 in range(0, max(1, h - band_h // 2), step):
+                        band = img.crop((x0, y0, x1, min(h, y0 + band_h)))
+                        hdr = _repair_truncated_class_header(
+                            _ocr_interstitial_class_header(band)
+                        )
+                        # Also try raw PSM6 line pull for clipped Advanced titles.
+                        if not hdr or not _is_plausible_recovered_header(hdr):
+                            try:
+                                raw = _tesseract_string(band, 6) or ""
+                            except Exception:
+                                raw = ""
+                            hdr = _accept_header(
+                                _extract_class_header_span(raw, prior_hdr)
+                            )
+                        else:
+                            hdr = _accept_header(hdr)
+                        if not hdr:
+                            continue
+                        sc = _score_header_span_for_prior(hdr, prior_hdr) + (
+                            5 if _ENTRIES_COUNT_RE.search(hdr) else 0
+                        )
+                        if sc > best_sc:
+                            best_sc, best = sc, hdr
+                    if best:
+                        inserts[gi] = best
+                        placed = True
+                        break
             if not placed:
                 nxt_span = _accept_swallowed(
                     _extract_class_header_span(boxes[bi_next][0], prior_hdr)
@@ -2179,6 +2230,21 @@ def _recover_owner_tails_from_image(img: Image.Image, text: str) -> str:
                     continue
                 # Prefix extension: Shirley Bui → Shirley Buis
                 if cur_l and owner.lower().startswith(cur_l):
+                    prefix_ext.append(owner)
+                    continue
+                # Same given-name tokens, OCR-garbled surname (Ost→Osby from band)
+                band_parts = _owner_tail_prefix_and_last(owner)
+                if (
+                    cur_parts
+                    and band_parts
+                    and cur_parts[0] == band_parts[0]
+                    and cur_parts[0]
+                    and len(band_parts[1]) > len(cur_parts[1])
+                    and band_parts[1].startswith(cur_parts[1][:2])
+                    and not is_owner_tail_trunc_line(
+                        f"1st: Dog, owned by {owner}"
+                    )
+                ):
                     prefix_ext.append(owner)
                     continue
                 # Ultra-short stub replaced by multi-token band owner
@@ -2754,6 +2820,8 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
     owned_re = re.compile(r"(?i)\bowned\s+by\b(.+)$")
     # Map (prefix, stub) -> set of longer last-name spellings seen in-doc
     longer: dict[tuple[tuple[str, ...], str], set[str]] = {}
+    # Map owner given-name prefix -> complete last-name spellings seen in-doc
+    by_prefix_lasts: dict[tuple[str, ...], set[str]] = {}
     # Map dog_lower -> set of full owned-by tails seen for that dog
     by_dog: dict[str, set[str]] = {}
     parsed: list[tuple[int, str, tuple[str, ...], str] | None] = []
@@ -2775,6 +2843,8 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
         # Index every owned-by last token as a potential completion source.
         # Keep the source line's casing for the completion spelling.
         last_disp = re.findall(r"[A-Za-z']+", owner_tail)[-1].rstrip(".,;:")
+        if not is_owner_tail_trunc_line(ln) and prefix:
+            by_prefix_lasts.setdefault(prefix, set()).add(last_disp)
         for stub_len in range(1, len(last)):
             stub = last[:stub_len]
             longer.setdefault((prefix, stub), set()).add(last_disp)
@@ -2806,6 +2876,25 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
                 count=1,
             )
             continue
+        # Same given-name prefix, OCR-garbled last (Ost→Osby): unique longer
+        # last for this prefix sharing the stub's first two letters.
+        if prefix and len(last) >= 2:
+            pref_cands = {
+                c
+                for c in by_prefix_lasts.get(prefix, set())
+                if len(c) > len(last) and c.lower().startswith(last[:2])
+            }
+            if len(pref_cands) == 1:
+                completion = next(iter(pref_cands))
+                out[i] = re.sub(
+                    r"([A-Za-z']+)(\s*)$",
+                    lambda mm, comp=completion, stub=last: comp + mm.group(2)
+                    if mm.group(1).lower().rstrip(".") == stub
+                    else mm.group(0),
+                    out[i],
+                    count=1,
+                )
+                continue
         # Bare / ultra-short stub: unique longer owner on the same dog
         dog = _dog_name_before_owned_by(out[i])
         if not dog:

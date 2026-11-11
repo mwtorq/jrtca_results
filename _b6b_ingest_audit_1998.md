@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1998
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 7  cleaned=3  PASS=1  WARN=2  FAIL=4
+Volumes: 7  cleaned=0  PASS=1  WARN=3  FAIL=3
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,12 +17,12 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| WARN | True | 0 | 9 | C6×5,S4/O×3,C6/O1×1 | `1998 Vol I, pt 1_ocr_hqmax.txt` |
+| WARN | False | 0 | 9 | C6×5,S4/O×3,C6/O1×1 | `1998 Vol I, pt 1_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1998 Vol I, pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 25 | C6×25 | `1998 Vol I, pt 3_ocr_hqmax.txt` |
-| FAIL | True | 5 | 10 | S4/O×7,C6×3,C1×3,O6×2 | `1998 Vol II, pt 1_ocr_hqmax.txt` |
+| WARN | False | 0 | 10 | S4/O×7,C6×3 | `1998 Vol II, pt 1_ocr_hqmax.txt` |
 | FAIL | False | 12 | 8 | C1×8,S4/O×5,O6×4,C6×2,?/4th_then_6th_no_5×1 | `1998 Vol II, pt 2_ocr_hqmax.txt` |
-| FAIL | True | 10 | 3 | C1×7,O6×3,S4/O×2,C6×1 | `1998 Vol III, pt 1_ocr_hqmax.txt` |
+| FAIL | False | 10 | 3 | C1×7,O6×3,S4/O×2,C6×1 | `1998 Vol III, pt 1_ocr_hqmax.txt` |
 | FAIL | False | 9 | 6 | S4/O×6,C1×6,O6×3 | `1998 Vol III, pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -49,9 +49,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 7
 - `C6` / `orphan_entry_count`: 4
 
-### `1998 Vol II, pt 1_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 12 1/2-15" Champion: Peck's Bad Boy JJ, owned by St
-- `O6` / `owner_tail_trunc`: 12 15" Champion: Terrier Turf Mayhem, owned by Kevin & Shannon Ost
+### `1998 Vol II, pt 1_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 2nd: Peck's Bad Boy JJ, ow
 - `S4/O` / `missing_owned_by`: 6th: Indian River Spencer, Mike & Betty Bilinski
 - `S4/O` / `missing_owned_by`: 1st: Camerton Hall Allure, Ann Coffin
