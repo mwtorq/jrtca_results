@@ -1140,6 +1140,7 @@ _SECTIONISH_RE = re.compile(
     r"\bhandler\s+class\b|\bshowmanship\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
+    r"\bsuitability\b|\bspayed\b|\bneutered\b|"
     r"\d+\s*(?:up to|/|-)\s*\d+"
 )
 _CLASS_HEADER_HINT_RE = re.compile(
@@ -1154,6 +1155,7 @@ _CLASS_HEADER_HINT_RE = re.compile(
     r"\bhandler\b|\bshowmanship\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
+    r"\bsuitability\b|\bspayed\b|\bneutered\b|"
     r"\d+\s*(?:up to|/|-)\s*\d+|"
     r"yr\s*&?\s*older|months?\b"
 )
@@ -4002,13 +4004,15 @@ def _is_ocr_noise_line(s: str) -> bool:
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
         r"go-?to-?ground|conformation|novice|open|puppy|working\s+terrier|"
         r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veteran|"
-        r"handler|showmanship|pee\s*wee)\b",
+        r"handler|showmanship|pee\s*wee|suitability|spayed|neutered|"
+        r"red\s+fox|bronze|silver|gold)\b",
         s,
     ):
         return False
     if re.match(r"(?i)^(?:\d*(?:st|nd|rd|th)|best)\s*:", s):
         return False
     # Entries: keep class headers + bare ``Entries:``; drop owner-crumb + Entries bleed
+    # NOTE: ``Suitability To Red Fox Entries: N`` must stay (was false-noise → C1 gap).
     if re.search(r"(?i)\bentries\s*:", s):
         if re.match(r"(?i)^entries\s*:", s):
             return False
@@ -4016,6 +4020,7 @@ def _is_ocr_noise_line(s: str) -> bool:
             r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|adults?|pair|"
             r"family|bred|youth|child|junior|handler|pee\s*wee|showmanship|"
             r"working|veteran|racing|agility|steeple|"
+            r"suitability|spayed|neutered|fox|bronze|silver|gold|"
             r"championship|certificate|pre-|gtg|smooth|broken|rough|"
             r"puppies|bitches|dogs)\b",
             s,
