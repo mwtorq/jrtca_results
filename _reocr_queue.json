@@ -50,8 +50,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 40,
-    "top_catalog": "C1\u00d725,O6\u00d715,C6\u00d74,S4/O\u00d73,C6/O1\u00d71",
+    "fail_hits": 31,
+    "top_catalog": "C1\u00d725,O6\u00d76,C6\u00d75,S4/O\u00d73,C6/O1\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -60,8 +60,8 @@
     "codes": [
       "class_header_gap"
     ],
-    "fail_hits": 3,
-    "top_catalog": "C6\u00d725,C1\u00d73",
+    "fail_hits": 4,
+    "top_catalog": "C6\u00d725,C1\u00d74",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -83,7 +83,7 @@
       "owner_tail_trunc"
     ],
     "fail_hits": 30,
-    "top_catalog": "C1\u00d723,O6\u00d77,S4/O\u00d75,?/4th_then_6th_no_5\u00d71,C6\u00d71",
+    "top_catalog": "C1\u00d723,O6\u00d77,S4/O\u00d75,C6\u00d72,?/4th_then_6th_no_5\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -93,8 +93,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 33,
-    "top_catalog": "C1\u00d725,O6\u00d78,S4/O\u00d72,C6\u00d72",
+    "fail_hits": 29,
+    "top_catalog": "C1\u00d725,O6\u00d74,S4/O\u00d72,C6\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -104,8 +104,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 31,
-    "top_catalog": "C1\u00d725,O6\u00d76,S4/O\u00d75",
+    "fail_hits": 28,
+    "top_catalog": "C1\u00d725,S4/O\u00d75,O6\u00d73",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -115,8 +115,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 33,
-    "top_catalog": "C1\u00d725,O6\u00d78,S4/O\u00d71,C6\u00d71",
+    "fail_hits": 29,
+    "top_catalog": "C1\u00d725,O6\u00d74,S4/O\u00d71,C6\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -126,8 +126,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 35,
-    "top_catalog": "C1\u00d725,O6\u00d710,S4/O\u00d72",
+    "fail_hits": 34,
+    "top_catalog": "C1\u00d725,O6\u00d79,S4/O\u00d72,?/4th_then_6th_no_5\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -170,8 +170,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 31,
-    "top_catalog": "C1\u00d725,S4/O\u00d77,O6\u00d76,C6/O1\u00d71,C6\u00d71",
+    "fail_hits": 30,
+    "top_catalog": "C1\u00d725,S4/O\u00d77,O6\u00d75,C6/O1\u00d71,C6\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -215,7 +215,7 @@
       "owner_tail_trunc"
     ],
     "fail_hits": 43,
-    "top_catalog": "C1\u00d725,O6\u00d718,S4/O\u00d710,C6\u00d77,?/4th_then_6th_no_5\u00d72",
+    "top_catalog": "C1\u00d725,O6\u00d718,S4/O\u00d710,C6\u00d77",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -225,8 +225,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 38,
-    "top_catalog": "C1\u00d725,O6\u00d713,S4/O\u00d77,C6/O1\u00d72,S4\u00d71,?/4th_then_6th_no_5\u00d71",
+    "fail_hits": 34,
+    "top_catalog": "C1\u00d725,O6\u00d79,S4/O\u00d77,C6/O1\u00d72,S4\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -236,8 +236,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 19,
-    "top_catalog": "C1\u00d717,C6\u00d74,O6\u00d72,S4/O\u00d72",
+    "fail_hits": 17,
+    "top_catalog": "C1\u00d715,C6\u00d74,O6\u00d72,S4/O\u00d72",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -246,8 +246,8 @@
     "codes": [
       "class_header_gap"
     ],
-    "fail_hits": 15,
-    "top_catalog": "C1\u00d715",
+    "fail_hits": 12,
+    "top_catalog": "C1\u00d712",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -278,8 +278,8 @@
     "codes": [
       "class_header_gap"
     ],
-    "fail_hits": 22,
-    "top_catalog": "C1\u00d722,S4/O\u00d72,C6\u00d72",
+    "fail_hits": 18,
+    "top_catalog": "C1\u00d718,S4/O\u00d72,C6\u00d72",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -311,8 +311,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 8,
-    "top_catalog": "C1\u00d76,S4/O\u00d73,O6\u00d72",
+    "fail_hits": 6,
+    "top_catalog": "C1\u00d74,S4/O\u00d73,O6\u00d72",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -321,8 +321,8 @@
     "codes": [
       "class_header_gap"
     ],
-    "fail_hits": 17,
-    "top_catalog": "C1\u00d717,C6/O1\u00d72,C6\u00d72",
+    "fail_hits": 15,
+    "top_catalog": "C1\u00d715,C6/O1\u00d72,C6\u00d72",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -344,7 +344,7 @@
       "owner_tail_trunc"
     ],
     "fail_hits": 36,
-    "top_catalog": "C1\u00d725,O6\u00d711,S4/O\u00d79,C6\u00d78,C6/O1\u00d71",
+    "top_catalog": "C1\u00d725,O6\u00d711,S4/O\u00d78,C6\u00d78,C6/O1\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -354,8 +354,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 21,
-    "top_catalog": "C1\u00d715,O6\u00d76,S4/O\u00d74,S4\u00d71,?/4th_then_6th_no_5\u00d71",
+    "fail_hits": 17,
+    "top_catalog": "C1\u00d711,O6\u00d76,S4/O\u00d74,S4\u00d71,?/4th_then_6th_no_5\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
