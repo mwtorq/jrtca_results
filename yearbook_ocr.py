@@ -1949,6 +1949,97 @@ def _inject_headers_from_column_boxes(img: Image.Image, text: str) -> str:
     return _dedupe_adjacent_class_headers("\n".join(lines))
 
 
+def _recover_owner_tails_from_image(img: Image.Image, text: str) -> str:
+    """Re-OCR place-line bands for O6 stubs; keep only longer same-line evidence.
+
+    Does not invent surnames: the replacement must come from a band OCR of the
+    matched place box, share the dog name, and either extend the stub prefix
+    (``Bui``→``Buis``) or replace an ultra-short stub (``y``) with a multi-token
+    owner read from that same band.
+    """
+    if not text or img is None:
+        return text
+    lines = text.splitlines()
+    o6_idxs = [i for i, ln in enumerate(lines) if is_owner_tail_trunc_line(ln)]
+    if not o6_idxs:
+        return text
+    boxes = _ocr_column_line_boxes(img)
+    if len(boxes) < 2:
+        return text
+    owned_re = re.compile(r"(?i)^(.*?)\bowned\s+by\b\s*(.+)$")
+    used: set[int] = set()
+    out = list(lines)
+    h = img.size[1]
+    for gi in o6_idxs:
+        bi = _match_text_line_to_box(lines[gi], boxes, used)
+        if bi is None:
+            continue
+        used.add(bi)
+        _bt, y0, y1 = boxes[bi]
+        pad = max(4, (y1 - y0) // 4)
+        band = img.crop((0, max(0, y0 - pad), img.size[0], min(h, y1 + pad)))
+        scale = 3 if band.size[1] <= 40 else 2
+        big = band.resize(
+            (band.size[0] * scale, band.size[1] * scale), Image.Resampling.LANCZOS
+        )
+        dog = _dog_name_before_owned_by(lines[gi]) or ""
+        dog_key = re.sub(r"[^a-z]", "", dog.lower())[:8]
+        m_cur = re.search(r"(?i)\bowned\s+by\b(.+)$", lines[gi])
+        if not m_cur:
+            continue
+        cur_owner = m_cur.group(1).strip()
+        cur_parts = _owner_tail_prefix_and_last(cur_owner)
+        prefix_ext: list[str] = []
+        short_repl: list[str] = []
+        cur_l = cur_owner.lower().rstrip(".,;:")
+        for psm in (6, 7, 4):
+            try:
+                raw = _tesseract_string(big, psm)
+            except Exception:
+                continue
+            for ln in raw.splitlines():
+                s = norm_space(fix_ocr_li_confusion(ln))
+                m = owned_re.match(s)
+                if not m:
+                    continue
+                head, owner = norm_space(m.group(1)), norm_space(m.group(2))
+                if dog_key and dog_key not in re.sub(r"[^a-z]", "", head.lower()):
+                    if dog_key not in re.sub(r"[^a-z]", "", s.lower()):
+                        continue
+                owner = owner.strip(" ,;|._-'\"`´")
+                if not owner or len(owner) <= len(cur_owner):
+                    continue
+                # Prefix extension: Shirley Bui → Shirley Buis
+                if cur_l and owner.lower().startswith(cur_l):
+                    prefix_ext.append(owner)
+                    continue
+                # Ultra-short stub replaced by multi-token band owner
+                if (
+                    cur_parts
+                    and len(cur_parts[1]) <= 2
+                    and len(re.findall(r"[A-Za-z]+", owner)) >= 2
+                ):
+                    short_repl.append(owner)
+        best = ""
+        if prefix_ext:
+            # Shortest true extension — avoids ``Buis``+bleed ``t`` → ``Buist``.
+            best = min(prefix_ext, key=len)
+        elif short_repl:
+            # Prefer repeated reads; else shortest multi-token owner.
+            counts: dict[str, int] = {}
+            for o in short_repl:
+                counts[o] = counts.get(o, 0) + 1
+            best = sorted(counts.items(), key=lambda kv: (-kv[1], len(kv[0])))[0][0]
+        if not best:
+            continue
+        out[gi] = re.sub(
+            r"(?i)(\bowned\s+by\b\s+).+$",
+            r"\1" + best,
+            out[gi],
+        )
+    return "\n".join(out)
+
+
 def _fill_missing_class_titles(
     img: Image.Image, text: str, candidates: list[str] | None = None
 ) -> str:
@@ -1967,6 +2058,7 @@ def _fill_missing_class_titles(
             text, [fix_place_rank_ocr(c) for c in candidates]
         )
     text = _recover_class_titles_from_image(img, text)
+    text = _recover_owner_tails_from_image(img, text)
     return _dedupe_adjacent_class_headers(text)
 
 
@@ -2382,6 +2474,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "zack",
         "john",
         "jon",
+        "jan",  # yearbook mononym (Paumanok Glimmer); image shows no surname
         "ali",
         "miwa",
     }
