@@ -1217,9 +1217,15 @@ def _is_plausible_recovered_header(s: str) -> bool:
     # Require a known class stem somewhere — bare ``Entries: N`` is not enough.
     if not _CLASS_HEADER_SPAN_RE.search(t) and not re.search(
         r"(?i)\b(?:stud\s+dog|brood\s+bitch|suitability|spayed|neutered|"
-        r"family|veteran\s+terrier|(?:new\s+york|long\s+island)\s+bred)\b",
+        r"family|bronze\s+medallion|pairs?\s+class|veteran\s+terrier|"
+        r"(?:new\s+york|long\s+island)\s+bred)\b",
         t,
     ):
+        return False
+    # Reject garbage entry counts / smashed heights from band OCR.
+    if re.search(r"(?i)entries\s*:\s*[^\d\s]", t):
+        return False
+    if re.search(r"(?i)\bover\s+12\s+15\s*-\s*15\b", t):
         return False
     return True
 
@@ -1468,7 +1474,8 @@ _CLASS_HEADER_SPAN_WITH_ENTRIES_RE = re.compile(
     r"(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|advanced|"
     r"starters(?:\s+agility)?|agility(?:\s+[ivx1-3]+)?|"
     r"bred\s+by(?:\s+exhibitor)?|suitability|spayed|neutered|"
-    r"family|veteran\s+terrier|(?:new\s+york|long\s+island)\s+bred|"
+    r"family|(?:bronze\s+)?medallion(?:\s+class)?|pairs?\s+class|"
+    r"veteran\s+terrier|(?:new\s+york|long\s+island)\s+bred|"
     r"(?:youth|junior|child|pee\s*wee)\s+handler)"
     r"\b[^|\n]{0,110}?"
     r"entries\s*:\s*\d+"
@@ -1479,7 +1486,8 @@ _CLASS_HEADER_SPAN_RE = re.compile(
     r"(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|advanced|"
     r"starters(?:\s+agility)?|agility(?:\s+[ivx1-3]+)?|"
     r"bred\s+by(?:\s+exhibitor)?|suitability|spayed|neutered|"
-    r"family|veteran\s+terrier|(?:new\s+york|long\s+island)\s+bred|"
+    r"family|(?:bronze\s+)?medallion(?:\s+class)?|pairs?\s+class|"
+    r"veteran\s+terrier|(?:new\s+york|long\s+island)\s+bred|"
     r"(?:youth|junior|child|pee\s*wee)\s+handler)"
     r"\b[^|\n]{0,90}"
     r")"
@@ -1499,9 +1507,90 @@ _AGILITY_LEVEL_TITLE_RE = re.compile(
 )
 
 
-def _extract_class_header_span(s: str) -> str:
+def _repair_truncated_class_header(s: str) -> str:
+    """Restore leading letters clipped by tight right-column crops.
+
+    Image evidence: ``ze Medallion Class`` → Bronze; ``erans, 6 years`` → Veterans.
+    Never invent a new class — only complete known clipped stems.
+    """
+    t = norm_space(s or "")
+    if not t:
+        return t
+    reps = (
+        (r"(?i)^ze\s+medallion\b", "Bronze Medallion"),
+        (r"(?i)^bronze\s+medallion\b", "Bronze Medallion"),
+        (r"(?i)^(?:medallion\s+class)\b", "Bronze Medallion Class"),
+        (r"(?i)^erans\b", "Veterans"),
+        (r"(?i)^eterans\b", "Veterans"),
+        (r"(?i)^itches\b", "Bitches"),
+        (r"(?i)^ogs\b", "Dogs"),
+        (r"(?i)^ups\b", "Pups"),
+        (r"(?i)^amily\b", "Family"),
+        (r"(?i)^airs\b", "Pairs"),
+    )
+    for pat, repl in reps:
+        nt = re.sub(pat, repl, t, count=1)
+        if nt != t:
+            t = nt
+            break
+    # OCR often reads ½ as % or drops it: ``over 12 %-15`` / ``over 12 15-15``.
+    t = re.sub(r"(?i)\b(over\s+12)\s*%\s*-?\s*15\b", r"\1 1/2-15", t)
+    t = re.sub(r"(?i)\b(over\s+12)\s+15\s*-\s*15\b", r"\1 1/2-15", t)
+    t = re.sub(r"(?i)\b(up\s+to\s+12)\s*%\b", r"\1 1/2", t)
+    # Band OCR sometimes emits ``Entries: x``; drop the bogus count marker.
+    t = re.sub(r"(?i)\sentries\s*:\s*[^\d\s].*$", "", t)
+    t = re.sub(r"(?i)\sentries\s*:\s*$", "", t)
+    return norm_space(t)
+
+
+def _header_division_family(s: str) -> str:
+    """Coarse division bucket for smashed left+right header disambiguation."""
+    t = norm_space(s or "").lower()
+    if re.search(r"(?i)\b(?:agility|on\s+lead|off\s+lead|starters)\b", t):
+        return "agility"
+    if re.search(r"(?i)\b(?:obedience|sub\s*novice)\b", t):
+        return "obedience"
+    if re.search(r"(?i)\b(?:handler|bronze\s+medallion|pairs?|family)\b", t):
+        return "special"
+    if re.search(r"(?i)\bveterans?\b", t):
+        return "veterans"
+    if re.search(r"(?i)\bbitches?\b", t):
+        return "bitches"
+    if re.search(r"(?i)\bdogs?\b", t):
+        return "dogs"
+    if re.search(r"(?i)\b(?:pups?|puppies)\b", t):
+        return "pups"
+    return ""
+
+
+def _score_header_span_for_prior(cand: str, prior_hdr: str) -> int:
+    """Higher is better when choosing among smashed multi-header box spans."""
+    if not cand:
+        return -100
+    score = 0
+    if _ENTRIES_COUNT_RE.search(cand):
+        score += 3
+    if not prior_hdr:
+        return score
+    pf = _header_division_family(prior_hdr)
+    cf = _header_division_family(cand)
+    if not pf or not cf:
+        return score
+    # Left-col racing/conformation continuation beats jumping to right-col agility.
+    if pf in {"bitches", "dogs", "veterans", "pups"} and cf == "agility":
+        score -= 12
+    if pf in {"bitches", "dogs", "pups"} and cf == "veterans":
+        score += 8
+    if pf == cf:
+        score += 4
+    if pf == "special" and cf == "special":
+        score += 6
+    return score
+
+
+def _extract_class_header_span(s: str, prior_hdr: str = "") -> str:
     """Pull a class-title span out of a noisy interstitial OCR string."""
-    flat = norm_space(fix_ocr_li_confusion(s or ""))
+    flat = _repair_truncated_class_header(fix_ocr_li_confusion(s or ""))
     flat = re.sub(r"^[\s|Z_~]+", "", flat)
     flat = re.sub(r"(?i)^TEEPLECHASE\b", "STEEPLECHASE", flat)
     flat = re.sub(r"(?i)^ACING\s+CHAMPIONS\b", "RACING CHAMPIONS", flat)
@@ -1529,13 +1618,25 @@ def _extract_class_header_span(s: str) -> str:
         if cand and _looks_like_class_header_line(cand):
             return cand
 
-    # Prefer the last Entries-bearing span — left-col titles often precede
-    # the right-col title in the same smashed box line.
+    # Multiple Entries-bearing spans: left-col title often precedes right-col
+    # title in the same smashed box. Prefer last by default (right-col gap),
+    # but when prior header is racing/conformation, prefer the continuation
+    # stem (e.g. Bitches → Veterans) over a right-col Agility title.
     matches = list(_CLASS_HEADER_SPAN_WITH_ENTRIES_RE.finditer(flat))
     if matches:
-        cand = _clean_cand(matches[-1].group(1))
-        if cand:
-            return cand
+        cands = [_clean_cand(m.group(1)) for m in matches]
+        cands = [c for c in cands if c]
+        if cands:
+            if prior_hdr and len(cands) > 1:
+                best = max(
+                    cands,
+                    key=lambda c: (
+                        _score_header_span_for_prior(c, prior_hdr),
+                        -cands.index(c),
+                    ),
+                )
+                return best
+            return cands[-1]
     m = _CLASS_HEADER_SPAN_RE.search(flat)
     if not m:
         return flat
@@ -1622,6 +1723,103 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
     used: set[int] = set()
     inserts: dict[int, str] = {}
     h = img.size[1]
+    w = img.size[0]
+    half_cache: dict[str, list[tuple[str, int, int]]] = {}
+
+    def _half_boxes(side: str) -> list[tuple[str, int, int]]:
+        if side in half_cache:
+            return half_cache[side]
+        if side == "L":
+            crop = img.crop((0, 0, max(8, w // 2 - 4), h))
+        else:
+            crop = img.crop((min(w - 8, w // 2 + 4), 0, w, h))
+        half_cache[side] = _ocr_column_line_boxes(crop)
+        return half_cache[side]
+
+    def _accept_header(span: str) -> str:
+        """Return repaired plausible header, or ``\"\"`` if rejected."""
+        span = _repair_truncated_class_header(span or "")
+        if not span:
+            return ""
+        if not _is_plausible_recovered_header(span):
+            return ""
+        if prior_hdr and _headers_near_duplicate(span, prior_hdr):
+            return ""
+        if _text_has_near_header(lines, span):
+            return ""
+        return span
+
+    def _accept_swallowed(span: str) -> str:
+        span = _repair_truncated_class_header(span or "")
+        if not span:
+            return ""
+        if not (
+            _ENTRIES_COUNT_RE.search(span) or _AGILITY_LEVEL_TITLE_RE.search(span)
+        ):
+            return ""
+        return _accept_header(span)
+
+    def _try_insert_from_boxes(
+        box_list: list[tuple[str, int, int]],
+        bi_p: int,
+        bi_n: int,
+        x_off: int = 0,
+    ) -> bool:
+        if bi_n <= bi_p:
+            nxt_span = _accept_swallowed(
+                _extract_class_header_span(box_list[bi_n][0], prior_hdr)
+            )
+            if nxt_span:
+                inserts[gi] = nxt_span
+                return True
+            return False
+        y0 = box_list[bi_p][2]
+        y1 = box_list[bi_n][1]
+        for bj in range(bi_p + 1, bi_n):
+            bt = _accept_header(
+                _extract_class_header_span(box_list[bj][0], prior_hdr)
+            )
+            if not bt:
+                continue
+            inserts[gi] = bt
+            return True
+        nxt_span = _accept_swallowed(
+            _extract_class_header_span(box_list[bi_n][0], prior_hdr)
+        )
+        if nxt_span:
+            inserts[gi] = nxt_span
+            return True
+        gap_h = y1 - y0
+        if gap_h > max(120, h // 8):
+            return False
+        if gap_h >= 6:
+            pad = max(2, gap_h // 6)
+            band_y0 = max(0, y0 - pad)
+            band_y1 = min(h, y1 + pad)
+        else:
+            next_h = max(8, box_list[bi_n][2] - box_list[bi_n][1])
+            band_y0 = max(0, min(y0, y1) - 25)
+            band_y1 = min(h, max(y0, y1) + max(35, next_h // 3))
+            if band_y1 - band_y0 < 8:
+                return False
+        # Half-page boxes are y-local to the crop; x_off selects full/half band.
+        if x_off > 0:
+            band = img.crop((x_off, band_y0, w, band_y1))
+        elif x_off < 0:
+            band = img.crop((0, band_y0, max(8, w // 2 - 4), band_y1))
+        else:
+            band = img.crop((0, band_y0, w, band_y1))
+        hdr = _ocr_interstitial_class_header(band)
+        if prior_hdr and _header_division_family(hdr) == "agility":
+            alt = _extract_class_header_span(hdr, prior_hdr)
+            if alt:
+                hdr = alt
+        hdr = _accept_header(hdr)
+        if hdr:
+            inserts[gi] = hdr
+            return True
+        return False
+
     for gi in gaps:
         pi = _prev_place_idx(gi)
         if pi is None:
@@ -1632,76 +1830,41 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
         if bi_prev is None or bi_next is None:
             continue
 
-        def _accept_swallowed(span: str) -> bool:
-            return bool(
-                span
-                and (
-                    _ENTRIES_COUNT_RE.search(span)
-                    or _AGILITY_LEVEL_TITLE_RE.search(span)
-                )
-                and _is_plausible_recovered_header(span)
-                and not (prior_hdr and _headers_near_duplicate(span, prior_hdr))
-                and not _text_has_near_header(lines, span)
-            )
-
         if bi_next <= bi_prev:
-            # Column smash can map prev/next onto overlapping boxes; still try
-            # a swallowed agility/class title from the ``1st:`` box.
-            nxt_span = _extract_class_header_span(boxes[bi_next][0])
-            if _accept_swallowed(nxt_span):
-                inserts[gi] = nxt_span
-                used.add(bi_next)
+            # Full-page column smash: rematch on left/right halves (right first —
+            # many Yuletide/racing gaps sit after --- column RIGHT ---).
+            placed = False
+            for side, x_off in (("R", w // 2 + 4), ("L", -1)):
+                hb = _half_boxes(side)
+                if len(hb) < 4:
+                    continue
+                hp = _match_text_line_to_box(lines[pi], hb, set())
+                hn = _match_text_line_to_box(lines[gi], hb, set())
+                if hp is None or hn is None or hn <= hp:
+                    # Still try swallowed title on the next-place half-box.
+                    if hn is not None:
+                        nxt_span = _accept_swallowed(
+                            _extract_class_header_span(hb[hn][0], prior_hdr)
+                        )
+                        if nxt_span:
+                            inserts[gi] = nxt_span
+                            placed = True
+                            break
+                    continue
+                if _try_insert_from_boxes(hb, hp, hn, x_off=x_off):
+                    placed = True
+                    break
+            if not placed:
+                nxt_span = _accept_swallowed(
+                    _extract_class_header_span(boxes[bi_next][0], prior_hdr)
+                )
+                if nxt_span:
+                    inserts[gi] = nxt_span
+                    used.add(bi_next)
             continue
         used.add(bi_prev)
         used.add(bi_next)
-        y0 = boxes[bi_prev][2]  # bottom of prior place
-        y1 = boxes[bi_next][1]  # top of new 1st
-        # Prefer any already-visible box text in the interstitial that looks
-        # like a header (cheap win before a re-OCR).
-        for bj in range(bi_prev + 1, bi_next):
-            bt = _extract_class_header_span(boxes[bj][0])
-            if not _is_plausible_recovered_header(bt):
-                continue
-            if prior_hdr and _headers_near_duplicate(bt, prior_hdr):
-                continue
-            if _text_has_near_header(lines, bt):
-                continue
-            inserts[gi] = bt
-            break
-        if gi in inserts:
-            continue
-        # Next place box often swallows the header (highlight smear / tight Y).
-        # Prefer Entries-bearing spans; also allow agility level titles
-        # (``Advanced, On Lead``) when Entries was lost in the smash.
-        nxt_span = _extract_class_header_span(boxes[bi_next][0])
-        if _accept_swallowed(nxt_span):
-            inserts[gi] = nxt_span
-            continue
-        gap_h = y1 - y0
-        if gap_h > max(120, h // 8):
-            # Too tall — likely misaligned boxes; skip rather than invent.
-            continue
-        if gap_h >= 6:
-            pad = max(2, gap_h // 6)
-            band_y0 = max(0, y0 - pad)
-            band_y1 = min(h, y1 + pad)
-        else:
-            # Boxes abut/overlap — probe a thin strip across the boundary and
-            # the upper third of the next place box (where the title sits).
-            next_h = max(8, boxes[bi_next][2] - boxes[bi_next][1])
-            band_y0 = max(0, min(y0, y1) - 25)
-            band_y1 = min(h, max(y0, y1) + max(35, next_h // 3))
-            if band_y1 - band_y0 < 8:
-                continue
-        band = img.crop((0, band_y0, img.size[0], band_y1))
-        hdr = _ocr_interstitial_class_header(band)
-        if (
-            hdr
-            and _is_plausible_recovered_header(hdr)
-            and not (prior_hdr and _headers_near_duplicate(hdr, prior_hdr))
-            and not _text_has_near_header(lines, hdr)
-        ):
-            inserts[gi] = hdr
+        _try_insert_from_boxes(boxes, bi_prev, bi_next, x_off=0)
 
     if not inserts:
         return text
@@ -1782,7 +1945,12 @@ def _headers_near_duplicate(a: str, b: str) -> bool:
     for coat in ("smooth", "rbr", "rough", "broken"):
         if (coat in sa) != (coat in sb):
             return False
-    # Dog vs Bitch / Child vs Junior are different classes.
+    # Dog vs Bitch / Child vs Junior / Veteran vs adult are different classes.
+    # Shared stems like ``older``/``over`` must not collapse Veterans into Bitches.
+    if (bool(sa & {"veteran", "veterans"}) and not bool(sb & {"veteran", "veterans"})) or (
+        bool(sb & {"veteran", "veterans"}) and not bool(sa & {"veteran", "veterans"})
+    ):
+        return False
     if (bool(sa & {"dog", "dogs"}) and bool(sb & {"bitch", "bitches"})) or (
         bool(sa & {"bitch", "bitches"}) and bool(sb & {"dog", "dogs"})
     ):
@@ -2289,7 +2457,7 @@ _OWNER_TAIL_STUBS = frozenset(
         "eic",  # "...Cathy Eic" → Eick
         "tes",  # "...Priscilla Tes" → Testa
         "tac",  # "...Sue Tac" → Tack
-        "nel",  # "...Laura Nel" → Nelson
+        # "nel" removed: 1998 Vol I pt1 p66 image shows complete surname Nel
         "tri",  # "...Valerie Tri" → ?
         "sul",  # "...Barbara Sul" → Sullivan
     }
@@ -2475,6 +2643,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "john",
         "jon",
         "jan",  # yearbook mononym (Paumanok Glimmer); image shows no surname
+        "nel",  # 1998 Vol I pt1 p66 image: Andre & Laura Nel (complete)
         "ali",
         "miwa",
     }

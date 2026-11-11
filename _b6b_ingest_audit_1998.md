@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1998
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 7  cleaned=7  PASS=1  WARN=1  FAIL=5
+Volumes: 7  cleaned=3  PASS=1  WARN=2  FAIL=4
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,21 +17,17 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 25 | 9 | C1×21,C6×5,O6×4,S4/O×3,C6/O1×1 | `1998 Vol I, pt 1_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1998 Vol I, pt 2_ocr_hqmax.txt` |
-| WARN | True | 0 | 25 | C6×25 | `1998 Vol I, pt 3_ocr_hqmax.txt` |
-| FAIL | True | 25 | 10 | C1×23,S4/O×7,C6×3,O6×2 | `1998 Vol II, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 24 | 9 | C1×20,S4/O×5,O6×4,C6×2,?/4th_then_2nd×1,?/4th_then_6th_no_5×1 | `1998 Vol II, pt 2_ocr_hqmax.txt` |
-| FAIL | True | 28 | 3 | C1×25,O6×3,S4/O×2,C6×1 | `1998 Vol III, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 27 | 5 | C1×24,S4/O×5,O6×3 | `1998 Vol III, pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 9 | C6×5,S4/O×3,C6/O1×1 | `1998 Vol I, pt 1_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1998 Vol I, pt 2_ocr_hqmax.txt` |
+| WARN | False | 0 | 25 | C6×25 | `1998 Vol I, pt 3_ocr_hqmax.txt` |
+| FAIL | True | 5 | 10 | S4/O×7,C6×3,C1×3,O6×2 | `1998 Vol II, pt 1_ocr_hqmax.txt` |
+| FAIL | False | 12 | 8 | C1×8,S4/O×5,O6×4,C6×2,?/4th_then_6th_no_5×1 | `1998 Vol II, pt 2_ocr_hqmax.txt` |
+| FAIL | True | 10 | 3 | C1×7,O6×3,S4/O×2,C6×1 | `1998 Vol III, pt 1_ocr_hqmax.txt` |
+| FAIL | False | 9 | 6 | S4/O×6,C1×6,O6×3 | `1998 Vol III, pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
-### `1998 Vol I, pt 1_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 12 1/2-15" Champion: Arrowhead Micanopy, owned by Scot
-- `O6` / `owner_tail_trunc`: 1215" Champion: Arrowhead Margarita, owned by Scott & Kathy Net
-- `O6` / `owner_tail_trunc`: 12 1/2-15" Champion: Arrowhead Margarita, owned by Scott & Kathy Net
-- `O6` / `owner_tail_trunc`: 5th: Button Top Texy, owned by Andre & Laura Nel
+### `1998 Vol I, pt 1_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 2nd: Cody, Michele Southerland
 - `S4/O` / `missing_owned_by`: 1st: Westmorland Best Bet Yet, Lisa Westmorland
 - `S4/O` / `missing_owned_by`: 1st: Fair Oaks Texas, Anne de'Treville
@@ -68,8 +64,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 35
 
 ### `1998 Vol II, pt 2_ocr_hqmax.txt` (FAIL)
-- `?` / `4th_then_2nd`: 4th: Smokey Magnolia, owned by George Ridler
-2nd: East Gremstead Luther, owned by Stacy Kovall
 - `?` / `4th_then_6th_no_5`: 4th: Whispering Winds Sir Willie, owned by Ken & Mary Winfield
 6th: Farmcliff Snowflake, owned by Genie Franklin AIL IZ 90 UT miiomm Ad bie: vrs IirmnlAarr
 - `O6` / `owner_tail_trunc`: 10-12 1/2"" Champion: Northgate Scoundrel, owned by Doug & St
@@ -82,6 +76,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 1st: B.J. Duty, Ill
 - `S4/O` / `missing_owned_by`: 4th: Rock Rest Sadie, Judi Buckowski
 - `C6` / `orphan_entry_count`: 11
+- `C6` / `orphan_entry_count`: 10
 
 ### `1998 Vol III, pt 1_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 2nd: Zachary, owned by Jim & Ann Van Noy
@@ -91,11 +86,11 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 2nd: Wootinhille Destiny, Tammy Short
 - `C6` / `orphan_entry_count`: 4
 - `C1` / `class_header_gap`: 1st: Fox Run Rivet, owned by Gaye Redpath
-- `C1` / `class_header_gap`: 1st: North Fork Maggie, owned by Karen & Alan Cooper
 - `C1` / `class_header_gap`: 1st: Farmcliff Holland, owned by Doug & Sue Tack
+- `C1` / `class_header_gap`: 1st: Monterey Jack, owned by Gene Harvey
+- `C1` / `class_header_gap`: 1st: Conquest Chaos, owned by Michelle Ward
+- `C1` / `class_header_gap`: 1st: Kintail Bear, owned by Susan McRea
 - `C1` / `class_header_gap`: 1st: Big Sky Annie, owned by Doug & Sue Tack
-- `C1` / `class_header_gap`: 1st: Farmcliff Duke, owned by J.Hughes/K.Hunter
-- `C1` / `class_header_gap`: 1st: Deegan, owned by Doug & Sue Tack
 
 ### `1998 Vol III, pt 2_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: Reserve: Northwood Freddie, owned by Kevin & Shannon Ost
@@ -106,7 +101,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 2nd: Bay & Bolt Brandy, Donnie & Rebecca Cox
 - `S4/O` / `missing_owned_by`: 1st: Whirlwind Nike, Larry & Debbie Mezoe
 - `S4/O` / `missing_owned_by`: 1st: T-Ville Tank, Jeannine Teasley
+- `S4/O` / `missing_owned_by`: 3rd: Double Duty Troubles, Bobby & Margie Duty
 - `C1` / `class_header_gap`: 1st: North Hills Rush, owned by Charlie & Julie Kemp
-- `C1` / `class_header_gap`: 1st: Fox Run Casey, owned by Kathy Potter
-- `C1` / `class_header_gap`: 1st: Spunky, owned by Trudy Winslow
-- `C1` / `class_header_gap`: 1st: Baybriar Mr. Timex, owned by Sandy Brown
+- `C1` / `class_header_gap`: 1st: Farmcliff Duke, owned by J.Hughes/K.Hunter
+- `C1` / `class_header_gap`: 1st: Winston, owned by Tammy Short

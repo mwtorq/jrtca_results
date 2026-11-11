@@ -124,6 +124,22 @@ def _iso_to_local(s: str | None) -> str | None:
         return f"{m.group(1).replace('T', ' ')} CST" if m else raw
 
 
+def _line_utc_stamps_to_local(line: str) -> str:
+    """Rewrite ``[2026-11-11T18:37:27Z]`` prefixes in log lines to CST/CDT."""
+    if not line:
+        return line
+
+    def _repl(m: re.Match[str]) -> str:
+        local = _iso_to_local(m.group(1))
+        return f"[{local}]" if local else m.group(0)
+
+    return re.sub(
+        r"\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z)\]",
+        _repl,
+        line,
+    )
+
+
 def _read_text(path: Path, max_bytes: int = 2_000_000) -> str:
     if not path.is_file():
         return ""
@@ -1416,6 +1432,191 @@ def reocr_queue_live() -> dict:
     }
 
 
+def surgical_reocr_live() -> dict:
+    """Single-vol / prove-slice force re-OCR (``_tmp_reocr_*.py`` + ``_reocr_c1_*.log``).
+
+    Dual-track cards only watch ``schedule_reocr_from_queue``; surgical jobs must
+    surface separately so the dashboard shows live page progress.
+    """
+    rows = _win32_python_cmdlines(r"_tmp_reocr_|_reocr_c1_")
+    # Also catch direct ocr_pdf_hq one-offs launched from tmp helpers.
+    if not rows:
+        rows = [
+            r
+            for r in _win32_python_cmdlines(r"ocr_pdf_hq|_tmp_reocr")
+            if "_tmp_reocr" in (r.get("cmdline") or "")
+            or "reocr_c1" in (r.get("cmdline") or "").lower()
+        ]
+    pids = [r["pid"] for r in rows]
+    cmdline = (rows[0].get("cmdline") or "") if rows else ""
+
+    log_path: Path | None = None
+    try:
+        cands = [
+            p
+            for p in ROOT.glob("_reocr_c1_*.log")
+            if p.is_file() and not p.name.endswith(".err.log")
+        ]
+        if cands:
+            cands.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+            log_path = cands[0]
+    except OSError:
+        log_path = None
+
+    # Fallback: any live tmp script often tees to a matching _reocr_*.log
+    if log_path is None and cmdline:
+        m = re.search(r"(_reocr_[A-Za-z0-9_\-]+\.log)", cmdline)
+        if m and (ROOT / m.group(1)).is_file():
+            log_path = ROOT / m.group(1)
+
+    job_line = page_line = ""
+    pages_total = 0
+    pages_this_job = 0
+    page_current = None
+    dest_hqmax: Path | None = None
+    workers_log = None
+    done_line = ""
+    if log_path and log_path.is_file():
+        raw = log_path.read_bytes()
+        if raw.startswith(b"\xff\xfe") or raw.startswith(b"\xfe\xff") or (
+            b"\x00" in raw[: min(200, len(raw))]
+        ):
+            text = raw.decode("utf-16-le", errors="replace")
+        else:
+            text = raw.decode("utf-8", errors="replace")
+        page_re = re.compile(r"OCR page\s+(\d+)\b")
+        workers_re = re.compile(r"\bworkers=(\d+)\b")
+        dest_re = re.compile(r"->\s*(.+?_ocr_hqmax\.txt)\s*$")
+        for line in text.splitlines():
+            wm = workers_re.search(line)
+            if wm:
+                workers_log = max(1, int(wm.group(1)))
+            if "REOCR " in line or ("REOCR" in line and "->" in line):
+                job_line = _line_utc_stamps_to_local(line.strip())
+                pages_this_job = 0
+                dm = dest_re.search(line.replace("/", "\\"))
+                if not dm:
+                    dm = re.search(r"->\s*(.+?_ocr_hqmax\.txt)", line)
+                if dm:
+                    cand = Path(dm.group(1).strip().strip('"'))
+                    if not cand.is_absolute():
+                        cand = ROOT / cand
+                    dest_hqmax = cand
+            pm = page_re.search(line)
+            if pm:
+                pages_total += 1
+                pages_this_job += 1
+                page_current = int(pm.group(1))
+                page_line = f"OCR page {page_current}"
+            if "ok year_guess=" in line:
+                done_line = _line_utc_stamps_to_local(line.strip())
+
+    workers = workers_log if workers_log is not None else max(
+        1, int(os.environ.get("JRTCA_OCR_WORKERS", "4"))
+    )
+
+    pages_expected = None
+    if dest_hqmax is not None:
+        # Prefer pre-job backup (complete prior OCR); else live hqmax if present.
+        for cand in (
+            Path(str(dest_hqmax) + ".pre_voli_pt1_c1"),
+            dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_voli_pt1_c1"),
+            Path(str(dest_hqmax) + ".pre_c1o6"),
+            dest_hqmax,
+        ):
+            if cand.is_file():
+                try:
+                    n = cand.read_text(encoding="utf-8", errors="replace").count(
+                        "--- page "
+                    )
+                    if n > 0:
+                        pages_expected = n
+                        break
+                except OSError:
+                    pass
+
+    ppm = elapsed_min = None
+    if log_path and log_path.is_file() and pages_total > 0:
+        try:
+            import time as _time
+
+            st = log_path.stat()
+            start = getattr(st, "st_ctime", None) or st.st_mtime
+            end = st.st_mtime
+            now = _time.time()
+            if now - end < 180:
+                end = now
+            elapsed_min = max((end - start) / 60.0, 0.01)
+            ppm = round(pages_total / elapsed_min, 2)
+        except OSError:
+            pass
+
+    running = bool(pids)
+    if running:
+        state = "running"
+    elif done_line:
+        state = "done"
+    elif log_path:
+        state = "idle"
+    else:
+        state = "idle"
+
+    progress_pct = None
+    eta_min = None
+    pages_left = None
+    progress_label = ""
+    done_n = page_current if page_current is not None else pages_total
+    if done_line and pages_expected:
+        progress_label = f"{pages_expected}/{pages_expected} (100%)"
+        progress_pct = 100.0
+        pages_left = 0
+        eta_min = 0.0
+    elif pages_expected and done_n is not None:
+        # Prefer highest observed page number as position; clamp to expected.
+        done_n = min(int(done_n), int(pages_expected))
+        pages_left = max(0, int(pages_expected) - done_n)
+        progress_pct = round(100.0 * done_n / max(int(pages_expected), 1), 1)
+        if ppm and pages_left > 0 and running:
+            eta_min = round(pages_left / max(ppm, 0.01), 1)
+        progress_label = f"{done_n}/{pages_expected} ({progress_pct:.0f}%)"
+        if eta_min is not None:
+            progress_label += f" · ETA ~{eta_min} min"
+
+    script = None
+    sm = re.search(r"(_tmp_reocr_[A-Za-z0-9_\-]+\.py)", cmdline)
+    if sm:
+        script = sm.group(1)
+
+    return {
+        "kind": "surgical_reocr",
+        "state": state,
+        "running": running,
+        "pids": pids,
+        "pid": pids[0] if pids else None,
+        "script": script,
+        "cmdline": cmdline[:400] if cmdline else "",
+        "active_log": log_path.name if log_path else None,
+        "log_mtime": _mtime_local(log_path) if log_path else None,
+        "job_line": job_line,
+        "page_line": page_line,
+        "pages_total": pages_total,
+        "pages_this_job": pages_this_job,
+        "page_current": page_current,
+        "pages_expected": pages_expected,
+        "pages_left": pages_left,
+        "progress_pct": progress_pct,
+        "progress_label": progress_label,
+        "eta_min": eta_min,
+        "workers": workers,
+        "workers_log": workers_log,
+        "tess_live": _tess_count_live(),
+        "ppm": ppm,
+        "elapsed_min": round(elapsed_min, 1) if elapsed_min is not None else None,
+        "done_line": done_line,
+        "note": "Single-vol / prove-slice force re-OCR (not dual-track schedule_reocr)",
+    }
+
+
 def other_targeted_recoveries(c1o6_pids: list[int] | None = None) -> dict:
     """Cheap scan: root _recover_*.log + other recover_*.py processes. Cap few entries."""
     skip_pids = set(c1o6_pids or [])
@@ -1966,10 +2167,12 @@ def gather() -> dict:
     }
     c1o6 = c1o6_recover_live()
     reocr = reocr_queue_live()
+    surgical = surgical_reocr_live()
     targeted_ocr = {
         "c1_o6": c1o6,
         "b6b": b6b_ingest_audit_status(myears, bool(c1o6.get("running"))),
         "reocr": reocr,
+        "surgical": surgical,
         "other": other_targeted_recoveries(c1o6.get("pids") or []),
     }
     a2_summary = a2_rollup_summary()
