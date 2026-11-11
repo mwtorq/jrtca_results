@@ -433,6 +433,9 @@ _OCR_NAME_PHRASES = (
     # Place-body ate leading Y: ``Galterioouth Handler`` → ``Galterio Youth Handler``
     (r"(?i)(?<=[a-z])outh\s+Handler\b", " Youth Handler"),
     (r"(?i)(?<=[a-z])outh\s+Handling\b", " Youth Handling"),
+    # Dust Y before Youth titles: ``Y Y Youth Handler`` / ``Y Youth Handling``
+    (r"(?im)^Y(?:\s*Y)+\s+(Youth\b)", r"\1"),
+    (r"(?im)^Y\s+(Youth\b)", r"\1"),
 
     (r"(?i)\bJUQGES\b", "Judges"),
     (r"(?i)\bJUOCES\b", "Judges"),
@@ -1968,6 +1971,10 @@ def finalize_results_ocr(text: str) -> str:
     # Champion/Reserve parked before the real class, HIGH SCORE header below
     text = _reorder_premature_high_score_roles(text)
     text = _demote_false_first_using_entries(text)
+    # Championship Certificate: Champion/Reserve/3rd then false ``1st:`` → ``4th:``
+    text = _demote_false_first_after_cert_third(text)
+    # ``5th: Kaitlin Kinsleyth: Courtney`` → 4th + 5th (4 glued into surname)
+    text = _split_glued_fourth_fifth_youth_line(text)
     text = _lift_class_header_before_orphan_first(text)
     text = "\n".join(_rehome_orphan_adult_height_champs(text.splitlines()))
     # Glue orphan entry-count digit onto prior bare Entries: / class title
@@ -4758,6 +4765,97 @@ def _demote_false_first_using_entries(text: str) -> str:
             ln = s
         if n is not None:
             places_seen.append(n)
+        out.append(ln)
+    return "\n".join(out)
+
+
+def _demote_false_first_after_cert_third(text: str) -> str:
+    """Championship Certificate prints Champion/Reserve/3rd–6th; OCR often labels 4th as ``1st:``.
+
+    Does not invent dog names — only rewrites the place prefix.
+    """
+    if not text:
+        return text
+    out: list[str] = []
+    # none | after_header | after_champ | after_reserve | need_fourth
+    phase: str | None = None
+    for ln in text.splitlines():
+        s = ln.strip()
+        if not s:
+            out.append(ln)
+            continue
+        if _MARKER_RE.match(s) or _COLUMN_MARK_RE.match(s):
+            phase = None
+            out.append(ln)
+            continue
+        if re.search(r"(?i)\bchampionship\s+certificate\b", s):
+            phase = "after_header"
+            out.append(ln)
+            continue
+        if phase == "after_header" and re.match(r"(?i)^champion\s*:", s):
+            phase = "after_champ"
+            out.append(ln)
+            continue
+        if phase == "after_champ" and re.match(r"(?i)^reserve\s*:", s):
+            phase = "after_reserve"
+            out.append(ln)
+            continue
+        if phase == "after_reserve" and re.match(r"(?i)^3rd\s*:", s):
+            phase = "need_fourth"
+            out.append(ln)
+            continue
+        if phase == "need_fourth" and _PLACE_FIRST_RE.match(s):
+            s = re.sub(r"(?i)^\d+(?:st|nd|rd|th)\s*:", "4th: ", s, count=1)
+            ln = norm_space(s)
+            phase = None
+            out.append(ln)
+            continue
+        if (
+            phase
+            and (
+                _looks_like_class_header_line(s)
+                or _SECTIONISH_RE.search(s)
+                or _PLACE_FIRST_RE.match(s)
+            )
+            and not re.match(r"(?i)^(?:champion|reserve|3rd)\s*:", s)
+        ):
+            phase = None
+        out.append(ln)
+    return "\n".join(out)
+
+
+def _split_glued_fourth_fifth_youth_line(text: str) -> str:
+    """Split ``5th: Kaitlin Kinsleyth: Courtney Curr`` → 4th + 5th.
+
+    When OCR glues ``4th:`` into the prior surname (``Kinsleyth:``) and labels the
+    line ``5th:``, restore 4th/5th. Only arms after a ``3rd:`` place.
+    """
+    if not text:
+        return text
+    out: list[str] = []
+    prev_was_third = False
+    for ln in text.splitlines():
+        s = ln.strip()
+        m = re.match(r"(?i)^5th\s*:\s*(.+?)th\s*:\s*(.+)$", s) if s else None
+        if prev_was_third and m:
+            fourth = norm_space(f"4th: {m.group(1).rstrip(' ,;')}")
+            fifth = norm_space(f"5th: {m.group(2)}")
+            # Avoid splitting real names that merely end with th before a colon dust
+            if len(m.group(1).strip()) >= 3 and len(m.group(2).strip()) >= 2:
+                out.append(fourth)
+                out.append(fifth)
+                prev_was_third = False
+                continue
+        if re.match(r"(?i)^3rd\s*:", s or ""):
+            prev_was_third = True
+        elif s and (
+            _PLACE_FIRST_RE.match(s)
+            or _PLACE_NON_FIRST_RE.match(s)
+            or _looks_like_class_header_line(s)
+            or _SECTIONISH_RE.search(s)
+            or _CHAMP_RESERVE_ROLE_RE.match(s)
+        ):
+            prev_was_third = re.match(r"(?i)^3rd\s*:", s) is not None
         out.append(ln)
     return "\n".join(out)
 
