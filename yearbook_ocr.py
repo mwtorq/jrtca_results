@@ -4869,9 +4869,11 @@ def _split_glued_multi_place_lines(text: str) -> str:
 
 
 def _demote_false_first_using_entries(text: str) -> str:
-    """When Entries:N has places 1..N-1 then a gap ``1st:``, demote that ``1st``→``Nth``.
+    """When Entries:N has contiguous places 1..k (k<N) then a gap ``1st:``, demote.
 
-    Common OCR: Family Class Entries: 4 with 1st/2nd/3rd then ``1st:`` for the 4th dog.
+    Classic: Family Class Entries: 4 with 1st/2nd/3rd then ``1st:`` → ``4th:``.
+    Also: Entries: 5 with only 1st/2nd then ``1st:`` → ``3rd:`` (OH-PA smooth
+    coat continuation before the r/br header).
     """
     if not text:
         return text
@@ -4907,16 +4909,18 @@ def _demote_false_first_using_entries(text: str) -> str:
             and entries_n
             and entries_n >= 2
             and places_seen
-            and sorted(places_seen) == list(range(1, entries_n))
+            and sorted(places_seen) == list(range(1, max(places_seen) + 1))
+            and max(places_seen) < entries_n
         ):
+            nxt = max(places_seen) + 1
             s = re.sub(
                 r"(?i)^\d+(?:st|nd|rd|th)\s*:",
-                _ordinal_prefix(entries_n) + " ",
+                _ordinal_prefix(nxt) + " ",
                 s,
                 count=1,
             )
             s = norm_space(s)
-            n = entries_n
+            n = nxt
             ln = s
         if n is not None:
             places_seen.append(n)
