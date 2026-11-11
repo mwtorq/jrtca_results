@@ -1786,9 +1786,12 @@ def finalize_results_ocr(text: str) -> str:
     """
     if not text:
         return text
-    text = _repair_smashed_place_lines(
-        fix_ocr_li_confusion(_strip_gutter_noise(text))
-    )
+    text = fix_ocr_li_confusion(_strip_gutter_noise(text))
+    # Multi-place glue before smash unsmash — clears false C1 from ``1st:…5th:``
+    text = _split_glued_multi_place_lines(text)
+    text = _repair_smashed_place_lines(text)
+    text = _demote_false_first_using_entries(text)
+    text = _lift_class_header_before_orphan_first(text)
     text = "\n".join(_rehome_orphan_adult_height_champs(text.splitlines()))
     # Glue orphan entry-count digit onto prior bare Entries: / class title
     glued: list[str] = []
@@ -4455,6 +4458,167 @@ def _split_result_place_line(line: str) -> tuple[str, str] | None:
     if not m:
         return None
     return m.group(1), m.group(2)
+
+
+# Second (or later) place/role marker glued into a place-line body.
+# Example: ``1st: <garble> 5th: Farmcliff Mint, owned by Bob Franklin``
+_INNER_PLACE_RANK_RE = re.compile(
+    r"(?i)(?<![A-Za-z0-9/])((?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:)"
+)
+
+
+def _ordinal_prefix(n: int) -> str:
+    if 10 <= (n % 100) <= 20:
+        suf = "th"
+    else:
+        suf = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suf}:"
+
+
+def _split_glued_multi_place_lines(text: str) -> str:
+    """Split ``1st: … 5th: Dog, owned by X`` into separate place lines.
+
+    Keeps segments with ``owned by`` (or a clean champ/reserve body). Drops the
+    leading garble fragment that often false-arms ``class_header_gap``.
+    """
+    if not text:
+        return text
+    out: list[str] = []
+    for ln in text.splitlines():
+        parts = _split_result_place_line(ln)
+        if not parts:
+            out.append(ln)
+            continue
+        prefix, body = parts
+        matches = list(_INNER_PLACE_RANK_RE.finditer(body))
+        if not matches:
+            out.append(ln)
+            continue
+        segments: list[tuple[str, str]] = [
+            (prefix.strip(), body[: matches[0].start()].strip())
+        ]
+        for i, m in enumerate(matches):
+            end = matches[i + 1].start() if i + 1 < len(matches) else len(body)
+            segments.append((m.group(1).strip(), body[m.end() : end].strip()))
+        kept: list[str] = []
+        for pref, bod in segments:
+            if not bod:
+                continue
+            line = norm_space(f"{pref} {bod}")
+            if re.search(r"(?i)\bowned\s+by\b", bod):
+                kept.append(line)
+                continue
+            # Champ/reserve without owned-by still structural
+            if re.match(r"(?i)^(?:champion|reserve|best)\s*:", pref) and len(bod) >= 3:
+                kept.append(line)
+                continue
+            # Drop garble-only fragments (no owner, mostly OCR mush)
+        if kept:
+            out.extend(kept)
+        else:
+            out.append(ln)
+    return "\n".join(out)
+
+
+def _demote_false_first_using_entries(text: str) -> str:
+    """When Entries:N has places 1..N-1 then a gap ``1st:``, demote that ``1st``→``Nth``.
+
+    Common OCR: Family Class Entries: 4 with 1st/2nd/3rd then ``1st:`` for the 4th dog.
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out: list[str] = []
+    entries_n: int | None = None
+    places_seen: list[int] = []
+
+    def _place_num(s: str) -> int | None:
+        m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s.strip())
+        return int(m.group(1)) if m else None
+
+    for ln in lines:
+        s = ln.strip()
+        if not s:
+            out.append(ln)
+            continue
+        if _MARKER_RE.match(s) or _COLUMN_MARK_RE.match(s):
+            entries_n, places_seen = None, []
+            out.append(ln)
+            continue
+        if _looks_like_class_header_line(s) or (
+            _SECTIONISH_RE.search(s) and not _PLACE_FIRST_RE.match(s)
+        ):
+            m = _ENTRIES_COUNT_RE.search(s)
+            entries_n = int(m.group(1)) if m else None
+            places_seen = []
+            out.append(ln)
+            continue
+        n = _place_num(s)
+        if (
+            n == 1
+            and entries_n
+            and entries_n >= 2
+            and places_seen
+            and sorted(places_seen) == list(range(1, entries_n))
+        ):
+            s = re.sub(
+                r"(?i)^\d+(?:st|nd|rd|th)\s*:",
+                _ordinal_prefix(entries_n) + " ",
+                s,
+                count=1,
+            )
+            s = norm_space(s)
+            n = entries_n
+            ln = s
+        if n is not None:
+            places_seen.append(n)
+        out.append(ln)
+    return "\n".join(out)
+
+
+def _lift_class_header_before_orphan_first(text: str) -> str:
+    """If a gap ``1st:`` is immediately followed by a class header, lift the header above.
+
+    Pattern: ``… 6th: …`` / ``1st: Dog…`` / ``Championship Certificate… Entries:``
+    → header then ``1st:``.
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        s = lines[i].strip()
+        if _PLACE_FIRST_RE.match(s):
+            prev_place = False
+            for k in range(len(out) - 1, -1, -1):
+                ps = out[k].strip()
+                if not ps:
+                    continue
+                if (
+                    _PLACE_NON_FIRST_RE.match(ps)
+                    or _PLACE_FIRST_RE.match(ps)
+                    or _CHAMP_RESERVE_ROLE_RE.match(ps)
+                ):
+                    prev_place = True
+                break
+            j = i + 1
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+            if (
+                prev_place
+                and j < len(lines)
+                and _looks_like_class_header_line(lines[j].strip())
+                and not _PLACE_FIRST_RE.match(lines[j].strip())
+                and not _PLACE_NON_FIRST_RE.match(lines[j].strip())
+            ):
+                out.append(lines[j])
+                out.append(lines[i])
+                i = j + 1
+                continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
 
 
 def _place_line_is_smashed(body: str) -> bool:
