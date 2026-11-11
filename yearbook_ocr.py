@@ -1402,7 +1402,8 @@ def _match_text_line_to_box(
 
 _CLASS_HEADER_SPAN_WITH_ENTRIES_RE = re.compile(
     r"(?i)\b("
-    r"(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|"
+    r"(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|advanced|"
+    r"starters(?:\s+agility)?|agility(?:\s+[ivx1-3]+)?|"
     r"bred\s+by(?:\s+exhibitor)?|suitability|spayed|neutered|"
     r"(?:youth|junior|child|pee\s*wee)\s+handler)"
     r"\b[^|\n]{0,110}?"
@@ -1411,11 +1412,25 @@ _CLASS_HEADER_SPAN_WITH_ENTRIES_RE = re.compile(
 )
 _CLASS_HEADER_SPAN_RE = re.compile(
     r"(?i)\b("
-    r"(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|"
+    r"(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|advanced|"
+    r"starters(?:\s+agility)?|agility(?:\s+[ivx1-3]+)?|"
     r"bred\s+by(?:\s+exhibitor)?|suitability|spayed|neutered|"
     r"(?:youth|junior|child|pee\s*wee)\s+handler)"
     r"\b[^|\n]{0,90}"
     r")"
+)
+# Right-column agility title swallowed into the following ``1st:`` box.
+_AGILITY_TITLE_BEFORE_PLACE_RE = re.compile(
+    r"(?i)\b("
+    r"(?:Novice|Open|Advanced)(?:\s*,?\s*(?:On|Off)\s+Lead)?|"
+    r"Starters\s+Agility(?:\s*,?\s*(?:On|Off)\s+Lead)?|"
+    r"Agility\s+(?:I{1,3}|[123]|IV)\s*,?\s*(?:On|Off)\s+Lead"
+    r")\b[^|\n]{0,40}?"
+    r"(?=\s*(?:['\"`´]?\s*)?(?:\d+|l|I)?(?:st|nd|rd|th)\s*:)"
+)
+_AGILITY_LEVEL_TITLE_RE = re.compile(
+    r"(?i)^(?:Novice|Open|Advanced)\b|Starters\s+Agility\b|"
+    r"Agility\s+(?:I{1,3}|[123]|IV)\b"
 )
 
 
@@ -1425,16 +1440,41 @@ def _extract_class_header_span(s: str) -> str:
     flat = re.sub(r"^[\s|Z_~]+", "", flat)
     flat = re.sub(r"(?i)^TEEPLECHASE\b", "STEEPLECHASE", flat)
     flat = re.sub(r"(?i)^ACING\s+CHAMPIONS\b", "RACING CHAMPIONS", flat)
-    m = _CLASS_HEADER_SPAN_WITH_ENTRIES_RE.search(flat) or _CLASS_HEADER_SPAN_RE.search(
-        flat
-    )
+
+    def _clean_cand(raw: str) -> str:
+        cand = norm_space(raw)
+        cand = re.split(r"(?i)\b(?:\d+|l|I)?(?:st|nd|rd|th)\s*:", cand)[0]
+        return norm_space(cand.strip(" ,;|._-'\"`´"))
+
+    # Prefer title glued immediately before a place rank (right-col swallow).
+    # OCR often splits ``Advanced, On Lead Entries: 2`` as
+    # ``Advanced, '1st: Riverview On Lead … Entries: 2``.
+    m_pre = _AGILITY_TITLE_BEFORE_PLACE_RE.search(flat)
+    if m_pre:
+        cand = _clean_cand(m_pre.group(1))
+        if cand and re.match(r"(?i)^(Novice|Open|Advanced)$", cand):
+            tail = flat[m_pre.start() :]
+            m_lead = re.search(r"(?i)\b((?:On|Off)\s+Lead)\b", tail)
+            ents = list(_ENTRIES_COUNT_RE.finditer(tail))
+            if m_lead:
+                cand = f"{cand}, {m_lead.group(1)}"
+            if ents:
+                cand = f"{cand} Entries: {ents[-1].group(1)}"
+            cand = norm_space(cand)
+        if cand and _looks_like_class_header_line(cand):
+            return cand
+
+    # Prefer the last Entries-bearing span — left-col titles often precede
+    # the right-col title in the same smashed box line.
+    matches = list(_CLASS_HEADER_SPAN_WITH_ENTRIES_RE.finditer(flat))
+    if matches:
+        cand = _clean_cand(matches[-1].group(1))
+        if cand:
+            return cand
+    m = _CLASS_HEADER_SPAN_RE.search(flat)
     if not m:
         return flat
-    cand = norm_space(m.group(1))
-    # Drop place-rank bleed that followed the title in the same band.
-    cand = re.split(r"(?i)\b(?:\d+)?(?:st|nd|rd|th)\s*:", cand)[0]
-    cand = cand.strip(" ,;|._-")
-    return norm_space(cand)
+    return _clean_cand(m.group(1))
 
 
 def _ocr_interstitial_class_header(band: Image.Image) -> str:
@@ -1518,7 +1558,26 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
         bi_next = _match_text_line_to_box(lines[gi], boxes, used)
         if bi_prev is None or bi_next is None:
             continue
+
+        def _accept_swallowed(span: str) -> bool:
+            return bool(
+                span
+                and (
+                    _ENTRIES_COUNT_RE.search(span)
+                    or _AGILITY_LEVEL_TITLE_RE.search(span)
+                )
+                and _looks_like_class_header_line(span)
+                and not (prior_hdr and _headers_near_duplicate(span, prior_hdr))
+                and not _text_has_near_header(lines, span)
+            )
+
         if bi_next <= bi_prev:
+            # Column smash can map prev/next onto overlapping boxes; still try
+            # a swallowed agility/class title from the ``1st:`` box.
+            nxt_span = _extract_class_header_span(boxes[bi_next][0])
+            if _accept_swallowed(nxt_span):
+                inserts[gi] = nxt_span
+                used.add(bi_next)
             continue
         used.add(bi_prev)
         used.add(bi_next)
@@ -1539,14 +1598,10 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
         if gi in inserts:
             continue
         # Next place box often swallows the header (highlight smear / tight Y).
-        # Only accept an Entries-bearing span — bare ``Bitches`` is too weak.
+        # Prefer Entries-bearing spans; also allow agility level titles
+        # (``Advanced, On Lead``) when Entries was lost in the smash.
         nxt_span = _extract_class_header_span(boxes[bi_next][0])
-        if (
-            _ENTRIES_COUNT_RE.search(nxt_span or "")
-            and _looks_like_class_header_line(nxt_span)
-            and not (prior_hdr and _headers_near_duplicate(nxt_span, prior_hdr))
-            and not _text_has_near_header(lines, nxt_span)
-        ):
+        if _accept_swallowed(nxt_span):
             inserts[gi] = nxt_span
             continue
         gap_h = y1 - y0
@@ -4119,9 +4174,11 @@ def _is_ocr_noise_line(s: str) -> bool:
     # short-token noise ratio and drop the title → false C1 (1998 pt3 Lickity).
     if re.search(
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
-        r"go-?to-?ground|conformation|novice|open|puppy|puppies|working\s+terrier|"
+        r"go-?to-?ground|conformation|novice|open|advanced|starters|"
+        r"puppy|puppies|working\s+terrier|"
         r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veteran|"
         r"handler|showmanship|pee\s*wee|suitability|spayed|neutered|"
+        r"(?:on|off)\s+lead|"
         r"bitches|dogs|pups|older|months?|"
         r"red\s+fox|bronze|silver|gold)\b",
         s,
@@ -4131,13 +4188,16 @@ def _is_ocr_noise_line(s: str) -> bool:
         return False
     # Entries: keep class headers + bare ``Entries:``; drop owner-crumb + Entries bleed
     # NOTE: ``Suitability To Red Fox Entries: N`` must stay (was false-noise → C1 gap).
+    # NOTE: ``Advanced, On Lead Entries: N`` must stay (was false-noise → C1 gap).
     if re.search(r"(?i)\bentries\s*:", s):
         if re.match(r"(?i)^entries\s*:", s):
             return False
         if re.search(
-            r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|adults?|pair|"
+            r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|advanced|"
+            r"starters|adults?|pair|"
             r"family|bred|youth|child|junior|handler|pee\s*wee|showmanship|"
             r"working|veteran|racing|agility|steeple|"
+            r"(?:on|off)\s+lead|"
             r"suitability|spayed|neutered|fox|bronze|silver|gold|"
             r"championship|certificate|pre-|gtg|smooth|broken|rough|"
             r"puppies|bitches|dogs)\b",
