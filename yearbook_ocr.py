@@ -418,9 +418,13 @@ _OCR_NAME_PHRASES = (
     (r"(?im)^GILITY\b", "AGILITY"),
     (r"(?im)^OUTH\b", "YOUTH"),
     (r"(?im)^tarters\b", "Starters"),
+    (r"(?im)^lovice\b", "Novice"),
+    (r"(?im)^\\?dvanced\b", "Advanced"),
+    (r"(?im)^dvanced\b", "Advanced"),
     (r"(?im)^hild\s+Handler\b", "Child Handler"),
     (r"(?im)^hampion\s*:", "Champion:"),
     (r"(?im)^eserve\s*:", "Reserve:"),
+
     # Place-body ate leading Y: ``Galterioouth Handler`` → ``Galterio Youth Handler``
     (r"(?i)(?<=[a-z])outh\s+Handler\b", " Youth Handler"),
     (r"(?i)(?<=[a-z])outh\s+Handling\b", " Youth Handling"),
