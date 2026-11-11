@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1998
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 7  cleaned=2  PASS=1  WARN=4  FAIL=2
+Volumes: 7  cleaned=2  PASS=1  WARN=5  FAIL=1
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -22,8 +22,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | WARN | False | 0 | 25 | C6×25 | `1998 Vol I, pt 3_ocr_hqmax.txt` |
 | WARN | False | 0 | 10 | S4/O×7,C6×3 | `1998 Vol II, pt 1_ocr_hqmax.txt` |
 | WARN | True | 0 | 7 | S4/O×5,C6×2 | `1998 Vol II, pt 2_ocr_hqmax.txt` |
-| FAIL | False | 10 | 3 | C1×7,O6×3,S4/O×2,C6×1 | `1998 Vol III, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 7 | 6 | S4/O×6,C1×6,O6×1 | `1998 Vol III, pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 3 | S4/O×2,C6×1 | `1998 Vol III, pt 1_ocr_hqmax.txt` |
+| FAIL | False | 7 | 6 | S4/O×6,C1×6,O6×1 | `1998 Vol III, pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -70,19 +70,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 11
 - `C6` / `orphan_entry_count`: 10
 
-### `1998 Vol III, pt 1_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 2nd: Zachary, owned by Jim & Ann Van Noy
-- `O6` / `owner_tail_trunc`: 5th: Quickdraw Remington, owned by Jennifer Orr
-- `O6` / `owner_tail_trunc`: 1st: Quickdraw Remington, owned by Jennifer Orr
+### `1998 Vol III, pt 1_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 1st: Marvelous Myron, Megan Walker
 - `S4/O` / `missing_owned_by`: 2nd: Wootinhille Destiny, Tammy Short
 - `C6` / `orphan_entry_count`: 4
-- `C1` / `class_header_gap`: 1st: Fox Run Rivet, owned by Gaye Redpath
-- `C1` / `class_header_gap`: 1st: Farmcliff Holland, owned by Doug & Sue Tack
-- `C1` / `class_header_gap`: 1st: Monterey Jack, owned by Gene Harvey
-- `C1` / `class_header_gap`: 1st: Conquest Chaos, owned by Michelle Ward
-- `C1` / `class_header_gap`: 1st: Kintail Bear, owned by Susan McRea
-- `C1` / `class_header_gap`: 1st: Big Sky Annie, owned by Doug & Sue Tack
 
 ### `1998 Vol III, pt 2_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: Reserve: Fenton Scout's Honor, owned by David & Cathy Eic
