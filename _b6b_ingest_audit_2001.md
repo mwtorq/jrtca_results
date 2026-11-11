@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=10  PASS=3  WARN=5  FAIL=6
+Volumes: 14  cleaned=14  PASS=3  WARN=5  FAIL=6
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -19,18 +19,18 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | WARN | True | 0 | 5 | C6×4,S4/O×1 | `2001 Coal Tree Farm_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 South Coast_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `2001 Troon Quarry_ocr_hqmax.txt` |
-| FAIL | True | 30 | 43 | C1×25,C6×21,S4/O×17,O6×5,?/cutoff_racing×2,C6/O1×2,?/4th_then_2nd×1 | `2001 Vol I_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2001 Troon Quarry_ocr_hqmax.txt` |
+| FAIL | True | 30 | 42 | C1×25,C6×21,S4/O×17,O6×5,?/cutoff_racing×2,C6/O1×2 | `2001 Vol I_ocr_hqmax.txt` |
 | WARN | True | 0 | 2 | C6×2 | `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 OH-PA II_ocr_hqmax.txt` |
-| FAIL | True | 23 | 3 | C1×19,O6×4,S4/O×2,?/4th_then_2nd×1 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
-| WARN | False | 0 | 3 | S4/O×3 | `2001 PNWJRTN_ocr_hqmax.txt` |
-| WARN | False | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
+| FAIL | True | 4 | 2 | O6×4,?/4th_then_2nd×1,S4/O×1 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
+| WARN | True | 0 | 1 | S4/O×1 | `2001 PNWJRTN_ocr_hqmax.txt` |
+| WARN | True | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
 | FAIL | True | 30 | 30 | C1×25,C6×19,S4/O×8,O6×5,?/4th_then_2nd×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
-| FAIL | True | 31 | 17 | C1×25,S4/O×8,C6×8,O6×6,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
-| WARN | False | 0 | 5 | S4/O×4,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
-| FAIL | True | 33 | 13 | C1×25,O6×8,C6×5,S4/O×4,?/4th_then_2nd×3,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
-| FAIL | True | 27 | 15 | C1×25,S4/O×10,?/4th_then_6th_no_5×2,O6×2,C6×2,?/4th_then_2nd×1 | `2001 Vol III pt 2_ocr_hqmax.txt` |
+| FAIL | True | 29 | 17 | C1×25,S4/O×8,C6×8,O6×4,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 4 | S4/O×3,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
+| FAIL | True | 33 | 10 | C1×25,O6×8,C6×5,S4/O×4,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
+| FAIL | True | 27 | 14 | C1×25,S4/O×10,?/4th_then_6th_no_5×2,O6×2,C6×2 | `2001 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -43,8 +43,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ### `2001 Vol I_ocr_hqmax.txt` (FAIL)
 - `?` / `cutoff_racing`: ACING DIVISION
-- `?` / `4th_then_2nd`: 4th: Ben lavender
-2nd: Matthew Stoecklein
 - `O6` / `owner_tail_trunc`: 5th: Sow's Ear Survivor, owned by Meaghan Ape
 - `O6` / `owner_tail_trunc`: 6th: Edisons Prince Jake, owned by Tyno
 - `O6` / `owner_tail_trunc`: 6th: Rey nard Harley, owned by ey
@@ -55,6 +53,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 5th: Amowhead Margarita, Kathy & Scott Neus
 - `S4/O` / `missing_owned_by`: 3rd: Woods End Calico, Doug & Noreen Loranger
 - `S4/O` / `missing_owned_by`: 3rd: Orchard Hill Dion, Lynn Jerome
+- `S4/O` / `missing_owned_by`: 6th: Lone Pine Squirrel, Russ & Barbara Gilford
 
 ### `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` (WARN)
 - `C6` / `orphan_entry_count`: 9
@@ -66,17 +65,9 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `O6` / `owner_tail_trunc`: 2nd: Glimmer, owned by Jan
 - `O6` / `owner_tail_trunc`: 1st: Caimbrae Image, owned by Don & Gail Stock and Shirley Bui
 - `O6` / `owner_tail_trunc`: 4th: White Gate Dodger, owned by y
-- `S4/O` / `missing_owned_by`: 5th: Willowbrook Tucker, Kari Streicher
 - `S4/O` / `missing_owned_by`: 5th: Silent Partner Baltazar, George Ridler
-- `C1` / `class_header_gap`: 1st: Kara Clancy, owned by Gerry Hevaghan
-- `C1` / `class_header_gap`: 1st: Double D Tally Ho, owned by Dorothy Whiting
-- `C1` / `class_header_gap`: 1st: Andiin Tessa, owned by Jane Collard
-- `C1` / `class_header_gap`: 1st: The Folly Bella, owned by Dorothy Whiting
-- `C1` / `class_header_gap`: 1st: Northgate Chester, owned by Susan Gill
-- `C1` / `class_header_gap`: 1st: Kenswick Duncan, owned by Sandy McEleamey
 
 ### `2001 PNWJRTN_ocr_hqmax.txt` (WARN)
-- `S4/O` / `missing_owned_by`: 4th: Sweetgrass Nelson, Rodger & Caryn Funk
 - `S4/O` / `missing_owned_by`: 2nd: J&J Miniva, Judie Baker & Janice Freimark
 
 ### `2001 Summer Celebration_ocr_hqmax.txt` (WARN)
@@ -101,7 +92,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ### `2001 Vol II pt 2_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 1st: Tortilla Fiat Cheeky, owned by Mary Lou
-- `O6` / `owner_tail_trunc`: 1st: Northgate Shannon, owned by Sandy Fei
 - `O6` / `owner_tail_trunc`: 2nd: Glimmer, owned by Jan
 - `S4/O` / `missing_owned_by`: 6th: Prestige Farms Oliver, owned b J. Gilligan/S. Geroux
 - `S4/O` / `missing_owned_by`: 3rd: Washa Charlie, ownéd by Dani Phillips
@@ -112,19 +102,15 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 3rd: Farmcliiff Clancy, owned 3 Lou a acy
 - `C6/O1` / `bare_entries`: Entries:
 - `C6` / `orphan_entry_count`: 3
+- `C6` / `orphan_entry_count`: 4
 
 ### `2001 Yankee_ocr_hqmax.txt` (WARN)
 - `S4` / `mangled_by`: 4th:      Round the Bend Foxy pn ome by G.  Harvey & S. Ryan
 - `S4/O` / `missing_owned_by`: 4th:   Farmcliff Duke, owned
 - `S4/O` / `missing_owned_by`: 5th:      Northgate Hallie, we! Lom Doug & Sue Tack
-- `S4/O` / `missing_owned_by`: 4th: CArnanmatar Habarmarne Asauamac Bye Turldle Dacnlyar = Id. 1481 LI ydis 1 Kalil, WV Id MY dd th LR JWT duly
 - `S4/O` / `missing_owned_by`: 2nd: Foxhal Tasha,  Pd by Don 8 Gail Stock
 
 ### `2001 Vol III pt 1_ocr_hqmax.txt` (FAIL)
-- `?` / `4th_then_2nd`: 4th: Bryan Schingman
-2nd: Taryn Lacey
-- `?` / `4th_then_2nd`: 4th: Lickity Split Nifty, owned by Darlene Mclnnes
-2nd: Achin' Acres Tinker, owned by Lisa Bonnette
 - `?` / `4th_then_6th_no_5`: 4th: 5" Winslow Genevieve, owned by Lisa Fitzgerald (tie)
 6th: Picadilly Tally, owned by John & Judy Tyno
 - `O6` / `owner_tail_trunc`: 1st: Falling Branch Checkers, owned by Marc
@@ -136,10 +122,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 6th: Muscle Russell Dynamite, Heath Ogbum & Jill Goodman
 - `C6` / `orphan_entry_count`: 2
 - `C6` / `orphan_entry_count`: 15
+- `C6` / `orphan_entry_count`: 1
+- `C1` / `class_header_gap`: 1st: Matisse, owned by Ruth Evans
 
 ### `2001 Vol III pt 2_ocr_hqmax.txt` (FAIL)
-- `?` / `4th_then_2nd`: 4th: Laura Campbell
-2nd: Jessica Williams
 - `?` / `4th_then_6th_no_5`: 4th: Bent Creek Carley, owned by Marc & Laura Cormier
 6th: Stone's Throw Griffey, owned by Karen Merriman
 - `O6` / `owner_tail_trunc`: 1st: Rat Race Remember When, owned by Gary & Donna Ric
@@ -152,3 +138,4 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 3rd: BayBriar Penelopy, by David & Jeannette Hutchison
 - `C6` / `orphan_entry_count`: 5
 - `C1` / `class_header_gap`: 1st: Brown's Valley Mustang Sally, owned by L. & A. Wendland
+- `C1` / `class_header_gap`: 1st: Green Gate Tomba, owned by Joe & Priscilla Testa
