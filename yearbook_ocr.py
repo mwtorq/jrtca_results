@@ -1387,6 +1387,43 @@ def _match_text_line_to_box(
     return best_i if best_ov >= need else None
 
 
+_CLASS_HEADER_SPAN_WITH_ENTRIES_RE = re.compile(
+    r"(?i)\b("
+    r"(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|"
+    r"bred\s+by(?:\s+exhibitor)?|suitability|spayed|neutered|"
+    r"(?:youth|junior|child|pee\s*wee)\s+handler)"
+    r"\b[^|\n]{0,110}?"
+    r"entries\s*:\s*\d+"
+    r")"
+)
+_CLASS_HEADER_SPAN_RE = re.compile(
+    r"(?i)\b("
+    r"(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|"
+    r"bred\s+by(?:\s+exhibitor)?|suitability|spayed|neutered|"
+    r"(?:youth|junior|child|pee\s*wee)\s+handler)"
+    r"\b[^|\n]{0,90}"
+    r")"
+)
+
+
+def _extract_class_header_span(s: str) -> str:
+    """Pull a class-title span out of a noisy interstitial OCR string."""
+    flat = norm_space(fix_ocr_li_confusion(s or ""))
+    flat = re.sub(r"^[\s|Z_~]+", "", flat)
+    flat = re.sub(r"(?i)^TEEPLECHASE\b", "STEEPLECHASE", flat)
+    flat = re.sub(r"(?i)^ACING\s+CHAMPIONS\b", "RACING CHAMPIONS", flat)
+    m = _CLASS_HEADER_SPAN_WITH_ENTRIES_RE.search(flat) or _CLASS_HEADER_SPAN_RE.search(
+        flat
+    )
+    if not m:
+        return flat
+    cand = norm_space(m.group(1))
+    # Drop place-rank bleed that followed the title in the same band.
+    cand = re.split(r"(?i)\b(?:\d+)?(?:st|nd|rd|th)\s*:", cand)[0]
+    cand = cand.strip(" ,;|._-")
+    return norm_space(cand)
+
+
 def _ocr_interstitial_class_header(band: Image.Image) -> str:
     """Re-OCR a tight Y-band between place blocks for a dropped class title."""
     if band.size[0] < 8 or band.size[1] < 6:
@@ -1407,10 +1444,7 @@ def _ocr_interstitial_class_header(band: Image.Image) -> str:
                 raw = _tesseract_string(im, psm)
             except Exception:
                 continue
-            flat = norm_space(fix_ocr_li_confusion(raw))
-            # Leading-S cutoffs: TEEPLECHASE → STEEPLECHASE before header check
-            flat = re.sub(r"(?i)^TEEPLECHASE\b", "STEEPLECHASE", flat)
-            flat = re.sub(r"(?im)^ACING\s+CHAMPIONS\b", "RACING CHAMPIONS", flat)
+            flat = _extract_class_header_span(raw)
             if not _looks_like_class_header_line(flat):
                 continue
             sc = (
@@ -1480,7 +1514,7 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
         # Prefer any already-visible box text in the interstitial that looks
         # like a header (cheap win before a re-OCR).
         for bj in range(bi_prev + 1, bi_next):
-            bt = norm_space(fix_ocr_li_confusion(boxes[bj][0]))
+            bt = _extract_class_header_span(boxes[bj][0])
             if not _looks_like_class_header_line(bt):
                 continue
             if prior_hdr and _headers_near_duplicate(bt, prior_hdr):
@@ -1491,14 +1525,34 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
             break
         if gi in inserts:
             continue
-        gap_h = y1 - y0
-        if gap_h < 6:
+        # Next place box often swallows the header (highlight smear / tight Y).
+        # Only accept an Entries-bearing span — bare ``Bitches`` is too weak.
+        nxt_span = _extract_class_header_span(boxes[bi_next][0])
+        if (
+            _ENTRIES_COUNT_RE.search(nxt_span or "")
+            and _looks_like_class_header_line(nxt_span)
+            and not (prior_hdr and _headers_near_duplicate(nxt_span, prior_hdr))
+            and not _text_has_near_header(lines, nxt_span)
+        ):
+            inserts[gi] = nxt_span
             continue
+        gap_h = y1 - y0
         if gap_h > max(120, h // 8):
             # Too tall — likely misaligned boxes; skip rather than invent.
             continue
-        pad = max(2, gap_h // 6)
-        band = img.crop((0, max(0, y0 - pad), img.size[0], min(h, y1 + pad)))
+        if gap_h >= 6:
+            pad = max(2, gap_h // 6)
+            band_y0 = max(0, y0 - pad)
+            band_y1 = min(h, y1 + pad)
+        else:
+            # Boxes abut/overlap — probe a thin strip across the boundary and
+            # the upper third of the next place box (where the title sits).
+            next_h = max(8, boxes[bi_next][2] - boxes[bi_next][1])
+            band_y0 = max(0, min(y0, y1) - 25)
+            band_y1 = min(h, max(y0, y1) + max(35, next_h // 3))
+            if band_y1 - band_y0 < 8:
+                continue
+        band = img.crop((0, band_y0, img.size[0], band_y1))
         hdr = _ocr_interstitial_class_header(band)
         if (
             hdr
@@ -1537,6 +1591,35 @@ def _header_stems(s: str) -> set[str]:
     }
 
 
+def _header_height_key(s: str) -> str:
+    """Coarse height-band key so ``10 up to 12 1/2`` ≠ ``over 12 1/2-15``."""
+    t = norm_space(s or "").lower().replace("½", "1/2")
+    # Keep range punctuation until the band is parsed (don't space-fold ``-``).
+    m = re.search(
+        r"(?i)(?:over\s*)?(\d+)\s*(?:1/2)?\s*(?:up\s*to|/|-|–|—|to)\s*(\d+)\s*(?:1/2)?",
+        t,
+    )
+    if m:
+        return f"{m.group(1)}-{m.group(2)}"
+    m = re.search(r"(?i)\bover\s+(\d+)\s*(?:1/2)?", t)
+    if m:
+        return f"over-{m.group(1)}"
+    m = re.search(r"(?i)\bup\s*to\s+(\d+)\s*(?:1/2)?", t)
+    if m:
+        return f"upto-{m.group(1)}"
+    return ""
+
+
+def _header_coat_key(s: str) -> str:
+    """Coat marker including short OCR forms ``sm`` / ``r/br`` / ``rfbr``."""
+    t = norm_space(s or "").lower()
+    if re.search(r"(?i)\b(?:smooth|sm)\b", t):
+        return "smooth"
+    if re.search(r"(?i)\b(?:r\s*/\s*br|r/?br|rfbr|rough|broken)\b", t):
+        return "rbr"
+    return ""
+
+
 def _headers_near_duplicate(a: str, b: str) -> bool:
     """True when two header lines are the same class (count may differ)."""
     sa, sb = _header_stems(a), _header_stems(b)
@@ -1546,7 +1629,14 @@ def _headers_near_duplicate(a: str, b: str) -> bool:
     need = min(2, len(sa), len(sb))
     if ov < need:
         return False
-    # Avoid collapsing distinct coat/height variants (smooth vs r/br).
+    # Distinct height bands are different classes (digits aren't in stems).
+    ha, hb = _header_height_key(a), _header_height_key(b)
+    if ha and hb and ha != hb:
+        return False
+    # Avoid collapsing distinct coat variants (smooth vs r/br), incl. ``sm``.
+    ca, cb = _header_coat_key(a), _header_coat_key(b)
+    if ca and cb and ca != cb:
+        return False
     for coat in ("smooth", "rbr", "rough", "broken"):
         if (coat in sa) != (coat in sb):
             return False
@@ -1562,19 +1652,19 @@ def _headers_near_duplicate(a: str, b: str) -> bool:
 
 
 def _find_near_header_index(lines: list[str], hdr: str) -> int | None:
-    """Index of an existing similar class header, or None."""
-    stems = _header_stems(hdr)
-    if not stems:
+    """Index of an existing similar class header, or None.
+
+    Uses ``_headers_near_duplicate`` (height/coat aware) — stem-only matching
+    falsely treated ``10 up to 12 1/2`` and ``over 12 1/2-15`` as the same class.
+    """
+    if not _header_stems(hdr):
         return None
-    best_i, best_ov = None, 0
     for i, ln in enumerate(lines):
         if not (_looks_like_class_header_line(ln) or _SECTIONISH_RE.search(ln or "")):
             continue
-        ov = len(stems & _header_stems(ln))
-        if ov > best_ov:
-            best_ov, best_i = ov, i
-    need = min(2, len(stems))
-    return best_i if best_i is not None and best_ov >= need else None
+        if _headers_near_duplicate(hdr, ln):
+            return i
+    return None
 
 
 def _text_has_near_header(lines: list[str], hdr: str) -> bool:
