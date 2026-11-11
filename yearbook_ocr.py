@@ -365,9 +365,15 @@ _OCR_NAME_PHRASES = (
     (r"(?i)\bCowasjee\b", "Cowasjee"),
     (r"(?i)\bGo-\s*1\s*O-?UlOUn'?\b", "Go-to-Ground"),
     (r"(?i)\bGo-\s*to-\s*Ground\b", "Go-to-Ground"),
-    # Roman III misread as Ill (before owned by)
+    # Roman III misread as Ill / Ili / lll (before owned by OR as owner/dog suffix)
     (r"(?i)\bIll\b(?=,?\s*owned\s+by)", "III"),
     (r"(?i)\bSmarty\s+Ill\b", "Smarty III"),
+    # "owned by Bobby Joe Duty Ill/Ili/lll" and EOL surname+Ill
+    (r"(?i)\b(Ill|Ili|Iii|lll)\b(?=\s*$)", "III"),
+    (r"(?i)\b(Ill|Ili|Iii|lll)\b(?=,)", "III"),
+    # Cut-off steeplechase section title (leading S eaten)
+    (r"(?im)^TEEPLECHASE\b", "STEEPLECHASE"),
+    (r"(?i)(?<![A-Za-z])TEEPLECHASE\b", "STEEPLECHASE"),
     (r"(?i)\bCormwell\b", "Cromwell"),
     (r"(?i)\bSeview\b", "Seaview"),
     (r"(?i)\bMeredithRennie\b", "Meredith Rennie"),
@@ -1121,6 +1127,7 @@ _PLACE_NON_FIRST_RE = re.compile(r"(?i)^(?:\d+)?(?:nd|rd|th)\s*:")
 # Accept Ist:/lst: — Helvetica often reads leading ``1`` as ``I``/``l``.
 _PLACE_FIRST_RE = re.compile(r"(?i)^(?:1|l|I)st\s*:")
 _CHAMP_RESERVE_ROLE_RE = re.compile(r"(?i)^(?:champion|reserve)\s*:")
+_COLUMN_MARK_RE = re.compile(r"(?i)^---\s*column\s+(?:LEFT|RIGHT)\s*---$")
 _SECTIONISH_RE = re.compile(
     r"(?i)entries\s*:|division\b|champion\s*&\s*reserve|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
@@ -1131,6 +1138,8 @@ _SECTIONISH_RE = re.compile(
     r"family\s+class|brace\b|stud\s+dog|brood\s+bitch|"
     r"\b(?:youth|junior|child|pee\s*wee)\b.*\bhandler\b|"
     r"\bhandler\s+class\b|\bshowmanship\b|"
+    r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
+    r"\bgo-?to-?ground\b|\bagility\b|"
     r"\d+\s*(?:up to|/|-)\s*\d+"
 )
 _CLASS_HEADER_HINT_RE = re.compile(
@@ -1143,6 +1152,8 @@ _CLASS_HEADER_HINT_RE = re.compile(
     r"family\s+class|brace\b|stud\s+dog|brood\s+bitch|"
     r"\b(?:youth|junior|child|pee\s*wee)\s+handler\b|"
     r"\bhandler\b|\bshowmanship\b|"
+    r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
+    r"\bgo-?to-?ground\b|\bagility\b|"
     r"\d+\s*(?:up to|/|-)\s*\d+|"
     r"yr\s*&?\s*older|months?\b"
 )
@@ -1169,12 +1180,16 @@ def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
 
     Arms on non-first places and on Champion/Reserve role lines (common before
     Youth/Pee Wee handler blocks under BEST … CHAMPION & RESERVE).
+    Column LEFT/RIGHT markers reset the arm — a new column is not a class gap.
     """
     gaps: list[int] = []
     gap_armed = False
     for i, line in enumerate(lines):
         s = line.strip()
         if not s:
+            continue
+        if _COLUMN_MARK_RE.match(s):
+            gap_armed = False
             continue
         if _PLACE_FIRST_RE.match(s):
             if gap_armed:
@@ -1385,18 +1400,22 @@ def _ocr_interstitial_class_header(band: Image.Image) -> str:
     best = ""
     best_sc = -1
     for im in (mid, crisp):
-        for psm in (7, 6):
+        for psm in (7, 6, 4):
             try:
                 raw = _tesseract_string(im, psm)
             except Exception:
                 continue
             flat = norm_space(fix_ocr_li_confusion(raw))
+            # Leading-S cutoffs: TEEPLECHASE → STEEPLECHASE before header check
+            flat = re.sub(r"(?i)^TEEPLECHASE\b", "STEEPLECHASE", flat)
+            flat = re.sub(r"(?im)^ACING\s+CHAMPIONS\b", "RACING CHAMPIONS", flat)
             if not _looks_like_class_header_line(flat):
                 continue
             sc = (
                 min(40, len(flat))
                 + (12 if re.search(r"(?i)entries\s*:", flat) else 0)
                 + (8 if re.search(r"(?i)\bhandler\b", flat) else 0)
+                + (6 if re.search(r"(?i)\b(?:steeplechase|racing|agility)\b", flat) else 0)
                 + (4 if re.search(r"(?i)\b(?:bitch|dog|puppy|open|novice)\b", flat) else 0)
             )
             if sc > best_sc:
@@ -2107,6 +2126,11 @@ _OWNER_TAIL_COMPLETE = frozenset(
 )
 
 
+_OWNER_TAIL_SUFFIX_RE = re.compile(
+    r"(?i)\s+(?:Jr\.?|Sr\.?|II|III|IV|2nd|3rd|Ill|Ili|Iii|lll)\s*$"
+)
+
+
 def is_owner_tail_trunc_line(line: str) -> bool:
     """True when owned-by clause ends in a crop/bleed stub (O6), not a short real name."""
     s = (line or "").strip()
@@ -2118,7 +2142,10 @@ def is_owner_tail_trunc_line(line: str) -> bool:
     m = re.search(r"(?i)\bowned\s+by\b(.+)$", s)
     if not m:
         return False
-    tail = m.group(1).strip()
+    # Strip Jr/Sr/III (and OCR Ill/Ili) so "Duty III" is not a 3-letter surname hit
+    tail = _OWNER_TAIL_SUFFIX_RE.sub("", m.group(1).strip()).strip()
+    if not tail:
+        return False
     # Co-owner cut: "... & Lir" / "& Bett" / "& Mi"
     m_amp = re.search(r"&\s+([A-Za-z']+)\s*$", tail)
     if m_amp:
