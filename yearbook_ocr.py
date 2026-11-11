@@ -2000,9 +2000,11 @@ def finalize_results_ocr(text: str) -> str:
             continue
         glued.append(ln)
         i += 1
-    return _dedupe_adjacent_class_headers(
+    text = _dedupe_adjacent_class_headers(
         "\n".join(_drop_duplicate_owner_crumb_lines(glued))
     )
+    # O6: extend stub surnames only when a longer same-doc OCR form exists
+    return _complete_owner_tail_stubs_from_document(text)
 
 
 # Residual OCR failure signatures — if these remain AFTER finalize, the page
@@ -2090,7 +2092,8 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 )
 
 # Known truncated owner tails from pastes / catalog (O6). Finalize must NOT invent
-# missing letters — only OCR ensemble / wider crop can restore.
+# missing letters from thin air; same-document longer OCR forms (and image crop
+# recovery) may restore stubs when evidence already exists in-page.
 _OWNER_TAIL_STUBS = frozenset(
     {
         "ste",
@@ -2370,6 +2373,120 @@ def is_owner_tail_trunc_line(line: str) -> bool:
     if 2 <= len(last) <= 3:
         return True
     return False
+
+
+def _owner_tail_prefix_and_last(tail: str) -> tuple[tuple[str, ...], str] | None:
+    """Split an owned-by tail into lowercased prefix tokens + final surname token."""
+    tail = _OWNER_TAIL_SUFFIX_RE.sub("", (tail or "").strip()).strip()
+    if not tail:
+        return None
+    toks = re.findall(r"[A-Za-z']+", tail)
+    if not toks:
+        return None
+    last = toks[-1].lower().rstrip(".")
+    prefix = tuple(t.lower().rstrip(".") for t in toks[:-1])
+    return prefix, last
+
+
+def _dog_name_before_owned_by(line: str) -> str | None:
+    """Return normalized dog name between place/role and ``owned by``, if any."""
+    m = re.search(
+        r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(.+?),\s*owned\s+by\b",
+        (line or "").strip(),
+    )
+    if not m:
+        return None
+    dog = norm_space(m.group(1))
+    return dog.lower() if dog else None
+
+
+def _complete_owner_tail_stubs_from_document(text: str) -> str:
+    """Extend O6 stub surnames using longer same-document OCR evidence.
+
+    Does not invent surnames: only replaces a truncated last token when another
+    ``owned by`` line in this text already shows a unique longer completion that
+    shares the same preceding owner tokens (``Susan Gil`` + ``Susan Gill`` →
+    Gill; ``Doug & Sue Tac`` + ``Doug & Sue Tack`` → Tack; ``Van Tuy`` +
+    ``Van Tuyl`` → Tuyl). Bare stubs (``owned by La``) may also complete from a
+    unique longer owner on the same dog name elsewhere in the document.
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    owned_re = re.compile(r"(?i)\bowned\s+by\b(.+)$")
+    # Map (prefix, stub) -> set of longer last-name spellings seen in-doc
+    longer: dict[tuple[tuple[str, ...], str], set[str]] = {}
+    # Map dog_lower -> set of full owned-by tails seen for that dog
+    by_dog: dict[str, set[str]] = {}
+    parsed: list[tuple[int, str, tuple[str, ...], str] | None] = []
+    for i, ln in enumerate(lines):
+        m = owned_re.search(ln)
+        if not m:
+            parsed.append(None)
+            continue
+        owner_tail = m.group(1).strip()
+        parts = _owner_tail_prefix_and_last(owner_tail)
+        if not parts:
+            parsed.append(None)
+            continue
+        prefix, last = parts
+        parsed.append((i, owner_tail, prefix, last))
+        dog = _dog_name_before_owned_by(ln)
+        if dog and not is_owner_tail_trunc_line(ln):
+            by_dog.setdefault(dog, set()).add(owner_tail)
+        # Index every owned-by last token as a potential completion source.
+        # Keep the source line's casing for the completion spelling.
+        last_disp = re.findall(r"[A-Za-z']+", owner_tail)[-1].rstrip(".,;:")
+        for stub_len in range(1, len(last)):
+            stub = last[:stub_len]
+            longer.setdefault((prefix, stub), set()).add(last_disp)
+
+    out = list(lines)
+    for item in parsed:
+        if item is None:
+            continue
+        i, raw_tail, prefix, last = item
+        # Only rewrite lines that still audit as O6 stubs
+        if not is_owner_tail_trunc_line(out[i]):
+            continue
+        cands = longer.get((prefix, last), set())
+        # Keep only true extensions of this stub (case-insensitive)
+        cands = {
+            c
+            for c in cands
+            if len(c) > len(last) and c.lower().startswith(last)
+        }
+        if len(cands) == 1:
+            completion = next(iter(cands))
+            # Replace only the final surname token at EOL
+            out[i] = re.sub(
+                r"([A-Za-z']+)(\s*)$",
+                lambda mm, comp=completion, stub=last: comp + mm.group(2)
+                if mm.group(1).lower().rstrip(".") == stub
+                else mm.group(0),
+                out[i],
+                count=1,
+            )
+            continue
+        # Bare / ultra-short stub: unique longer owner on the same dog
+        dog = _dog_name_before_owned_by(out[i])
+        if not dog:
+            continue
+        dog_cands = {
+            t
+            for t in by_dog.get(dog, set())
+            if len(t) > len(raw_tail)
+            and t.lower().startswith(raw_tail.lower().rstrip(".,;:"))
+        }
+        if len(dog_cands) != 1:
+            continue
+        full = next(iter(dog_cands))
+        out[i] = re.sub(
+            r"(?i)(\bowned\s+by\b\s+).+$",
+            r"\1" + full,
+            out[i],
+        )
+    return "\n".join(out)
 
 
 def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str, str]]:
