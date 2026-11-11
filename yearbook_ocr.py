@@ -2389,9 +2389,12 @@ def _owner_tail_prefix_and_last(tail: str) -> tuple[tuple[str, ...], str] | None
 
 
 def _dog_name_before_owned_by(line: str) -> str | None:
-    """Return normalized dog name between place/role and ``owned by``, if any."""
+    """Return normalized dog name between place/role and ``owned by``, if any.
+
+    Allows a leading height crumb (``10-12 1/2" Champion: …``) before the role.
+    """
     m = re.search(
-        r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(.+?),\s*owned\s+by\b",
+        r"(?i)(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(.+?),\s*owned\s+by\b",
         (line or "").strip(),
     )
     if not m:
@@ -2409,6 +2412,9 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
     Gill; ``Doug & Sue Tac`` + ``Doug & Sue Tack`` → Tack; ``Van Tuy`` +
     ``Van Tuyl`` → Tuyl). Bare stubs (``owned by La``) may also complete from a
     unique longer owner on the same dog name elsewhere in the document.
+    Also strips column-bleed junk after a complete same-dog owner
+    (``Bob Franklin Nine The Eallir…`` → ``Bob Franklin`` when that clean
+    form already appears for the same dog).
     """
     if not text:
         return text
@@ -2478,12 +2484,44 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
             if len(t) > len(raw_tail)
             and t.lower().startswith(raw_tail.lower().rstrip(".,;:"))
         }
-        if len(dog_cands) != 1:
+        if len(dog_cands) == 1:
+            full = next(iter(dog_cands))
+            out[i] = re.sub(
+                r"(?i)(\bowned\s+by\b\s+).+$",
+                r"\1" + full,
+                out[i],
+            )
             continue
-        full = next(iter(dog_cands))
+        # Bleed after a complete owner: same dog has a unique clean owner
+        # that is a token-boundary prefix of this mangled tail.
+        m_dirty = owned_re.search(out[i])
+        if not m_dirty:
+            continue
+        dirty = m_dirty.group(1).strip()
+        dirty_l = dirty.lower()
+        prefix_cands: set[str] = set()
+        for clean in by_dog.get(dog, set()):
+            clean_l = clean.lower().rstrip(".,;:")
+            if len(dirty_l) <= len(clean_l):
+                continue
+            if not dirty_l.startswith(clean_l):
+                continue
+            # Require a non-letter boundary so "Franklin" does not trim
+            # into the middle of "Franklins".
+            nxt = dirty_l[len(clean_l) : len(clean_l) + 1]
+            if nxt and nxt.isalnum():
+                continue
+            prefix_cands.add(clean)
+        if not prefix_cands:
+            continue
+        maxlen = max(len(t) for t in prefix_cands)
+        longest = {t for t in prefix_cands if len(t) == maxlen}
+        if len(longest) != 1:
+            continue
+        clean = next(iter(longest))
         out[i] = re.sub(
             r"(?i)(\bowned\s+by\b\s+).+$",
-            r"\1" + full,
+            r"\1" + clean,
             out[i],
         )
     return "\n".join(out)
