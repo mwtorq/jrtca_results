@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=14  PASS=1  WARN=4  FAIL=9
+Volumes: 14  cleaned=10  PASS=3  WARN=5  FAIL=6
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -18,19 +18,19 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
 | WARN | True | 0 | 5 | C6×4,S4/O×1 | `2001 Coal Tree Farm_ocr_hqmax.txt` |
-| FAIL | True | 2 | 0 | C1×2 | `2001 South Coast_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `2001 Troon Quarry_ocr_hqmax.txt` |
-| FAIL | True | 30 | 42 | C1×25,C6×21,S4/O×17,O6×5,?/cutoff_racing×2,C6/O1×2 | `2001 Vol I_ocr_hqmax.txt` |
-| FAIL | True | 18 | 4 | C1×18,S4/O×2,C6×2 | `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | C1×1 | `2001 OH-PA II_ocr_hqmax.txt` |
-| FAIL | True | 29 | 3 | C1×25,O6×4,S4/O×3 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
-| WARN | True | 0 | 3 | S4/O×3 | `2001 PNWJRTN_ocr_hqmax.txt` |
-| WARN | True | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
-| FAIL | True | 30 | 28 | C1×25,C6×19,S4/O×8,O6×5,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2001 South Coast_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `2001 Troon Quarry_ocr_hqmax.txt` |
+| FAIL | True | 30 | 43 | C1×25,C6×21,S4/O×17,O6×5,?/cutoff_racing×2,C6/O1×2,?/4th_then_2nd×1 | `2001 Vol I_ocr_hqmax.txt` |
+| WARN | True | 0 | 2 | C6×2 | `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2001 OH-PA II_ocr_hqmax.txt` |
+| FAIL | True | 23 | 3 | C1×19,O6×4,S4/O×2,?/4th_then_2nd×1 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
+| WARN | False | 0 | 3 | S4/O×3 | `2001 PNWJRTN_ocr_hqmax.txt` |
+| WARN | False | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
+| FAIL | True | 30 | 30 | C1×25,C6×19,S4/O×8,O6×5,?/4th_then_2nd×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
 | FAIL | True | 31 | 17 | C1×25,S4/O×8,C6×8,O6×6,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
-| WARN | True | 0 | 5 | S4/O×4,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
-| FAIL | True | 33 | 12 | C1×25,O6×8,S4/O×6,C6×5,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
-| FAIL | True | 27 | 16 | C1×25,S4/O×12,?/4th_then_6th_no_5×2,O6×2,C6×2 | `2001 Vol III pt 2_ocr_hqmax.txt` |
+| WARN | False | 0 | 5 | S4/O×4,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
+| FAIL | True | 33 | 13 | C1×25,O6×8,C6×5,S4/O×4,?/4th_then_2nd×3,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
+| FAIL | True | 27 | 15 | C1×25,S4/O×10,?/4th_then_6th_no_5×2,O6×2,C6×2,?/4th_then_2nd×1 | `2001 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -41,12 +41,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 6
 - `C6` / `orphan_entry_count`: 3
 
-### `2001 South Coast_ocr_hqmax.txt` (FAIL)
-- `C1` / `class_header_gap`: 1st: Firethom Hot Pepper, owned by Lloyd & Ann Wendland
-- `C1` / `class_header_gap`: 1st: Shilo, owned by Debora Mutimer
-
 ### `2001 Vol I_ocr_hqmax.txt` (FAIL)
 - `?` / `cutoff_racing`: ACING DIVISION
+- `?` / `4th_then_2nd`: 4th: Ben lavender
+2nd: Matthew Stoecklein
 - `O6` / `owner_tail_trunc`: 5th: Sow's Ear Survivor, owned by Meaghan Ape
 - `O6` / `owner_tail_trunc`: 6th: Edisons Prince Jake, owned by Tyno
 - `O6` / `owner_tail_trunc`: 6th: Rey nard Harley, owned by ey
@@ -57,32 +55,19 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 5th: Amowhead Margarita, Kathy & Scott Neus
 - `S4/O` / `missing_owned_by`: 3rd: Woods End Calico, Doug & Noreen Loranger
 - `S4/O` / `missing_owned_by`: 3rd: Orchard Hill Dion, Lynn Jerome
-- `S4/O` / `missing_owned_by`: 6th: Lone Pine Squirrel, Russ & Barbara Gilford
 
-### `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` (FAIL)
-- `S4/O` / `missing_owned_by`: 2nd: Pups, 9 up to 12 months, 10 up to 12 1/2" Entries:
-- `S4/O` / `missing_owned_by`: 2nd: Pups, 9 up to 12 months, 10 up to 12 1/2"." Entries: 3
+### `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` (WARN)
 - `C6` / `orphan_entry_count`: 9
 - `C6` / `orphan_entry_count`: 29
-- `C1` / `class_header_gap`: 1st: Button Top Lady Bug, owned by Ron & Linda Gruenwald
-- `C1` / `class_header_gap`: 1st: Meadowlake Token, owned by Ron & Tandee Morris
-- `C1` / `class_header_gap`: 1st: Skytop Shimmer, owned by Chris Levine/Cheryl Ellsworth
-- `C1` / `class_header_gap`: 1st: Ballyblack Trey, owned by Jennifer Gilligan
-- `C1` / `class_header_gap`: 1st: Prestige Farms Oliver, owned by Jennifer Gilligan
-- `C1` / `class_header_gap`: 1st: Green Gate Keeper, owned by Amanda Wuerstle
-- `C1` / `class_header_gap`: 1st: Rocky Mountain Hazard, owned by S. Bamett & J. Hughe
-- `C1` / `class_header_gap`: 1st: Del Sal Virus, owned by Tiffany Van Tuyl
-
-### `2001 OH-PA II_ocr_hqmax.txt` (FAIL)
-- `C1` / `class_header_gap`: 1st: Woods End Pistol Pete, owned by Russ & Trina Powell
 
 ### `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` (FAIL)
+- `?` / `4th_then_2nd`: 4th: Arins Trax, owned by Alison Linstrum
+2nd: Sows Ear Tuck, owned by Bob & Genie Franklin
 - `O6` / `owner_tail_trunc`: 2nd: Glimmer, owned by Jan
 - `O6` / `owner_tail_trunc`: 1st: Caimbrae Image, owned by Don & Gail Stock and Shirley Bui
 - `O6` / `owner_tail_trunc`: 4th: White Gate Dodger, owned by y
 - `S4/O` / `missing_owned_by`: 5th: Willowbrook Tucker, Kari Streicher
 - `S4/O` / `missing_owned_by`: 5th: Silent Partner Baltazar, George Ridler
-- `S4/O` / `missing_owned_by`: 5th: Pups, 6 up to 9 months, 10 up to 12 1/2" Entries: 7
 - `C1` / `class_header_gap`: 1st: Kara Clancy, owned by Gerry Hevaghan
 - `C1` / `class_header_gap`: 1st: Double D Tally Ho, owned by Dorothy Whiting
 - `C1` / `class_header_gap`: 1st: Andiin Tessa, owned by Jane Collard
@@ -101,6 +86,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ### `2001 Vol II pt 1_ocr_hqmax.txt` (FAIL)
 - `?` / `cutoff_racing`: ACING DIVISION
+- `?` / `4th_then_2nd`: 4th: jth: Jake Man, owned by Steve & Sandy Langheld
+2nd: Priscilla, owned by Kathy Hartsfield
 - `O6` / `owner_tail_trunc`: 1st: istt Little Eden Exile, owned by lan Hughes & S
 - `O6` / `owner_tail_trunc`: 1st: onc:      The Larches Spirit,  owned by Virginia Mel
 - `O6` / `owner_tail_trunc`: 1st: Long Creek Twister, owned by Richard & Rebecca Pai
@@ -111,7 +98,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 26
 - `C6` / `orphan_entry_count`: 38
 - `C6` / `orphan_entry_count`: 11
-- `C6` / `orphan_entry_count`: 10
 
 ### `2001 Vol II pt 2_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 1st: Tortilla Fiat Cheeky, owned by Mary Lou
@@ -135,25 +121,28 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 2nd: Foxhal Tasha,  Pd by Don 8 Gail Stock
 
 ### `2001 Vol III pt 1_ocr_hqmax.txt` (FAIL)
+- `?` / `4th_then_2nd`: 4th: Bryan Schingman
+2nd: Taryn Lacey
+- `?` / `4th_then_2nd`: 4th: Lickity Split Nifty, owned by Darlene Mclnnes
+2nd: Achin' Acres Tinker, owned by Lisa Bonnette
 - `?` / `4th_then_6th_no_5`: 4th: 5" Winslow Genevieve, owned by Lisa Fitzgerald (tie)
 6th: Picadilly Tally, owned by John & Judy Tyno
 - `O6` / `owner_tail_trunc`: 1st: Falling Branch Checkers, owned by Marc
 - `O6` / `owner_tail_trunc`: 2nd: Farrer Point Ranger, owned by Denise Net
 - `O6` / `owner_tail_trunc`: 2nd: Falling Branch Checkers, owned by Marc
 - `O6` / `owner_tail_trunc`: 3rd: Farrier Point Ranger, owned by Denise Net
-- `S4/O` / `missing_owned_by`: 5th: Agility II, Off Lead, over 12/2-15" Entries: 5
 - `S4/O` / `missing_owned_by`: 3rd: A [ab lpr . PES RO PR Ls) aD Rs i SAREE J EN I Bx es rl . . >. DEAS : Tr ne Oe Dar pes, et Som Sheer or, i renoh RA FEE TTI RYT RI XT [ Eb Re iA BY? Phos E
 - `S4/O` / `missing_owned_by`: 2nd: Fammcliff:Spencer,:ownedsby:Bobr& Genie Franklin
 - `S4/O` / `missing_owned_by`: 6th: Muscle Russell Dynamite, Heath Ogbum & Jill Goodman
 - `C6` / `orphan_entry_count`: 2
 - `C6` / `orphan_entry_count`: 15
-- `C6` / `orphan_entry_count`: 1
 
 ### `2001 Vol III pt 2_ocr_hqmax.txt` (FAIL)
+- `?` / `4th_then_2nd`: 4th: Laura Campbell
+2nd: Jessica Williams
 - `?` / `4th_then_6th_no_5`: 4th: Bent Creek Carley, owned by Marc & Laura Cormier
 6th: Stone's Throw Griffey, owned by Karen Merriman
 - `O6` / `owner_tail_trunc`: 1st: Rat Race Remember When, owned by Gary & Donna Ric
-- `S4/O` / `missing_owned_by`: 1st: Christina Wagner                                    2outh Handling Agility, On Lead                         Entries: 3
 - `S4/O` / `missing_owned_by`: 1st: Sassy, owner unknown
 - `S4/O` / `missing_owned_by`: 5th: Falling Branch Trumpet, Kathy & Bob Montbleau
 - `S4/O` / `missing_owned_by`: 6th: Quitealot UdlSy, OWIicG Dy UcDla Ltuallv
@@ -162,4 +151,4 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 5th:     Pepper, pa by Richard Burfoot
 - `S4/O` / `missing_owned_by`: 3rd: BayBriar Penelopy, by David & Jeannette Hutchison
 - `C6` / `orphan_entry_count`: 5
-- `C1` / `class_header_gap`: 1st: Mini Me, owned by Barbara Chesnut
+- `C1` / `class_header_gap`: 1st: Brown's Valley Mustang Sally, owned by L. & A. Wendland

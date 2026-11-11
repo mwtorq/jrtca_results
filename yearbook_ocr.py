@@ -1204,6 +1204,53 @@ def _looks_like_class_header_line(s: str) -> bool:
     return bool(_CLASS_HEADER_HINT_RE.search(t))
 
 
+def _is_plausible_recovered_header(s: str) -> bool:
+    """Reject pipe-smashed / low-signal interstitial OCR posing as a title."""
+    t = norm_space(s or "")
+    if not t or not _looks_like_class_header_line(t):
+        return False
+    if "|" in t or t.count(":") > 2:
+        return False
+    letters = sum(1 for c in t if c.isalpha())
+    if letters < 6:
+        return False
+    # Require a known class stem somewhere — bare ``Entries: N`` is not enough.
+    if not _CLASS_HEADER_SPAN_RE.search(t) and not re.search(
+        r"(?i)\b(?:stud\s+dog|brood\s+bitch|suitability|spayed|neutered)\b", t
+    ):
+        return False
+    return True
+
+
+def _place_body_as_class_header(s: str) -> str | None:
+    """If a place line's entire body is a class title, return that title.
+
+    Racing OCR often emits ``2nd: Pups, 9 up to 12 months … Entries:`` when the
+    next height-class header smashed onto the prior place rank. Returning the
+    body lets unglue defer the real title without inventing one.
+    """
+    t = norm_space(s or "")
+    m = re.match(
+        r"(?i)^(?:\d+(?:st|nd|rd|th)|best|champion|reserve)\s*:\s*(.+)$", t
+    )
+    if not m:
+        return None
+    body = norm_space(m.group(1))
+    if not body or re.search(r"(?i)\bowned\s+by\b", body):
+        return None
+    if not _looks_like_class_header_line(body):
+        return None
+    if _ENTRIES_COUNT_RE.search(body):
+        return body
+    if re.match(
+        r"(?i)^(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|"
+        r"advanced|suitability|spayed|neutered|stud\s+dog|brood\s+bitch)\b",
+        body,
+    ):
+        return body
+    return None
+
+
 def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
     """Indices of ``1st:`` lines that restart a class with no header above.
 
@@ -1512,14 +1559,22 @@ def _ocr_interstitial_class_header(band: Image.Image) -> str:
             except Exception:
                 continue
             flat = _extract_class_header_span(raw)
-            if not _looks_like_class_header_line(flat):
+            if not _is_plausible_recovered_header(flat):
                 continue
             sc = (
                 min(40, len(flat))
                 + (12 if re.search(r"(?i)entries\s*:", flat) else 0)
                 + (8 if re.search(r"(?i)\bhandler\b", flat) else 0)
                 + (6 if re.search(r"(?i)\b(?:steeplechase|racing|agility)\b", flat) else 0)
-                + (4 if re.search(r"(?i)\b(?:bitch|dog|puppy|open|novice)\b", flat) else 0)
+                + (
+                    5
+                    if re.search(
+                        r"(?i)\b(?:suitability|veterans?|stud\s+dog|brood\s+bitch)\b",
+                        flat,
+                    )
+                    else 0
+                )
+                + (4 if re.search(r"(?i)\b(?:bitch|dog|puppy|open|novice|pups)\b", flat) else 0)
             )
             if sc > best_sc:
                 best_sc, best = sc, flat
@@ -1580,7 +1635,7 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
                     _ENTRIES_COUNT_RE.search(span)
                     or _AGILITY_LEVEL_TITLE_RE.search(span)
                 )
-                and _looks_like_class_header_line(span)
+                and _is_plausible_recovered_header(span)
                 and not (prior_hdr and _headers_near_duplicate(span, prior_hdr))
                 and not _text_has_near_header(lines, span)
             )
@@ -1601,7 +1656,7 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
         # like a header (cheap win before a re-OCR).
         for bj in range(bi_prev + 1, bi_next):
             bt = _extract_class_header_span(boxes[bj][0])
-            if not _looks_like_class_header_line(bt):
+            if not _is_plausible_recovered_header(bt):
                 continue
             if prior_hdr and _headers_near_duplicate(bt, prior_hdr):
                 continue
@@ -1638,6 +1693,7 @@ def _recover_class_titles_from_image(img: Image.Image, text: str) -> str:
         hdr = _ocr_interstitial_class_header(band)
         if (
             hdr
+            and _is_plausible_recovered_header(hdr)
             and not (prior_hdr and _headers_near_duplicate(hdr, prior_hdr))
             and not _text_has_near_header(lines, hdr)
         ):
@@ -1964,6 +2020,8 @@ def finalize_results_ocr(text: str) -> str:
     text = _repair_smashed_place_lines(text)
     # Youth/Agility headers glued onto prior place bodies (``Galterio Youth Handler``)
     text = _unglue_place_embedded_class_headers(text)
+    # ``3rd`` before ``1st`` under same header (column merge) — clear false C1
+    text = _reorder_scrambled_place_ranks_under_headers(text)
     # Champ → false ``1st:`` → column → Reserve (Puppy Champ bleed)
     text = _drop_false_first_between_champ_and_column_reserve(text)
     # Reserve: Dog → ``1st:`` same Dog (High Score role replayed as a class)
@@ -5041,18 +5099,38 @@ def _unglue_place_embedded_class_headers(text: str) -> str:
     last place (``…Galterio Youth Handler Entries: 3``). Emitting the header
     immediately parks it mid-class; deferring until the next ``1st:`` restores
     the printed order without inventing titles.
+
+    Also handles racing height smash where the entire place body *is* the next
+    class title (``2nd: Pups, 9 up to 12 months … Entries:``). Non-first places
+    seen while that title is pending stay with it; when a sibling height header
+    interrupts, any still-owed places (per ``Entries: N``) are pulled from under
+    the interrupter before it is emitted.
     """
     if not text:
         return text
     out: list[str] = []
     pending: list[str] = []
+    pending_places: list[str] = []
+    lines = text.splitlines()
 
     def _flush_pending() -> None:
-        nonlocal pending
+        nonlocal pending, pending_places
         out.extend(pending)
+        out.extend(pending_places)
         pending = []
+        pending_places = []
 
-    for ln in text.splitlines():
+    def _pending_entries_needed() -> int | None:
+        if not pending:
+            return None
+        em = _ENTRIES_COUNT_RE.search(pending[-1])
+        if not em:
+            return None
+        return max(0, int(em.group(1)) - len(pending_places))
+
+    i = 0
+    while i < len(lines):
+        ln = lines[i]
         s = ln.strip()
         m = _PLACE_EMBEDDED_HEADER_RE.match(s) if s else None
         if m:
@@ -5064,10 +5142,29 @@ def _unglue_place_embedded_class_headers(text: str) -> str:
                 out.append(place)
             if hdr:
                 pending.append(hdr)
+            i += 1
+            continue
+        # Whole place body is the next class title (racing height smash).
+        body_hdr = _place_body_as_class_header(s) if s else None
+        if body_hdr:
+            # Drop the false place rank — it is not a real placement.
+            pending.append(body_hdr)
+            i += 1
             continue
         if s and _PLACE_FIRST_RE.match(s):
             _flush_pending()
             out.append(ln)
+            i += 1
+            continue
+        if (
+            s
+            and pending
+            and _PLACE_NON_FIRST_RE.match(s)
+            and not _place_body_as_class_header(s)
+        ):
+            # Keep bridged non-first places with the pending smashed header.
+            pending_places.append(ln)
+            i += 1
             continue
         if s and (
             _COLUMN_MARK_RE.match(s)
@@ -5075,11 +5172,128 @@ def _unglue_place_embedded_class_headers(text: str) -> str:
             or _looks_like_class_header_line(s)
             or (_SECTIONISH_RE.search(s) and not _CHAMP_RESERVE_ROLE_RE.match(s))
         ):
+            # Sibling height header after a smashed title: pull owed places
+            # that OCR parked under the interrupter (Entries-count evidence).
+            steal_ok = bool(
+                pending
+                and _looks_like_class_header_line(s)
+                and _header_height_key(pending[-1])
+                and _header_height_key(s)
+                and re.search(
+                    r"(?i)\b(?:pups|puppies|dogs|bitches|veterans?)\b",
+                    pending[-1],
+                )
+            )
+            need = _pending_entries_needed() if steal_ok else None
+            stolen: list[str] = []
+            j = i + 1
+            if need:
+                while j < len(lines) and len(stolen) < need:
+                    js = lines[j].strip()
+                    if not js:
+                        j += 1
+                        continue
+                    if _PLACE_FIRST_RE.match(js) or _PLACE_NON_FIRST_RE.match(js):
+                        stolen.append(lines[j])
+                        j += 1
+                        continue
+                    break
+            if stolen and need and len(stolen) == need:
+                out.extend(pending)
+                out.extend(
+                    _sort_place_lines_by_rank(pending_places + stolen)
+                )
+                pending = []
+                pending_places = []
+                out.append(ln)
+                i = j
+                continue
             _flush_pending()
             out.append(ln)
+            i += 1
             continue
         out.append(ln)
+        i += 1
     _flush_pending()
+    return "\n".join(out)
+
+
+def _sort_place_lines_by_rank(place_lines: list[str]) -> list[str]:
+    """Stable-ish order by printed place rank (1st..6th); non-places keep tail."""
+    rank_re = re.compile(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:")
+
+    def _key(ln: str) -> tuple[int, int]:
+        m = rank_re.match((ln or "").strip())
+        if not m:
+            return (99, 0)
+        return (int(m.group(1)), 0)
+
+    return sorted(place_lines, key=_key)
+
+
+def _reorder_scrambled_place_ranks_under_headers(text: str) -> str:
+    """Sort ``1st``..``6th`` under a class header when ranks are out of order.
+
+    Column merge can emit ``3rd`` before ``1st``/``2nd`` of the same class even
+    when the header and ``Entries: N`` are correct — that still trips C1.
+    Only reorders pure place runs; Champ/Reserve and section markers stay put.
+    """
+    if not text:
+        return text
+    rank_re = re.compile(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:")
+    lines = text.splitlines()
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        s = lines[i].strip()
+        out.append(lines[i])
+        i += 1
+        if not (
+            s
+            and _looks_like_class_header_line(s)
+            and not _PLACE_FIRST_RE.match(s)
+            and not _PLACE_NON_FIRST_RE.match(s)
+        ):
+            continue
+        block: list[str] = []
+        j = i
+        while j < len(lines):
+            js = lines[j].strip()
+            if not js:
+                block.append(lines[j])
+                j += 1
+                continue
+            if _PLACE_FIRST_RE.match(js) or _PLACE_NON_FIRST_RE.match(js):
+                block.append(lines[j])
+                j += 1
+                continue
+            break
+        places = [ln for ln in block if rank_re.match(ln.strip())]
+        if len(places) < 2:
+            continue
+        ranks = [int(rank_re.match(ln.strip()).group(1)) for ln in places]
+        if len(set(ranks)) != len(ranks):
+            continue
+        if ranks == sorted(ranks):
+            continue
+        # Require contiguous 1..k (possibly incomplete) — don't invent ranks.
+        if sorted(ranks) != list(range(min(ranks), max(ranks) + 1)):
+            continue
+        if min(ranks) != 1:
+            continue
+        sorted_places = _sort_place_lines_by_rank(places)
+        # Rebuild block: blanks stay as separators before/between; emit places
+        # in rank order in place of the original place lines.
+        rebuilt: list[str] = []
+        pi = 0
+        for ln in block:
+            if rank_re.match(ln.strip()):
+                rebuilt.append(sorted_places[pi])
+                pi += 1
+            else:
+                rebuilt.append(ln)
+        out.extend(rebuilt)
+        i = j
     return "\n".join(out)
 
 
@@ -5342,12 +5556,17 @@ def _lift_class_header_before_orphan_first(text: str) -> str:
             ):
                 em = _ENTRIES_COUNT_RE.search(ts)
                 if em and int(em.group(1)) == place_n:
-                    out.append(lines[t])
-                    out.append(lines[i])
-                    for u in range(i + 1, t):
-                        out.append(lines[u])
-                    i = t + 1
-                    lifted = True
+                    # Don't lift when the prior open class still owes places —
+                    # racing height smash parks completers under the next header,
+                    # and lifting would recreate the C1 we just unglued.
+                    prior_owed = _prior_open_header_places_owed(out)
+                    if prior_owed is None or prior_owed <= 0:
+                        out.append(lines[t])
+                        out.append(lines[i])
+                        for u in range(i + 1, t):
+                            out.append(lines[u])
+                        i = t + 1
+                        lifted = True
             break
         if lifted:
             continue
@@ -5355,6 +5574,30 @@ def _lift_class_header_before_orphan_first(text: str) -> str:
         out.append(lines[i])
         i += 1
     return "\n".join(out)
+
+
+def _prior_open_header_places_owed(out: list[str]) -> int | None:
+    """Places still owed by the nearest prior ``Entries: N`` header, if any."""
+    places = 0
+    for k in range(len(out) - 1, -1, -1):
+        ps = out[k].strip()
+        if not ps:
+            continue
+        if (
+            _PLACE_FIRST_RE.match(ps)
+            or _PLACE_NON_FIRST_RE.match(ps)
+            or _CHAMP_RESERVE_ROLE_RE.match(ps)
+        ):
+            places += 1
+            continue
+        if _COLUMN_MARK_RE.match(ps) or _MARKER_RE.match(ps):
+            return None
+        if _looks_like_class_header_line(ps) or _SECTIONISH_RE.search(ps):
+            em = _ENTRIES_COUNT_RE.search(ps)
+            if not em:
+                return None
+            return max(0, int(em.group(1)) - places)
+    return None
 
 
 def _place_line_is_smashed(body: str) -> bool:

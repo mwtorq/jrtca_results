@@ -231,66 +231,13 @@
   },
   {
     "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Coal Tree Farm_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap",
-      "owner_tail_trunc"
-    ],
-    "fail_hits": 17,
-    "top_catalog": "C1\u00d715,C6\u00d74,O6\u00d72,S4/O\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 South Coast_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap"
-    ],
-    "fail_hits": 12,
-    "top_catalog": "C1\u00d712",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Troon Quarry_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap",
-      "owner_tail_trunc"
-    ],
-    "fail_hits": 10,
-    "top_catalog": "C1\u00d79,O6\u00d71,S4/O\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Vol I_ocr_hqmax.txt",
     "codes": [
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 33,
-    "top_catalog": "C1\u00d725,C6\u00d721,S4/O\u00d717,O6\u00d78,?/cutoff_racing\u00d72,C6/O1\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap"
-    ],
-    "fail_hits": 18,
-    "top_catalog": "C1\u00d718,S4/O\u00d72,C6\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 OH-PA II_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap",
-      "owner_tail_trunc"
-    ],
-    "fail_hits": 5,
-    "top_catalog": "C1\u00d74,O6\u00d71",
+    "fail_hits": 30,
+    "top_catalog": "C1\u00d725,C6\u00d721,S4/O\u00d717,O6\u00d75,?/cutoff_racing\u00d72,C6/O1\u00d72,?/4th_then_2nd\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -300,29 +247,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 30,
-    "top_catalog": "C1\u00d725,O6\u00d75,S4/O\u00d73",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 PNWJRTN_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap",
-      "owner_tail_trunc"
-    ],
-    "fail_hits": 6,
-    "top_catalog": "C1\u00d74,S4/O\u00d73,O6\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Summer Celebration_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap"
-    ],
-    "fail_hits": 15,
-    "top_catalog": "C1\u00d715,C6/O1\u00d72,C6\u00d72",
+    "fail_hits": 23,
+    "top_catalog": "C1\u00d719,O6\u00d74,S4/O\u00d72,?/4th_then_2nd\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -332,8 +258,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 43,
-    "top_catalog": "C1\u00d725,C6\u00d719,O6\u00d718,S4/O\u00d78,?/cutoff_racing\u00d71",
+    "fail_hits": 30,
+    "top_catalog": "C1\u00d725,C6\u00d719,S4/O\u00d78,O6\u00d75,?/4th_then_2nd\u00d72,?/cutoff_racing\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -343,19 +269,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 36,
-    "top_catalog": "C1\u00d725,O6\u00d711,S4/O\u00d78,C6\u00d78,C6/O1\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Yankee_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap",
-      "owner_tail_trunc"
-    ],
-    "fail_hits": 17,
-    "top_catalog": "C1\u00d711,O6\u00d76,S4/O\u00d74,S4\u00d71,?/4th_then_6th_no_5\u00d71",
+    "fail_hits": 31,
+    "top_catalog": "C1\u00d725,S4/O\u00d78,C6\u00d78,O6\u00d76,C6/O1\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -365,8 +280,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 35,
-    "top_catalog": "C1\u00d725,O6\u00d710,S4/O\u00d710,C6\u00d75",
+    "fail_hits": 33,
+    "top_catalog": "C1\u00d725,O6\u00d78,C6\u00d75,S4/O\u00d74,?/4th_then_2nd\u00d73,?/4th_then_6th_no_5\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -376,8 +291,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 31,
-    "top_catalog": "C1\u00d725,S4/O\u00d714,O6\u00d76,?/4th_then_6th_no_5\u00d72,C6\u00d72",
+    "fail_hits": 27,
+    "top_catalog": "C1\u00d725,S4/O\u00d710,?/4th_then_6th_no_5\u00d72,O6\u00d72,C6\u00d72,?/4th_then_2nd\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]
