@@ -4822,7 +4822,7 @@ def _is_ocr_noise_line(s: str) -> bool:
     if re.search(
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
         r"        go-?to-?ground|conformation|novice|open|advanced|starters|"
-        r"puppy|puppies|working\s+terrier|"
+        r"brace|utility|puppy|puppies|working\s+terrier|"
         r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veterans?|"
         r"handler|showmanship|pee\s*wee|suitability|spayed|neutered|"
         r"(?:on|off)\s+lead|trailing|locating|"
@@ -4836,12 +4836,14 @@ def _is_ocr_noise_line(s: str) -> bool:
     # Entries: keep class headers + bare ``Entries:``; drop owner-crumb + Entries bleed
     # NOTE: ``Suitability To Red Fox Entries: N`` must stay (was false-noise → C1 gap).
     # NOTE: ``Advanced, On Lead Entries: N`` must stay (was false-noise → C1 gap).
+    # NOTE: Obedience ``Brace`` / ``Utility`` Entries headers must stay (1999 Vol III
+    # pt1 Pioneer Classic: false-noise drop → C1 before His Buddy).
     if re.search(r"(?i)\bentries\s*:", s):
         if re.match(r"(?i)^entries\s*:", s):
             return False
         if re.search(
             r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|advanced|"
-            r"starters|adults?|pair|"
+            r"starters|adults?|pair|brace|utility|"
             r"family|bred|youth|child|junior|handler|pee\s*wee|showmanship|"
             r"working|veterans?|racing|agility|steeple|"
             r"(?:on|off)\s+lead|trailing|locating|"

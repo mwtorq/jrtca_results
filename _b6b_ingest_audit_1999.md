@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1999
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 6  cleaned=2  PASS=0  WARN=1  FAIL=5
+Volumes: 6  cleaned=2  PASS=0  WARN=2  FAIL=4
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -21,7 +21,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 11 | 3 | C1×7,O6×4,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 3 | S4/O×2,?/cutoff_racing×1 | `1999 Vol II, pt 1_ocr_hqmax.txt` |
 | FAIL | False | 20 | 0 | C1×18,O6×2 | `1999 Vol II, pt 2_ocr_hqmax.txt` |
-| FAIL | True | 22 | 2 | C1×19,O6×3,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
+| WARN | True | 0 | 3 | S4/O×1,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
 | FAIL | True | 16 | 9 | C1×14,S4/O×7,O6×2,C6/O1×1,C6×1 | `1999 Vol III, pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -74,19 +74,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1` / `class_header_gap`: 1st: Farmliff Holland, owned by Doug & Sue Tack
 - `C1` / `class_header_gap`: 1st: Hart Farms Reba, owned by Robert Van der Heym
 
-### `1999 Vol III, pt 1_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 4th: Muscle Russell Phantom, owned by Jin
-- `O6` / `owner_tail_trunc`: 6th: Westwood Higgins, owned by Art & Syl
-- `O6` / `owner_tail_trunc`: 1st: Muscle Russell Zippity Zoe, owned by Jin
+### `1999 Vol III, pt 1_ocr_hqmax.txt` (WARN)
+- `S4/O` / `missing_owned_by`: 4th: Wishbone, own ed by Heather Reid
 - `C6/O1` / `bare_entries`: Entries:
 - `C6` / `orphan_entry_count`: 0
-- `C1` / `class_header_gap`: 1st: J &J Sunshine, owned by J.Baker/J.Freimark
-- `C1` / `class_header_gap`: 1st: Little Eden Chewbacca, owned by Julie Pagliaro
-- `C1` / `class_header_gap`: 1st: Com Row Tucker, owned by Mark Thompson
-- `C1` / `class_header_gap`: 1st: Briarpatch Zoe, owned by Roger & Tabby Shury
-- `C1` / `class_header_gap`: 1st: Troon Quarry Silver Bell, owned by Jeff & Teresa Rooney
-- `C1` / `class_header_gap`: 1st: Desert Fox Polly, owned by Jeff & Teresa Rooney
-- `C1` / `class_header_gap`: 1st: Northgate Chester, owned by Susan Gill
 
 ### `1999 Vol III, pt 2_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 2nd: Angel's Den Tucker, owned by Jayleen Car
