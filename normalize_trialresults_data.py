@@ -2733,6 +2733,23 @@ def merge_duplicate_owners(conn, dry_run: bool, scope_ids: set[int] | None = Non
                 keep_id,
                 dup_id,
             )
+            # Yearbook meta tables also FK to Owner; reassign before delete so
+            # merges do not trip FK_Board_Owner / Committee / StateRepresentative.
+            cursor.execute(
+                "UPDATE sResults.Board SET OwnerID = ? WHERE OwnerID = ?",
+                keep_id,
+                dup_id,
+            )
+            cursor.execute(
+                "UPDATE sResults.Committee SET OwnerID = ? WHERE OwnerID = ?",
+                keep_id,
+                dup_id,
+            )
+            cursor.execute(
+                "UPDATE sResults.StateRepresentative SET OwnerID = ? WHERE OwnerID = ?",
+                keep_id,
+                dup_id,
+            )
             cursor.execute("DELETE FROM sResults.Owner WHERE OwnerID = ?", dup_id)
 
         if not dry_run and canonical_name and canonical_name != names_by_id.get(keep_id):
