@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T18:33:29Z",
+  "updated": "2026-11-12T19:24:04Z",
   "years": {
     "1997": {
       "a1": "done",
@@ -83,16 +83,16 @@
         "a1_done": "2026-11-08T15:47:35Z",
         "a2_done": "2026-11-08T15:48:08Z",
         "b6_done": "2026-11-08T15:48:14Z",
-        "b6b_done": "2026-11-12T18:33:29Z",
+        "b6b_done": "2026-11-12T19:24:04Z",
         "c10_staged": "2026-11-08T15:58:54Z"
       },
       "b6b": "done",
       "b6b_verdict": "FAIL",
       "b6b_unlocked": false,
-      "b6b_fail": 2,
-      "b6b_warn": 3,
+      "b6b_fail": 1,
+      "b6b_warn": 4,
       "b6b_pass": 1,
-      "b6b_cleaned_vols": 1
+      "b6b_cleaned_vols": 2
     },
     "2000": {
       "a1": "done",

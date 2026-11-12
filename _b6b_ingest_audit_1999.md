@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1999
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 6  cleaned=1  PASS=1  WARN=3  FAIL=2
+Volumes: 6  cleaned=2  PASS=1  WARN=4  FAIL=1
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,8 +17,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 12 | 2 | C1×9,O6×3,S4/O×1,C6×1 | `1999 Vol I, pt 1_ocr_hqmax.txt` |
-| FAIL | False | 11 | 3 | C1×7,O6×4,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 2 | S4/O×1,C6×1 | `1999 Vol I, pt 1_ocr_hqmax.txt` |
+| FAIL | False | 10 | 3 | C1×7,O6×3,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 3 | S4/O×2,?/cutoff_racing×1 | `1999 Vol II, pt 1_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1999 Vol II, pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 3 | S4/O×1,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
@@ -26,19 +26,9 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Sample residual hits (after cleanup)
 
-### `1999 Vol I, pt 1_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 2nd: Sun Dance, owned by Roy & Sandra Deo
-- `O6` / `owner_tail_trunc`: 2nd: BF. Wishbone, owned by David, Jean & Kelley Rei
-- `O6` / `owner_tail_trunc`: 5th: ~ B.F. Wishbone, owned by B.F. David, Jean & Kelley Rei
+### `1999 Vol I, pt 1_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 1st: Nirvana Farms Madison, Peggy Dominico
 - `C6` / `orphan_entry_count`: 27
-- `C1` / `class_header_gap`: 1st: Runamuk Gnat, owned by Harry & Mary Abbott
-- `C1` / `class_header_gap`: 1st: Annie, owned by Lynn May Measles
-- `C1` / `class_header_gap`: 1st: Rootie Tootie, owned by Lynn May Measles
-- `C1` / `class_header_gap`: 1st: Scruffy, owned by Audie Sumner
-- `C1` / `class_header_gap`: 1st: The Hollow Blaze, owned by C.Boesel/C.Cswerko
-- `C1` / `class_header_gap`: 1st: Windermere Roper, owned by Mike Molloy
-- `C1` / `class_header_gap`: 1st: Istt Half Track, owned by Mark & Janice Bjorkland
 
 ### `1999 Vol I, pt 2_ocr_hqmax.txt` (FAIL)
 - `?` / `4th_then_6th_no_5`: 4th: Rat Race Keely, owned by Lloyd & Ann Wendland
@@ -46,7 +36,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `O6` / `owner_tail_trunc`: 1st: Paramount Ectasy, owned by Dennie Fee
 - `O6` / `owner_tail_trunc`: Best: Paramount Ectasy, owned by Dennis Fee
 - `O6` / `owner_tail_trunc`: Reserve: Paramount Ecstasy, owned by Dennie Fee
-- `O6` / `owner_tail_trunc`: 1st: Sundance, owned by Roy & Sandy Deo
 - `S4/O` / `missing_owned_by`: 6th: Daniel, last name not provided
 - `S4/O` / `missing_owned_by`: 2nd: White Spirits Abbey Rose, Dan & Cindy McClary
 - `C1` / `class_header_gap`: 1st: Orchard Hill Dabble, owned by Robby & Cheryl Robson
@@ -54,6 +43,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1` / `class_header_gap`: 1st: Oakfield Hoochie, owned by Didi Gough
 - `C1` / `class_header_gap`: 1st: White Gate Dutch, owned by Lynn May Measles
 - `C1` / `class_header_gap`: 1st: Rootie-Tootie, owned by Lynn May Measles
+- `C1` / `class_header_gap`: 1st: Good Times Rooster, owned by Steve & Barbara Spruill
 
 ### `1999 Vol II, pt 1_ocr_hqmax.txt` (WARN)
 - `?` / `cutoff_racing`: ACING DIVISION
