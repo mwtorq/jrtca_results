@@ -17,35 +17,30 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 28 | 3 | C1×25,O6×3,?/4th_then_2nd×1,S4/O×1,C6×1 | `1999 Vol I, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 34 | 4 | C1×25,O6×8,P2×2,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
-| FAIL | True | 29 | 4 | C1×25,O6×4,S4/O×3,?/cutoff_racing×1 | `1999 Vol II, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 32 | 0 | C1×25,O6×7 | `1999 Vol II, pt 2_ocr_hqmax.txt` |
-| FAIL | True | 28 | 2 | C1×25,O6×3,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 27 | 9 | C1×25,S4/O×7,O6×2,C6/O1×1,C6×1 | `1999 Vol III, pt 2_ocr_hqmax.txt` |
+| FAIL | True | 12 | 2 | C1×9,O6×3,S4/O×1,C6×1 | `1999 Vol I, pt 1_ocr_hqmax.txt` |
+| FAIL | True | 19 | 3 | C1×11,O6×8,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
+| FAIL | True | 23 | 3 | C1×20,O6×3,S4/O×2,?/cutoff_racing×1 | `1999 Vol II, pt 1_ocr_hqmax.txt` |
+| FAIL | True | 25 | 0 | C1×18,O6×7 | `1999 Vol II, pt 2_ocr_hqmax.txt` |
+| FAIL | True | 22 | 2 | C1×19,O6×3,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
+| FAIL | True | 16 | 9 | C1×14,S4/O×7,O6×2,C6/O1×1,C6×1 | `1999 Vol III, pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
 ### `1999 Vol I, pt 1_ocr_hqmax.txt` (FAIL)
-- `?` / `4th_then_2nd`: 4th: Scruffy, owned by Audie Sumner 3
-2nd: Southermost Sami D' Shark, owned by Jackie McLain 4
 - `O6` / `owner_tail_trunc`: 2nd: Sun Dance, owned by Roy & Sandra Deo
 - `O6` / `owner_tail_trunc`: 2nd: BF. Wishbone, owned by David, Jean & Kelley Rei
 - `O6` / `owner_tail_trunc`: 5th: ~ B.F. Wishbone, owned by B.F. David, Jean & Kelley Rei
 - `S4/O` / `missing_owned_by`: 1st: Nirvana Farms Madison, Peggy Dominico
 - `C6` / `orphan_entry_count`: 27
-- `C1` / `class_header_gap`: 1st: Golden Hills Smidge, owned by Brenda Benkly
-- `C1` / `class_header_gap`: 1st: Briarpatch Britches, owned by Sherri Rossmiller
-- `C1` / `class_header_gap`: 1st: Thimble Farm Fargo, owned by Gary & Donna Rich
-- `C1` / `class_header_gap`: 1st: Golden Hills Rush, owned by Jeff & Connie McKee
 - `C1` / `class_header_gap`: 1st: Runamuk Gnat, owned by Harry & Mary Abbott
-- `C1` / `class_header_gap`: 1st: Sow's Ear See Bee, owned by John & Lisa Renfro
+- `C1` / `class_header_gap`: 1st: Annie, owned by Lynn May Measles
+- `C1` / `class_header_gap`: 1st: Rootie Tootie, owned by Lynn May Measles
+- `C1` / `class_header_gap`: 1st: Scruffy, owned by Audie Sumner
+- `C1` / `class_header_gap`: 1st: The Hollow Blaze, owned by C.Boesel/C.Cswerko
+- `C1` / `class_header_gap`: 1st: Windermere Roper, owned by Mike Molloy
+- `C1` / `class_header_gap`: 1st: Istt Half Track, owned by Mark & Janice Bjorkland
 
 ### `1999 Vol I, pt 2_ocr_hqmax.txt` (FAIL)
-- `P2` / `place_rank_dust`: 1st:
-1st: Hannah, owned by Pat & Steve Berry
-- `P2` / `dup_place`: 1st:
-1st: Hannah, owned by Pat & Steve Berry
 - `?` / `4th_then_6th_no_5`: 4th: Rat Race Keely, owned by Lloyd & Ann Wendland
 6th: Lickity Split Fancy, owned by Allen & Denise Wessel
 - `O6` / `owner_tail_trunc`: 10-12'%" Reserve: R.A. Piker, owned by George & Lir
@@ -57,20 +52,22 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `O6` / `owner_tail_trunc`: 4th: Button Top Texy, owned by Andre' & Laura Nel
 - `O6` / `owner_tail_trunc`: 1st: Sundance, owned by Roy & Sandy Deo
 - `S4/O` / `missing_owned_by`: 6th: Daniel, last name not provided
+- `S4/O` / `missing_owned_by`: 2nd: White Spirits Abbey Rose, Dan & Cindy McClary
+- `C1` / `class_header_gap`: 1st: Orchard Hill Dabble, owned by Robby & Cheryl Robson
 
 ### `1999 Vol II, pt 1_ocr_hqmax.txt` (FAIL)
 - `?` / `cutoff_racing`: ACING DIVISION
 - `O6` / `owner_tail_trunc`: 6th: Bayview Twister, owned by Stan & Karen Kman
-- `O6` / `owner_tail_trunc`: 5th: Treehouse Guiness, owned by Stan & Karen Kman
 - `O6` / `owner_tail_trunc`: 4th: Underground Singe, owned by Kevin & Shannon Ost
 - `S4/O` / `missing_owned_by`: 4th: Winslow Genevieve, Lisa Fitzgerald
 - `S4/O` / `missing_owned_by`: 2nd: Disqualified, Exhibitor cross-entered in Open Division
-- `S4/O` / `missing_owned_by`: 4th: Sweet B Sugar & Spice, owned B Candy Butterfield
-- `C1` / `class_header_gap`: 1st: Westwood Lucas, owned by Alice Reynolds
-- `C1` / `class_header_gap`: 1st: Hillside Josie, owned by Karen Vernon
-- `C1` / `class_header_gap`: 1st: Bugsy, owned by Richard & Annette Kent
 - `C1` / `class_header_gap`: 1st: Green Gate Tomba, owned by Joe & Priscilla Testa
-- `C1` / `class_header_gap`: 1st: Fox Run Casey, owned by Cathy Potter
+- `C1` / `class_header_gap`: 1st: Loblolly Echo, owned by Sally Gay
+- `C1` / `class_header_gap`: 1st: White Gate Bomber, owned by Bill & Nancy Breakstone
+- `C1` / `class_header_gap`: 1st: Fox Run Casey, owned by Charles & Kathryn Potter
+- `C1` / `class_header_gap`: 1st: Farmcliff Donny, owned by Jim & Kris Tracy
+- `C1` / `class_header_gap`: 1st: Orchard Hill Dabble, owned by Robby & Cheryl Robson
+- `C1` / `class_header_gap`: 1st: Falling Branch Zack, owned by D. Calloway/J. Longendorfer
 
 ### `1999 Vol II, pt 2_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 4th: Treehouse Guiness, owned by Stan & Karen Kman
@@ -80,11 +77,11 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `O6` / `owner_tail_trunc`: 3rd: Muscle Russell Tussle, owned by Rick & Mal
 - `O6` / `owner_tail_trunc`: 12-15" Reserve: Northwoods O'Tally Oak, owned by Gary
 - `C1` / `class_header_gap`: 1st: Corn Row Tucker, owned by Mark Thompson
-- `C1` / `class_header_gap`: 1st: Westwood Jade, owned by Rick & Leslie Hemsing
-- `C1` / `class_header_gap`: 1st: Deegan, owned by Doug & Sue Tack
 - `C1` / `class_header_gap`: 1st: Long Hope Mickey, owned by Bob Franklin
-- `C1` / `class_header_gap`: 1st: Laurel Run Jester, owned by Lisa Schmidt
 - `C1` / `class_header_gap`: 1st: Fox Run Dazl, owned by Stephanie Taylor
+- `C1` / `class_header_gap`: 1st: Wyndcroft Tiller, owned by Margaret Coleburn
+- `C1` / `class_header_gap`: 1st: istt Deegan, owned by Doug & Sue Tack
+- `C1` / `class_header_gap`: 1st: Skytop Renegade, owned by Sue & Elizabeth Murphree
 
 ### `1999 Vol III, pt 1_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 4th: Muscle Russell Phantom, owned by Jin
@@ -94,11 +91,11 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 0
 - `C1` / `class_header_gap`: 1st: J &J Sunshine, owned by J.Baker/J.Freimark
 - `C1` / `class_header_gap`: 1st: Little Eden Chewbacca, owned by Julie Pagliaro
-- `C1` / `class_header_gap`: 1st: High Range Jackson, owned by Beau & Kathleen White
 - `C1` / `class_header_gap`: 1st: Com Row Tucker, owned by Mark Thompson
 - `C1` / `class_header_gap`: 1st: Briarpatch Zoe, owned by Roger & Tabby Shury
 - `C1` / `class_header_gap`: 1st: Troon Quarry Silver Bell, owned by Jeff & Teresa Rooney
 - `C1` / `class_header_gap`: 1st: Desert Fox Polly, owned by Jeff & Teresa Rooney
+- `C1` / `class_header_gap`: 1st: Northgate Chester, owned by Susan Gill
 
 ### `1999 Vol III, pt 2_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 2nd: Angel's Den Tucker, owned by Jayleen Car
@@ -112,4 +109,4 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 3rd: Amanda Mogrovejo, handling North Country Petey
 - `C6/O1` / `bare_entries`: Entries:
 - `C6` / `orphan_entry_count`: 10
-- `C1` / `class_header_gap`: 1st: Heaven Hill Foxy, owned by Doug Stephenson
+- `C1` / `class_header_gap`: 1st: Angus, owned by Demetrius & Jennifer Stasinos

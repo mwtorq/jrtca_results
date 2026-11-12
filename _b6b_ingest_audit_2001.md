@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=6  PASS=3  WARN=6  FAIL=5
+Volumes: 14  cleaned=4  PASS=3  WARN=6  FAIL=5
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -23,13 +23,13 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | True | 30 | 42 | C1×25,C6×21,S4/O×17,O6×5,?/cutoff_racing×2,C6/O1×2 | `2001 Vol I_ocr_hqmax.txt` |
 | WARN | True | 0 | 2 | C6×2 | `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 OH-PA II_ocr_hqmax.txt` |
-| WARN | True | 0 | 2 | ?/4th_then_2nd×1,S4/O×1 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
+| WARN | False | 0 | 2 | ?/4th_then_2nd×1,S4/O×1 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
 | WARN | False | 0 | 1 | S4/O×1 | `2001 PNWJRTN_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
 | FAIL | True | 30 | 30 | C1×25,C6×19,S4/O×8,O6×5,?/4th_then_2nd×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
 | FAIL | False | 27 | 17 | C1×25,S4/O×8,C6×8,O6×2,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | S4/O×3,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
-| FAIL | True | 33 | 10 | C1×25,O6×8,C6×5,S4/O×4,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
+| FAIL | False | 33 | 10 | C1×25,O6×8,C6×5,S4/O×4,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
 | FAIL | True | 27 | 14 | C1×25,S4/O×10,?/4th_then_6th_no_5×2,O6×2,C6×2 | `2001 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
