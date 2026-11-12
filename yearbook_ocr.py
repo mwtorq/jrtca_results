@@ -2554,6 +2554,8 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "deo",  # image: Roy & Sandra Deo complete (1999 Vol I pt1 Sun Dance)
         "fee",  # image: Dennie/Dennis Fee complete (1999 Vol I pt2 Paramount Ecstasy)
         "hoy",  # RTF/image: Linda Hoy complete (2000 Vol III pt2 Neutered Adult Dog)
+        "lum",  # yearbook txt: Christopher & Pamela Lum complete (2000 vol 3 pt1 Rimshot)
+        "pan",  # yearbook txt: Luting Pan complete (2000 vol 3 pt1 Long Hope Bambi)
         "wren",
         "quick",
         "wilde",

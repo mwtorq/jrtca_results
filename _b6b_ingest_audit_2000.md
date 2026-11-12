@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 2000
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=2  PASS=0  WARN=1  FAIL=4
+Volumes: 5  cleaned=3  PASS=0  WARN=2  FAIL=3
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -19,8 +19,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | FAIL | True | 28 | 12 | C1×25,C6×7,S4/O×5,O6×3 | `2000 Vol I_ocr_hqmax.txt` |
 | FAIL | True | 25 | 16 | C1×25,S4/O×10,C6/O1×3,S4×2,C6×1 | `2000 Vol II_ocr_hqmax.txt` |
-| FAIL | False | 27 | 11 | C1×25,S4/O×7,O6×2,C6×2,S4×1,?/4th_then_2nd×1 | `2000 vol 3 pt 1_ocr_hqmax.txt` |
-| FAIL | False | 31 | 15 | C1×25,S4/O×8,C6×7,O6×6 | `2000 Vol III pt 1_ocr_hqmax.txt` |
+| WARN | True | 0 | 11 | S4/O×7,C6×2,S4×1,?/4th_then_2nd×1 | `2000 vol 3 pt 1_ocr_hqmax.txt` |
+| FAIL | False | 28 | 15 | C1×25,S4/O×8,C6×7,O6×3 | `2000 Vol III pt 1_ocr_hqmax.txt` |
 | WARN | False | 0 | 6 | S4/O×4,C6/O1×2 | `2000 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -53,12 +53,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 1
 - `C1` / `class_header_gap`: 1st: Pheasant Hills Tracker, owned by Wendy Knake
 
-### `2000 vol 3 pt 1_ocr_hqmax.txt` (FAIL)
+### `2000 vol 3 pt 1_ocr_hqmax.txt` (WARN)
 - `S4` / `mangled_by`: 2nd: North Country Petey, woend by Mary Lou Mogrovejo
 - `?` / `4th_then_2nd`: 4th: dth: Briarpatch Winnie, owned by Sharon Kress
 2nd: North Country Pringle, owned by Kathy Larson
-- `O6` / `owner_tail_trunc`: 5th: Rimshot, owned by Christopher & Pamela Lum
-- `O6` / `owner_tail_trunc`: 6th: Long Hope Bambi, owned by Luting Pan
 - `S4/O` / `missing_owned_by`: 4th: Fidget, owner unknown
 - `S4/O` / `missing_owned_by`: 4th: Harley, owner unknown
 - `S4/O` / `missing_owned_by`: 2nd: Noaz Jacks Gimme, owned y Susi Laswell
@@ -67,11 +65,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 3rd: Cosmo, owner not known
 - `S4/O` / `missing_owned_by`: 2nd: North Country Petey, woend by Mary Lou Mogrovejo
 - `C6` / `orphan_entry_count`: 39
+- `C6` / `orphan_entry_count`: 10
 
 ### `2000 Vol III pt 1_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 3rd: Shelmar White Diamond, owned by Jean & Reed Vea
-- `O6` / `owner_tail_trunc`: 6th: Long Hope Bambi, owned by Luting Pan
-- `O6` / `owner_tail_trunc`: 5th: Rimshot, owned by Christopher & Pamela Lum
 - `O6` / `owner_tail_trunc`: 3rd: Heaven Hill Nordik Wolf, owned by P
 - `S4/O` / `missing_owned_by`: 4th: Big Hickory Captain Jack, owne dby Mary Campbell
 - `S4/O` / `missing_owned_by`: 3rd: Cosmo, owner not known
@@ -81,6 +78,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 3rd: Peanut, owner unknown
 - `C6` / `orphan_entry_count`: 10
 - `C6` / `orphan_entry_count`: 13
+- `C6` / `orphan_entry_count`: 22
+- `C6` / `orphan_entry_count`: 33
 
 ### `2000 Vol III pt 2_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 3rd: Tracker, Lisanne & Michael Gray
