@@ -2512,7 +2512,7 @@ _OWNER_TAIL_STUBS = frozenset(
         "osb",
         "tho",
         "brut",
-        # "hop" removed: 1997 Vol I pt2 p6 image shows complete surname Hop
+        "hop",  # truncated unless full owner is Ali Hop / Ali Mae Hop (see below)
         "kru",
         "beli",
         "kell",  # "...Brooks Kell" cut before Kelley
@@ -2712,9 +2712,17 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "nel",  # 1998 Vol I pt1 p66 image: Andre & Laura Nel (complete)
         "lyda",  # 1998 Vol II pt2 p24 image: Vistara Ransom owned by Lyda only
         "noy",  # 1998 Vol III pt1 p29 image: Jim & Ann Van Noy (complete)
-        "hop",  # 1997 Vol I pt2 p6 image: Liz Littman & Ali Mae Hop (complete)
         "ali",
         "miwa",
+    }
+)
+
+# Complete short-surname owners that must NOT trip O6. Matched on the full
+# owned-by tail (case-insensitive), not a bare lowercase token like ``hop``.
+_OWNER_TAIL_COMPLETE_NAMES = frozenset(
+    {
+        "ali hop",
+        "ali mae hop",
     }
 )
 
@@ -2722,6 +2730,24 @@ _OWNER_TAIL_COMPLETE = frozenset(
 _OWNER_TAIL_SUFFIX_RE = re.compile(
     r"(?i)\s+(?:Jr\.?|Sr\.?|II|III|IV|2nd|3rd|Ill|Ili|Iii|lll)\s*$"
 )
+
+
+def _owner_tail_is_complete_named_person(tail: str) -> bool:
+    """True when the owned-by clause is a known complete short-surname person.
+
+    Accepts solo or co-owner forms::
+        owned by Ali Hop
+        owned by Ali Mae Hop
+        owned by Liz Littman & Ali Mae Hop
+    """
+    t = _OWNER_TAIL_SUFFIX_RE.sub("", (tail or "").strip()).strip()
+    if not t:
+        return False
+    # Last co-owner after ``&``, else the whole tail.
+    if "&" in t:
+        t = t.rsplit("&", 1)[-1].strip()
+    key = re.sub(r"\s+", " ", t.lower())
+    return key in _OWNER_TAIL_COMPLETE_NAMES
 
 
 def is_owner_tail_trunc_line(line: str) -> bool:
@@ -2738,6 +2764,9 @@ def is_owner_tail_trunc_line(line: str) -> bool:
     # Strip Jr/Sr/III (and OCR Ill/Ili) so "Duty III" is not a 3-letter surname hit
     tail = _OWNER_TAIL_SUFFIX_RE.sub("", m.group(1).strip()).strip()
     if not tail:
+        return False
+    # Known complete people with short surnames (Ali Hop / Ali Mae Hop)
+    if _owner_tail_is_complete_named_person(tail):
         return False
     # Co-owner cut: "... & Lir" / "& Bett" / "& Mi"
     m_amp = re.search(r"&\s+([A-Za-z']+)\s*$", tail)
