@@ -689,6 +689,7 @@
     const clog = c1.log || {};
     const b6b = tgt.b6b || {};
     const reocr = tgt.reocr || data.reocr || {};
+    const surgical = tgt.surgical || {};
     const other = tgt.other || {};
 
     const reocrRows = (reocr.entries || []).map((e) => {
@@ -731,7 +732,29 @@
     const reocrTracksHtml = hasDual
       ? `<div class="targeted-row">${reocrTrackCard("Force re-OCR Track A", reocr.trackA)}${reocrTrackCard("Force re-OCR Track B", reocr.trackB)}</div>`
       : "";
-    $("reocr").innerHTML = `${reocrTracksHtml}<div class="ocr-card b6b-card" style="border-left:4px solid var(--fail)">
+    const surgRunning = !!surgical.running;
+    const surgShow = surgRunning || surgical.active_log || surgical.job_line;
+    const surgHtml = surgShow ? `<div class="ocr-card b6b-card" style="border-left:4px solid var(--warn)">
+      <strong>Surgical force re-OCR</strong>${stateBadge(surgical.state || "idle")}
+      <div class="line meta">${esc(surgical.note || "Single-vol / prove-slice (not dual-track)")}</div>
+      ${surgRunning
+        ? `<div class="line alive">PIDs ${(surgical.pids || []).join(", ")}${surgical.script ? ` · ${esc(surgical.script)}` : ""}</div>`
+        : `<div class="line dead">no _tmp_reocr process</div>`}
+      <div class="line job-line">${esc(surgical.job_line || "—")}</div>
+      ${surgical.progress_label
+        ? `<div class="line"><strong>${esc(surgical.progress_label)}</strong></div>`
+        : ""}
+      <div class="line">${esc(surgical.page_line || "—")}
+        ${surgical.pages_expected != null ? ` · of ${esc(surgical.pages_expected)}` : (surgical.pages_total != null ? ` · ${esc(surgical.pages_total)} pages` : "")}
+        ${surgical.pages_left != null ? ` · left ${esc(surgical.pages_left)}` : ""}
+        ${surgical.ppm != null ? ` · ${esc(surgical.ppm)} ppm` : ""}
+        ${surgical.workers != null ? ` · ${esc(surgical.workers)}w` : ""}
+        ${surgical.tess_live != null ? ` · tess ${esc(surgical.tess_live)}` : ""}</div>
+      <div class="line meta">log: ${esc(surgical.active_log || "—")}
+        ${surgical.log_mtime ? ` · ${esc(surgical.log_mtime)}` : ""}</div>
+      ${surgical.done_line ? `<div class="line">${esc(surgical.done_line)}</div>` : ""}
+    </div>` : "";
+    $("reocr").innerHTML = `${surgHtml}${reocrTracksHtml}<div class="ocr-card b6b-card" style="border-left:4px solid var(--fail)">
       <strong>Force re-OCR queue</strong>${stateBadge(reocr.state)}
       <div class="line meta">${esc(reocr.note || "Volumes that FAILED B6b (O6/C1/…) must re-OCR before unlock")}</div>
       ${reocr.running ? `<div class="line alive">schedule_reocr PIDs ${(reocr.pids || []).join(", ")}</div>` : `<div class="line dead">No schedule_reocr_from_queue process</div>`}
