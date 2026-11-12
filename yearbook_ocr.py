@@ -2552,6 +2552,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "kman",  # image: Stan & Karen Kman complete (1999 Vol II pt1 Hi Bid)
         "car",  # image: Jayleen Car complete (1999 Vol III pt2 Dog Pups 6-9 r/br)
         "deo",  # image: Roy & Sandra Deo complete (1999 Vol I pt1 Sun Dance)
+        "fee",  # image: Dennie/Dennis Fee complete (1999 Vol I pt2 Paramount Ecstasy)
         "wren",
         "quick",
         "wilde",
