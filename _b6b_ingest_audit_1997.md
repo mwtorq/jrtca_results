@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1997
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 4  cleaned=2  PASS=0  WARN=2  FAIL=2
+Volumes: 4  cleaned=1  PASS=0  WARN=3  FAIL=1
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,10 +17,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 21 | 5 | O6×11,C1×10,C6×3,S4/O×2 | `1997 Vol I pt 1_ocr_hqmax.txt` |
+| FAIL | False | 21 | 5 | O6×11,C1×10,C6×3,S4/O×2 | `1997 Vol I pt 1_ocr_hqmax.txt` |
 | WARN | False | 0 | 2 | S4/O×2 | `1997 Vol I pt 2_ocr_hqmax.txt` |
-| WARN | True | 0 | 13 | S4/O×7,C6×6 | `1997 Vol II pt 1_ocr_hqmax.txt` |
-| FAIL | False | 8 | 6 | C1×5,O6×3,S4/O×3,C6×3 | `1997 Vol II pt 2_ocr_hqmax.txt` |
+| WARN | False | 0 | 13 | S4/O×7,C6×6 | `1997 Vol II pt 1_ocr_hqmax.txt` |
+| WARN | True | 0 | 6 | S4/O×3,C6×3 | `1997 Vol II pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -56,16 +56,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 17
 - `C6` / `orphan_entry_count`: 5
 
-### `1997 Vol II pt 2_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 4th: Scamper Tally-Ho, owned by Brenda Zeh
-- `O6` / `owner_tail_trunc`: 4th: Rainland Hy Type, owned by Forrest & Ann Walling Tie
-- `O6` / `owner_tail_trunc`: 1st: Farmcliff Becky, owned by D. Sturz/J.McCoy Ind Eav Bin Inf Airis bar Vialaria WA Ace
+### `1997 Vol II pt 2_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: Champion: Blue Jeans, Donna Pierce
 - `S4/O` / `missing_owned_by`: 5th: Button Top Jim Winston, Joel Pritchet
 - `S4/O` / `missing_owned_by`: 6th: Showbizz Fizz, al Darlene Irvine
 - `C6` / `orphan_entry_count`: 03
 - `C6` / `orphan_entry_count`: 10
 - `C6` / `orphan_entry_count`: 12
-- `C1` / `class_header_gap`: 1st: Long Hope Minnie, owned by Nellie Niewola
-- `C1` / `class_header_gap`: 1st: Sass N' Dash Darby, owned by Michael & Sally Murphy
-- `C1` / `class_header_gap`: 1st: Mineral Springs Indiana Bones, owned by Marieliyn Zeock

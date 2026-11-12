@@ -4,9 +4,9 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
-      "chars_before": 354971,
-      "chars_after": 354801,
-      "cleaned": true,
+      "chars_before": 354754,
+      "chars_after": 354754,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 21,
       "warn_hits": 5,
@@ -186,9 +186,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 316816,
-      "chars_after": 316789,
-      "cleaned": true,
+      "chars_before": 316779,
+      "chars_after": 316779,
+      "cleaned": false,
       "verdict": "WARN",
       "fail_hits": 0,
       "warn_hits": 13,
@@ -265,36 +265,19 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 280374,
-      "chars_after": 280374,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 8,
+      "chars_before": 284797,
+      "chars_after": 284794,
+      "cleaned": true,
+      "verdict": "WARN",
+      "fail_hits": 0,
       "warn_hits": 6,
-      "top_codes": "class_header_gap\u00d75,owner_tail_trunc\u00d73,missing_owned_by\u00d73,orphan_entry_count\u00d73",
-      "top_catalog": "C1\u00d75,O6\u00d73,S4/O\u00d73,C6\u00d73",
+      "top_codes": "missing_owned_by\u00d73,orphan_entry_count\u00d73",
+      "top_catalog": "S4/O\u00d73,C6\u00d73",
       "by_code": {
-        "owner_tail_trunc": 3,
         "missing_owned_by": 3,
-        "orphan_entry_count": 3,
-        "class_header_gap": 5
+        "orphan_entry_count": 3
       },
       "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Scamper Tally-Ho, owned by Brenda Zeh"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Rainland Hy Type, owned by Forrest & Ann Walling Tie"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Farmcliff Becky, owned by D. Sturz/J.McCoy Ind Eav Bin Inf Airis bar Vialaria WA Ace"
-        },
         {
           "code": "missing_owned_by",
           "catalog": "S4/O",
@@ -324,33 +307,10 @@
           "code": "orphan_entry_count",
           "catalog": "C6",
           "line": "12"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Long Hope Minnie, owned by Nellie Niewola"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Sass N' Dash Darby, owned by Michael & Sally Murphy"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Mineral Springs Indiana Bones, owned by Marieliyn Zeock"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Freedom's Striker, owned by Escobedo/D.Sinderud"
         }
       ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc"
-      ]
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

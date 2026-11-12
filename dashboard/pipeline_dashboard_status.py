@@ -1519,6 +1519,7 @@ def surgical_reocr_live() -> dict:
     if dest_hqmax is not None:
         # Prefer pre-job backup (complete prior OCR); else live hqmax if present.
         for cand in (
+            Path(str(dest_hqmax) + ".pre_1997_volii_pt2_c1"),
             Path(str(dest_hqmax) + ".pre_1997_volii_pt1_c1"),
             Path(str(dest_hqmax) + ".pre_1997_voli_pt2_c1"),
             Path(str(dest_hqmax) + ".pre_voliii_pt2_c1"),
@@ -1526,6 +1527,7 @@ def surgical_reocr_live() -> dict:
             Path(str(dest_hqmax) + ".pre_volii_pt2_c1"),
             Path(str(dest_hqmax) + ".pre_volii_pt1_c1"),
             Path(str(dest_hqmax) + ".pre_voli_pt1_c1"),
+            dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_1997_volii_pt2_c1"),
             dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_1997_volii_pt1_c1"),
             dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_1997_voli_pt2_c1"),
             dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_voliii_pt2_c1"),

@@ -2546,6 +2546,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "bell",
         "kent",
         "yee",
+        "zeh",  # image: Brenda Zeh complete (1997 Vol II pt2 agility)
         "wren",
         "quick",
         "wilde",
