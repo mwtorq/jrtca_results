@@ -2512,7 +2512,7 @@ _OWNER_TAIL_STUBS = frozenset(
         "osb",
         "tho",
         "brut",
-        "hop",  # truncated unless full owner is Ali Hop / Ali Mae Hop (see below)
+        # "hop" handled case-sensitively in is_owner_tail_trunc_line (Hop ok; hop stub)
         "kru",
         "beli",
         "kell",  # "...Brooks Kell" cut before Kelley
@@ -2717,37 +2717,21 @@ _OWNER_TAIL_COMPLETE = frozenset(
     }
 )
 
-# Complete short-surname owners that must NOT trip O6. Matched on the full
-# owned-by tail (case-insensitive), not a bare lowercase token like ``hop``.
-_OWNER_TAIL_COMPLETE_NAMES = frozenset(
-    {
-        "ali hop",
-        "ali mae hop",
-    }
-)
-
-
 _OWNER_TAIL_SUFFIX_RE = re.compile(
     r"(?i)\s+(?:Jr\.?|Sr\.?|II|III|IV|2nd|3rd|Ill|Ili|Iii|lll)\s*$"
 )
 
 
-def _owner_tail_is_complete_named_person(tail: str) -> bool:
-    """True when the owned-by clause is a known complete short-surname person.
+def _hop_surname_case(tok: str) -> bool | None:
+    """Case-sensitive Hop check: True=complete, False=stub, None=not hop.
 
-    Accepts solo or co-owner forms::
-        owned by Ali Hop
-        owned by Ali Mae Hop
-        owned by Liz Littman & Ali Mae Hop
+    ``Hop`` (capital H) is a real surname (Ali Hop / Ali Mae Hop). Lowercase
+    ``hop`` is treated as an OCR crop stub, not that surname.
     """
-    t = _OWNER_TAIL_SUFFIX_RE.sub("", (tail or "").strip()).strip()
-    if not t:
-        return False
-    # Last co-owner after ``&``, else the whole tail.
-    if "&" in t:
-        t = t.rsplit("&", 1)[-1].strip()
-    key = re.sub(r"\s+", " ", t.lower())
-    return key in _OWNER_TAIL_COMPLETE_NAMES
+    t = (tok or "").rstrip(".")
+    if t.lower() != "hop":
+        return None
+    return t[:1].isupper()
 
 
 def is_owner_tail_trunc_line(line: str) -> bool:
@@ -2765,33 +2749,56 @@ def is_owner_tail_trunc_line(line: str) -> bool:
     tail = _OWNER_TAIL_SUFFIX_RE.sub("", m.group(1).strip()).strip()
     if not tail:
         return False
-    # Known complete people with short surnames (Ali Hop / Ali Mae Hop)
-    if _owner_tail_is_complete_named_person(tail):
-        return False
     # Co-owner cut: "... & Lir" / "& Bett" / "& Mi"
     m_amp = re.search(r"&\s+([A-Za-z']+)\s*$", tail)
     if m_amp:
-        tok = m_amp.group(1).lower().rstrip(".")
+        raw = m_amp.group(1).rstrip(".")
+        hop = _hop_surname_case(raw)
+        if hop is True:
+            return False
+        if hop is False:
+            return True
+        tok = raw.lower()
         if tok in _OWNER_TAIL_STUBS:
             return True
         if 1 <= len(tok) <= 3 and tok not in _OWNER_TAIL_COMPLETE:
             return True
         return False
-    # Given + surname at EOL
+    # Given + surname at EOL (Title Case)
     m_name = re.search(r"\b([A-Z][A-Za-z']+)\s+([A-Z][A-Za-z']+)\s*$", tail)
     if not m_name:
         # Bare single token after owned by — only stubs / very short unknowns
         m_one = re.search(r"^([A-Za-z']+)\s*$", tail)
         if m_one:
-            tok = m_one.group(1).lower().rstrip(".")
+            raw = m_one.group(1).rstrip(".")
+            hop = _hop_surname_case(raw)
+            if hop is True:
+                return False
+            if hop is False:
+                return True
+            tok = raw.lower()
             if tok in _OWNER_TAIL_STUBS:
                 return True
             if tok in _OWNER_TAIL_COMPLETE:
                 return False
             # "owned by Jon" alone is incomplete (needs surname), flag
             return len(tok) <= 4
+        # e.g. ``owned by ali mae hop`` (all-lowercase crop) — last token case
+        m_last = re.search(r"([A-Za-z']+)\s*$", tail)
+        if m_last:
+            hop = _hop_surname_case(m_last.group(1))
+            if hop is True:
+                return False
+            if hop is False:
+                return True
         return False
-    last = m_name.group(2).lower().rstrip(".")
+    last_raw = m_name.group(2).rstrip(".")
+    hop = _hop_surname_case(last_raw)
+    if hop is True:
+        return False
+    if hop is False:
+        return True
+    last = last_raw.lower()
     if last in _OWNER_TAIL_STUBS:
         return True
     if last in _OWNER_TAIL_COMPLETE:
