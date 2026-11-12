@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 1997
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 4  cleaned=1  PASS=0  WARN=3  FAIL=1
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 4  cleaned=1  PASS=0  WARN=4  FAIL=0
+Year verdict: **WARN**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -17,26 +17,19 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 21 | 5 | O6×11,C1×10,C6×3,S4/O×2 | `1997 Vol I pt 1_ocr_hqmax.txt` |
+| WARN | True | 0 | 5 | C6×3,S4/O×2 | `1997 Vol I pt 1_ocr_hqmax.txt` |
 | WARN | False | 0 | 2 | S4/O×2 | `1997 Vol I pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 13 | S4/O×7,C6×6 | `1997 Vol II pt 1_ocr_hqmax.txt` |
-| WARN | True | 0 | 6 | S4/O×3,C6×3 | `1997 Vol II pt 2_ocr_hqmax.txt` |
+| WARN | False | 0 | 6 | S4/O×3,C6×3 | `1997 Vol II pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
-### `1997 Vol I pt 1_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 2nd: Foxy Roxy, owned by Dave & Vincent Ste
-- `O6` / `owner_tail_trunc`: 4th: Heaven Hill Foxy, owned by Doug Steph
-- `O6` / `owner_tail_trunc`: 6th: Camerton Hall Peggy Sue, owned by Alte
-- `O6` / `owner_tail_trunc`: 4th: Rustler's Camilla Moon, owned by Tony
-- `O6` / `owner_tail_trunc`: 2nd: Rustler's Emma Peel, owned by Tony & Lir
-- `O6` / `owner_tail_trunc`: 6th: Heaven Hill Cody, owned by George & Linc
-- `O6` / `owner_tail_trunc`: 6th: Camerton Hall Peggy Sue, owned by Alta
-- `O6` / `owner_tail_trunc`: 12 1/2-15" Champion: Bamber, owned by Martha Ler
-- `O6` / `owner_tail_trunc`: 4th: Scamper Tally Ho, owned by Brenda Zah
-- `O6` / `owner_tail_trunc`: 1st: Farmcliff Monet, owned by Charles & Sally Hickey Tl: Eroclr lace stressed Bir BAA
-- `O6` / `owner_tail_trunc`: 1st: Long Hope Mickey, owned by Bob Frankiin ~1 AN tT od RA a 8 i ism Lear Tareas KAArae Ase
+### `1997 Vol I pt 1_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 2nd: Kingmont Harlaquin, owr 3d by Lynda Banducci
+- `S4/O` / `missing_owned_by`: 1st: Buster, ownedby Tim & Wendy Griffith
+- `C6` / `orphan_entry_count`: 26
+- `C6` / `orphan_entry_count`: 23
+- `C6` / `orphan_entry_count`: 1
 
 ### `1997 Vol I pt 2_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 1st: High Mountain Lucy, Karen Vernon
