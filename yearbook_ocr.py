@@ -2512,7 +2512,7 @@ _OWNER_TAIL_STUBS = frozenset(
         "osb",
         "tho",
         "brut",
-        "hop",
+        # "hop" removed: 1997 Vol I pt2 p6 image shows complete surname Hop
         "kru",
         "beli",
         "kell",  # "...Brooks Kell" cut before Kelley
@@ -2712,6 +2712,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "nel",  # 1998 Vol I pt1 p66 image: Andre & Laura Nel (complete)
         "lyda",  # 1998 Vol II pt2 p24 image: Vistara Ransom owned by Lyda only
         "noy",  # 1998 Vol III pt1 p29 image: Jim & Ann Van Noy (complete)
+        "hop",  # 1997 Vol I pt2 p6 image: Liz Littman & Ali Mae Hop (complete)
         "ali",
         "miwa",
     }
