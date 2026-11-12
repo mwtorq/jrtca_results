@@ -2553,6 +2553,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "car",  # image: Jayleen Car complete (1999 Vol III pt2 Dog Pups 6-9 r/br)
         "deo",  # image: Roy & Sandra Deo complete (1999 Vol I pt1 Sun Dance)
         "fee",  # image: Dennie/Dennis Fee complete (1999 Vol I pt2 Paramount Ecstasy)
+        "hoy",  # RTF/image: Linda Hoy complete (2000 Vol III pt2 Neutered Adult Dog)
         "wren",
         "quick",
         "wilde",
@@ -4855,7 +4856,8 @@ def _is_ocr_noise_line(s: str) -> bool:
             r"(?:on|off)\s+lead|trailing|locating|"
             r"suitability|spayed|neutered|fox|bronze|silver|gold|"
             r"championship|certificate|pre-|gtg|smooth|broken|rough|"
-            r"puppies|bitches|dogs)\b",
+            r"puppies|bitches|dogs|"
+            r"national|challenge)\b",
             s,
         ):
             return False
