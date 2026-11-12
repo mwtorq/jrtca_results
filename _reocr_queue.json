@@ -181,18 +181,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 20,
-    "top_catalog": "O6\u00d711,C1\u00d79,C6\u00d73,S4/O\u00d72,?/4th_then_2nd\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1997,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap"
-    ],
-    "fail_hits": 8,
-    "top_catalog": "C1\u00d78,S4/O\u00d77,C6\u00d76",
+    "fail_hits": 21,
+    "top_catalog": "O6\u00d711,C1\u00d710,C6\u00d73,S4/O\u00d72",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
