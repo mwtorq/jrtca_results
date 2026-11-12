@@ -2507,8 +2507,7 @@ _OWNER_TAIL_STUBS = frozenset(
         "pryc",
         "veaz",
         "vea",
-        "kman",
-        "ost",
+"ost",
         "osb",
         "tho",
         "brut",
@@ -2547,6 +2546,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "kent",
         "yee",
         "zeh",  # image: Brenda Zeh complete (1997 Vol II pt2 agility)
+        "kman",  # image: Stan & Karen Kman complete (1999 Vol II pt1 Hi Bid)
         "wren",
         "quick",
         "wilde",

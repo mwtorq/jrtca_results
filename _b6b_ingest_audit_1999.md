@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1999
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 6  cleaned=6  PASS=0  WARN=0  FAIL=6
+Volumes: 6  cleaned=2  PASS=0  WARN=1  FAIL=5
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,10 +17,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 12 | 2 | C1×9,O6×3,S4/O×1,C6×1 | `1999 Vol I, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 19 | 3 | C1×11,O6×8,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
-| FAIL | True | 23 | 3 | C1×20,O6×3,S4/O×2,?/cutoff_racing×1 | `1999 Vol II, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 25 | 0 | C1×18,O6×7 | `1999 Vol II, pt 2_ocr_hqmax.txt` |
+| FAIL | False | 12 | 2 | C1×9,O6×3,S4/O×1,C6×1 | `1999 Vol I, pt 1_ocr_hqmax.txt` |
+| FAIL | False | 11 | 3 | C1×7,O6×4,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
+| WARN | False | 0 | 3 | S4/O×2,?/cutoff_racing×1 | `1999 Vol II, pt 1_ocr_hqmax.txt` |
+| FAIL | False | 20 | 0 | C1×18,O6×2 | `1999 Vol II, pt 2_ocr_hqmax.txt` |
 | FAIL | True | 22 | 2 | C1×19,O6×3,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
 | FAIL | True | 16 | 9 | C1×14,S4/O×7,O6×2,C6/O1×1,C6×1 | `1999 Vol III, pt 2_ocr_hqmax.txt` |
 
@@ -43,38 +43,25 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 ### `1999 Vol I, pt 2_ocr_hqmax.txt` (FAIL)
 - `?` / `4th_then_6th_no_5`: 4th: Rat Race Keely, owned by Lloyd & Ann Wendland
 6th: Lickity Split Fancy, owned by Allen & Denise Wessel
-- `O6` / `owner_tail_trunc`: 10-12'%" Reserve: R.A. Piker, owned by George & Lir
 - `O6` / `owner_tail_trunc`: 1st: Paramount Ectasy, owned by Dennie Fee
 - `O6` / `owner_tail_trunc`: Best: Paramount Ectasy, owned by Dennis Fee
 - `O6` / `owner_tail_trunc`: Reserve: Paramount Ecstasy, owned by Dennie Fee
-- `O6` / `owner_tail_trunc`: 3rd: Zack Van Noy, owned by Jim & Annie Van Noy
-- `O6` / `owner_tail_trunc`: 6th: Button Top Texy, owned by Andre & Laura Nel
-- `O6` / `owner_tail_trunc`: 4th: Button Top Texy, owned by Andre' & Laura Nel
 - `O6` / `owner_tail_trunc`: 1st: Sundance, owned by Roy & Sandy Deo
 - `S4/O` / `missing_owned_by`: 6th: Daniel, last name not provided
 - `S4/O` / `missing_owned_by`: 2nd: White Spirits Abbey Rose, Dan & Cindy McClary
 - `C1` / `class_header_gap`: 1st: Orchard Hill Dabble, owned by Robby & Cheryl Robson
+- `C1` / `class_header_gap`: 1st: Deep Run Derek, owned by John & Vicki Brown
+- `C1` / `class_header_gap`: 1st: Oakfield Hoochie, owned by Didi Gough
+- `C1` / `class_header_gap`: 1st: White Gate Dutch, owned by Lynn May Measles
+- `C1` / `class_header_gap`: 1st: Rootie-Tootie, owned by Lynn May Measles
 
-### `1999 Vol II, pt 1_ocr_hqmax.txt` (FAIL)
+### `1999 Vol II, pt 1_ocr_hqmax.txt` (WARN)
 - `?` / `cutoff_racing`: ACING DIVISION
-- `O6` / `owner_tail_trunc`: 6th: Bayview Twister, owned by Stan & Karen Kman
-- `O6` / `owner_tail_trunc`: 4th: Underground Singe, owned by Kevin & Shannon Ost
 - `S4/O` / `missing_owned_by`: 4th: Winslow Genevieve, Lisa Fitzgerald
 - `S4/O` / `missing_owned_by`: 2nd: Disqualified, Exhibitor cross-entered in Open Division
-- `C1` / `class_header_gap`: 1st: Green Gate Tomba, owned by Joe & Priscilla Testa
-- `C1` / `class_header_gap`: 1st: Loblolly Echo, owned by Sally Gay
-- `C1` / `class_header_gap`: 1st: White Gate Bomber, owned by Bill & Nancy Breakstone
-- `C1` / `class_header_gap`: 1st: Fox Run Casey, owned by Charles & Kathryn Potter
-- `C1` / `class_header_gap`: 1st: Farmcliff Donny, owned by Jim & Kris Tracy
-- `C1` / `class_header_gap`: 1st: Orchard Hill Dabble, owned by Robby & Cheryl Robson
-- `C1` / `class_header_gap`: 1st: Falling Branch Zack, owned by D. Calloway/J. Longendorfer
 
 ### `1999 Vol II, pt 2_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 4th: Treehouse Guiness, owned by Stan & Karen Kman
-- `O6` / `owner_tail_trunc`: 6th: Treehouse Guinness, owned by Stan & Karen Kman
-- `O6` / `owner_tail_trunc`: 5th: Treehouse Guinness, owned by Stan & Karen Kman
 - `O6` / `owner_tail_trunc`: 1st: Muscle Russell Comet, owned by Jack & Ma
-- `O6` / `owner_tail_trunc`: 3rd: Muscle Russell Tussle, owned by Rick & Mal
 - `O6` / `owner_tail_trunc`: 12-15" Reserve: Northwoods O'Tally Oak, owned by Gary
 - `C1` / `class_header_gap`: 1st: Corn Row Tucker, owned by Mark Thompson
 - `C1` / `class_header_gap`: 1st: Long Hope Mickey, owned by Bob Franklin
@@ -82,6 +69,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1` / `class_header_gap`: 1st: Wyndcroft Tiller, owned by Margaret Coleburn
 - `C1` / `class_header_gap`: 1st: istt Deegan, owned by Doug & Sue Tack
 - `C1` / `class_header_gap`: 1st: Skytop Renegade, owned by Sue & Elizabeth Murphree
+- `C1` / `class_header_gap`: 1st: Farmcliff Holly, owned by K. Hunter/J. Hughes
+- `C1` / `class_header_gap`: 1st: Hercules, owned by Carol King
+- `C1` / `class_header_gap`: 1st: Farmliff Holland, owned by Doug & Sue Tack
+- `C1` / `class_header_gap`: 1st: Hart Farms Reba, owned by Robert Van der Heym
 
 ### `1999 Vol III, pt 1_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 4th: Muscle Russell Phantom, owned by Jin
