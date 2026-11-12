@@ -129,16 +129,5 @@
     "fail_hits": 11,
     "top_catalog": "C1\u00d77,O6\u00d74,S4/O\u00d72,?/4th_then_6th_no_5\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1999,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_III\\1999 Vol III, pt 2_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap",
-      "owner_tail_trunc"
-    ],
-    "fail_hits": 16,
-    "top_catalog": "C1\u00d714,S4/O\u00d77,O6\u00d72,C6/O1\u00d71,C6\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]

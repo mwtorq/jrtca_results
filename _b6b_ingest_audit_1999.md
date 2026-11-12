@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1999
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 6  cleaned=2  PASS=1  WARN=2  FAIL=3
+Volumes: 6  cleaned=1  PASS=1  WARN=3  FAIL=2
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -20,9 +20,9 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 12 | 2 | C1×9,O6×3,S4/O×1,C6×1 | `1999 Vol I, pt 1_ocr_hqmax.txt` |
 | FAIL | False | 11 | 3 | C1×7,O6×4,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 3 | S4/O×2,?/cutoff_racing×1 | `1999 Vol II, pt 1_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1999 Vol II, pt 2_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1999 Vol II, pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 3 | S4/O×1,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
-| FAIL | True | 16 | 9 | C1×14,S4/O×7,O6×2,C6/O1×1,C6×1 | `1999 Vol III, pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 12 | S4/O×7,?/4th_then_6th_no_5×3,C6×2 | `1999 Vol III, pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -65,9 +65,13 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6/O1` / `bare_entries`: Entries:
 - `C6` / `orphan_entry_count`: 0
 
-### `1999 Vol III, pt 2_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 2nd: Angel's Den Tucker, owned by Jayleen Car
-- `O6` / `owner_tail_trunc`: 1st: Baun Acres Phantom Jack, owned by Adam
+### `1999 Vol III, pt 2_ocr_hqmax.txt` (WARN)
+- `?` / `4th_then_6th_no_5`: 4th: Wild Goose Maryland, owned by Darlene McCutcheon
+6th: Stone River Frenzy, owned by Carrie LaCombe
+- `?` / `4th_then_6th_no_5`: 4th: Munchie, owned by Barry & Lisa Bigaouette
+6th: Terrier-ific Blue Jeans, owned by Donna Pierce
+- `?` / `4th_then_6th_no_5`: 4th: Farmstead Holly, handled by Jeffrey Finkernagel
+6th: Lona Hope Minnie, owned by Nellie Niewola
 - `S4/O` / `missing_owned_by`: 3rd: Trevor, last name not provided
 - `S4/O` / `missing_owned_by`: 1st: Kristen Mogrovejo, handling North Country Petey
 - `S4/O` / `missing_owned_by`: 2nd: Jessica Morrison, handling Cody
@@ -75,6 +79,5 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 1st: Katie Fitzgerald, handling Winslow Genevieve
 - `S4/O` / `missing_owned_by`: 2nd: Rocky Cassone, handling Muscle Russell Comet
 - `S4/O` / `missing_owned_by`: 3rd: Amanda Mogrovejo, handling North Country Petey
-- `C6/O1` / `bare_entries`: Entries:
 - `C6` / `orphan_entry_count`: 10
-- `C1` / `class_header_gap`: 1st: Angus, owned by Demetrius & Jennifer Stasinos
+- `C6` / `orphan_entry_count`: 7

@@ -2344,6 +2344,9 @@ def finalize_results_ocr(text: str) -> str:
     """
     if not text:
         return text
+    # OCR often emits Entries; instead of Entries: — treat as colon so class
+    # headers disarm C1 (1999 Vol III pt2 Working Terrier / Bronze Medallion).
+    text = re.sub(r"(?i)\bEntries\s*;", "Entries:", text)
     text = fix_ocr_li_confusion(_strip_gutter_noise(text))
     # Multi-place glue before smash unsmash — clears false C1 from ``1st:…5th:``
     text = _split_glued_multi_place_lines(text)
@@ -2547,6 +2550,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "yee",
         "zeh",  # image: Brenda Zeh complete (1997 Vol II pt2 agility)
         "kman",  # image: Stan & Karen Kman complete (1999 Vol II pt1 Hi Bid)
+        "car",  # image: Jayleen Car complete (1999 Vol III pt2 Dog Pups 6-9 r/br)
         "wren",
         "quick",
         "wilde",
@@ -4822,7 +4826,7 @@ def _is_ocr_noise_line(s: str) -> bool:
     if re.search(
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
         r"        go-?to-?ground|conformation|novice|open|advanced|starters|"
-        r"brace|utility|puppy|puppies|working\s+terrier|"
+        r"brace|utility|jumpers?|puppy|puppies|working\s+terrier|"
         r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veterans?|"
         r"handler|showmanship|pee\s*wee|suitability|spayed|neutered|"
         r"(?:on|off)\s+lead|trailing|locating|"
@@ -4843,7 +4847,7 @@ def _is_ocr_noise_line(s: str) -> bool:
             return False
         if re.search(
             r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|advanced|"
-            r"starters|adults?|pair|brace|utility|"
+            r"starters|adults?|pair|brace|utility|jumpers?|"
             r"family|bred|youth|child|junior|handler|pee\s*wee|showmanship|"
             r"working|veterans?|racing|agility|steeple|"
             r"(?:on|off)\s+lead|trailing|locating|"
