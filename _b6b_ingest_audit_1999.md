@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1999
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 6  cleaned=2  PASS=0  WARN=2  FAIL=4
+Volumes: 6  cleaned=2  PASS=1  WARN=2  FAIL=3
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -20,8 +20,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 12 | 2 | C1×9,O6×3,S4/O×1,C6×1 | `1999 Vol I, pt 1_ocr_hqmax.txt` |
 | FAIL | False | 11 | 3 | C1×7,O6×4,S4/O×2,?/4th_then_6th_no_5×1 | `1999 Vol I, pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 3 | S4/O×2,?/cutoff_racing×1 | `1999 Vol II, pt 1_ocr_hqmax.txt` |
-| FAIL | False | 20 | 0 | C1×18,O6×2 | `1999 Vol II, pt 2_ocr_hqmax.txt` |
-| WARN | True | 0 | 3 | S4/O×1,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `1999 Vol II, pt 2_ocr_hqmax.txt` |
+| WARN | False | 0 | 3 | S4/O×1,C6/O1×1,C6×1 | `1999 Vol III, pt 1_ocr_hqmax.txt` |
 | FAIL | True | 16 | 9 | C1×14,S4/O×7,O6×2,C6/O1×1,C6×1 | `1999 Vol III, pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -59,20 +59,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `?` / `cutoff_racing`: ACING DIVISION
 - `S4/O` / `missing_owned_by`: 4th: Winslow Genevieve, Lisa Fitzgerald
 - `S4/O` / `missing_owned_by`: 2nd: Disqualified, Exhibitor cross-entered in Open Division
-
-### `1999 Vol II, pt 2_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 1st: Muscle Russell Comet, owned by Jack & Ma
-- `O6` / `owner_tail_trunc`: 12-15" Reserve: Northwoods O'Tally Oak, owned by Gary
-- `C1` / `class_header_gap`: 1st: Corn Row Tucker, owned by Mark Thompson
-- `C1` / `class_header_gap`: 1st: Long Hope Mickey, owned by Bob Franklin
-- `C1` / `class_header_gap`: 1st: Fox Run Dazl, owned by Stephanie Taylor
-- `C1` / `class_header_gap`: 1st: Wyndcroft Tiller, owned by Margaret Coleburn
-- `C1` / `class_header_gap`: 1st: istt Deegan, owned by Doug & Sue Tack
-- `C1` / `class_header_gap`: 1st: Skytop Renegade, owned by Sue & Elizabeth Murphree
-- `C1` / `class_header_gap`: 1st: Farmcliff Holly, owned by K. Hunter/J. Hughes
-- `C1` / `class_header_gap`: 1st: Hercules, owned by Carol King
-- `C1` / `class_header_gap`: 1st: Farmliff Holland, owned by Doug & Sue Tack
-- `C1` / `class_header_gap`: 1st: Hart Farms Reba, owned by Robert Van der Heym
 
 ### `1999 Vol III, pt 1_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 4th: Wishbone, own ed by Heather Reid
