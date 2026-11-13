@@ -211,16 +211,6 @@
   },
   {
     "year": 1990,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990\\scan_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries"
-    ],
-    "fail_hits": 1,
-    "top_catalog": "C1/C6\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1990,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
     "codes": [
       "class_header_gap",

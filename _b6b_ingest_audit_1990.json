@@ -4,28 +4,18 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990\\scan_ocr_hqmax.txt",
-      "chars_before": 41041,
-      "chars_after": 41041,
+      "chars_before": 40980,
+      "chars_after": 40980,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d71",
-      "top_catalog": "C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, over 12 1/2\" - 15\" Entries: 8 | places=1/6 | Bitches, 1 year and over, 10\" - 12 1/2\" Entries: 22"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
