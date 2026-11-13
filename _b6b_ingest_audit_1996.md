@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=1  PASS=0  WARN=4  FAIL=26
+Volumes: 30  cleaned=1  PASS=0  WARN=5  FAIL=25
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -31,12 +31,12 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 25 | 33 | S4/O×25,O6×18,C6/O1×7,C1×6,S1-S3×1,C6×1 | `1996 Vol 1 pg 61-110 front_ocr_hqmax.txt` |
 | FAIL | False | 10 | 26 | S4/O×18,S4×8,O6×7,C1×2,S1-S3×1 | `1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 16 | 37 | S4/O×17,O6×14,C6/O1×11,S4×9,C1×2 | `1996 Vol II pg 163-220 back_ocr_hqmax.txt` |
-| WARN | True | 0 | 51 | S4/O×24,C6/O1×12,S4×8,C6×4,?/4th_then_6th_no_5×3 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
+| WARN | False | 0 | 51 | S4/O×24,C6/O1×12,S4×8,C6×4,?/4th_then_6th_no_5×3 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
 | FAIL | False | 13 | 34 | C6/O1×22,S4/O×12,C1×7,S1-S3×3,O6×3 | `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 9 | 14 | C6/O1×10,O6×4,C1×4,S4/O×3,S1-S3×1,C6×1 | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
 | FAIL | False | 23 | 11 | C1×12,S4/O×10,O6×8,S1-S3×3,C6/O1×1 | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
 | FAIL | False | 14 | 24 | S4/O×21,S1-S3×8,C1×5,?/4th_then_6th_no_5×3,O6×1 | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
-| FAIL | False | 31 | 32 | S4/O×25,C1×15,S1-S3×11,O6×5,C6/O1×4,C6×3 | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
+| WARN | True | 0 | 32 | S4/O×25,C6/O1×4,C6×3 | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
 | FAIL | False | 21 | 30 | S4/O×25,C1×12,O6×6,C6/O1×4,S1-S3×3,C6×1 | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 13 | 42 | C6/O1×25,S4/O×16,O6×8,C1×3,S1-S3×2,C6×1 | `1996 Vol II pg 93-162 back_ocr_hqmax.txt` |
 | FAIL | False | 33 | 37 | S4/O×25,O6×15,C1×13,C6/O1×9,S1-S3×5,?/4th_then_6th_no_5×2,C6×1 | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
@@ -298,19 +298,19 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 6th: Pine Hill Chase of, owned by Chuck & Diana Hufnagel
 - `O6` / `owner_tail_trunc`: 3rd: Farmcliff Betty, owned by Franklin & Ci
 
-### `1996 Vol II pg 23-92 front_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `place_smash`: Reserve: Sows Laurel Ear Liberty, Run Orry, owned by, owned by by Paul Kate Hartman Bomberger & Karen McCarthy
-- `S1-S3` / `place_smash`: Buddy, owned by Andrew Burigo, owned by B. Franklin & C. Curtis
-- `S1-S3` / `place_smash`: 1, owned by J. Jankowski & K. Morand, owned by Genie Franklin
-- `S1-S3` / `place_smash`: on, owned by Vicki Johnson, owned by Bob Franklin
-- `S1-S3` / `place_smash`: witch, owned by P. Hartman & K. McC, owned by R. & D. Zampella
-- `S1-S3` / `place_smash`: cker, owned by Bud Carpenter, owned by Kristen Cusac, owned by Sandra Mims
-- `S1-S3` / `place_smash`: k, owned by Leslie Woodcock, owned by Ken Chambers
-- `S1-S3` / `place_smash`: te, owned by Bob Zeiher, owned by Phil Hawkins
-- `S1-S3` / `place_smash`: f Little Eden, owned by Michelle Ward, owned by Mark Thompson, owned by Leslie Woodcock
-- `S1-S3` / `place_smash`: 3, owned by Jeff Hamblin, owned by Gaye Redpath
-- `S1-S3` / `place_smash`: tifox, owned by Kelly & James Baneau, owned by Sue Hardin
-- `O6` / `owner_tail_trunc`: 4th: Whispering Winds Munchee, owned by Mar
+### `1996 Vol II pg 23-92 front_ocr_hqmax.txt` (WARN)
+- `S4/O` / `missing_owned_by`: 1st: Bobby Duty, Iif
+- `S4/O` / `missing_owned_by`: Reserve: Foxfield Flash, owned b
+- `S4/O` / `missing_owned_by`: 2nd: Alasia Sable, ow
+- `S4/O` / `missing_owned_by`: 3rd: Tarzan, owned L
+- `S4/O` / `missing_owned_by`: 5th: Mo Clilean, owne
+- `S4/O` / `missing_owned_by`: 1st: Hillside Joslyn, o
+- `S4/O` / `missing_owned_by`: 2nd: Sportster, owned
+- `S4/O` / `missing_owned_by`: 5th: Casey Jones, owr
+- `S4/O` / `missing_owned_by`: 3rd: Farmcliff Sugar, ov
+- `S4/O` / `missing_owned_by`: 5th: Big Sky Annie, owr
+- `S4/O` / `missing_owned_by`: 6th: Farmcliff Becky, ov
+- `S4/O` / `missing_owned_by`: 3rd: MLQH Muffin, owne
 
 ### `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` (FAIL)
 - `S1-S3` / `place_smash`: gie, owned by Charlene Schlueter, owned by Aurora Rubel
