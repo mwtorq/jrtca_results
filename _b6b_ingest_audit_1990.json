@@ -29,20 +29,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-      "chars_before": 152202,
-      "chars_after": 152202,
+      "chars_before": 152225,
+      "chars_after": 152225,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 34,
+      "fail_hits": 31,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d74,best_reserve_missing_header\u00d72,class_header_gap\u00d71,owner_tail_trunc\u00d71",
-      "top_catalog": "C1/C6\u00d726,C1\u00d75,C7\u00d72,O6\u00d71",
+      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d74,class_header_gap\u00d71",
+      "top_catalog": "C1/C6\u00d726,C1\u00d75",
       "by_code": {
         "class_header_gap": 1,
         "incomplete_entries": 26,
-        "midclass_page_dropout": 4,
-        "best_reserve_missing_header": 2,
-        "owner_tail_trunc": 1
+        "midclass_page_dropout": 4
       },
       "samples": [
         {
@@ -184,47 +182,29 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Cowasjee of VA.; Gold Coast Terrier Trial, FL 3/04/90. | after page got 3th expected 1 | 3rd: Camerton Hall Genius, owned by Jack & Pauline Fawkes"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "BEST: WINDERMERE SIZZLE OF FOX RUN, owned by Sandi Ferber"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "BEST: FOX RUN LIZZIE, owned by Sandi Ferber"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "RESERVE: TREETOP ZENITH ACORN, owned by"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "best_reserve_missing_header",
         "class_header_gap",
         "incomplete_entries",
-        "midclass_page_dropout",
-        "owner_tail_trunc"
+        "midclass_page_dropout"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_200401_ocr_hqmax.txt",
-      "chars_before": 178969,
-      "chars_after": 178969,
+      "chars_before": 179115,
+      "chars_after": 179115,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 63,
+      "fail_hits": 55,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,two_column_smash\u00d715,midclass_page_dropout\u00d714,owner_tail_trunc\u00d78",
-      "top_catalog": "C1/C6\u00d726,S1-S3\u00d715,C1\u00d714,O6\u00d78",
+      "top_codes": "incomplete_entries\u00d726,two_column_smash\u00d715,midclass_page_dropout\u00d714",
+      "top_catalog": "C1/C6\u00d726,S1-S3\u00d715,C1\u00d714",
       "by_code": {
         "incomplete_entries": 26,
         "midclass_page_dropout": 14,
-        "two_column_smash": 15,
-        "owner_tail_trunc": 8
+        "two_column_smash": 15
       },
       "samples": [
         {
@@ -432,7 +412,6 @@
       "reocr_codes": [
         "incomplete_entries",
         "midclass_page_dropout",
-        "owner_tail_trunc",
         "two_column_smash"
       ]
     },

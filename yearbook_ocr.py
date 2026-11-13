@@ -3406,7 +3406,8 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
 
 
 _BEST_RESERVE_SECTION_RE = re.compile(
-    r"(?i)^(?:BEST\b.+\bRESERVE\b|BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN)\b|"
+    r"(?i)^(?:(?:SPECIAL\s+AWARD,\s*)?BEST\b.+\bRESERVE\b|"
+    r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN)\b|"
     r"RACING\s+CHAMPIONS?\b|GO-?TO-?GROUND\s+CHAMPION\b|"
     r"ADULT\s+RACING\s+CHAMPION\b|PUPPY\s+RACING\s+CHAMPION\b|"
     r"PUPPIES?\s*:?\s*$|ADULTS?\s*:?\s*$)"
