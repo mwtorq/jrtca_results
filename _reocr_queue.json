@@ -555,19 +555,8 @@
       "best_reserve_missing_header",
       "incomplete_entries"
     ],
-    "fail_hits": 51,
-    "top_catalog": "C1/C6\u00d726,C7\u00d725",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt",
-    "codes": [
-      "best_reserve_missing_header",
-      "incomplete_entries"
-    ],
-    "fail_hits": 7,
-    "top_catalog": "C7\u00d75,C1/C6\u00d72",
+    "fail_hits": 47,
+    "top_catalog": "C1/C6\u00d726,C7\u00d721",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -577,8 +566,8 @@
       "best_reserve_missing_header",
       "incomplete_entries"
     ],
-    "fail_hits": 29,
-    "top_catalog": "C7\u00d717,C1/C6\u00d712",
+    "fail_hits": 24,
+    "top_catalog": "C1/C6\u00d712,C7\u00d712",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -588,8 +577,8 @@
       "best_reserve_missing_header",
       "incomplete_entries"
     ],
-    "fail_hits": 40,
-    "top_catalog": "C7\u00d725,C1/C6\u00d715",
+    "fail_hits": 38,
+    "top_catalog": "C7\u00d725,C1/C6\u00d713",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -599,19 +588,8 @@
       "best_reserve_missing_header",
       "incomplete_entries"
     ],
-    "fail_hits": 24,
-    "top_catalog": "C1/C6\u00d715,C7\u00d79",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_III\\2001 Vol III pt 2_ocr_hqmax.txt",
-    "codes": [
-      "best_reserve_missing_header",
-      "incomplete_entries"
-    ],
-    "fail_hits": 21,
-    "top_catalog": "C7\u00d712,C1/C6\u00d79",
+    "fail_hits": 19,
+    "top_catalog": "C1/C6\u00d714,C7\u00d75",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]

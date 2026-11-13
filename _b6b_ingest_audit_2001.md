@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=12  PASS=8  WARN=0  FAIL=6
+Volumes: 14  cleaned=12  PASS=10  WARN=0  FAIL=4
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -20,17 +20,17 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | PASS | True | 0 | 0 | — | `2001 Coal Tree Farm_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 South Coast_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Troon Quarry_ocr_hqmax.txt` |
-| FAIL | True | 51 | 0 | C1/C6×26,C7×25 | `2001 Vol I_ocr_hqmax.txt` |
+| FAIL | True | 47 | 0 | C1/C6×26,C7×21 | `2001 Vol I_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 OH-PA II_ocr_hqmax.txt` |
-| FAIL | True | 7 | 0 | C7×5,C1/C6×2 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 PNWJRTN_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 Summer Celebration_ocr_hqmax.txt` |
-| FAIL | True | 29 | 0 | C7×17,C1/C6×12 | `2001 Vol II pt 1_ocr_hqmax.txt` |
-| FAIL | True | 40 | 0 | C7×25,C1/C6×15 | `2001 Vol II pt 2_ocr_hqmax.txt` |
+| FAIL | True | 24 | 0 | C1/C6×12,C7×12 | `2001 Vol II pt 1_ocr_hqmax.txt` |
+| FAIL | True | 38 | 0 | C7×25,C1/C6×13 | `2001 Vol II pt 2_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Yankee_ocr_hqmax.txt` |
-| FAIL | True | 24 | 0 | C1/C6×15,C7×9 | `2001 Vol III pt 1_ocr_hqmax.txt` |
-| FAIL | True | 21 | 0 | C7×12,C1/C6×9 | `2001 Vol III pt 2_ocr_hqmax.txt` |
+| FAIL | True | 19 | 0 | C1/C6×14,C7×5 | `2001 Vol III pt 1_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2001 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -47,15 +47,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Advanced, On Lead                                            Entries: 8 | places=0/6 | Judges: Sandhi Rogerson, Conformation; Mike Bilbo & Stephani
 - `C1/C6` / `incomplete_entries`: Veterans, 6 years & older, over 12¥:-15" Entries: 4 | places=0/4 | Judges: Kevin Allen, Conformation; Brenda Treuthardt, Go-to-
 - `C1/C6` / `incomplete_entries`: Starters Off Lead, 10 up to 12 1/2" Entries: 4 | places=0/4 | Starters Off Lead, 12 1/2 up to 15" Entries: 1
-
-### `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Off Lead                                                   Entries: 7 | places=0/6 | Agility I, Off Lead Entries: 7
-- `C1/C6` / `incomplete_entries`: "hampionship Certificate, 10 up to 121" Entries: 6 | places=0/6 | Champion: Kenswick Kayla, owned by Sandy McElearney
-- `C7` / `best_reserve_missing_header`: RESERVE : Conquest Reset, owned by Chris Day
-- `C7` / `best_reserve_missing_header`: Reserve: Fox Run Crew, owned by Sandy Ferber
-- `C7` / `best_reserve_missing_header`: Reserve: Lickity Split Sassy;, owned by Bob Franklin Fr YTEEI OW YI a = Eaa_ 0 oa
-- `C7` / `best_reserve_missing_header`: Best: Farmciiff Pegay, owned by Bob & Genie Franklin
-- `C7` / `best_reserve_missing_header`: Reserve: Crosstuff Fuss, owned by Sandra Ferber
 
 ### `2001 Vol II pt 1_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Norking Terrier Bitch, 10 up to r/br Entries: 6 | places=0/6 | JRTCA WORKING TERRIER CHAMPION & RESERVE
@@ -82,11 +73,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: AANENRMATION DIVICION                                     Suitability to Gray Fo | places=0/4 | Dog Pups, 4 up to 6 months, smooth                    Entrie
 - `C1/C6` / `incomplete_entries`: AAAMEADEEA TIAN DIVVICINN                                                        | places=0/6 | Dog Pups, 4 up to 6 months, smooth                    Entrie
 - `C1/C6` / `incomplete_entries`: Veterans, 6 years & older, 10 up to 12 1/2" Entries: 5 | places=0/5 | Entries: 5
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 4 up to 6 months, r/br Entries: 7 | places=0/6 | Best: Rommeny Hellion, owned by Teresa Wellman
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 4 up to 6 months, r/br Entries: 6 | places=0/6 | Best: Rommeny Hellion, owned by Teresa Wellman
+- `C7` / `best_reserve_missing_header`: Best: Shingle Oak Storm, owned by Mandy Johnson
+- `C7` / `best_reserve_missing_header`: Reserve: Sow's Ear Taltos, owned by T. Decker/K. McCarthy
 
 ### `2001 Vol III pt 1_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Trailing & Locating Adults Entries: 21 | places=0/6 | Champion: Riley, owned by William Haggerty
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 9 months, smooth Entries: 6 | places=0/6 | Bitch Pups, 6 up to 9 months, r/br                        En
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 9 months, r/br                        Entries: 10 | places=0/6 | Bitch Pups, 9 up to 12 months, smooth                 Entrie
 - `C1/C6` / `incomplete_entries`: Youth Handling Agility, On Lead Entries: 6 | places=0/6 | CONFORMATION DIVISION
@@ -98,17 +88,4 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: tches, 1 yr. & older, over 12 1/2-15" Entries: 13 | places=0/6 | steran Bitches, 6 years & older, 10 upto 12%" —_ Entries: 9
 - `C1/C6` / `incomplete_entries`: steran Bitches, 6 years & older, 10 upto 12%" —_ Entries: 9 | places=0/6 | steran Bitches, 6 years & older, over 12¥2-15" Entries: 6
 - `C1/C6` / `incomplete_entries`: steran Bitches, 6 years & older, over 12¥2-15" Entries: 6 | places=0/6 | steran Dogs, 6 years & older, 10 up to 12/2" Entries: 5
-
-### `2001 Vol III pt 2_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Veterans Agility I, Off Lead                                    Entries: 4 | places=0/4 | AGILITY HIGH SCORE CHAMPION & RESERVE
-- `C1/C6` / `incomplete_entries`: Christina Wagner 2outh Handling Agility, On Lead Entries: 3 | places=0/3 | Veterans, 6 years and older, 10 up to 12 2" Entries: 5
-- `C1/C6` / `incomplete_entries`: Bitch, 10 up to 12 Entries: 12 | places=0/6 | Best: Cairnbrae Calamity, owned by Shirley Buist
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 4 up to 6 months, r/br Entries: 37 | places=0/6 | Best: Cairnbrae Shambles, owned by Shirley Buist
-- `C1/C6` / `incomplete_entries`: Youth Handling Agility, On Lead                           Entries: 10 | places=0/6 | Champion: Ashley Boyd
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 4 up to 6 months, r/br Entries: 6 | places=0/6 | Best: Marksworth Emerald, owned by T. Clower/M. Bailiff
-- `C7` / `best_reserve_missing_header`: Reserve: Firethorn Jinx, owned by Mary Bayley
-- `C7` / `best_reserve_missing_header`: Best: Cairnbrae Calamity, owned by Shirley Buist
-- `C7` / `best_reserve_missing_header`: Best: Cairnbrae Shambles, owned by Shirley Buist
-- `C7` / `best_reserve_missing_header`: RESERVE : Kingmont Faust, owned by L. Banducci & T. Hofstrand
-- `C7` / `best_reserve_missing_header`: Reserve: Naduah Nitro, owned by Sharon Kress
-- `C7` / `best_reserve_missing_header`: Best: Live Wire Bark, owned by Charlie & Julie Kemp
+- `C1/C6` / `incomplete_entries`: eteran Dogs, 6 years & older, over 12 1/2-15" Entries: 8 | places=0/6 | STEEPLECHASE RACES

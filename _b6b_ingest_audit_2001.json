@@ -53,13 +53,13 @@
       "chars_after": 635642,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 51,
+      "fail_hits": 47,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,best_reserve_missing_header\u00d725",
-      "top_catalog": "C1/C6\u00d726,C7\u00d725",
+      "top_codes": "incomplete_entries\u00d726,best_reserve_missing_header\u00d721",
+      "top_catalog": "C1/C6\u00d726,C7\u00d721",
       "by_code": {
         "incomplete_entries": 26,
-        "best_reserve_missing_header": 25
+        "best_reserve_missing_header": 21
       },
       "samples": [
         {
@@ -175,11 +175,6 @@
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
-          "line": "Reserve: Conquest Calypso, owned by Greg Boyland"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
           "line": "Reserve: Thistle Ridge Deuce, owned by Wendy Houtz"
         },
         {
@@ -195,27 +190,12 @@
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
-          "line": "Reserve: Spaz, owned by Melissa Lowe"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
           "line": "Reserve: 3T's Terra, owned by Greg Boyland"
         },
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
           "line": "Reserve: Zorro, owned by Laura Mutton"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Big Sky Annie, owned by Doug & Sue Tack"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Rainbow Pride Ophelia, owned by D. & L. Pobjecky"
         },
         {
           "code": "best_reserve_missing_header",
@@ -271,60 +251,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt",
-      "chars_before": 60716,
-      "chars_after": 60704,
+      "chars_before": 60762,
+      "chars_after": 60694,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 7,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d75,incomplete_entries\u00d72",
-      "top_catalog": "C7\u00d75,C1/C6\u00d72",
-      "by_code": {
-        "incomplete_entries": 2,
-        "best_reserve_missing_header": 5
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Off Lead                                                   Entries: 7 | places=0/6 | Agility I, Off Lead Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "\"hampionship Certificate, 10 up to 121\" Entries: 6 | places=0/6 | Champion: Kenswick Kayla, owned by Sandy McElearney"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "RESERVE : Conquest Reset, owned by Chris Day"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Fox Run Crew, owned by Sandy Ferber"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Lickity Split Sassy;, owned by Bob Franklin Fr YTEEI OW YI a = Eaa_ 0 oa"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Farmciiff Pegay, owned by Bob & Genie Franklin"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Crosstuff Fuss, owned by Sandra Ferber"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 PNWJRTN_ocr_hqmax.txt",
@@ -362,13 +300,13 @@
       "chars_after": 368939,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 29,
+      "fail_hits": 24,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d717,incomplete_entries\u00d712",
-      "top_catalog": "C7\u00d717,C1/C6\u00d712",
+      "top_codes": "incomplete_entries\u00d712,best_reserve_missing_header\u00d712",
+      "top_catalog": "C1/C6\u00d712,C7\u00d712",
       "by_code": {
         "incomplete_entries": 12,
-        "best_reserve_missing_header": 17
+        "best_reserve_missing_header": 12
       },
       "samples": [
         {
@@ -439,17 +377,7 @@
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
-          "line": "Reserve: Tess, owned by Pam Larson"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
           "line": "Reserve: Highwater Banjo, owned by Ann Shepard"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Rushill Rio, owned by Phil & Debbie Johnson"
         },
         {
           "code": "best_reserve_missing_header",
@@ -474,11 +402,6 @@
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
-          "line": "Reserve: Natural Instinct Spike, owned by Ken & Kathy Bushell"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
           "line": "Reserve: Cairngorm Tess, owned by Terry Grainger"
         },
         {
@@ -490,11 +413,6 @@
           "code": "best_reserve_missing_header",
           "catalog": "C7",
           "line": "Reserve: Sow's Ear Gabby, owned by Susan Welch"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Queso, owned by Susan Brister"
         }
       ],
       "reocr_required": true,
@@ -506,15 +424,15 @@
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 2_ocr_hqmax.txt",
       "chars_before": 332131,
-      "chars_after": 331914,
+      "chars_after": 331917,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 40,
+      "fail_hits": 38,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d725,incomplete_entries\u00d715",
-      "top_catalog": "C7\u00d725,C1/C6\u00d715",
+      "top_codes": "best_reserve_missing_header\u00d725,incomplete_entries\u00d713",
+      "top_catalog": "C7\u00d725,C1/C6\u00d713",
       "by_code": {
-        "incomplete_entries": 15,
+        "incomplete_entries": 13,
         "best_reserve_missing_header": 25
       },
       "samples": [
@@ -567,16 +485,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Veterans, 6 years & older, 10 up to 12 1/2\" Entries: 5 | places=0/5 | Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 4 up to 6 months, r/br Entries: 7 | places=0/6 | Best: Rommeny Hellion, owned by Teresa Wellman"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 4 up to 6 months, r/br Entries: 6 | places=0/6 | Best: Rommeny Hellion, owned by Teresa Wellman"
         },
         {
           "code": "best_reserve_missing_header",
@@ -641,17 +549,12 @@
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
-          "line": "RESERVE : Lost Creek Eros, owned by Debbie Verg"
+          "line": "Reserve: Lost Creek Eros, owned by Debbie Verg"
         },
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
           "line": "Reserve: Kingsfield Targa, owned by Brenda Treuthardt"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Meadowlake Josey, owned by Dean & Beth Buchholz"
         },
         {
           "code": "best_reserve_missing_header",
@@ -701,20 +604,15 @@
       "chars_after": 324002,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 24,
+      "fail_hits": 19,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d715,best_reserve_missing_header\u00d79",
-      "top_catalog": "C1/C6\u00d715,C7\u00d79",
+      "top_codes": "incomplete_entries\u00d714,best_reserve_missing_header\u00d75",
+      "top_catalog": "C1/C6\u00d714,C7\u00d75",
       "by_code": {
-        "incomplete_entries": 15,
-        "best_reserve_missing_header": 9
+        "incomplete_entries": 14,
+        "best_reserve_missing_header": 5
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Trailing & Locating Adults Entries: 21 | places=0/6 | Champion: Riley, owned by William Haggerty"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -798,32 +696,12 @@
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
-          "line": "Reserve: Alexis, owned by Tia Olson"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Brandywine Trouble, owned by Bud & Judy Moomau"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
           "line": "Reserve: Big Hickory Shasta, owned by Wanda Dyer"
         },
         {
           "code": "best_reserve_missing_header",
           "catalog": "C7",
-          "line": "Best: Orchard Hill Dashing, owned by Robby & Cheryl Robson"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
           "line": "Reserve: Betti Jean, owned by Joe & Linda Hosmer"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Venture Axel, owned by Bud & Judy Moomau"
         },
         {
           "code": "best_reserve_missing_header",
@@ -839,105 +717,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_III\\2001 Vol III pt 2_ocr_hqmax.txt",
-      "chars_before": 359535,
-      "chars_after": 359558,
+      "chars_before": 359840,
+      "chars_after": 359867,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 21,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d712,incomplete_entries\u00d79",
-      "top_catalog": "C7\u00d712,C1/C6\u00d79",
-      "by_code": {
-        "incomplete_entries": 9,
-        "best_reserve_missing_header": 12
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Veterans Agility I, Off Lead                                    Entries: 4 | places=0/4 | AGILITY HIGH SCORE CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Christina Wagner 2outh Handling Agility, On Lead Entries: 3 | places=0/3 | Veterans, 6 years and older, 10 up to 12 2\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch, 10 up to 12 Entries: 12 | places=0/6 | Best: Cairnbrae Calamity, owned by Shirley Buist"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 4 up to 6 months, r/br Entries: 37 | places=0/6 | Best: Cairnbrae Shambles, owned by Shirley Buist"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Youth Handling Agility, On Lead                           Entries: 10 | places=0/6 | Champion: Ashley Boyd"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 4 up to 6 months, r/br Entries: 6 | places=0/6 | Best: Marksworth Emerald, owned by T. Clower/M. Bailiff"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Firethorn Jinx, owned by Mary Bayley"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Cairnbrae Calamity, owned by Shirley Buist"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Cairnbrae Shambles, owned by Shirley Buist"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "RESERVE : Kingmont Faust, owned by L. Banducci & T. Hofstrand"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Naduah Nitro, owned by Sharon Kress"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Live Wire Bark, owned by Charlie & Julie Kemp"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Marksworth Emerald, owned by T. Clower/M. Bailiff"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Jessica Shinn"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Roman Hallie, owned by Michael Beach & Doug Tack"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Prestige Farms Katie Kaboom, owned by J. Denker"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

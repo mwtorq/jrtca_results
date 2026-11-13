@@ -585,8 +585,56 @@ _PLACE_RANK_OCR = (
 def fix_place_rank_ocr(text: str) -> str:
     """Correct misread trial/class place ranks (Sths→5ths, Bths→6ths, …)."""
     text = re.sub(r"(?im)^(\d+(?:st|nd|rd|th):\s*)istt\s+", r"\1", text or "")
+    # ``1st: 1stt Name`` / ``1st: 2ndt Name`` — ordinal echoed with trailing t
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*\d*(?:st|nd|rd|th)t\s+",
+        r"\1 ",
+        text or "",
+    )
+    # ``1st: 1st! Name`` bang-ordinal echo
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*\d*(?:st|nd|rd|th)!\s*",
+        r"\1 ",
+        text or "",
+    )
+    # Role lines OCR'd as ``BEST:`` / ``RESERVE:`` (all caps) or ``2eserve:``
+    text = re.sub(r"(?im)^BEST\s*:\s*", "Best: ", text or "")
+    text = re.sub(r"(?im)^RESERVE\s*:\s*", "Reserve: ", text or "")
+    text = re.sub(r"(?im)^CHAMPION\s*:\s*", "Champion: ", text or "")
+    text = re.sub(r"(?im)^2eserve\s*:\s*", "Reserve: ", text or "")
+    text = re.sub(r"(?im)^3ronze\s+Medallion\b", "Bronze Medallion", text or "")
     # Bare ``istt Name`` (leading 1st: digit lost)
     text = re.sub(r"(?im)^istt\s+", "1st: ", text or "")
+    text = re.sub(r"(?im)^1stt\s+", "1st: ", text or "")
+    # Lost leading digit on ordinals: ``tt:``/``st:`` → 1st, ``nd:`` → 2nd, ``rd:`` → 3rd
+    text = re.sub(r"(?im)^(?:tt|st)\s*:\s*", "1st: ", text or "")
+    text = re.sub(r"(?im)^nd\s*:\s*", "2nd: ", text or "")
+    text = re.sub(r"(?im)^rd\s*:\s*", "3rd: ", text or "")
+    # ``th:`` after a prior 3rd/4th/5th often means next place (4th–6th)
+    text = re.sub(r"(?im)^th\s*:\s*", "4th: ", text or "")
+    # ``tt Name`` (colon optional)
+    text = re.sub(r"(?im)^tt\s+(?=[A-Z\"'])", "1st: ", text or "")
+    # ``t: Name`` only when colon present (avoid eating ``to …``)
+    text = re.sub(r"(?im)^t:\s+(?=[A-Z\"'])", "1st: ", text or "")
+    # ``id: Name`` — common 2nd: OCR miss
+    text = re.sub(r"(?im)^id\s*:\s*", "2nd: ", text or "")
+    # ``1st: t Name`` leftover single-letter ordinal dust
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*t\s+(?=[A-Z\"'])",
+        r"\1 ",
+        text or "",
+    )
+    # Truncated Best/Puppy section banners
+    text = re.sub(r"(?im)^est\s*:\s*", "Best: ", text or "")
+    text = re.sub(r"(?im)^3est\s*:\s*", "Best: ", text or "")
+    text = re.sub(r"(?im)^EST\s+(BITCH|DOG|OPEN|PUP|WORKING|4-6)\b", r"BEST \1", text or "")
+    text = re.sub(r"(?im)^3EST\b", "BEST", text or "")
+    text = re.sub(r"(?im)^UPPY\s+CONFORMATION\b", "PUPPY CONFORMATION", text or "")
+    text = re.sub(r"(?im)^Norking\s+Terrier\b", "Working Terrier", text or "")
+    # Racing header leading-letter dropout
+    text = re.sub(r"(?im)^(?:teran|steran|eteran)\s+", "Veteran ", text or "")
+    text = re.sub(r"(?im)^gs,\s+1\s+yr", "Dogs, 1 yr", text or "")
+    text = re.sub(r"(?im)^(?:ches|tches),\s+1\s+yr", "Bitches, 1 yr", text or "")
     if not text:
         return text
     # Leading dust before place: "'1st:" / "é2nd:" / "©3rd:"
