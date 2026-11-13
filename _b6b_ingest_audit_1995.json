@@ -1,6 +1,6 @@
 {
   "year": 1995,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
@@ -52,109 +52,30 @@
       "chars_before": 52867,
       "chars_after": 52867,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 10,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d73",
-      "top_catalog": "C1/C6\u00d77,C1\u00d73",
-      "by_code": {
-        "incomplete_entries": 7,
-        "midclass_page_dropout": 3
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Yearbook, Vol. Il                                 99                  Buckeye St | places=0/4 | Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 7 | places=0/6 | Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 4 | places=0/4 | Entries: 9"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 9 | places=0/6 | Entries: 11"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 11 | places=0/6 | Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 3 | places=0/3 | Entries: 10"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 10 | places=0/6 | EOF"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Novice, On Lead                                                             Entr | after page got 3th expected 7 | 3rd: Tortilla Flat Streak, owned by Gaye Ann "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over 12 1/2-15\" Entries: 13 | after page got 3th expected 6 | 3rd: Thimble Farm Rocket, owned by Val Wasch"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 9 months, smooth                                        Entr | after page got 2th expected 6 | 2nd: Foxport La:"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_142425_ocr_hqmax.txt",
       "chars_before": 50831,
       "chars_after": 50831,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d72,C1\u00d71",
-      "by_code": {
-        "incomplete_entries": 2,
-        "midclass_page_dropout": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 7 | places=0/6 | Entries: 12"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 12 | places=0/6 | Entries: 12"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Jasmine, owned by Rick & Leslie Hemsing \u2013 Entries: 0 | after page got 4th expected 1 | 4th: Fiona, owned by Missy Kulbacky"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

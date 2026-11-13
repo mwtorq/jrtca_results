@@ -4,70 +4,18 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
-      "chars_before": 48788,
-      "chars_after": 48788,
+      "chars_before": 48702,
+      "chars_after": 48699,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 11,
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d78,midclass_page_dropout\u00d72,owner_tail_trunc\u00d71",
-      "top_catalog": "C1/C6\u00d78,C1\u00d72,O6\u00d71",
+      "top_codes": "owner_tail_trunc\u00d71",
+      "top_catalog": "O6\u00d71",
       "by_code": {
-        "incomplete_entries": 8,
-        "midclass_page_dropout": 2,
         "owner_tail_trunc": 1
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "A Yearbook, Vol. I           19           JRTCNC Win \u2013 Entries: 14 | places=0/6 | Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 7 | places=0/6 | Entries: 11"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 11 | places=0/6 | Entries: 15"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 15 | places=0/6 | Entries: 12"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 12 | places=0/6 | Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 6 | places=0/6 | Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppies, 9 up to 12 months                                                  Entr | places=0/6 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months                                           Entries: 1 | places=0/6 | Dog Pups, 6 up to 12 months                                 "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "and the Bluegrass Working Terrier Ass | after page got 30th expected 1 | 30rd: Sandercox        Deb McWilliams"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Pups, 6 up to 9 months                                                           | after page got 5th expected 6 | 5th: Orchard Hill Elvis Pupsley, owned by Rob"
-        },
         {
           "code": "owner_tail_trunc",
           "catalog": "O6",
@@ -76,8 +24,6 @@
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout",
         "owner_tail_trunc"
       ]
     },
@@ -86,52 +32,15 @@
       "chars_before": 38662,
       "chars_after": 38662,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 6,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d75,incomplete_entries\u00d71",
-      "top_catalog": "C1\u00d75,C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1,
-        "midclass_page_dropout": 5
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "DIVISION A, CONFORMATION \u2013 Entries: 4 | places=0/4 | Dog Pups, 4 up to 6 months \u2013 Entries: 13"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "CHAMPIONSHIP CERTIFICATE (12-1/2--15\")                            Entries: 16 | after page got 2th expected 4 | 2nd: Lil Rascals Jackie, owned by John Benintend"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 9 months                                                     E | after page got 3th expected 4 | 3rd: The Hollow Tracker, owned by The Hollow "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Novice (Adults)                                                                  | after page got 2th expected 4 | 2nd: North Country Penn, owned by Marilyn Pro"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Veteran Class \u2013 Entries: 5 | after page got 4th expected 5 | 4th: The Manor Bally, owned by C.Young & D.Tarchini"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 10--12-1/2\", smooth                                        | after page got 4th expected 5 | 4th: Windermere Jazz, owned by Iris Mensing"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_231659_ocr_hqmax.txt",
@@ -154,13 +63,12 @@
       "chars_after": 50824,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 6,
+      "fail_hits": 2,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d75,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d75,C1\u00d71",
+      "top_codes": "incomplete_entries\u00d72",
+      "top_catalog": "C1/C6\u00d72",
       "by_code": {
-        "incomplete_entries": 5,
-        "midclass_page_dropout": 1
+        "incomplete_entries": 2
       },
       "samples": [
         {
@@ -172,32 +80,11 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dog Pups, 6 up to 9 months                                                       | places=0/3 | Dog Pups, 6 up to 9 months"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 7 | places=0/6 | Bitch Pups, 9 up to 12 months"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 12 | places=0/6 | Dogs, 1 yr & over, 12-1/2--15\""
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "NTAIL BEAR, owned by Susan McRae \u2013 Entries: 9 | places=0/6 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 9 months                                                  En | after page got 2th expected 7 | 2nd: Heaven Hill"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
+        "incomplete_entries"
       ]
     },
     {

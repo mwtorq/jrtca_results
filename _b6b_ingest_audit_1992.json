@@ -1,6 +1,6 @@
 {
   "year": 1992,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_212153_ocr_hqmax.txt",
@@ -19,50 +19,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_212636_ocr_hqmax.txt",
-      "chars_before": 56386,
-      "chars_after": 56386,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 5,
+      "chars_before": 56389,
+      "chars_after": 56388,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d74,incomplete_entries\u00d71",
-      "top_catalog": "C1\u00d74,C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1,
-        "midclass_page_dropout": 4
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2-15\" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 10-12-1/2\" Entries: 6"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Hollow Terriers \u2013 Entries: 13, owned by C.Tatum & S.Yancey | after page got 5th expected 1 | 5th: Ashcreek's Firefox Dottie, owned by Mr.& Mrs. Dickinson"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs and Bitches, 1 yr & over, 12-1/2\u2014-15\" Entries: 19 | after page got 2th expected 4 | 2nd: Windermere Tattle, owned by L.Cowasjee & D.Kratzer"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, br/r                                                | after page got 5th expected 6 | 5th: Hillside Oliver Twist, owned by Laura Ha"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Novice (Adults)                                                                  | after page got 4th expected 5 | 4th: L'il Effort Petey, owned by Kathy Hunter"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_213104_ocr_hqmax.txt",
@@ -111,45 +79,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_2\\Document_2026-11-03_221749_ocr_hqmax.txt",
-      "chars_before": 49635,
-      "chars_after": 48960,
+      "chars_before": 49638,
+      "chars_after": 48962,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d73,incomplete_entries\u00d71",
-      "top_catalog": "C1\u00d73,C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1,
-        "midclass_page_dropout": 3
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 3 | places=0/3 | Bitch Pups, 6 up to 12 months, 12-1/2--16\" Entries: 1"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs; 1 yr & over, 12-12--15\" Entries: 7 | after page got 2th expected 4 | 2nd: Windermere Rev, owned by Fred Winbarg"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\", smooth                                   Entr | after page got 3th expected 5 | 3rd: Hannie, owned by Nancy Drown"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "CHAMPIONSHIP CERTIFICATE (12-1/2--15\")                              Entries: 37 | after page got 5th expected 7 | 5th: The Hollow Pippa of North Country, owned "
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

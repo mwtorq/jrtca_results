@@ -2,5 +2,5 @@ year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes
 1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_1\Document_2026-11-04_124005_ocr_hqmax.txt,True,36403,36291,PASS,0,0,,
 1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_1\Document_2026-11-04_124704_ocr_hqmax.txt,True,44393,44392,PASS,0,0,,
 1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_1\Document_2026-11-04_130318_ocr_hqmax.txt,True,3897,3896,PASS,0,0,,
-1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_2\Document_2026-11-04_134403_ocr_hqmax.txt,False,52867,52867,FAIL,10,0,"incomplete_entries×7,midclass_page_dropout×3","C1/C6×7,C1×3"
-1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_2\Document_2026-11-04_142425_ocr_hqmax.txt,False,50831,50831,FAIL,3,0,"incomplete_entries×2,midclass_page_dropout×1","C1/C6×2,C1×1"
+1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_2\Document_2026-11-04_134403_ocr_hqmax.txt,False,52867,52867,PASS,0,0,,
+1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_2\Document_2026-11-04_142425_ocr_hqmax.txt,False,50831,50831,PASS,0,0,,

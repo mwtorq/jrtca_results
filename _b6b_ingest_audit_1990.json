@@ -23,23 +23,18 @@
       "chars_after": 152329,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 8,
+      "fail_hits": 7,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d78",
-      "top_catalog": "C1/C6\u00d78",
+      "top_codes": "incomplete_entries\u00d77",
+      "top_catalog": "C1/C6\u00d77",
       "by_code": {
-        "incomplete_entries": 8
+        "incomplete_entries": 7
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 3 | places=0/3 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "5th: Dogs, Blencathra 1 yr & over, Bracken of Goulden by Ridge, owned by Nancy P | places=0/6 | Best Dog & Reserve"
         },
         {
           "code": "incomplete_entries",
@@ -83,39 +78,18 @@
       "chars_after": 178740,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 39,
+      "fail_hits": 7,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d713",
-      "top_catalog": "C1/C6\u00d726,C1\u00d713",
+      "top_codes": "incomplete_entries\u00d77",
+      "top_catalog": "C1/C6\u00d77",
       "by_code": {
-        "incomplete_entries": 26,
-        "midclass_page_dropout": 13
+        "incomplete_entries": 7
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "OPEN (Adults)                                                                    | places=0/6 | 1st: Raincliff's Smooth Gerald, owned by George Ridler"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 18 | places=0/6 | Entries: 11"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 11 | places=0/6 | Entries: 2"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 4 | places=0/4 | Dog Pups, 9 up to 12 months"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 7 | places=0/6 | Bitch Pups, 9 up to 12 months"
         },
         {
           "code": "incomplete_entries",
@@ -135,158 +109,17 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Batzer \u2013 Entries: 13, owned by Malinda Kraus | places=0/6 | Judges:        Linda Cowasjes, Conformation; Rustom Cowasjee"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Dogs, 1 yr & over, 12-1/2-15\" Entries: 10 | places=0/6 | DIVISION A, CONFORMATION"
         },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Entries: 11 | places=0/6 | Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 5 | places=0/5 | Junior Handler award"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 23 | places=0/6 | Entries: 23"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 8 | places=0/6 | O, owned by Kay Gitchell \u2013 Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "O, owned by Kay Gitchell \u2013 Entries: 4 | places=0/4 | Judges:         Linda Cowasjee, Conformation and Go-to-Groun"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 6 | places=0/6 | Open Class"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 4 | places=0/4 | Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 3 | places=0/3 | Handler Award"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 8 | places=0/6 | 3, owned by Nancy & Reg Parker \u2013 Entries: 19"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "3, owned by Nancy & Reg Parker \u2013 Entries: 19 | places=0/6 | Bitch Pups, 9 up to 12 months, smooth                       "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 5 | places=0/5 | Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 4 | places=0/4 | Entries: 8"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 8 | places=0/6 | Entries: 8"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 8 | places=0/6 | Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 7 | places=0/6 | EOF"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Novice (Puppies)                                                                 | after page got 4th expected 6 | 4th: Button Top Jay, owned by Florence Clark"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Open Class | after page got 3th expected 5 | 3rd: Lauderdale Fell of The Hollow, owned by The Hollow Terriers"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 10--12-1/2\", smooth \u2013 Entries: 7 | after page got 5th expected 7 | 5th: Gopher of Long Hope, owned by Nellie Niewola"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 10 | after page got 1th expected 4 | 1st: Cottonwood Little Floyd of Big Valley, owned by Dian Elinor"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Championship Certificate, 10\" to 12 1/2\" Entries: 34 | after page got 1th expected 7 | 1st: FARMCLIFF TEDDY, owned by Bob & Geni"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dog Pups, 8 up to 12 months                                                      | after page got 2th expected 4 | 2nd: Cortenbach's Little Orbit, owned by John"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 12-1/2-15\" Entries: 11 | after page got 2th expected 7 | 2nd: Farmcliff Barney, owned by Bob Franklin"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "12-1/2--15\", smooth | after page got 4th expected 1 | 4th: Bramblewood Brevity, owned by Mr. & Mrs. Jeff Good"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months                                                      | after page got 3th expected 7 | 3rd: Holmes, owned by Wayne Baker"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "California Bred                                                         Entries: | after page got 4th expected 5 | 4th: North Hills Damita of The Larches, owned"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Stud Dog and Get                                                              En | after page got 3th expected 5 | 3rd: Max, owned by John & Carol Anton"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 10-12-1/2\" | after page got 3th expected 5 | 3rd: Thomas of Loblolly, owned by Debra Ellis"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 12 months, up to 12 1/2\" Entries: 10 | after page got 5th expected 7 | 5th: MURPHY, owned by Debbie Kratzer"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
+        "incomplete_entries"
       ]
     },
     {

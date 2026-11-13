@@ -3475,9 +3475,17 @@ def _iter_incomplete_entries_hits(
             flush(s)
             n = _class_entries_n(s)
             # Racing/championship blocks use Champion/Reserve lines, not 1st..6th.
-            if n is not None and n > 0 and not re.search(
-                r"(?i)championship|\bracing\b|^\s*adults?\s*:|^\s*puppies?\s*:",
-                s,
+            # Bare `Entries: N` folio crumbs are not place-classes.
+            if (
+                n is not None
+                and n > 0
+                and not re.match(r"(?i)^entries\s*:", s)
+                and not re.search(r"(?i)\bowned\s+by\b", s)
+                and not re.search(r"(?i)\bDIVISION\b|yearbook\b|\bVol\.?\b", s)
+                and not re.search(
+                    r"(?i)championship|\bracing\b|^\s*adults?\s*:|^\s*puppies?\s*:",
+                    s,
+                )
             ):
                 entries_n = n
                 header = s
@@ -3539,6 +3547,9 @@ def _iter_midclass_page_dropout_hits(
             place_ranks = []
             saw_page = False
             continue
+        if re.search(r"(?i)\bowned\s+by\b", s):
+            # Smashed owner crumbs with Entries must not arm a place-class.
+            continue
         if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
             in_class = True
             place_ranks = []
@@ -3557,11 +3568,14 @@ def _iter_midclass_page_dropout_hits(
         if not m:
             continue
         rank = int(m.group(1))
+        if rank < 1 or rank > 6:
+            continue
         if saw_page and in_class:
             expected = (max(place_ranks) + 1) if place_ranks else 1
-            # Odd-page PDFs / boundary OCR often drop 1-2 place lines.
-            # Allow resume at expected..expected+2; still FAIL on larger jumps/restarts.
-            if rank < expected or rank > expected + 2:
+            # Odd-page PDFs / boundary OCR often drop 1-2 place lines, or start a
+            # new class (missing header) at a lower rank. FAIL only on large skips
+            # ahead (rank > expected+2); restarts are class_header_gap territory.
+            if rank > expected + 2:
                 hits.append(
                     (
                         "midclass_page_dropout",
