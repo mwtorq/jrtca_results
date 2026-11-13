@@ -1,31 +1,31 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt,False,63699,63699,FAIL,15,0,"two_column_smash×14,owner_tail_trunc×1","S1-S3×14,O6×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt,False,61296,61296,FAIL,14,0,"two_column_smash×10,class_header_gap×3,owner_tail_trunc×1","S1-S3×10,C1×3,O6×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt,False,58508,58508,FAIL,26,0,"two_column_smash×25,class_header_gap×1","S1-S3×25,C1×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt,False,17605,17605,FAIL,11,0,two_column_smash×11,S1-S3×11
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 161-178 back_ocr_hqmax.txt,False,18673,18673,FAIL,10,0,two_column_smash×10,S1-S3×10
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 161-178 front_ocr_hqmax.txt,False,19659,19659,FAIL,10,0,two_column_smash×10,S1-S3×10
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt,False,52905,52905,FAIL,11,0,two_column_smash×11,S1-S3×11
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt,False,47756,47756,FAIL,15,0,two_column_smash×15,S1-S3×15
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 21-60 front_ocr_hqmax.txt,False,46873,46873,FAIL,15,0,"two_column_smash×12,class_header_gap×2,owner_tail_trunc×1","S1-S3×12,C1×2,O6×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt,False,60972,60972,FAIL,27,0,"two_column_smash×25,class_header_gap×2","S1-S3×25,C1×2"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt,False,61660,61660,FAIL,26,0,"two_column_smash×25,class_header_gap×1","S1-S3×25,C1×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt,False,57351,57351,FAIL,26,0,"two_column_smash×25,owner_tail_trunc×1","S1-S3×25,O6×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt,False,72127,72127,FAIL,11,0,"two_column_smash×10,class_header_gap×1","S1-S3×10,C1×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 163-220 back_ocr_hqmax.txt,False,71371,71371,FAIL,19,0,"two_column_smash×15,class_header_gap×3,owner_tail_trunc×1","S1-S3×15,C1×3,O6×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 163-220 front_ocr_hqmax.txt,False,64022,64022,FAIL,20,0,"two_column_smash×19,owner_tail_trunc×1","S1-S3×19,O6×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt,False,87567,87567,FAIL,16,0,two_column_smash×16,S1-S3×16
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 back_ocr_hqmax.txt,False,86102,86102,FAIL,20,0,two_column_smash×20,S1-S3×20
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt,False,83973,83973,FAIL,30,0,"two_column_smash×25,class_header_gap×5","S1-S3×25,C1×5"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt,False,82517,82517,FAIL,28,0,"two_column_smash×25,class_header_gap×3","S1-S3×25,C1×3"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 front_ocr_hqmax.txt,False,83844,83844,FAIL,30,0,"two_column_smash×25,class_header_gap×3,owner_tail_trunc×2","S1-S3×25,C1×3,O6×2"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt,False,89625,89625,FAIL,25,0,"two_column_smash×21,owner_tail_trunc×2,class_header_gap×2","S1-S3×21,O6×2,C1×2"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 93-162 back_ocr_hqmax.txt,False,79563,79563,FAIL,24,0,"two_column_smash×22,owner_tail_trunc×1,class_header_gap×1","S1-S3×22,O6×1,C1×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 93-162 front_ocr_hqmax.txt,False,81657,81657,FAIL,28,0,"two_column_smash×25,owner_tail_trunc×2,class_header_gap×1","S1-S3×25,O6×2,C1×1"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_1\Document_2026-11-04_144208_ocr_hqmax.txt,False,53534,53534,FAIL,13,0,"two_column_smash×11,class_header_gap×2","S1-S3×11,C1×2"
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_1\Document_2026-11-04_144530_ocr_hqmax.txt,False,53673,53673,FAIL,25,0,two_column_smash×25,S1-S3×25
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt,False,63700,63700,FAIL,1,0,owner_tail_trunc×1,O6×1
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt,False,61479,61479,FAIL,2,0,"owner_tail_trunc×1,class_header_gap×1","O6×1,C1×1"
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt,False,58601,58601,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt,False,17605,17605,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 161-178 back_ocr_hqmax.txt,False,18673,18673,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 161-178 front_ocr_hqmax.txt,False,19659,19659,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt,False,52906,52906,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt,False,47758,47758,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 21-60 front_ocr_hqmax.txt,False,46991,46991,FAIL,2,0,"owner_tail_trunc×1,class_header_gap×1","O6×1,C1×1"
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt,False,61062,61062,FAIL,1,0,class_header_gap×1,C1×1
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt,False,61663,61663,FAIL,1,0,class_header_gap×1,C1×1
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_I\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt,False,57351,57351,FAIL,1,0,owner_tail_trunc×1,O6×1
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt,False,72225,72225,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 163-220 back_ocr_hqmax.txt,False,71650,71650,FAIL,2,0,"owner_tail_trunc×1,two_column_smash×1","O6×1,S1-S3×1"
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 163-220 front_ocr_hqmax.txt,False,64022,64022,FAIL,1,0,owner_tail_trunc×1,O6×1
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt,False,87567,87567,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 back_ocr_hqmax.txt,False,86102,86102,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt,False,84465,84465,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt,False,82767,82767,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 23-92 front_ocr_hqmax.txt,False,84137,84137,FAIL,2,0,owner_tail_trunc×2,O6×2
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt,False,89791,89791,FAIL,2,0,owner_tail_trunc×2,O6×2
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 93-162 back_ocr_hqmax.txt,False,79656,79656,FAIL,1,0,owner_tail_trunc×1,O6×1
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Vol_II\1996 Vol II pg 93-162 front_ocr_hqmax.txt,False,81744,81744,FAIL,2,0,owner_tail_trunc×2,O6×2
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_1\Document_2026-11-04_144208_ocr_hqmax.txt,False,53646,53646,FAIL,1,0,class_header_gap×1,C1×1
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_1\Document_2026-11-04_144530_ocr_hqmax.txt,False,53673,53673,PASS,0,0,,
 1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_1\Document_2026-11-04_145355_ocr_hqmax.txt,False,3643,3643,PASS,0,0,,
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_1\Document_2026-11-04_145925_ocr_hqmax.txt,False,49694,49694,FAIL,17,0,two_column_smash×17,S1-S3×17
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_1\Document_2026-11-04_145925_ocr_hqmax.txt,False,49694,49694,PASS,0,0,,
 1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_1\Document_2026-11-04_151058_ocr_hqmax.txt,False,4167,4167,PASS,0,0,,
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_2\Document_2026-11-04_152834_ocr_hqmax.txt,False,48378,48378,FAIL,20,0,two_column_smash×20,S1-S3×20
-1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_2\Document_2026-11-04_153208_ocr_hqmax.txt,False,34131,34131,FAIL,8,0,two_column_smash×8,S1-S3×8
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_2\Document_2026-11-04_152834_ocr_hqmax.txt,False,48378,48378,PASS,0,0,,
+1996,_ocr_baseline_v2\yearbook_1990_2001\1996\1996_Yearbook_Vol_2\Document_2026-11-04_153208_ocr_hqmax.txt,False,34131,34131,PASS,0,0,,

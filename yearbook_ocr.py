@@ -3441,38 +3441,24 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
     for gi in _iter_class_header_gap_indices(lines)[:max_samples]:
         sample = lines[gi].strip()[:160]
         hits.append(("class_header_gap", sample))
-    # Two-column smash: conformation + racing/agility headers interleaved inside
-    # a short place window without a clean DIVISION boundary.
+    # Two-column smash / column-bleed dust: glued titles or OCR corruption only.
+    # Clean spaced headers (STEEPLECHASE RACES, Go-to-Ground DIVISION) do not flag.
     n = 0
-    section_re = re.compile(
-        r"(?i)\b(?:Bitch\s+Pups?|Dog\s+Pups?|Bitches?|Dogs?|Racing\s+Champions?|"
-        r"Adult\s+Racing\s+Champion|Puppy\s+Racing\s+Champion|Steeplechase|"
-        r"Go-?to-?Ground|Agility|CONFORMATION\s+DIVISION|RACING\s+DIVISION)\b"
+    glued_re = re.compile(
+        r"(?i)STEEPLECHASERACES|GO-TO-GROUNDDIVISION|GOTOGROUNDDIVISION|"
+        r"AGILITYDIVISI[O0]L|CONFORMATIONDIVISION|RACINGDIVISION|"
+        r"Go-?to-?Ground\s*[¢]HAMPION|(?<![A-Za-z])DIVISI[O0]L(?![A-Za-z])"
     )
-    place_re = re.compile(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:")
-    for i, ln in enumerate(lines):
+    for ln in lines:
         if n >= max_samples:
             break
         s = ln.strip()
-        if not s or not place_re.match(s):
+        if not s:
             continue
-        # Look at nearby lines for foreign section headers jammed among places
-        window = []
-        for j in range(max(0, i - 3), min(len(lines), i + 4)):
-            t = lines[j].strip()
-            if section_re.search(t) and not place_re.match(t):
-                window.append(t)
-        kinds = set()
-        for t in window:
-            if re.search(r"(?i)racing\s+champion|steeplechase|racing\s+division", t):
-                kinds.add("racing")
-            if re.search(r"(?i)bitch\s+pups?|dog\s+pups?|\bbitches\b|\bdogs\b|conformation", t):
-                kinds.add("confo")
-            if re.search(r"(?i)go-?to-?ground|agility", t):
-                kinds.add("other")
-        if len(kinds) >= 2:
+        if glued_re.search(s):
             hits.append(("two_column_smash", s[:160]))
             n += 1
+    return hits
     return hits
 
 
