@@ -4,8 +4,8 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_I\\2000 Vol I_ocr_hqmax.txt",
-      "chars_before": 852448,
-      "chars_after": 852455,
+      "chars_before": 852456,
+      "chars_after": 852463,
       "cleaned": true,
       "verdict": "WARN",
       "fail_hits": 0,
