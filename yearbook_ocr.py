@@ -2833,6 +2833,13 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "fee",  # image: Dennie/Dennis Fee complete (1999 Vol I pt2 Paramount Ecstasy)
         "hoy",  # RTF/image: Linda Hoy complete (2000 Vol III pt2 Neutered Adult Dog)
         "foy",  # yearbook: Gail / Gail & Ed Foy complete (1992-1993 Down East*)
+        "orr",  # image: Beth Orr complete (1990)
+        "ord",  # image: Jim Ord complete (1990)
+        "fey",  # image: Larry Fey complete (1990)
+        "paz",  # image: Tara Paz complete (1995)
+        "biz",  # image: Tony Biz complete (1995)
+        "jrs",  # kennel: Eastlake JRs complete (1995)
+
         "nye",  # yearbook: Michael & Andrea Nye complete (1992 Zig)
         "coe",  # yearbook: Tricia Coe complete (1992 Pippen / Hobbit Hollow)
         "kai",  # yearbook: Gwen & Randy Kai complete (1992 Hunter's Haven / Button Top)
