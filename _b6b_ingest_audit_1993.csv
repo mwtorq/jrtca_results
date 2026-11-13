@@ -1,6 +1,6 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
 1993,_ocr_baseline_v2\yearbook_1990_2001\1993\1993_Yearbook_Vol_1\Document_2026-11-03_224445_ocr_hqmax.txt,False,48191,48191,FAIL,25,0,"incomplete_entries×13,midclass_page_dropout×7,class_header_gap×3,owner_tail_trunc×2","C1/C6×13,C1×10,O6×2"
 1993,_ocr_baseline_v2\yearbook_1990_2001\1993\1993_Yearbook_Vol_1\Document_2026-11-03_230536_ocr_hqmax.txt,False,38662,38662,FAIL,14,0,"incomplete_entries×9,midclass_page_dropout×5","C1/C6×9,C1×5"
-1993,_ocr_baseline_v2\yearbook_1990_2001\1993\1993_Yearbook_Vol_1\Document_2026-11-03_231659_ocr_hqmax.txt,False,18520,18520,FAIL,4,0,"incomplete_entries×3,two_column_smash×1","C1/C6×3,S1-S3×1"
+1993,_ocr_baseline_v2\yearbook_1990_2001\1993\1993_Yearbook_Vol_1\Document_2026-11-03_231659_ocr_hqmax.txt,True,18601,18601,FAIL,3,0,"class_header_gap×1,incomplete_entries×1,two_column_smash×1","C1×1,C1/C6×1,S1-S3×1"
 1993,_ocr_baseline_v2\yearbook_1990_2001\1993\1993_Yearbook_Vol_1\Document_2026-11-03_233615_ocr_hqmax.txt,False,50762,50762,FAIL,20,0,"incomplete_entries×14,midclass_page_dropout×3,two_column_smash×3","C1/C6×14,C1×3,S1-S3×3"
 1993,_ocr_baseline_v2\yearbook_1990_2001\1993\1993_Yearbook_Vol_2\Document_2026-11-04_002601_ocr_hqmax.txt,False,2436,2436,PASS,0,0,,

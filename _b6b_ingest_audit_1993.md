@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1993
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=0  PASS=1  WARN=0  FAIL=4
+Volumes: 5  cleaned=1  PASS=1  WARN=0  FAIL=4
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -19,7 +19,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | FAIL | False | 25 | 0 | C1/C6×13,C1×10,O6×2 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
 | FAIL | False | 14 | 0 | C1/C6×9,C1×5 | `Document_2026-11-03_230536_ocr_hqmax.txt` |
-| FAIL | False | 4 | 0 | C1/C6×3,S1-S3×1 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
+| FAIL | True | 3 | 0 | C1×1,C1/C6×1,S1-S3×1 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
 | FAIL | False | 20 | 0 | C1/C6×14,C1×3,S1-S3×3 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_002601_ocr_hqmax.txt` |
 
@@ -54,9 +54,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1` / `midclass_page_dropout`: Veteran Class – Entries: 5 | after page got 4th expected 5 | 4th: The Manor Bally, owned by C.Young & D.Tarchini
 
 ### `Document_2026-11-03_231659_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Child & Junior Handler                                                           | places=2/4 | Bred by Exhibitor Dog                                       
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10--12-1/2" Entries: 8 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 5
-- `C1/C6` / `incomplete_entries`: OPEN (Puppies)                                                                   | places=1/4 | OPEN (Adults)                                               
+- `C1` / `class_header_gap`: 1st: Wyndcroft Natasha, owned by K.Hunter & J.Finkernagel
+- `C1/C6` / `incomplete_entries`: OPEN (Puppies) Entries: 4 | places=1/4 | OPEN (Adults)                                               
 - `S1-S3` / `two_column_smash`: 2nd: LB, owned by Deborah Bickler
 
 ### `Document_2026-11-03_233615_ocr_hqmax.txt` (FAIL)
