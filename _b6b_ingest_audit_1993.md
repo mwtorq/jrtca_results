@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1993
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=2  PASS=3  WARN=0  FAIL=2
+Volumes: 5  cleaned=3  PASS=4  WARN=0  FAIL=1
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -20,14 +20,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | True | 1 | 0 | O6×1 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-03_230536_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-03_231659_ocr_hqmax.txt` |
-| FAIL | False | 2 | 0 | C1/C6×2 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-03_233615_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_002601_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
 ### `Document_2026-11-03_224445_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 2nd: Wyndhaven Lonestar, owned by
-
-### `Document_2026-11-03_233615_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10-12-12" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 4
-- `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 9 months                                                       | places=0/3 | Dog Pups, 6 up to 9 months

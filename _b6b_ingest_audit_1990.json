@@ -78,28 +78,18 @@
       "chars_after": 178740,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 7,
+      "fail_hits": 4,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77",
-      "top_catalog": "C1/C6\u00d77",
+      "top_codes": "incomplete_entries\u00d74",
+      "top_catalog": "C1/C6\u00d74",
       "by_code": {
-        "incomplete_entries": 7
+        "incomplete_entries": 4
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "OPEN (Adults)                                                                    | places=0/6 | 1st: Raincliff's Smooth Gerald, owned by George Ridler"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Pups, 4 up to 6 months \u2013 Entries: 11 | places=0/6 | Child Handler"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "PUPPY Conformation Champion & RESERVE \u2013 Entries: 3 | places=0/3 | CHAMPION: COTSWOLD REMINGTON, owned by KELLEEN ROSSMAN"
         },
         {
           "code": "incomplete_entries",

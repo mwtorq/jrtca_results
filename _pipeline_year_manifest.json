@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T22:16:48Z",
+  "updated": "2026-11-13T22:22:03Z",
   "years": {
     "1997": {
       "a1": "done",
@@ -165,7 +165,7 @@
       "b6b_pass": 3,
       "b6b_cleaned_vols": 2,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:16:28Z"
+        "b6b_done": "2026-11-13T22:21:43Z"
       }
     },
     "1991": {
@@ -177,7 +177,7 @@
       "b6b_pass": 4,
       "b6b_cleaned_vols": 1,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:16:31Z"
+        "b6b_done": "2026-11-13T22:21:47Z"
       }
     },
     "1992": {
@@ -189,19 +189,19 @@
       "b6b_pass": 6,
       "b6b_cleaned_vols": 4,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:16:37Z"
+        "b6b_done": "2026-11-13T22:21:52Z"
       }
     },
     "1993": {
       "b6b": "done",
       "b6b_verdict": "FAIL",
       "b6b_unlocked": false,
-      "b6b_fail": 2,
+      "b6b_fail": 1,
       "b6b_warn": 0,
-      "b6b_pass": 3,
-      "b6b_cleaned_vols": 2,
+      "b6b_pass": 4,
+      "b6b_cleaned_vols": 3,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:16:42Z"
+        "b6b_done": "2026-11-13T22:21:57Z"
       }
     },
     "1994": {
@@ -225,7 +225,7 @@
       "b6b_pass": 5,
       "b6b_cleaned_vols": 3,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:16:48Z"
+        "b6b_done": "2026-11-13T22:22:03Z"
       }
     },
     "1996": {

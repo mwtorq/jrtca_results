@@ -59,33 +59,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_233615_ocr_hqmax.txt",
-      "chars_before": 50824,
+      "chars_before": 50825,
       "chars_after": 50824,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72",
-      "top_catalog": "C1/C6\u00d72",
-      "by_code": {
-        "incomplete_entries": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10-12-12\" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 9 months                                                       | places=0/3 | Dog Pups, 6 up to 9 months"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_2\\Document_2026-11-04_002601_ocr_hqmax.txt",

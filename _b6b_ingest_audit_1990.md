@@ -19,7 +19,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | PASS | False | 0 | 0 | — | `scan_ocr_hqmax.txt` |
 | FAIL | True | 7 | 0 | C1/C6×7 | `Document_2026-11-03_192526_ocr_hqmax.txt` |
-| FAIL | False | 7 | 0 | C1/C6×7 | `Document_2026-11-03_200401_ocr_hqmax.txt` |
+| FAIL | False | 4 | 0 | C1/C6×4 | `Document_2026-11-03_200401_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-03_201432_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-03_201547_ocr_hqmax.txt` |
 
@@ -35,9 +35,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 9 months                                                       | places=0/6 | Go-to-Ground CHAMPIONS & RESERVES (Continued)
 
 ### `Document_2026-11-03_200401_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: OPEN (Adults)                                                                    | places=0/6 | 1st: Raincliff's Smooth Gerald, owned by George Ridler
 - `C1/C6` / `incomplete_entries`: Pups, 4 up to 6 months – Entries: 11 | places=0/6 | Child Handler
-- `C1/C6` / `incomplete_entries`: PUPPY Conformation Champion & RESERVE – Entries: 3 | places=0/3 | CHAMPION: COTSWOLD REMINGTON, owned by KELLEEN ROSSMAN
 - `C1/C6` / `incomplete_entries`: JRTCA Working Terrier Bitch                                                      | places=0/5 | Open Class
 - `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 12-1/2-15" Entries: 10 | places=0/6 | DIVISION A, CONFORMATION
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2--15" Entries: 6 | places=0/6 | Open Class

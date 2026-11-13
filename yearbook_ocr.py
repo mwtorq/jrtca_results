@@ -3471,6 +3471,11 @@ def _iter_incomplete_entries_hits(
         if _BEST_RESERVE_SECTION_RE.match(s) or _BEST_RESERVE_ROLE_LINE_RE.match(s):
             flush(s)
             continue
+        # Place lines first: SECTIONISH matches coat words inside names (Smooth Gerald).
+        m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+        if m and entries_n is not None:
+            place_ranks.append(int(m.group(1)))
+            continue
         if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
             flush(s)
             n = _class_entries_n(s)
@@ -3483,17 +3488,13 @@ def _iter_incomplete_entries_hits(
                 and not re.search(r"(?i)\bowned\s+by\b", s)
                 and not re.search(r"(?i)\bDIVISION\b|yearbook\b|\bVol\.?\b", s)
                 and not re.search(
-                    r"(?i)championship|\bracing\b|^\s*adults?\s*:|^\s*puppies?\s*:",
+                    r"(?i)championship|champion\s*&\s*reserve|\bracing\b|^\s*adults?\s*:|^\s*puppies?\s*:",
                     s,
                 )
             ):
                 entries_n = n
                 header = s
                 place_ranks = []
-            continue
-        m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
-        if m and entries_n is not None:
-            place_ranks.append(int(m.group(1)))
             continue
     flush("EOF")
     return hits
@@ -3550,7 +3551,9 @@ def _iter_midclass_page_dropout_hits(
         if re.search(r"(?i)\bowned\s+by\b", s):
             # Smashed owner crumbs with Entries must not arm a place-class.
             continue
-        if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+        if re.match(r"(?i)^\d+(?:st|nd|rd|th)\s*:", s):
+            pass  # place handling below; SECTIONISH must not swallow Smooth/Rough names
+        elif _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
             in_class = True
             place_ranks = []
             saw_page = False
@@ -3601,6 +3604,13 @@ def _iter_best_reserve_missing_header_hits(
         if len(hits) >= max_samples:
             break
         s = line.strip()
+        # Blank height/role lines (Champ/Reserve with no name) are FAIL.
+        if re.match(
+            r"(?i)^(?:(?:\d|Over|Under).{0,28})?(?:Champion|Reserve|Best)\s*:\s*$",
+            s,
+        ):
+            hits.append(("best_reserve_missing_header", s[:160]))
+            continue
         if not re.match(r"(?i)^(?:Best|Reserve)\s*:\s+\S", s):
             continue
         ok = False
