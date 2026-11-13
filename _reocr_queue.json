@@ -170,91 +170,6 @@
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
-    "year": 1994,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_082440_ocr_hqmax.txt",
-    "codes": [
-      "owner_tail_trunc",
-      "two_column_smash"
-    ],
-    "fail_hits": 4,
-    "top_catalog": "S1-S3\u00d72,O6\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1994,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083342_ocr_hqmax.txt",
-    "codes": [
-      "owner_tail_trunc"
-    ],
-    "fail_hits": 10,
-    "top_catalog": "O6\u00d710",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1994,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083655_ocr_hqmax.txt",
-    "codes": [
-      "owner_tail_trunc",
-      "two_column_smash"
-    ],
-    "fail_hits": 3,
-    "top_catalog": "S1-S3\u00d72,O6\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1994,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_084730_ocr_hqmax.txt",
-    "codes": [
-      "owner_tail_trunc",
-      "two_column_smash"
-    ],
-    "fail_hits": 7,
-    "top_catalog": "O6\u00d76,S1-S3\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1994,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_105927_ocr_hqmax.txt",
-    "codes": [
-      "owner_tail_trunc",
-      "two_column_smash"
-    ],
-    "fail_hits": 16,
-    "top_catalog": "S1-S3\u00d713,O6\u00d73",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1994,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_111318_ocr_hqmax.txt",
-    "codes": [
-      "two_column_smash"
-    ],
-    "fail_hits": 2,
-    "top_catalog": "S1-S3\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1994,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_113633_ocr_hqmax.txt",
-    "codes": [
-      "owner_tail_trunc",
-      "two_column_smash"
-    ],
-    "fail_hits": 7,
-    "top_catalog": "O6\u00d75,S1-S3\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1994,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_114039_ocr_hqmax.txt",
-    "codes": [
-      "two_column_smash"
-    ],
-    "fail_hits": 3,
-    "top_catalog": "S1-S3\u00d73",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
     "year": 1995,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
     "codes": [
@@ -953,6 +868,16 @@
     ],
     "fail_hits": 20,
     "top_catalog": "S1-S3\u00d719,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1994,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083342_ocr_hqmax.txt",
+    "codes": [
+      "owner_tail_trunc"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "O6\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]

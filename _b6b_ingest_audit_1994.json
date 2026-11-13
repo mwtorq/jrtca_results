@@ -4,109 +4,37 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_082440_ocr_hqmax.txt",
-      "chars_before": 42499,
-      "chars_after": 42499,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "chars_before": 42741,
+      "chars_after": 42739,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d72,owner_tail_trunc\u00d72",
-      "top_catalog": "S1-S3\u00d72,O6\u00d72",
-      "by_code": {
-        "two_column_smash": 2,
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "dley, owned by Susan Alsop"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: Not provided"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Clayton Clark, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Brody, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083342_ocr_hqmax.txt",
-      "chars_before": 20492,
-      "chars_after": 20492,
+      "chars_before": 20329,
+      "chars_after": 20329,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 10,
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d710",
-      "top_catalog": "O6\u00d710",
+      "top_codes": "owner_tail_trunc\u00d71",
+      "top_catalog": "O6\u00d71",
       "by_code": {
-        "owner_tail_trunc": 10
+        "owner_tail_trunc": 1
       },
       "samples": [
         {
           "code": "owner_tail_trunc",
           "catalog": "O6",
           "line": "5th: Raheen Doc Holiday, owned by Coffey & Cur"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: Lickity Split Lexus, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Fenton', owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "J, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Three Oaks, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Conformation Champio, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Glenh, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Beacon Be:, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Maven''s T, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Conformation Champion & Best, owned by"
         }
       ],
       "reocr_required": true,
@@ -116,321 +44,93 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083655_ocr_hqmax.txt",
-      "chars_before": 40886,
-      "chars_after": 40886,
+      "chars_before": 40903,
+      "chars_after": 40903,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d72,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d72,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 2,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: jack of Hearts Alfa, owned by Jeff & Connie McKee"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: erry Clower"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Champion: Lickity Split Lotta Sass, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_084730_ocr_hqmax.txt",
-      "chars_before": 19004,
-      "chars_after": 19004,
+      "chars_before": 18819,
+      "chars_after": 18819,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 7,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d76,two_column_smash\u00d71",
-      "top_catalog": "O6\u00d76,S1-S3\u00d71",
-      "by_code": {
-        "two_column_smash": 1,
-        "owner_tail_trunc": 6
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: s-Rammeliffsi<emtin, owned by Bob Franklin\u00ae"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Eastlak, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Merrills Mou, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Hopdiggi, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Baybriar's Mr. Ti, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Windy Hill Sug:, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "George Jone, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_105927_ocr_hqmax.txt",
-      "chars_before": 55159,
-      "chars_after": 55159,
+      "chars_before": 54890,
+      "chars_after": 54890,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 16,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d713,owner_tail_trunc\u00d73",
-      "top_catalog": "S1-S3\u00d713,O6\u00d73",
-      "by_code": {
-        "two_column_smash": 13,
-        "owner_tail_trunc": 3
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: nere Solo, owned by Ken Chambers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: patch Jame of Wrenwood, owned by Kimmy Hubbard"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: ks Hotspur of Fox Brush, owned by Becker & Trimmer"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "im, owned by Debra Ellis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ur, owned by Eddy Barrett"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ister, owned by Marion Curtis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "on, owned by Dwain & Yvonne Moore"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "oblolly, owned by Debra Ellis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "is, owned by Jack & Pauline Fawkes"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: d Steady, owned by Ed Loomis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: rry Chase Dakota, owned by Rick Brennan"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ailey, owned by Wayne Holleman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ricket, owned by Kathy Oelrich"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Ravenswood Hi Dollar, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "c Fringe, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Reserve: Whimisical Thistle of Downunder, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_111318_ocr_hqmax.txt",
-      "chars_before": 31283,
-      "chars_after": 31283,
+      "chars_before": 31277,
+      "chars_after": 31277,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d72",
-      "top_catalog": "S1-S3\u00d72",
-      "by_code": {
-        "two_column_smash": 2
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: t: FOX RUN DEMON, owned by Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: t: WHITE GATE BOMBER, owned by Nancy & Bill Breakstone"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_113633_ocr_hqmax.txt",
-      "chars_before": 16070,
-      "chars_after": 16070,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 7,
+      "chars_before": 15932,
+      "chars_after": 15916,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d75,two_column_smash\u00d72",
-      "top_catalog": "O6\u00d75,S1-S3\u00d72",
-      "by_code": {
-        "two_column_smash": 2,
-        "owner_tail_trunc": 5
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: pe      1stt Three Oaks Zodiac, owned by Carolyn McGaughey"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: a        1stt Wildgoose National, owned by CJ & Ouida Harris"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Three Oaks, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Windover Sc, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Reserve Puppy Conforrr, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Rancho Arma, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "P:, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_114039_ocr_hqmax.txt",
-      "chars_before": 57980,
-      "chars_after": 57980,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "chars_before": 57891,
+      "chars_after": 57837,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d73",
-      "top_catalog": "S1-S3\u00d73",
-      "by_code": {
-        "two_column_smash": 3
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "arms, owned by Cheryl Hart"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: of picturesque thoroughbred horse farms, owned by outside"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: julia Brion"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }
