@@ -2596,6 +2596,12 @@ def finalize_results_ocr(text: str) -> str:
     # OCR often emits Entries; instead of Entries: — treat as colon so class
     # headers disarm C1 (1999 Vol III pt2 Working Terrier / Bronze Medallion).
     text = re.sub(r"(?i)\bEntries\s*;", "Entries:", text)
+    # Role colon spacing: ``RESERVE : Name`` / ``BEST : Name``
+    text = re.sub(
+        r"(?im)^(Best|Reserve|Champion)\s+:\s*",
+        lambda m: f"{m.group(1).capitalize()}: ",
+        text,
+    )
     text = fix_ocr_li_confusion(_strip_gutter_noise(text))
     # Multi-place glue before smash unsmash — clears false C1 from ``1st:…5th:``
     text = _split_glued_multi_place_lines(text)
@@ -3421,6 +3427,7 @@ _BEST_RESERVE_SECTION_RE = re.compile(
     r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6|NATURAL)\b|"
     # mid-line BEST…RESERVE (e.g. YOUTH HIGH SCORE BEST & RESERVE)
     r".*\bBEST\b.+\bRESERVE\b|"
+    r"BEST\s+OF\s+THE\s+NORTH\b|"
     r"RACING\s+CHAMPIONS?\b|GO-?TO-?GROUND\s+CHAMPION\b|"
     r"ADULT\s+RACING\s+CHAMPION\b|PUPPY\s+RACING\s+CHAMPION\b|"
     r".*\b(?:CONFORMATION\s+)?CHAMPION\s*(?:&|AND)\s*RESERVE\b|"
@@ -3431,6 +3438,8 @@ _BEST_RESERVE_ROLE_LINE_RE = re.compile(
     r"(?i)^(?:Best|Reserve|Champion)\s*:\s+\S"
 )
 # Includes smash forms like ``Working 1st Name, Terrier Dog, … Entries: N``.
+# Dog/Bitch Pups titles reused as BEST 4-6 / pup Best sections.
+# Do NOT match bare racing ``Bitch, 10 up to 12 Entries:`` — those need HQ titles.
 _WT_BEST_SECTION_CANDIDATE_RE = re.compile(
     r"(?i)^(?:Working\b.*\bTerrier\b|Natural\s+Instinct\b|"
     r"(?:Dog|Bitch)\s+Pups?,.{0,60}Entries\s*:)"
@@ -3582,7 +3591,9 @@ def _iter_incomplete_entries_hits(
                 and not re.search(r"(?i)\bowned\s+by\b", s)
                 and not re.search(r"(?i)\bDIVISION\b|yearbook\b|\bVol\.?\b", s)
                 and not re.search(
-                    r"(?i)championship|champion\s*&\s*reserve|\bracing\b|^\s*adults?\s*:|^\s*puppies?\s*:",
+                    r"(?i)championship|champion\s*&\s*reserve|\bbest\b.+\breserve\b|"
+                    r"\bracing\b|trailing\s*&\s*locating|high\s+score|"
+                    r"^\s*adults?\s*:|^\s*puppies?\s*:",
                     s,
                 )
             ):
@@ -3908,7 +3919,7 @@ def _iter_best_reserve_missing_header_hits(
         if not re.match(r"(?i)^(?:Best|Reserve)\s*:\s+\S", s):
             continue
         ok = False
-        for j in range(i - 1, max(-1, i - 12), -1):
+        for j in range(i - 1, max(-1, i - 24), -1):
             t = lines[j].strip()
             if not t:
                 continue
@@ -3928,7 +3939,15 @@ def _iter_best_reserve_missing_header_hits(
             ):
                 ok = True
                 break
-            # first non-chrome line wasn't a section → missing header
+            # Place / owned-by crumbs often sit between section header and Reserve
+            # after column merges — keep scanning for the real BEST…RESERVE title.
+            if re.match(r"(?i)^\d+(?:st|nd|rd|th)\s*:", t):
+                continue
+            if re.search(r"(?i)\bowned\s+by\b", t) and not re.match(
+                r"(?i)^(?:Best|Reserve|Champion)\s*:", t
+            ):
+                continue
+            # first non-chrome structural line wasn't a section → missing header
             break
         if not ok:
             hits.append(("best_reserve_missing_header", s[:160]))
