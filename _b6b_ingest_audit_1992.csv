@@ -1,5 +1,5 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212153_ocr_hqmax.txt,True,30839,30819,FAIL,5,0,incomplete_entries×5,C1/C6×5
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212153_ocr_hqmax.txt,True,30816,30796,FAIL,4,0,incomplete_entries×4,C1/C6×4
 1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212636_ocr_hqmax.txt,False,56278,56278,FAIL,28,0,"incomplete_entries×20,midclass_page_dropout×5,two_column_smash×3","C1/C6×20,C1×5,S1-S3×3"
 1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_213104_ocr_hqmax.txt,False,21026,21026,FAIL,9,0,"incomplete_entries×5,midclass_page_dropout×3,class_header_gap×1","C1/C6×5,C1×4"
 1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220343_ocr_hqmax.txt,False,36820,36820,FAIL,12,0,"incomplete_entries×7,midclass_page_dropout×4,class_header_gap×1","C1/C6×7,C1×5"

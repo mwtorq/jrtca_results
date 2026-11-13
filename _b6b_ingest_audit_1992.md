@@ -17,7 +17,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 5 | 0 | C1/C6×5 | `Document_2026-11-03_212153_ocr_hqmax.txt` |
+| FAIL | True | 4 | 0 | C1/C6×4 | `Document_2026-11-03_212153_ocr_hqmax.txt` |
 | FAIL | False | 28 | 0 | C1/C6×20,C1×5,S1-S3×3 | `Document_2026-11-03_212636_ocr_hqmax.txt` |
 | FAIL | False | 9 | 0 | C1/C6×5,C1×4 | `Document_2026-11-03_213104_ocr_hqmax.txt` |
 | FAIL | False | 12 | 0 | C1/C6×7,C1×5 | `Document_2026-11-03_220343_ocr_hqmax.txt` |
@@ -27,7 +27,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 ## Sample residual hits (after cleanup)
 
 ### `Document_2026-11-03_212153_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Child Handler                                                            Entries | places=3/6 | Junior Handler                                              
 - `C1/C6` / `incomplete_entries`: PRE-Novice PUPPIES                                                               | places=3/6 | Novice (Puppies)                                            
 - `C1/C6` / `incomplete_entries`: Novice (Adults)                                                                  | places=2/6 | OPEN (Adults)                                               
 

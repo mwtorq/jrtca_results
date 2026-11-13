@@ -209,8 +209,8 @@
     "codes": [
       "incomplete_entries"
     ],
-    "fail_hits": 5,
-    "top_catalog": "C1/C6\u00d75",
+    "fail_hits": 4,
+    "top_catalog": "C1/C6\u00d74",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
