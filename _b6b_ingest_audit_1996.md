@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=1  PASS=5  WARN=0  FAIL=25
+Volumes: 30  cleaned=23  PASS=7  WARN=0  FAIL=23
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,35 +17,35 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 37 | 0 | S4/O×25,C6/O1×12 | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
-| FAIL | False | 53 | 0 | O6×18,S4/O×15,C6/O1×13,S1-S3×4,C1×3 | `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` |
-| FAIL | False | 80 | 0 | O6×23,S4/O×21,C6/O1×18,S1-S3×11,C1×7 | `1996 Vol 1 pg 111-160 front_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt` |
+| FAIL | True | 25 | 0 | S4/O×25 | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
+| FAIL | True | 40 | 0 | O6×18,S4/O×15,S1-S3×4,C1×3 | `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` |
+| FAIL | True | 62 | 0 | O6×23,S4/O×21,S1-S3×11,C1×7 | `1996 Vol 1 pg 111-160 front_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` |
-| FAIL | False | 29 | 0 | S4/O×25,C6/O1×4 | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
-| FAIL | False | 14 | 0 | C6/O1×6,S4/O×4,C1×2,S1-S3×1,O6×1 | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
-| FAIL | False | 32 | 0 | S4/O×18,S1-S3×6,C1×5,C6/O1×3 | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
-| FAIL | False | 45 | 0 | S4/O×21,O6×10,C1×6,C6/O1×5,S1-S3×3 | `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` |
-| FAIL | False | 17 | 0 | O6×7,C1×7,S4/O×2,S1-S3×1 | `1996 Vol 1 pg 61-110 back_ocr_hqmax.txt` |
-| FAIL | False | 53 | 0 | S4/O×21,O6×18,C6/O1×7,C1×6,S1-S3×1 | `1996 Vol 1 pg 61-110 front_ocr_hqmax.txt` |
-| FAIL | False | 32 | 0 | S4/O×14,S4×8,O6×7,C1×2,S1-S3×1 | `1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt` |
-| FAIL | False | 46 | 0 | O6×14,C6/O1×11,S4/O×10,S4×9,C1×2 | `1996 Vol II pg 163-220 back_ocr_hqmax.txt` |
-| FAIL | False | 45 | 0 | S4/O×24,C6/O1×12,S4×8,C6×1 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
-| FAIL | False | 46 | 0 | C6/O1×22,S4/O×11,C1×7,S1-S3×3,O6×3 | `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` |
-| FAIL | False | 20 | 0 | C6/O1×10,O6×5,C1×4,S1-S3×1 | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
-| FAIL | False | 34 | 0 | C1×12,O6×9,S4/O×9,S1-S3×3,C6/O1×1 | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
+| FAIL | True | 25 | 0 | S4/O×25 | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
+| FAIL | True | 8 | 0 | S4/O×4,C1×2,S1-S3×1,O6×1 | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
+| FAIL | True | 29 | 0 | S4/O×18,S1-S3×6,C1×5 | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
+| FAIL | True | 40 | 0 | S4/O×21,O6×10,C1×6,S1-S3×3 | `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` |
+| FAIL | True | 17 | 0 | O6×7,C1×7,S4/O×2,S1-S3×1 | `1996 Vol 1 pg 61-110 back_ocr_hqmax.txt` |
+| FAIL | True | 46 | 0 | S4/O×21,O6×18,C1×6,S1-S3×1 | `1996 Vol 1 pg 61-110 front_ocr_hqmax.txt` |
+| FAIL | True | 32 | 0 | S4/O×14,S4×8,O6×7,C1×2,S1-S3×1 | `1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt` |
+| FAIL | True | 35 | 0 | O6×14,S4/O×10,S4×9,C1×2 | `1996 Vol II pg 163-220 back_ocr_hqmax.txt` |
+| FAIL | True | 33 | 0 | S4/O×24,S4×8,C6×1 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
+| FAIL | True | 24 | 0 | S4/O×11,C1×7,S1-S3×3,O6×3 | `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` |
+| FAIL | True | 10 | 0 | O6×5,C1×4,S1-S3×1 | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
+| FAIL | True | 33 | 0 | C1×12,O6×9,S4/O×9,S1-S3×3 | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
 | FAIL | False | 33 | 0 | S4/O×18,S1-S3×8,C1×5,O6×2 | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
-| FAIL | False | 48 | 0 | S4/O×20,S1-S3×11,C1×11,C6/O1×4,O6×2 | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
-| FAIL | False | 51 | 0 | S4/O×25,C1×12,O6×7,C6/O1×4,S1-S3×3 | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
-| FAIL | False | 51 | 0 | C6/O1×25,S4/O×13,O6×8,C1×3,S1-S3×2 | `1996 Vol II pg 93-162 back_ocr_hqmax.txt` |
-| FAIL | False | 41 | 0 | S4/O×16,C6/O1×9,O6×8,S1-S3×5,C1×3 | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
-| FAIL | False | 10 | 0 | C6/O1×6,O6×3,S4/O×1 | `Document_2026-11-04_144208_ocr_hqmax.txt` |
-| FAIL | False | 5 | 0 | S4/O×2,C1×2,O6×1 | `Document_2026-11-04_144530_ocr_hqmax.txt` |
+| FAIL | True | 44 | 0 | S4/O×20,S1-S3×11,C1×11,O6×2 | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
+| FAIL | True | 47 | 0 | S4/O×25,C1×12,O6×7,S1-S3×3 | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
+| FAIL | True | 26 | 0 | S4/O×13,O6×8,C1×3,S1-S3×2 | `1996 Vol II pg 93-162 back_ocr_hqmax.txt` |
+| FAIL | True | 32 | 0 | S4/O×16,O6×8,S1-S3×5,C1×3 | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
+| FAIL | True | 4 | 0 | O6×3,S4/O×1 | `Document_2026-11-04_144208_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_144530_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_145355_ocr_hqmax.txt` |
-| FAIL | False | 4 | 0 | C6/O1×3,C1×1 | `Document_2026-11-04_145925_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_145925_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_151058_ocr_hqmax.txt` |
-| FAIL | False | 30 | 0 | S4/O×10,C6/O1×10,O6×9,S1-S3×1 | `Document_2026-11-04_152834_ocr_hqmax.txt` |
+| FAIL | True | 20 | 0 | S4/O×10,O6×9,S1-S3×1 | `Document_2026-11-04_152834_ocr_hqmax.txt` |
 | FAIL | False | 16 | 0 | S4×8,O6×4,C1×3,S4/O×1 | `Document_2026-11-04_153208_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -113,7 +113,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 5th: Frenzy, own:d by Ed Barrett
 - `S4/O` / `missing_owned_by`: 1st: Nevada, own:d by Laura O'Leary
 - `S4/O` / `missing_owned_by`: 1st: T.J.Farm Jasmine, owne
-- `C6/O1` / `bare_entries`: Entries:
 - `C1` / `class_header_gap`: 1st: Wildgoose National, owned by C. J. Harris
 - `C1` / `class_header_gap`: 1st: Rainland Juliet, owned by Robert & Linda Fleck
 
@@ -236,7 +235,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `O6` / `owner_tail_trunc`: 3rd: AE die A mn: Céiimemtme aimed Bu William R (av OYRrien AgLity 1, owned by VIT Led
 - `O6` / `owner_tail_trunc`: 4th: Mineral Sorings Indiana Bones, owned by Mari
 - `O6` / `owner_tail_trunc`: 2nd: Ash Creek Matt, owned by Marty & Teresa Got
-- `C6/O1` / `bare_entries`: Entries:
 - `C1` / `class_header_gap`: 1st: Lucy Mae, owned by J.Neff & J.Gay
 - `C1` / `class_header_gap`: 1st: Jera-lyn, owned by Maureen McKernan
 - `C1` / `class_header_gap`: 1st: Farmstead Abby, owned by Richard & Annette
@@ -331,18 +329,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `O6` / `owner_tail_trunc`: 2nd: Lands End Bully, owned by Doris & Guy
 - `O6` / `owner_tail_trunc`: 5th: Heaven Hill Guiness, owned by Shelly Hol
 - `S4/O` / `missing_owned_by`: 2nd: Ms. Scarlett of Heaven Hill, owned b
-- `C6/O1` / `bare_entries`: Entries:
-
-### `Document_2026-11-04_144530_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 2nd: Bobby Duty, owned by Ill
-- `S4/O` / `missing_owned_by`: 3rd: Brookmill Farm Little Bamber, owned
-- `S4/O` / `missing_owned_by`: 4th: Sunset Valley Dottie of Iron Water, o
-- `C1` / `class_header_gap`: 1st: Impressive Dynamite, owned by Doris Sneider
-- `C1` / `class_header_gap`: 1st: Lickity Split Nifty, owned by Darlene McInnes
-
-### `Document_2026-11-04_145925_ocr_hqmax.txt` (FAIL)
-- `C6/O1` / `bare_entries`: Entries:
-- `C1` / `class_header_gap`: 1st: Whiriwind Delilah, owned by Melanie Smaill
 
 ### `Document_2026-11-04_152834_ocr_hqmax.txt` (FAIL)
 - `S1-S3` / `place_smash`: 5th: Easton, owned by Points Nipper, owned by Sally Gay
