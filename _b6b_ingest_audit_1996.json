@@ -1,460 +1,66 @@
 {
   "year": 1996,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt",
-      "chars_before": 63710,
-      "chars_after": 63710,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 39,
+      "chars_before": 61530,
+      "chars_after": 61448,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d734,owner_tail_trunc\u00d75",
-      "top_catalog": "S1-S3\u00d734,O6\u00d75",
-      "by_code": {
-        "two_column_smash": 34,
-        "owner_tail_trunc": 5
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "iin, owned by Karen Vernon"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "sc, owned by Chuck & Diana Hufnagel"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "apshot, owned by Clint Clayton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "bmon, owned by Terry Wellman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ster, owned by Will Hahn"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "esoro, owned by Foxhall Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "nt, owned by Doug Tack & Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "an, owned by Elizabeth Gleason"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "nap, owned by Michelle Ward"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "phyr, owned by Tinker Tavern Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "avenswood, owned by Janet Sutcliffe"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: a, owned by Lisa Drinkwater"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ssafrass, owned by Sandra & Ian Hughes"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "etel, owned by Rachel Dolden"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: ing, owned by Lisa Redding"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "jJabyte, owned by Kathy Hunter & Paul Finkernagel"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "omba, owned by Joe & Priscilla Testa"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ack, owned by Mike Turley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "de, owned by Rick & Leslie Hemsing"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "le, owned by Debbie Neal"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "asha, owned by Kathy Hunter & Paul Finkernagel"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "evor, owned by Joseph Jankowski & Kellyann Morander"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "gabyte, owned by Kathy Hunter & Paul Finkernagel"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ut, owned by Gerard Van Esson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Best: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Champion: disqulifie"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Chamtion: High & Low Risky, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserv: Fox Valley Dylan of Chucks Run, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Champion: Blackland Shane, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: Button Top Stinger, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1.2-15\" Reserve: Heaven Hill Chipper, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
-      "chars_before": 61584,
-      "chars_after": 61584,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 13,
+      "chars_before": 61437,
+      "chars_after": 61435,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d712,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d712,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 12,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "leadowlake, owned by Karen Reavis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "alth, owned by Stealth Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "dtree, owned by Bev Dalton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ny, owned by Joe & Becky Froias"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "owlake, owned by Karen Reavis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: tstt Fox Run Sonc, owned by Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Best: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Champion: disqu:lified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: disqualified"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Reseve: Courtland Moo Cow, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt",
-      "chars_before": 58591,
-      "chars_after": 58591,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 30,
+      "chars_before": 56722,
+      "chars_after": 56697,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d730",
-      "top_catalog": "S1-S3\u00d730",
-      "by_code": {
-        "two_column_smash": 30
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: lolly, owned by Mary Webb"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "jgie, owned by Karen Cooper"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ipper, owned by Joe & Priscilla Testa"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "phy, owned by Joe & Priscilla Testa"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "mba, owned by Joe & Priscilla Testa"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ck, owned by Mike Turley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "nny, owned by Debbie LaMantia"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "sha, owned by Kathy Hunter"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ohy, owned by Joe & Priscilla Testa"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "mba, owned by Joe & Priscilla Testa \u2013 Entries: 8"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ap, owned by Michelle Ward"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "nber, owned by Nancy Breakstone"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "olo, owned by Foxhall Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ie, owned by Marty & Teresa Gottleib"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "mber, owned by Nancy Breakstone"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "illon, owned by The Hollow Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ta, owned by Norah Risley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "nca, owned by The Hollow Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "shee, owned by Marty & Teresa Gottleit"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "atie, owned by Janice Jarrett"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "dita, owned by Norah Risley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ner, owned by Lynn Eshelman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ogart, owned by Robert Gray, Jr."
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Best: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: disqualified"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Michele Ansede | Ellen Orrego | Cynthia Whitman"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt",
-      "chars_before": 17605,
-      "chars_after": 17605,
+      "chars_before": 17600,
+      "chars_after": 17600,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d71",
-      "top_catalog": "S1-S3\u00d71",
-      "by_code": {
-        "two_column_smash": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: fst: Romney Kez, owned by Kim Hunter & Jim Hughes"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back_ocr_hqmax.txt",
@@ -473,1690 +79,288 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 front_ocr_hqmax.txt",
-      "chars_before": 19659,
-      "chars_after": 19659,
+      "chars_before": 19673,
+      "chars_after": 19673,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71",
-      "top_catalog": "O6\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "5th: Russell-M-Up Cool Hand Luke, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt",
-      "chars_before": 52906,
-      "chars_after": 52906,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 25,
+      "chars_before": 49376,
+      "chars_after": 49306,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d725",
-      "top_catalog": "S1-S3\u00d725",
-      "by_code": {
-        "two_column_smash": 25
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "wford, owned by Michael Healy"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "tr, owned by Lloyd & Shirley Cox"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "sy, owned by Richard and Janette Finnerty"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ina, owned by Aaron Davidson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "iilie, owned by Roxanne Glass"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "itmeg, owned by Emily Hemple"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "lel, owned by Ellen S. Lesch"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "anna, owned by Didi Gough"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "fty, owned by Darlene McInnes"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "jah, owned by Susan Haldiman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "zy, owned by Lynn May-Measles"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "tic, owned by Molly Martin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "answood, owned by Ben & Janet Sutcliffe"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ubba, owned by Jeffery L. Gibson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ket, owned by John Westgate & Barbara Jordan"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "awk, owned by Debbie McWilliams"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "oenix, owned by Janet Rosselle"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "eckers, owned by Liz & Pete Littman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ux, owned by Brenda House"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ato, owned by Calvin Filburn"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "indee, owned by Liz & Pete Littman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ush, owned by Jeff & Connie McKee"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "arley, owned by Didi Gough/Jeff Gibson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "eo, owned by Robert & Linda Fleck"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: rphy Mae, owned by Jackie Dietlin"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt",
-      "chars_before": 47758,
-      "chars_after": 47758,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "chars_before": 47787,
+      "chars_after": 47786,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d72",
-      "top_catalog": "S1-S3\u00d72",
-      "by_code": {
-        "two_column_smash": 2
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: lam Prancer, owned by Diana Decant"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "an, owned by Kathleen Hardy"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 front_ocr_hqmax.txt",
-      "chars_before": 47035,
-      "chars_after": 47035,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 22,
+      "chars_before": 46466,
+      "chars_after": 46455,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d721,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d721,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 21,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: AJ, owned by Westside"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "te, owned by Mark & Jan Bjorkiand \u2013 Entries: 12"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: lam Prancer, owned by Diana Decant"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "eth, owned by L. McKinney & L. Grimsl"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "masina, owned by Patsy McConnell"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "sta, owned by Wanda Dyer"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ne, owned by Ellen Kennedy & Terry"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ss, owned by Ray Derrick"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ner, owned by Sheila Higginbotham"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "yomerang, owned by Janet Sutcliffe"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ke, owned by Barbara Tyler"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: of Meadowlake, owned by Karen Reavis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: rarascon, owned by Yvonne & Dwain"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ce, owned by Barbara Tyler"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ger, owned by Debbie Calloway"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ne, owned by Ellen Kennedy & Teresa"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "by, owned by Heather Martin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ittles, owned by Brenda Omey"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ricket, owned by Gail Walker"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "liac, owned by Mike & Betty Bilinski"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not provided"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "n Wizard of Meadowlake, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt",
-      "chars_before": 61137,
-      "chars_after": 61137,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 16,
+      "chars_before": 60915,
+      "chars_after": 60902,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d711,owner_tail_trunc\u00d75",
-      "top_catalog": "S1-S3\u00d711,O6\u00d75",
-      "by_code": {
-        "two_column_smash": 11,
-        "owner_tail_trunc": 5
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: ievousMaybell, owned by Rebecca Quick"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: n Little Bamber, owned by Martha Leroy"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ine, owned by Ellen Kennedy & Terry Wellman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "nd, owned by Sharon Pritchett"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "wv, owned by Roberts Lawrence"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "er, owned by Ken Meyer"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "tial, owned by Ken Meyer"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "nipper, owned by Doug Stephenson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "npest, owned by Barbara Tyler"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "avez, owned by Jean & Ray Derrick"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "hdiac, owned by Mike & Betty Bilinski"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Champbn: Button Top Belle Star, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: Foxwarren Beaufort, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Spankey, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Six Pack, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Reserv: Bevelwood Cowhoy, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt",
-      "chars_before": 61704,
-      "chars_after": 61704,
+      "chars_before": 61578,
+      "chars_after": 61578,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d74",
-      "top_catalog": "S1-S3\u00d74",
-      "by_code": {
-        "two_column_smash": 4
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: not provided--ontact trial chairman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: not provided\u2014ontact trial chairman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not provided--ontact trial chairman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: not provided\u2014ontact trial chairman"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt",
-      "chars_before": 60335,
-      "chars_after": 60335,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 22,
+      "chars_before": 59885,
+      "chars_after": 59879,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d720,owner_tail_trunc\u00d72",
-      "top_catalog": "S1-S3\u00d720,O6\u00d72",
-      "by_code": {
-        "two_column_smash": 20,
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: mite, owned by Carole McAurthus"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: adie, owned by Chri Advan"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: d, owned by Steve Spruill"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: d Riddle, owned by Julie Conner"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "iesian, owned by Dermot Gilligan"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "heckers, owned by Liz & Pete Littman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "hoenix, owned by Janet Rosselle"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "rocket, owned by Margaret Strohlein"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ly, owned by Patricia Caschera"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ggie, owned by Kathy & Mitchell Cohen"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ly, owned by Betsy Jordan"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "der, owned by Liz & Pete Littman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ty, owned by Darlene McInnes"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "iddle, owned by Julie Conner"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ian, owned by Dermot Gilligan"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ckers, owned by Liz & Pete Littman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "et, owned by Barbara Jordan & John"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "enix, owned by Janet Rossells"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "per, owned by Doug Stephenson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "te, owned by Mark & Janice Bjorkland"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Champion: Benson of Blue Barnes, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Champion: Farmcliff Sugar, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt",
-      "chars_before": 72225,
-      "chars_after": 72225,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 30,
+      "chars_before": 71322,
+      "chars_after": 71314,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d730",
-      "top_catalog": "S1-S3\u00d730",
-      "by_code": {
-        "two_column_smash": 30
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: y Polo, owned by Foxhall Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: lee Won, owned by Nellie Niewola"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: ss, owned by Debbie LaMantia"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ke, owned by Joe Landini"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "sto, owned by Rick & Mary Thornton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ke, owned by Megan Johnson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ubbles, owned by Judy Galterio"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "kle, owned by Debbie LaMantia"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "met, owned by Allison Linstrum & Rick Thornton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "rook, owned by Doug & Noreen Loranger"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ger, owned by Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ncer, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "unter, owned by Mark & Lisa Green"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "gger, owned by Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "adget, owned by Sandra Ferber & Judy Galterio"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ible, owned by Bradley & Judy Frikkers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "asey, owned by James D. Titus"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "RESERVE: adget, owned by Sandra Ferber & Judy Galterio"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ny, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "larkham, owned by Michelle Williams & Kim Horn"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "vor, owned by Joseph Jankowski & Kellyann Morander"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "vin, owned by Karen Vernon"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ver, owned by Rick & Mary Thornton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: wist Hughes d Loblolly, owned by Debra Elis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: Not provided by Trial Chairperson, owned by Brenda Worley"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back_ocr_hqmax.txt",
-      "chars_before": 71665,
-      "chars_after": 71665,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 10,
+      "chars_before": 71516,
+      "chars_after": 71516,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d79,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d79,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 9,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: lka, owned by Candy Henderson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: wist Hughes o Loblolly, owned by Debra Ellis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: ncliff, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Reserve: Courtland Moo Cow, owned by"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Paut Finkernagel | Loranger | Franklin | Laura Harakaly"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
-      "chars_before": 64037,
-      "chars_after": 64037,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 16,
+      "chars_before": 63645,
+      "chars_after": 63643,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d716",
-      "top_catalog": "S1-S3\u00d716",
-      "by_code": {
-        "two_column_smash": 16
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: i et Edin! odSssy, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: ariel sugar, owned by Genie Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: AJ, owned by Hugo Noa"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: y Rose, owned by Dan & Cindy McClary"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: e, owned by Marlow & Joanne Jurisch"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "pinner, owned by Sara Lou Peck"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "or, owned by Kate Bomberger"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "lis, owned by Kate Bomberger"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: not available"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not available"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Champion: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Reserve: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: Not provided by Trial Chairperson, owned by Brenda Worley"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
-      "chars_before": 87567,
-      "chars_after": 87567,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 26,
+      "chars_before": 87149,
+      "chars_after": 87138,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d724,owner_tail_trunc\u00d72",
-      "top_catalog": "S1-S3\u00d724,O6\u00d72",
-      "by_code": {
-        "two_column_smash": 24,
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: nere Pistol, owned by Joel & Mary McElearney"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: s Inn Scatter, owned by Debra Ellis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "idi, owned by Val Wasch"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "er, owned by Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ant, owned by Doug & Sue Tack & Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "oe, owned by Roger Sherry"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "sie, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "axter, owned by Frank Coletti \u2013 Entries: 0"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: s Bat, owned by Donald & Joan LaPlace"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "iberty, owned by P. Hartman & K. McCarthy"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "peedy, owned by Sarah & Terry Grainger"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "eke, owned by Joe & Evelyn Landini"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "per, owned by Laura Harakaly"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "dy, owned by Laura Harakaly"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ash, owned by Marty & Teresa Gottleib"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "asher, owned by P. Hartman & K. McCarthy"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "per, owned by Rick & Mary Thornton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "imel, owned by George Ridler"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "andit, owned by Kelly Butterfield"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "kle, owned by Megan Johnson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: l4th: North Country Pilot, owned by Foxhall Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: not provifed"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not proviled"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Sparky, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Alida Masuck, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back_ocr_hqmax.txt",
-      "chars_before": 86102,
-      "chars_after": 86102,
+      "chars_before": 86079,
+      "chars_after": 86079,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d73",
-      "top_catalog": "S1-S3\u00d73",
-      "by_code": {
-        "two_column_smash": 3
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: tstt Farmcliff Cuke, owned by K. Hunter & J. Hughes"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: not provifed"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not proviled"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt",
-      "chars_before": 84465,
-      "chars_after": 84465,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 7,
+      "chars_before": 84470,
+      "chars_after": 84468,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d76,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d76,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 6,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: not provided by trial chairman, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not provided by trial chairman, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ey, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "hase, owned by Dave & Sara Marcum"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: Lands End Nutmeg, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt",
-      "chars_before": 82767,
-      "chars_after": 82767,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 22,
+      "chars_before": 82220,
+      "chars_after": 82208,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d722",
-      "top_catalog": "S1-S3\u00d722",
-      "by_code": {
-        "two_column_smash": 22
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: not provided by trial chairman, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not provided by trial chairman, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "er, owned by Bob Franlin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "anor, owned by D. Tarchini & C. Young"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "or, owned by J. Jankowski & K. Morande"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "key, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "byte, owned by K, Hunter & P. Finkerna"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "hgate, owned by Doug & Sue Tack"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "estor, owned by William & Gay O'Brien"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ssy, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: pper, owned by Sally Gay"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "er, owned by Doug & Noreen Lorange"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ipper, owned by Sally Gay"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "swood, owned by Ben & Janet Sutcliff"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "olo, owned by Foxhall Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "nner, owned by Chris Waterfield"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "rousel, owned by Margie D'Atley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "avenswood, owned by Ben & Janet"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "le, owned by Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ider, owned by Valerie Wasch"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front_ocr_hqmax.txt",
-      "chars_before": 84165,
-      "chars_after": 84165,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 17,
+      "chars_before": 83790,
+      "chars_after": 83791,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d716,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d716,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 16,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: not provided by trial chairman, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not provided by trial chairman, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: fst: Sportster, owned by Judy Drake"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: cer, owned by Bob Franlin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: i, owned by Rob & Jessica Lafreniere"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "or, owned by J. Jankowski & K. Moran:"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "key, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "byte, owned by K, Hunter & P. Finkern"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "hgate, owned by Doug & Sue Tack"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "estor, owned by William & Gay O'Brien"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ha, owned by K. Hunter & P. Finkerna"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "slyn, owned by Laura Harakaly"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "encer, owned by Bob Frankin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "te, owned by Rob Zeiher"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: Lands End Nutmeg, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt",
-      "chars_before": 89817,
-      "chars_after": 89817,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 29,
+      "chars_before": 87922,
+      "chars_after": 87885,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d728,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d728,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 28,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: eke, owned by Joe & Evelyn Landini"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: ddy, owned by Laura Harakaly"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: usto, owned by Rick & Mary Thornton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "gan, owned by Elizabeth Gleason"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "esar, owned by Laura Janney"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ffian, owned by Missy Kulbacky"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "opper, owned by Shelly Steinmetz"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "gger, owned by Sandra Ferber"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "iper, owned by Theresa & Marty Gottlieb"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "eedy, owned by Terry Grainger"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ally, owned by Kerry Streichler"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "isty, owned by Sarah & Terry Grainger"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "alahad, owned by the Hollow Terriers"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "farkham, owned by Kim Horn & Michele Williams"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "illon, owned by Pat Scanlan"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "lie, owned by Theresa & Marty Gottlieb"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "vin, owned by Karen Vernon"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "per, owned by Rick & Mary Thornton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "kle, owned by Megan Johnson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ather, owned by Mickie Smith"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "eaufort, owned by Aurora Rubel"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "racy, owned by Cheryl Hart"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "del, owned by Debra Ellis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: not provided"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: not provided"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: not reported"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Reseve: Camelot Dafne, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back_ocr_hqmax.txt",
-      "chars_before": 79670,
-      "chars_after": 79670,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "chars_before": 79620,
+      "chars_after": 79619,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d72,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d72,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 2,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: not provided"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: not provided"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Reseve: Camelot Dafne, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 front_ocr_hqmax.txt",
-      "chars_before": 81764,
-      "chars_after": 81764,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 12,
+      "chars_before": 81531,
+      "chars_after": 81527,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d711,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d711,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 11,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: dth: Thimble Farm Rodeo, owned by Angela Buszak & Erik Collins"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: finnie, owned by Nelly Niewola"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: y Chelsea, owned by Betty McArthur"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "elle, owned by Doug & Noreen Lorang"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "tch, owned by Tatty Shury"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "unter, owned by Mark & Lisa Green"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "mitt, owned by Richard Travisono"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "or, owned by Joe Jankowski & Kelly"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ax, owned by Kendal Makowicz"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: g Lots Grabbit, owned by Alford & Leann McGregor"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: Farmcliff Donny, owned by"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Ertries | Enries | 2nd"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144208_ocr_hqmax.txt",
-      "chars_before": 53739,
-      "chars_after": 53739,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "chars_before": 53818,
+      "chars_after": 53817,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d73,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d73,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 3,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: AJ, owned by Westside"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: drd: Farmcliff Becky, owned by Bob Franklin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not provided"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Reserve: Ay Jay of R.A, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144530_ocr_hqmax.txt",
@@ -2175,212 +379,78 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_145355_ocr_hqmax.txt",
-      "chars_before": 3643,
-      "chars_after": 3643,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "chars_before": 3505,
+      "chars_after": 3502,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d72,owner_tail_trunc\u00d72",
-      "top_catalog": "S1-S3\u00d72,O6\u00d72",
-      "by_code": {
-        "two_column_smash": 2,
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ay, owned by Cheryl Edwards"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "eof, owned by Sandra Ferber"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Es ere OF WE, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Westgate Rocket, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_145925_ocr_hqmax.txt",
-      "chars_before": 49694,
-      "chars_after": 49694,
+      "chars_before": 49751,
+      "chars_after": 49751,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d72,owner_tail_trunc\u00d71",
-      "top_catalog": "S1-S3\u00d72,O6\u00d71",
-      "by_code": {
-        "two_column_smash": 2,
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: lam Prancer, owned by Diana Decant"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: bugs. Maybe"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Red Oak Blue Bonnet of Gunsmoke, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_151058_ocr_hqmax.txt",
-      "chars_before": 4167,
-      "chars_after": 4167,
+      "chars_before": 4139,
+      "chars_after": 4139,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d72",
-      "top_catalog": "O6\u00d72",
-      "by_code": {
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Lone Wolf Sophia, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "eo 2            a, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_152834_ocr_hqmax.txt",
-      "chars_before": 48378,
-      "chars_after": 48378,
+      "chars_before": 48348,
+      "chars_after": 48348,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d74",
-      "top_catalog": "S1-S3\u00d74",
-      "by_code": {
-        "two_column_smash": 4
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: drd: Russellville Emmitt, owned by Barb Enright"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: fst: Windermere Sparkle, owned by Linda Cowasjee"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: not available"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not available"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_153208_ocr_hqmax.txt",
-      "chars_before": 34131,
-      "chars_after": 34131,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 10,
+      "chars_before": 33615,
+      "chars_after": 33612,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d710",
-      "top_catalog": "S1-S3\u00d710",
-      "by_code": {
-        "two_column_smash": 10
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "res, owned by Jack & Terri Batzer"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "yet, owned by Gaye Redpath"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Champion: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Reserve: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: Not provided by Trial Chairperson, owned by Brenda Worley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: Not provided by Trial Chairperson, owned by Brenda Worley"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }
