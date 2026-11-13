@@ -1,0 +1,6 @@
+year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
+1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_1\Document_2026-11-04_124005_ocr_hqmax.txt,False,36138,36138,FAIL,17,0,"owner_tail_trunc×11,two_column_smash×4,place_smash×1,missing_owned_by×1","O6×11,S1-S3×5,S4/O×1"
+1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_1\Document_2026-11-04_124704_ocr_hqmax.txt,False,44344,44344,FAIL,6,0,"owner_tail_trunc×5,missing_owned_by×1","O6×5,S4/O×1"
+1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_1\Document_2026-11-04_130318_ocr_hqmax.txt,False,4098,4098,FAIL,11,0,"owner_tail_trunc×9,two_column_smash×2","O6×9,S1-S3×2"
+1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_2\Document_2026-11-04_134403_ocr_hqmax.txt,False,52499,52499,FAIL,12,0,"two_column_smash×7,class_header_gap×3,owner_tail_trunc×1,missing_owned_by×1","S1-S3×7,C1×3,O6×1,S4/O×1"
+1995,_ocr_baseline_v2\yearbook_1990_2001\1995\1995_Yearbook_Vol_2\Document_2026-11-04_142425_ocr_hqmax.txt,False,50872,50872,FAIL,31,0,"two_column_smash×14,owner_tail_trunc×10,class_header_gap×7","S1-S3×14,O6×10,C1×7"

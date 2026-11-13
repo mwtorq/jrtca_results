@@ -1,56 +1,113 @@
 {
   "year": 1991,
-  "verdict": "PASS",
+  "verdict": "FAIL",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
-      "chars_before": 45726,
-      "chars_after": 45726,
+      "chars_before": 45706,
+      "chars_after": 45706,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 2,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "owner_tail_trunc\u00d72",
+      "top_catalog": "O6\u00d72",
+      "by_code": {
+        "owner_tail_trunc": 2
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "RESERVE: NEWMARKET'S BOBBETT OF FLATWOOD, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "RESERVE: FARMCLIFF COOKIE MONSTER, owned by"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_205014_ocr_hqmax.txt",
-      "chars_before": 47933,
-      "chars_after": 47933,
+      "chars_before": 47883,
+      "chars_after": 47883,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 5,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "owner_tail_trunc\u00d74,two_column_smash\u00d71",
+      "top_catalog": "O6\u00d74,S1-S3\u00d71",
+      "by_code": {
+        "two_column_smash": 1,
+        "owner_tail_trunc": 4
+      },
+      "samples": [
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "2nd: hunting dogs were an"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "RESERVE: BEAU JESTE BENTLEY OF FOXPORT, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "BEST: NEWMARKET'S BOBBETT OF FLATWOOD, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Fox Run Tucker of Courtwood, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Lunstarr Sassy of Button Top, owned by"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc",
+        "two_column_smash"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_210248_ocr_hqmax.txt",
-      "chars_before": 60788,
-      "chars_after": 60788,
+      "chars_before": 60717,
+      "chars_after": 60717,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "owner_tail_trunc\u00d71",
+      "top_catalog": "O6\u00d71",
+      "by_code": {
+        "owner_tail_trunc": 1
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "RESERVE: BEAU JESTE BENTLEY OF FOXPORT, owned by"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_211454_ocr_hqmax.txt",
-      "chars_before": 12553,
-      "chars_after": 12553,
+      "chars_before": 12652,
+      "chars_after": 12652,
       "cleaned": false,
       "verdict": "PASS",
       "fail_hits": 0,

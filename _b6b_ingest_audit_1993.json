@@ -1,26 +1,75 @@
 {
   "year": 1993,
-  "verdict": "PASS",
+  "verdict": "FAIL",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
-      "chars_before": 48275,
-      "chars_after": 48275,
+      "chars_before": 48205,
+      "chars_after": 48205,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 8,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "class_header_gap\u00d73,two_column_smash\u00d73,owner_tail_trunc\u00d72",
+      "top_catalog": "C1\u00d73,S1-S3\u00d73,O6\u00d72",
+      "by_code": {
+        "class_header_gap": 3,
+        "two_column_smash": 3,
+        "owner_tail_trunc": 2
+      },
+      "samples": [
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "4th: Tasha R:z"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "4th: White Spirits Orion, owned by Michelle Mezoe"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "4th: Three Oaks Britches, owned by Carolyn McGaughey"
+        },
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "6th: n Top Bill, owned by Florence Clark"
+        },
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "1st: po       1stt Hart's Farm Goblin, owned by Cheryl Hart"
+        },
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "2nd: photos from the"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "rton Hall Ace In The Hole of White Stockings, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Wyndhaven Lonestar, owned by"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "two_column_smash"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_230536_ocr_hqmax.txt",
-      "chars_before": 38629,
-      "chars_after": 38629,
+      "chars_before": 38534,
+      "chars_after": 38534,
       "cleaned": false,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -34,48 +83,125 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_231659_ocr_hqmax.txt",
-      "chars_before": 18044,
-      "chars_after": 18044,
+      "chars_before": 18019,
+      "chars_after": 18019,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 5,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "owner_tail_trunc\u00d74,two_column_smash\u00d71",
+      "top_catalog": "O6\u00d74,S1-S3\u00d71",
+      "by_code": {
+        "two_column_smash": 1,
+        "owner_tail_trunc": 4
+      },
+      "samples": [
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "2nd: LB, owned by Deborah Bickler"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Eastlake, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Conformation Champion & Best, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Puppy Conformation Chamg, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve Puppy Confol, owned by"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc",
+        "two_column_smash"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_233615_ocr_hqmax.txt",
-      "chars_before": 50757,
-      "chars_after": 50757,
+      "chars_before": 50647,
+      "chars_after": 50647,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 5,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "two_column_smash\u00d75",
+      "top_catalog": "S1-S3\u00d75",
+      "by_code": {
+        "two_column_smash": 5
+      },
+      "samples": [
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "1st: i1stt Wyndcroft Natasha, owned by K. Hunter/J. Finkernagel"
+        },
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "1st: fstt Ravenswood Javex, owned by Ben & Janet Sutcliffe"
+        },
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "ly, owned by Judy Petty"
+        },
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "pcorn, owned by Micki Smith"
+        },
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "andit, owned by Kathleen Bryan"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "two_column_smash"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_2\\Document_2026-11-04_002601_ocr_hqmax.txt",
       "chars_before": 2359,
       "chars_after": 2359,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 2,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "owner_tail_trunc\u00d72",
+      "top_catalog": "O6\u00d72",
+      "by_code": {
+        "owner_tail_trunc": 2
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Buttor, owned by"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Lobilol, owned by"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc"
+      ]
     }
   ]
 }

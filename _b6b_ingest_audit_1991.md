@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 1991
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 4  cleaned=0  PASS=4  WARN=0  FAIL=0
-Year verdict: **PASS**  SQL-apply unlock: YES
+Volumes: 4  cleaned=0  PASS=1  WARN=0  FAIL=3
+Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -17,9 +17,23 @@ Year verdict: **PASS**  SQL-apply unlock: YES
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| PASS | False | 0 | 0 | — | `Document_2026-11-03_201758_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-03_205014_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-03_210248_ocr_hqmax.txt` |
+| FAIL | False | 2 | 0 | O6×2 | `Document_2026-11-03_201758_ocr_hqmax.txt` |
+| FAIL | False | 5 | 0 | O6×4,S1-S3×1 | `Document_2026-11-03_205014_ocr_hqmax.txt` |
+| FAIL | False | 1 | 0 | O6×1 | `Document_2026-11-03_210248_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-03_211454_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
+
+### `Document_2026-11-03_201758_ocr_hqmax.txt` (FAIL)
+- `O6` / `owner_tail_trunc`: RESERVE: NEWMARKET'S BOBBETT OF FLATWOOD, owned by
+- `O6` / `owner_tail_trunc`: RESERVE: FARMCLIFF COOKIE MONSTER, owned by
+
+### `Document_2026-11-03_205014_ocr_hqmax.txt` (FAIL)
+- `S1-S3` / `two_column_smash`: 2nd: hunting dogs were an
+- `O6` / `owner_tail_trunc`: RESERVE: BEAU JESTE BENTLEY OF FOXPORT, owned by
+- `O6` / `owner_tail_trunc`: BEST: NEWMARKET'S BOBBETT OF FLATWOOD, owned by
+- `O6` / `owner_tail_trunc`: 1st: Fox Run Tucker of Courtwood, owned by
+- `O6` / `owner_tail_trunc`: 3rd: Lunstarr Sassy of Button Top, owned by
+
+### `Document_2026-11-03_210248_ocr_hqmax.txt` (FAIL)
+- `O6` / `owner_tail_trunc`: RESERVE: BEAU JESTE BENTLEY OF FOXPORT, owned by

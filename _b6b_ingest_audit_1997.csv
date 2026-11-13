@@ -1,5 +1,5 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 1_ocr_hqmax.txt,False,358930,358930,PASS,0,0,,
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 2_ocr_hqmax.txt,False,205059,205059,PASS,0,0,,
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 1_ocr_hqmax.txt,False,316848,316848,PASS,0,0,,
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 2_ocr_hqmax.txt,False,285021,285021,PASS,0,0,,
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 1_ocr_hqmax.txt,False,358915,358915,FAIL,25,0,"two_column_smash×23,owner_tail_trunc×2","S1-S3×23,O6×2"
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 2_ocr_hqmax.txt,False,205049,205049,FAIL,27,0,"two_column_smash×26,class_header_gap×1","S1-S3×26,C1×1"
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 1_ocr_hqmax.txt,False,316826,316826,FAIL,23,0,"two_column_smash×22,class_header_gap×1","S1-S3×22,C1×1"
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 2_ocr_hqmax.txt,False,285021,285021,FAIL,10,0,two_column_smash×10,S1-S3×10

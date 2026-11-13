@@ -584,6 +584,7 @@ _PLACE_RANK_OCR = (
 
 def fix_place_rank_ocr(text: str) -> str:
     """Correct misread trial/class place ranks (Sths→5ths, Bths→6ths, …)."""
+    text = re.sub(r"(?im)^(\d+(?:st|nd|rd|th):\s*)istt\s+", r"\1", text or "")
     if not text:
         return text
     # Leading dust before place: "'1st:" / "é2nd:" / "©3rd:"
@@ -3528,6 +3529,135 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
                 if nxt == rank + 1:
                     break  # clean ascending continuation
                 break
+
+    # Truncated / column-bled place bodies (must FAIL; not hidden by PASS).
+    # e.g. "5th: aheen, owned by …", "6th: r, owned by …", "OF WILL-O-MOGOR, owned by …"
+    n = 0
+    # Case-sensitive dog-body checks: lowercase start OR 1-2 letter stub after rank.
+    trunc_place_re = re.compile(
+        r"^(?i:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*"
+        r"(?:(?-i:[a-z]).{0,40}|(?-i:[A-Za-z]{1,2}))\s*,\s*(?i:owned\s+by)\b"
+    )
+    bled_owned_re = re.compile(
+        r"^(?:(?:OF|IN)\s+\S.{0,40}|(?-i:[a-z][A-Za-z']{1,20}))\s*,\s*(?i:owned\s+by)\b"
+    )
+    for ln in lines:
+        if n >= max_samples:
+            break
+        s = ln.strip()
+        if not s:
+            continue
+        if trunc_place_re.match(s):
+            hits.append(("two_column_smash", s[:160]))
+            n += 1
+            continue
+        if (
+            bled_owned_re.match(s)
+            and not re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:", s)
+            and not _looks_like_class_header_line(s)
+        ):
+            hits.append(("two_column_smash", s[:160]))
+            n += 1
+
+
+    # Place lines whose dog/body starts lowercase (crop) or is a "not provided" stub.
+    n = 0
+    lc_place_re = re.compile(
+        r"^(?i:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(?-i:[a-z]).+"
+    )
+    not_prov_re = re.compile(
+        r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*not\s+provided\b"
+    )
+    for ln in lines:
+        if n >= max_samples:
+            break
+        s = ln.strip()
+        if not s:
+            continue
+        if not_prov_re.match(s) or (
+            lc_place_re.match(s)
+            and not re.search(r"(?i)\b(?:owned|bred|handled|handling)\s+by\b", s)
+            and not re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(?:n/?a|none)\s*$", s)
+        ):
+            # Avoid duplicate if already flagged above
+            hits.append(("two_column_smash", s[:160]))
+            n += 1
+        elif lc_place_re.match(s) and re.search(r"(?i)\bowned\s+by\b", s):
+            # already covered by trunc_place_re; skip
+            pass
+
+
+    # Trailing empty "owned by" (crop) must FAIL.
+    n = 0
+    empty_owned_re = re.compile(r"(?i)\bowned\s+by\s*$")
+    for ln in lines:
+        if n >= max_samples:
+            break
+        s = ln.strip()
+        if empty_owned_re.search(s) and (
+            re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:", s)
+            or re.search(r"(?i),\s*owned\s+by\s*$", s)
+            or len(s) <= 80
+        ):
+            hits.append(("owner_tail_trunc", s[:160]))
+            n += 1
+
+    # Orphan owner-crumb runs after trunc/bleed: 3+ bare name/junk lines.
+    # Certificate owner columns alone are not enough — require nearby trunc
+    # place/bleed or digit-junk OCR (3urigo) so we do not FAIL clean tables.
+    n = 0
+    crumb_re = re.compile(
+        r"^(?:"
+        r"[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?"
+        r"|[0-9][A-Za-z][A-Za-z .&']{0,30}"
+        r")$"
+    )
+    placeish_re = re.compile(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:")
+    digit_junk_re = re.compile(r"^[0-9][A-Za-z]")
+    trunc_nearby_re = re.compile(
+        r"^(?:(?i:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(?-i:[a-z]).{0,40}"
+        r"|(?:OF|IN)\s+\S.{0,40}"
+        r"|(?-i:[a-z][A-Za-z']{1,20}))\s*,\s*(?i:owned\s+by)\b"
+    )
+    i = 0
+    while i < len(lines) and n < max_samples:
+        s = lines[i].strip()
+        if (
+            crumb_re.match(s)
+            and not placeish_re.match(s)
+            and not _looks_like_class_header_line(s)
+            and not _SECTIONISH_RE.search(s)
+        ):
+            run = [s]
+            j = i + 1
+            while j < len(lines):
+                t = lines[j].strip()
+                if not t:
+                    j += 1
+                    continue
+                if (
+                    crumb_re.match(t)
+                    and not placeish_re.match(t)
+                    and not _looks_like_class_header_line(t)
+                    and not _SECTIONISH_RE.search(t)
+                ):
+                    run.append(t)
+                    j += 1
+                    continue
+                break
+            if len(run) >= 3:
+                nearby = "\n".join(x.strip() for x in lines[max(0, i - 6) : i])
+                if any(digit_junk_re.match(x) for x in run) or any(
+                    trunc_nearby_re.match(x.strip()) for x in lines[max(0, i - 6) : i]
+                ):
+                    hits.append(("two_column_smash", " | ".join(run[:4])[:160]))
+                    n += 1
+                i = j
+                continue
+        i += 1
+
+    return hits
+
     return hits
 
 

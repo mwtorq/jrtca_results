@@ -1,7 +1,7 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212153_ocr_hqmax.txt,False,30835,30835,PASS,0,0,,
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212636_ocr_hqmax.txt,False,56184,56184,PASS,0,0,,
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_213104_ocr_hqmax.txt,False,20958,20958,PASS,0,0,,
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220343_ocr_hqmax.txt,False,36876,36876,PASS,0,0,,
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220931_ocr_hqmax.txt,True,16276,16275,PASS,0,0,,
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_221749_ocr_hqmax.txt,False,49748,49748,PASS,0,0,,
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212153_ocr_hqmax.txt,False,30825,30825,FAIL,3,0,"two_column_smash×2,owner_tail_trunc×1","S1-S3×2,O6×1"
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212636_ocr_hqmax.txt,False,56154,56154,FAIL,3,0,two_column_smash×3,S1-S3×3
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_213104_ocr_hqmax.txt,False,20958,20958,FAIL,2,0,"class_header_gap×1,two_column_smash×1","C1×1,S1-S3×1"
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220343_ocr_hqmax.txt,False,36731,36731,FAIL,2,0,"class_header_gap×1,two_column_smash×1","C1×1,S1-S3×1"
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220931_ocr_hqmax.txt,False,16260,16260,FAIL,1,0,owner_tail_trunc×1,O6×1
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_221749_ocr_hqmax.txt,False,49558,49558,FAIL,1,0,two_column_smash×1,S1-S3×1
