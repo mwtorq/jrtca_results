@@ -1,0 +1,4598 @@
+{
+  "year": 1996,
+  "verdict": "FAIL",
+  "volumes": [
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt",
+      "chars_before": 60005,
+      "chars_after": 59955,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 36,
+      "warn_hits": 39,
+      "top_codes": "missing_owned_by\u00d725,class_header_gap\u00d714,owner_tail_trunc\u00d712,bare_entries\u00d712,place_smash\u00d710,orphan_entry_count\u00d72",
+      "top_catalog": "S4/O\u00d725,C1\u00d714,O6\u00d712,C6/O1\u00d712,S1-S3\u00d710,C6\u00d72",
+      "by_code": {
+        "place_smash": 10,
+        "owner_tail_trunc": 12,
+        "missing_owned_by": 25,
+        "bare_entries": 12,
+        "orphan_entry_count": 2,
+        "class_header_gap": 14
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "e, owned by Joe & Evelyn Landini, owned by Michelle Ward & Gaye Redpath"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "ischief, owned by Andrew Walter, owned by Kathie Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Brooke, owned by Joanna Proctor, owned by Joni Green"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "lee, owned by Rich Henry, owned by Linda Toscano"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "lvy, owned by Mark Thompson, owned by Kathryn Penn"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Ivy, owned by Mark Thompson, owned by Kathryn Penn \u2013 Entries: 2"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Sparky, owned by Julie Karagainis, owned by Robert McFarland"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "mp, owned by Bonnie Edison, owned by Teresa Wellman"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "ermit, owned by Bob Franklin, owned by Rhonda Yassin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "a, owned by Lisa Drinkwater, owned by Bob Franklin"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Killare Deaty of Old Glory, owned by Wendy Wyr"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Hunters Rui Abigale, owned by Bill & Jackie Kell"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Whispering Vinds Elizabeth Marie, owned by Mar"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Resene: Westwood Tango, owned by Cal"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Westwood Srarkle, owned by Alice Reynolds & Dt"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: The Hollow Fona of Finnbar, owned by Missy & M"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "milton, owned by Christi Parkison & Suzi Utz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Reserv:: Ardmore Run Wynona, owned by Bill & Vi"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Chamgion: Camerton Hall Brilliant, owned by Ken"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Foxwarren Chssic, owned by Rochelle Miyadi & E"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Champion: Foxwaren Magic of Edison, owned by E"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Riverview Calin, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Fleetwood Zete, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Demo Jones, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Qualyn Chaos, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Fox Run Chant, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Pine Hill Jerna, oy"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Baybriar Kab, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Slick Willie, ywnec"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Mustang, ovned t"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Fox Run Chant, oy"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Foxplay Dazle, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Tiffany Arrov, owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Smudge, owed b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Olivia North,owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Max, ownedby Ni"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Roxie, ownedby Lynn Eshleman"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Murphy, own:d by David MacElree"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Baybriar Kato, ou"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Patches, ovned"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
+      "chars_before": 60949,
+      "chars_after": 60921,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 25,
+      "warn_hits": 38,
+      "top_codes": "missing_owned_by\u00d725,owner_tail_trunc\u00d718,bare_entries\u00d713,place_smash\u00d74,class_header_gap\u00d73",
+      "top_catalog": "S4/O\u00d725,O6\u00d718,C6/O1\u00d713,S1-S3\u00d74,C1\u00d73",
+      "by_code": {
+        "place_smash": 4,
+        "owner_tail_trunc": 18,
+        "missing_owned_by": 25,
+        "bare_entries": 13,
+        "class_header_gap": 3
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "lake, owned by Karen Reavis, owned by James & Kelly Barbeau"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "lowlake, owned by Karen Reavis, owned by Bruce & Trish Frankenberg"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Ith, owned by Stealth Terriers, owned by Bev Dalton"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "5, owned by Gracie Bell, owned by Bev Dalton"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Reyem Noxena, owned by Ken Meyer & Sig Sto"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Button Top Eelle Star of Wild Goose, owned by CJ & Oui"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Champion: Camerton Hall Brilliant, owned by Ke"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Reservz: Ardmore Run Wynona, owned by Bill"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\": Champon: Wild Goose National, owned by CJ"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Reserv: Button Top Belle Star, owned by CJ"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Blue Moon Ema, owned by A"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Tucker, owned by Paul & Det"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "y's Annie Fo Fannie, owned by Joe & Be"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Prestige Pollyvog, owned by L"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Mist of Fox Valey, owned by J"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Wesworld Hamilton, owned by Christi Parkison & Suzi Utz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: L'il Efforts Gigabyte, owned by Kathy Hunter & I"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Sash N Dzsh Sir Toughy, owned by Gary & Val"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: WyndcroftNatasha, owned by Kathy Hunter & F"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\" Reseve: Corn Row Maggie, owned by L"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\": Chanpion: Westwood Jade, owned by F"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\" Reseve: Fox Run Chant, owned by Dou"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Tiller, own:d by Margaret Coleburn"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Mayhem, own:d by Kevin Osby"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Emily, ownedby Terri & Mark Evans"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Gus, ownedby Karen Richards"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Rockaway Farms Sarah, Darlene Bachand"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Willie, ownedby Sue LaFrenz"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Sand Countr Kelcey, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Ardmore Rur Wynona, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Champion: Fox Villey Kate, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Hart Farms Bruno, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Drummer of Fox Valley, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Meadowlake Sparks of Fire, C"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Fenton's Scot's Honor, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Treetop Hueyof Bayview, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Lost Creek Lucky Charm, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Camelot Focus of Windtree, oy"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Ridgeviews Bn Bon, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Dirt, ownedby Jill Shelton"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt",
+      "chars_before": 55924,
+      "chars_after": 55924,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 41,
+      "warn_hits": 40,
+      "top_codes": "owner_tail_trunc\u00d723,missing_owned_by\u00d721,bare_entries\u00d718,place_smash\u00d711,class_header_gap\u00d77,orphan_entry_count\u00d71",
+      "top_catalog": "O6\u00d723,S4/O\u00d721,C6/O1\u00d718,S1-S3\u00d711,C1\u00d77,C6\u00d71",
+      "by_code": {
+        "place_smash": 11,
+        "owner_tail_trunc": 23,
+        "missing_owned_by": 21,
+        "bare_entries": 18,
+        "orphan_entry_count": 1,
+        "class_header_gap": 7
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "y, owned by Jeanette Hutchinson, owned by Bev Hirt"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "ester, owned by William & Gay O'Brien, owned by Bev Hirt"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "7zle, owned by Sandra Ferber, owned by Doug Tack & Sandra Ferber"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "e, owned by Marty & Teresa Gottleib, owned by Nancy Bennett, owned by Lisa Johnson"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "rat, owned by Jan Moore, owned by Teresa & Martin Gottlieb"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "gie, owned by Jan Moore, owned by Dan Peck & Jeanne Kuzak"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "zle, owned by Sandra Ferber, owned by Debbie LaMantia"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "illon, owned by The Hollow Terriers, owned by Debbie LaMantia"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "r, owned by Eileen Koch, owned by Julie & Charlie Kemp"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "fotspot, owned by James Gupko, owned by Rick & Mary Thorton"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Treat, owned by Lynn May Maasles, owned by Debbie McWilliams, owned by Janet Nugent, owned by Jim and Carey Ellison"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Lilly, owned by Kz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "byte, owned by Kathy Hunter & Paul Fil"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "byte, owned by Kathy Hunter & Paul Fin"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "sha, owned by Kathy Hunter & Paul Fin"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Martika, owned by Sandra & Ian"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: White Gate Johnny, owned by De"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Roxie, owned by L"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Tash, owned by Teresa & Martin Got"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Hathi, owned by M"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Mike, owned by Ell"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Hathi, owned by M"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Sarah, owned by A"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Roxie, owned by L"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Undercover Annie, owned by Ly"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Undercover Cindy, owned by Ly"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Ridgerunner Alicia, owned by Jc"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Button Top Cindy, owned by Flo"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "s Mick of Trebor Chase, owned by Rob"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Hot Spur of Foxbrush, owned by Erin"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "ggie of Blackland, owned by Lloyd & St"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Turbo of Ball Creek, owned by Rob"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Kemo Will He Solo, owned by Pe"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Chippendale M & M, owned by Bz"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Chelsea, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Baybriar Tucker, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Brairpatch AJ, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Briarpatch AJ, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Duece Jones, owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Fox Run Chant, ot"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt",
+      "chars_before": 17628,
+      "chars_after": 17628,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 4,
+      "warn_hits": 2,
+      "top_codes": "owner_tail_trunc\u00d73,missing_owned_by\u00d72,class_header_gap\u00d71",
+      "top_catalog": "O6\u00d73,S4/O\u00d72,C1\u00d71",
+      "by_code": {
+        "owner_tail_trunc": 3,
+        "missing_owned_by": 2,
+        "class_header_gap": 1
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Champion: Cotquest Minute, owned by Gaye Red"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: The Hollov Gallahad, owned by The Hollow Ter"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Meynell Re:het of Briarpatch, owned by Jack & T"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Shilo, ownedby Debbie Mutimer"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: The CormnerBully, ownedby Chris Watefield"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: High & Low Risky, owned by Melissa Lowe"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back_ocr_hqmax.txt",
+      "chars_before": 18726,
+      "chars_after": 18726,
+      "cleaned": false,
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 1,
+      "top_codes": "missing_owned_by\u00d71",
+      "top_catalog": "S4/O\u00d71",
+      "by_code": {
+        "missing_owned_by": 1
+      },
+      "samples": [
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Shilo, ownedby Debbie Mutimer"
+        }
+      ],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 front_ocr_hqmax.txt",
+      "chars_before": 19650,
+      "chars_after": 19650,
+      "cleaned": false,
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 5,
+      "top_codes": "missing_owned_by\u00d75",
+      "top_catalog": "S4/O\u00d75",
+      "by_code": {
+        "missing_owned_by": 5
+      },
+      "samples": [
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Russell-M-Up Pagan of Cottage Garden Climb, Daniel VanHorn"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Jack of Hearts Onimod, owned t"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Hidden Valley Crumpet, owned t"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Little Orbit of Cortenbach, ownec"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Ruff N Tumble Braque, owned b"
+        }
+      ],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt",
+      "chars_before": 49659,
+      "chars_after": 49658,
+      "cleaned": true,
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 29,
+      "top_codes": "missing_owned_by\u00d725,bare_entries\u00d74",
+      "top_catalog": "S4/O\u00d725,C6/O1\u00d74",
+      "by_code": {
+        "missing_owned_by": 25,
+        "bare_entries": 4
+      },
+      "samples": [
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Razor, ownedby Ken Meyers"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Trix, ownedby Fraley"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Derby, ownedby Nona & Gary Carroll"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Nevada, own:d by Laura O'Leary"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Rudy, ownedby J.W. Woodward"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Jack, ownedby Les Cook"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Trix, ownedby Chris Fraley"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Fury, ownedby Ginny Sloan"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Blackland Toby, ou"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Windsor Nails,owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Blackland Salty, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Iam Prancer, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Reebok, owned b:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Tortilla Flat Ivy, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Rainland Juliet, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Snake River III, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Duir Bellistic, wne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Undercover Izy, C"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Wildgoose Jate, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Redwood Ro, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Seaview Sood, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Lickity Split Nfty, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Big Smith Bibs, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Snake River Rel, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Rootie-Tootie, owr"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        }
+      ],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt",
+      "chars_before": 47435,
+      "chars_after": 47369,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 4,
+      "warn_hits": 22,
+      "top_codes": "missing_owned_by\u00d717,bare_entries\u00d75,class_header_gap\u00d72,place_smash\u00d71,owner_tail_trunc\u00d71",
+      "top_catalog": "S4/O\u00d717,C6/O1\u00d75,C1\u00d72,S1-S3\u00d71,O6\u00d71",
+      "by_code": {
+        "place_smash": 1,
+        "owner_tail_trunc": 1,
+        "missing_owned_by": 17,
+        "bare_entries": 5,
+        "class_header_gap": 2
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "1st: Trix, owned by Chris Fraleyond: Good Times Seminole Wind, owned by Barbara Spruill"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve: Good Tmes Seminole Wind, owned by Ba"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Abbey, own:d by Jan Black"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Jake, ownedby Pam Malloy"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Bear, ownedby Eddie Barrett"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Kate, ownedby John Chandler"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Frenzy, own:d by Ed Barrett"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Zoe, ownedby Sue Wilson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Zoe, ownedby Sue Wilson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Diva, ownedby Julia McCarthy"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Derby, ownedby Nona & Gary Carroll"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Nevada, own:d by Laura O'Leary"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Rudy, ownedby J.W. Woodward"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Jack, ownedby Les Cook"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Holly, ownedby Doug Stephenson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Trix, ownedby Chris Fraley"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Fury, ownedby Ginny Sloan"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Razor, ownedby Ken Meyers"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: T.J.Farm Jasmine, owne"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Wildgoose National, owned by C. J. Harris"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Rainland Juliet, owned by Robert & Linda Fleck"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 front_ocr_hqmax.txt",
+      "chars_before": 45817,
+      "chars_after": 45817,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 11,
+      "warn_hits": 23,
+      "top_codes": "missing_owned_by\u00d720,place_smash\u00d76,class_header_gap\u00d75,bare_entries\u00d73",
+      "top_catalog": "S4/O\u00d720,S1-S3\u00d76,C1\u00d75,C6/O1\u00d73",
+      "by_code": {
+        "place_smash": 6,
+        "missing_owned_by": 20,
+        "bare_entries": 3,
+        "class_header_gap": 5
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "s, owned by Doug Stephenson, owned by Doug Stephenson"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "ie, owned by Julie Felten, owned by Didi Gough"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "le, owned by Jeffrey Gibson, owned by Bob Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Flat, owned by Jamie Sproles, owned by RA & Kris Mackay"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "a, owned by Jeffrey Gibson, owned by Bob Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "nberg, owned by Kathy Walker White, owned by Dan Peck"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Ms. Scarlett of Heaven Hill, own:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Farmcliff Donny, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Top \"E\" Mill, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Seaview Soozi, OW"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: The Bowery Mist, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Veronica, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Fox Valley Kate, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Flashpoint Stori, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Farmcliff Becky, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Xanadu Rush, ow!"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Farmcliff Kermit, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Whirlwind Polo, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Whirlwind Polo, owl"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Lunstarr Tugger, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Gin of Lunstarr, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Corn Row Mikki, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Fox Run Chant, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Northwood Only, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Scooter, owned: by"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Westwood Wille, c"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Fox Valley Sophie"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Veronica, owned b"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxnorten Tyke of"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Windermere Wend"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Cottonwood Dickens, owned by Barbara & John Lowery"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt",
+      "chars_before": 60760,
+      "chars_after": 60760,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 19,
+      "warn_hits": 31,
+      "top_codes": "missing_owned_by\u00d725,owner_tail_trunc\u00d710,class_header_gap\u00d76,bare_entries\u00d75,place_smash\u00d73,orphan_entry_count\u00d71",
+      "top_catalog": "S4/O\u00d725,O6\u00d710,C1\u00d76,C6/O1\u00d75,S1-S3\u00d73,C6\u00d71",
+      "by_code": {
+        "place_smash": 3,
+        "owner_tail_trunc": 10,
+        "missing_owned_by": 25,
+        "bare_entries": 5,
+        "orphan_entry_count": 1,
+        "class_header_gap": 6
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "2lli, owned by Barbara Tyler, owned by Bonnie Edison"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "6th: Molly, owned by Ann Ingram, owned by Willow Hindle-Rennie"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "'ma, owned by Ken Meyer, owned by Pam Molloy"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Courtwood Nipper, owned by Lc"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Button Top Btlle Star of Wild Goose, owned by C"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Wild Goose Fentucky, owned by CJ & Ouida Har"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: All Seasons Woody of Dutch Creek, owned by Be"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Wild Goose Dip Stick, owned by CJ & Ouida Har"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Firewheel Ptatom Jack of T-Vols, owned by Bill"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Edgefield Trston, owned by Bob & Melissa Van"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Wild Goose National, owned by CJ & Ouida Har"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Golden HillsShady Lady Bug, owned by Didi"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Tasmanian Vieejack Weasel, owned by Dana Mit"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Tuff Guy of Heatstone, owned t"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Gilbert, ownedoy Jane Griffin"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Piper, ownedby Suzanne Birdsall"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Tater, ownedby Angela Allen"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Fells Flyrod, one"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Tippycanoe C:lli, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Edison Tiger, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Champion: Scoote', ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Nevada, cwne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Blue Arbor Haly, C"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Ruslter Mothe, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Spankey, owred b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Sadie, ownedby"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Six Pack, owred b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Foxy Roxy, ovned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: TF Ivana Fox,own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Oakfield Willow, oy"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Fells Flyrod, ane"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: TF Irish Lace, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Jack Be Quict, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: TF Chance, onne:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Moe Money, twne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Jack Eddie, ovnec"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: RA Piker, owred t"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Champion: Bowey Bart, ownedby Cheryl Edwards"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "3"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt",
+      "chars_before": 61687,
+      "chars_after": 61670,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 15,
+      "warn_hits": 13,
+      "top_codes": "missing_owned_by\u00d712,owner_tail_trunc\u00d77,class_header_gap\u00d77,place_smash\u00d71,orphan_entry_count\u00d71",
+      "top_catalog": "S4/O\u00d712,O6\u00d77,C1\u00d77,S1-S3\u00d71,C6\u00d71",
+      "by_code": {
+        "place_smash": 1,
+        "owner_tail_trunc": 7,
+        "missing_owned_by": 12,
+        "orphan_entry_count": 1,
+        "class_header_gap": 7
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "1st: Lacey, owned by Margaret Stricklandond: Red Oak Blue Bonnet, owned by Kenneth"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Foxwarren Kely of Highland Bay, owned by Art"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Rustler Jingles Judy, owned by David & Lisa Mcl"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Balckland Tuno of Iron Water, owned by Guy"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Good Times Pobr Snow Baby, owned by Stev"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Reuans Veronia@ of Trebor Chase, owned by Rob"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: TF Halftrack ofFox Tale, owned by Janice & Mar"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Good Times Polar Snow Baby, owned by Stev"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Eddie, ownedby Brian & Karen Wilson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Kato, ownedby Ken Tate"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Mira, ownedby Jane Schreiner"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Lilith, ownedby Phyllis Massey"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Champion: Bowey Bart, ownedby Cheryl Edwards"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Ridgeview Bibba, owned y Jef Gibson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Sadie, ownedby Chris Fraley"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Tater, ownedby Angela Allen"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Piper, ownedby Suzanne Birdsall"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Gilbert, ownedoy Jane Griffin"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Three OaksSukhou of Good Times, owned b}"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Three Oals Johnny Reb of Good Times, ow!"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "1"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Riverview Calvin, owned by Karen Vernon"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Mavens Taibr of Briarpatch, owned by Jack & Terri Batzer"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Rustler Billy tre Kid, owned by Brenda Swanson"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: High & Low Risky, owned by Melissa Lowe"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Eastlake Mids, owned by Will Hahn"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Woodruff of Ruff N' Tumble, owned by Steve & Kathy Padilla"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: FoxwarrenSnatchit, owned by Debbie Kelley"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt",
+      "chars_before": 56599,
+      "chars_after": 56599,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 25,
+      "warn_hits": 33,
+      "top_codes": "missing_owned_by\u00d725,owner_tail_trunc\u00d718,bare_entries\u00d77,class_header_gap\u00d76,place_smash\u00d71,orphan_entry_count\u00d71",
+      "top_catalog": "S4/O\u00d725,O6\u00d718,C6/O1\u00d77,C1\u00d76,S1-S3\u00d71,C6\u00d71",
+      "by_code": {
+        "place_smash": 1,
+        "owner_tail_trunc": 18,
+        "missing_owned_by": 25,
+        "bare_entries": 7,
+        "orphan_entry_count": 1,
+        "class_header_gap": 6
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "0, owned by Doris Sneider, owned by Dan & Sharon Steckline"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Wamp, owned by p"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Rose, owned by Mike"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve: Dole Mother, owned by Marchiinski Cheryl Wea"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Rustlerllie, owned by Mike & D"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Sadie R OSe, owned by Mike"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: White T, owned by Jos"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Tortilla Flat Reflex, owned by Mary Anne Maj"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve: Gold Hilld Rush, owned by Jeff & Con"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve: Shenanigans Will, owned by Mary Abb"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Best: Foxfield Garth of Lost Creek, owned by Del"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Copper Horse Windy, owned by David & Lis"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Prestwick Rivermoon, owned by Chris & Ric"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Brookmill Farm Ain't Misbehaven, owned by Mat"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Foxy Roxy, owned by Dave & V"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Westside Design, owned by Hug"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\" Reserve: Clearfork Rapid, owned by PI"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Farmcliff Jimbo, owned by Bob Franklin & C"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Farmliff Jimbo, owned by Bob Franklin & C"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th:   Susie, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th:   Jeager, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Trix, Owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th:   Lewie, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Tortilla Flat Crispy Tortilla Jones, Diana Pappan"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Lost Acres Chigger of Sow's Ear, ownec"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Champion: Lost Acres Chigger of Sow's Ear, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Windermere Witewitch of Sow's Ear, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Frisbee, ownec"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Petey, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Cotswold Rio, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Drambuie, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Boomer, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Westgate Latte, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Frisbee, owned b:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Green Acres Gabby of Cracker Swamp, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Foxwarren Kelly LL of Highland Bay, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Foxwarren Kelly Il of Highland Bay, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Farmcliff Fred of Fox Tale, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Bitch Pups, 9 up to 12 months, 10-12 1/2\" Entries:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Camerton Hall Hookie, owned b"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt",
+      "chars_before": 71155,
+      "chars_after": 71155,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 10,
+      "warn_hits": 26,
+      "top_codes": "missing_owned_by\u00d718,mangled_by\u00d78,owner_tail_trunc\u00d77,class_header_gap\u00d72,place_smash\u00d71",
+      "top_catalog": "S4/O\u00d718,S4\u00d78,O6\u00d77,C1\u00d72,S1-S3\u00d71",
+      "by_code": {
+        "place_smash": 1,
+        "mangled_by": 8,
+        "owner_tail_trunc": 7,
+        "missing_owned_by": 18,
+        "class_header_gap": 2
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "6th: Ivin, owned by Karen Vernon, owned by Doug & Noreen Loranger"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not proviced by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "5th: Not reportei by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "6th: Not reportei by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "2nd: Daytona, ovner not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "5th: Montana, ovner not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not reportel by Trial Chairperson"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\" Resene: Cromwell Stimpy, owned by H"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: White Stockings Cork, owned by Mike & Pam"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th:  Will-O-Mooi Rex, owned by Michelle Williams & Kimberly Hor"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: The Hollov Markham of Will-O-Moor, owned by Michelle Williams & Kimberly Hor"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Will-O-Moor Rex, owned by Michelle Williams & Kimberly Hor"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Lost Creeks Kacey, owned by Vine"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Russellville: Dillon of Quick Chase, owned by Pa"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Twist Hughss of Loblolly, Debra Ellis"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Belle, ownedby Brooke Miller"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Ruby, own:d by Clint Clayton"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Roxie, own:d by Lynn Eshelman"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Toby, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Tamsyn, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Hillside Chez, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Hillside Josin, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Bull, ownedby M:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Toby, own:d by Thomas Winter"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Morgan, own:d by Patsy Scott"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Scotty-Joe, 3wned by Diane Travers"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Montana, avner not furnished by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Daytona, ovner not furnished by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Snickers, ovner not provided by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Ika, ownedby Candy Henderson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Daytona, ovner not reported by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Montana, ovner not reported by Trial Chairperson"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: North County Pol"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Baybriar Chips, owned by Kimberly J. Bryan"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back_ocr_hqmax.txt",
+      "chars_before": 71050,
+      "chars_after": 71050,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 16,
+      "warn_hits": 37,
+      "top_codes": "missing_owned_by\u00d717,owner_tail_trunc\u00d714,bare_entries\u00d711,mangled_by\u00d79,class_header_gap\u00d72",
+      "top_catalog": "S4/O\u00d717,O6\u00d714,C6/O1\u00d711,S4\u00d79,C1\u00d72",
+      "by_code": {
+        "mangled_by": 9,
+        "owner_tail_trunc": 14,
+        "missing_owned_by": 17,
+        "bare_entries": 11,
+        "class_header_gap": 2
+      },
+      "samples": [
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not reportel by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "5th: Not reportel by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "6th: Not reportel by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "2nd: Daytona, ovner not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "5th: Montana, ovner not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not reportei by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "6th: Not provide by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not proviced by Trial Chairperson"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Lost Creeks Kacey, owned by Vine"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: The Hollow Markham of Will-O-Moor, owned by Michelle Williams & Kimberly Hor"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Will-O-Maor Rex, owned by Michelle Williams & Kimberly Hor"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Will-O-Moa Rex, owned by Michelle Williams & Kimberly Hor"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Lil Effort Gga Byte, owned by Kathy Hunter & f"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\" Resewe: Hillside Speedy, owned by La"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Resewe: Terra Fox Rookie, owned by F"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\": Chamyion: Farmcliff Sugar, owned by B"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Smokey Maynolia of the Hollow, owned by Geor"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: The HollowFortune of Old Glory, owned by We"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Melleridge Bally Hoo of Westwood, owned by A"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: The Hollow Fortune of Old Glory, owned by Wer"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Highlines iaggie of Gold Creek, owned by Doug & Kz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Highline's laggie of Gold Creek, owned by Doug & Ka"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Daytona, ovner not reported by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Montana, ovner not reported by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Ilka, owned y Candy Henderson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: lka, ownedby Candy Henderson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Montana, ovner not furnished by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Daytona, owner not furnished by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Bull, ownedby MacKenzie Gallo"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Toby, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Tamsyn, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Roxie, own:d by Lynn Eshelman"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Sleepy Cretk Contessa of Rocky Marsh, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Corn Row Maggie of Rocky Marsh, owne:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Belle, ownedby Brooke Miller"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Bandit, own:d by David & Kay Richards"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Yodie, own:d by Mary Helen Young"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Falling Braich Denver of Chardon, Don & Charlotte Chandler"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Twist Hughss of Loblolly, Debra Ellis"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
+      "chars_before": 59421,
+      "chars_after": 59421,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 49,
+      "warn_hits": 50,
+      "top_codes": "owner_tail_trunc\u00d725,missing_owned_by\u00d724,class_header_gap\u00d717,bare_entries\u00d712,mangled_by\u00d78,place_smash\u00d77,orphan_entry_count\u00d74,4th_then_6th_no_5\u00d72",
+      "top_catalog": "O6\u00d725,S4/O\u00d724,C1\u00d717,C6/O1\u00d712,S4\u00d78,S1-S3\u00d77,C6\u00d74,?/4th_then_6th_no_5\u00d72",
+      "by_code": {
+        "place_smash": 7,
+        "mangled_by": 8,
+        "4th_then_6th_no_5": 2,
+        "owner_tail_trunc": 25,
+        "missing_owned_by": 24,
+        "bare_entries": 12,
+        "orphan_entry_count": 4,
+        "class_header_gap": 17
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "k, owned by Debbie McWilliams, owned by Lynn May Measles"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "5th: Easton, owned by Points Nipper, owned by Sally Gay"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "2nd: Farmstead Keswick Itch, Jazz, owned by, owned by by Sandy Judy & Galterio Joel McElerney"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "3rd: Moonrunner Courtland My Keeper, Girl, owned by, owned by by Joseph Clay Ackerman Jankowski & Kellyann Morander"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "-uego, owned by Donald & Joan LaPla, owned by N. Gaye Redpath"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "ike, owned by Judy Tuthill, owned by Bob & Genie Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "eks, owned by N. Gaye Redpath, owned by Ken Chambers, owned by Susan Norman"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "3rd: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "5th: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "6th: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Risky of High & Low, owned by Mellisa Lowe\n6th: High & Low Frostbite of Running Wild, owned by Bob Zeiner"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Bently, owned by Tabitha & Roger Shury\n6th: Agnew, owned by Margo Weston"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Windy View Questor, owned by William & Ga"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Marksworth Milestone, owned by Terry Clc"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Falling Branch Rye, owned by Grimsley & A"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Riggo, owned by Mike"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Brandy of Rednek, owned by Bot"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Lunstarr Jackie of Flying \"A\", owned by L"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Broken Arrow Bailee, owned by LeeE. & L"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Lunstarr Jackie of Flying \"A\", owned by Leg"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "10-12 1/2\" Reserve: Courtwood Chili, owned by J"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Wingate Shandy, owned by Rick & Mar"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Farmcliff Molly of Glencoe, owned by Ht"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Katie Clover of Mouse Moor, owned by I"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: North Country Pinocchio, owned by Nore"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Green Acres Cotton Eyed Joe, owned by M"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve: Elusive Raider, owned by Nancy & Bil"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Thistledown Shawnee, owned by Chuck & Di"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Briarpatch Misty of Cairngorm, owned by Sara"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Polar Snow Baby of Good Times, owned by St"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Best: Meynell Cinder of Courtwood, owned by Rus"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Conquest Chaos of Little Eden, owned by I"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Copper of Whispering Winds, owned by Ken"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Loblolly Alexis of Easton Point, owned by Sa"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Foxshadows Hankerin to Hunt, owned by Jax"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Merill's mountain Christmas Belle, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Three Oaks Penny of Green Acres, owner"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Trebor Chase Black Jack Daniels, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Crosswinds Puzzle of Orchard Hill, own"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
+      "chars_before": 85914,
+      "chars_after": 85748,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 13,
+      "warn_hits": 34,
+      "top_codes": "bare_entries\u00d722,missing_owned_by\u00d712,class_header_gap\u00d77,place_smash\u00d73,owner_tail_trunc\u00d73",
+      "top_catalog": "C6/O1\u00d722,S4/O\u00d712,C1\u00d77,S1-S3\u00d73,O6\u00d73",
+      "by_code": {
+        "place_smash": 3,
+        "owner_tail_trunc": 3,
+        "missing_owned_by": 12,
+        "bare_entries": 22,
+        "class_header_gap": 7
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "5th: SpringateRuff-n-Tuff, owned by Amy, owned by Dog Pups, 9 up to 12 months"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "rip, owned by Marty & Teresa Gotttleib,0bb, owned by Linda Miller"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "yn, owned by Laura Harakaly, owned by Dan & Karen Kinsley"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Molly, owned by Mary Web"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Bonnie Bee, owned by Gavin Com"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Windsony Soda, owned by David & Susan Cra"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Kilhaven Rudi, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Fox Run Tyler, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Sparky, twned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Hillside Biddy, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Hillside Jeslyn, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Big Sky Swlo, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Jill, ownedby Diana Bartells"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Mischief, swner not provided"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Kettle Crek's Ripley's Belive It Or Not, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Precious, wne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Jera-yn, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Lil Jazzmiie, ou"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Burrows Im Sca"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: The Larces Pic"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Quaryste Pit"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Alida Masuck"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Ash Creek Tash"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Arlins Life of Riley, owned by Alison Linstrum"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Jera-yn, owned"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back_ocr_hqmax.txt",
+      "chars_before": 85712,
+      "chars_after": 85712,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 9,
+      "warn_hits": 14,
+      "top_codes": "bare_entries\u00d710,owner_tail_trunc\u00d74,class_header_gap\u00d74,missing_owned_by\u00d73,place_smash\u00d71,orphan_entry_count\u00d71",
+      "top_catalog": "C6/O1\u00d710,O6\u00d74,C1\u00d74,S4/O\u00d73,S1-S3\u00d71,C6\u00d71",
+      "by_code": {
+        "place_smash": 1,
+        "owner_tail_trunc": 4,
+        "missing_owned_by": 3,
+        "bare_entries": 10,
+        "orphan_entry_count": 1,
+        "class_header_gap": 4
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "5th: SpringateRuff-n-Tuff, owned by Amy, owned by Dog Pups, 9 up to 12 months"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Bonnie Bee, owned by Gavin Com"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Molly, owned by Mary Web"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Mineral Sorings Indiana Bones, owned by Mari"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Ash Creek Matt, owned by Marty & Teresa Got"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Jill, ownedby Diana Bartells"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: AE die A mn: C\u00e9iimemtme aimed Bu William R (av OYRrien AgLity 1, VIT Led"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Megan Janson, Kelly Hosier, Erik Harakaly"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "4"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Lucy Mae, owned by J.Neff & J.Gay"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Jera-lyn, owned by Maureen McKernan"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmstead Abby, owned by Richard & Annette"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: FoxnortonTyke Meadowlake, owned by Karen Reavis"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt",
+      "chars_before": 84302,
+      "chars_after": 84302,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 23,
+      "warn_hits": 11,
+      "top_codes": "class_header_gap\u00d712,missing_owned_by\u00d710,owner_tail_trunc\u00d78,place_smash\u00d73,bare_entries\u00d71",
+      "top_catalog": "C1\u00d712,S4/O\u00d710,O6\u00d78,S1-S3\u00d73,C6/O1\u00d71",
+      "by_code": {
+        "place_smash": 3,
+        "owner_tail_trunc": 8,
+        "missing_owned_by": 10,
+        "bare_entries": 1,
+        "class_header_gap": 12
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Champion: Single Single Track Track Hunter, Kasey, owned by, owned by by Mark James & Lisa Titus Green"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "12 12 1/2-15\" Champion: Wyndcroft Will-O-Moor Natasha, Riley, owned by, owned by by Kathy Mark & Hunter Missy & Kulbacty Jeff Finkernagel"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "al, owned by Tony Mason, owned by Mark Thompson"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Deegan of Northgate, owned by Doug"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Farmcliff Hampton, owned by Vicki Jot"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Lickity Split Sassy, owned by Bob Fra"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Tucker, owned by Jc"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Rudy, owned by Jea"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Haley's Comet, owned by Karen Rea"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "of Meadowlake, owned by Karen Rea"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Haleys Comet, owned by Karen Rea"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Bobby Duty, Ili"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: ship Cougar Creek Certificate Eyek, owned (10-12 by 1/2\") Michelle Stoevken Enties: 13"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: ship Big Sky Surprise, Certificate owned (12 by 1/2-15\") Dan & Karen Kinsley Enfies:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Whatapack Wylie, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: KaCee Buster, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: KaCee Reject, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Farmstead Gizmo, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: DMC Trey, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Wellington Una, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: KaCee Molly, ownec"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Fox Run Topper, owned by Rick & Mary Thornton"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Reba of Wellington, owned by Robert Vander Heym"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Will-O-Moor Riley, owned by Mark & Missy Kulbacky"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxnorton Tyke of Meadowlake, owned by Karen Reavis"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Whatapack Wylie, ov"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxnorton Tyke of M"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Vagabond Yoodoo o"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Meadowlake Haleys"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Round the Bend Que"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Banshee, owned by Melissa Lowe"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Camelot Derby, owned by Terry Clower"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt",
+      "chars_before": 80911,
+      "chars_after": 80911,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 14,
+      "warn_hits": 24,
+      "top_codes": "missing_owned_by\u00d721,place_smash\u00d78,class_header_gap\u00d75,4th_then_6th_no_5\u00d73,owner_tail_trunc\u00d71",
+      "top_catalog": "S4/O\u00d721,S1-S3\u00d78,C1\u00d75,?/4th_then_6th_no_5\u00d73,O6\u00d71",
+      "by_code": {
+        "place_smash": 8,
+        "4th_then_6th_no_5": 3,
+        "owner_tail_trunc": 1,
+        "missing_owned_by": 21,
+        "class_header_gap": 5
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "irl, owned by J. Jankowski & K. Morande, owned by Genie Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "ton, owned by Vicki Johnson, owned by Doug & Sue Tack, owned by Bob Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "isha, owned by K. Hunter & P. Finkernag, owned by Kevin & Melissa McGrath"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "itewitch, owned by P. Hartman & K. McC, owned by R. & D. Zampella"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "rk, owned by Linda Cowasjee, owned by The Hollow Terriers"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Baybriar, owned by Jeanette Hutchinsc, owned by Lisa Johnson, owned by Sandra Ferber"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "r, owned by Kate Bomberger, owned by Kate Bomberger, owned by Bob Franklin, owned by Margaret Strickland"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "t, owned by Phil Hawkins, owned by Joni, Dale & Becky Green"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Blue Moon Gunner, owned by Anne Davis\n6th: Prestige Farms Pollywog, owned by D'arry Jone Frank"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: TF Ivana Fox, owned by Willow Rennie\n6th: K.C, owned by Theresa Gadoury"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Swift River Jasper, o\n6th: Pine Hill Chase of, owned by Chuck & Diana Hufnagel"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Farmcliff Betty, owned by Franklin & Ci"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Bobby Duty, Ill"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: The Larches Liam McGee, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Alasia Sable, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Farmcliff Kermit, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Casey Jones, OWr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Farmcliff Betty, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Farmcliff Sugar, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Big Sky Annie, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Farmcliff Becky, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Romney Kaz, owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: MLQH Muffin, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Qualyns Trinity, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Heaven Hill Zodiac, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Smudge, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Old Glory Shug, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Fox Run Risk, owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Corn Row Tyler, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: The Hollow Kent, oy"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Fox Run Dagger, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Laurel Run Orry, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Swift River Jasper, o"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Fox Run Topper, owned by Rick & Mary Thornton"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmcliff Fred, owned by J. Bjorkland & R. Staten"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxnorton Tyke of"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Fox Run Dagger, ov"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Camelot Derby, owned by Terry Clower"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front_ocr_hqmax.txt",
+      "chars_before": 86035,
+      "chars_after": 86035,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 31,
+      "warn_hits": 32,
+      "top_codes": "missing_owned_by\u00d725,class_header_gap\u00d715,place_smash\u00d711,owner_tail_trunc\u00d75,bare_entries\u00d74,orphan_entry_count\u00d73",
+      "top_catalog": "S4/O\u00d725,C1\u00d715,S1-S3\u00d711,O6\u00d75,C6/O1\u00d74,C6\u00d73",
+      "by_code": {
+        "place_smash": 11,
+        "owner_tail_trunc": 5,
+        "missing_owned_by": 25,
+        "bare_entries": 4,
+        "orphan_entry_count": 3,
+        "class_header_gap": 15
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Reserve: Sows Laurel Ear Liberty, Run Orry, owned by, owned by by Paul Kate Hartman Bomberger & Karen McCarthy"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Buddy, owned by Andrew Burigo, owned by B. Franklin & C. Curtis"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "1, owned by J. Jankowski & K. Morand, owned by Genie Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "on, owned by Vicki Johnson, owned by Bob Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "witch, owned by P. Hartman & K. McC, owned by R. & D. Zampella"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "cker, owned by Bud Carpenter, owned by Kristen Cusac, owned by Sandra Mims"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "k, owned by Leslie Woodcock, owned by Ken Chambers"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "te, owned by Bob Zeiher, owned by Phil Hawkins"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "f Little Eden, owned by Michelle Ward, owned by Mark Thompson, owned by Leslie Woodcock"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "3, owned by Jeff Hamblin, owned by Gaye Redpath"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "tifox, owned by Kelly & James Baneau, owned by Sue Hardin"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Whispering Winds Munchee, owned by Mar"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Razz Matazz of Wildwood, owned by Mar"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Pine Creek Little Nemo, owned by Rhc"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Falling Branch Bourbon, owned by Kris"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Willow Pond Cleo, owned by Mary Pro"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Bobby Duty, Iif"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Foxfield Flash, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Alasia Sable, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Tarzan, owned L"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Mo Clilean, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Hillside Joslyn, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Sportster, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Casey Jones, owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Farmcliff Sugar, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Big Sky Annie, owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Farmcliff Becky, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: MLQH Muffin, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Qualyns Trinity, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Lightning, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Turbo Charge, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Chamburwick Ivy, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Whimscal Lady, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Parkins Digger, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Meynell Teaser, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: M.C. Artie, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Windsor Nails, owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Foxcreek Alydar, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Wellington Una, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Corn Row Kira, own"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt",
+      "chars_before": 83755,
+      "chars_after": 83755,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 21,
+      "warn_hits": 30,
+      "top_codes": "missing_owned_by\u00d725,class_header_gap\u00d712,owner_tail_trunc\u00d76,bare_entries\u00d74,place_smash\u00d73,orphan_entry_count\u00d71",
+      "top_catalog": "S4/O\u00d725,C1\u00d712,O6\u00d76,C6/O1\u00d74,S1-S3\u00d73,C6\u00d71",
+      "by_code": {
+        "place_smash": 3,
+        "owner_tail_trunc": 6,
+        "missing_owned_by": 25,
+        "bare_entries": 4,
+        "orphan_entry_count": 1,
+        "class_header_gap": 12
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "gie, owned by Charlene Schlueter, owned by Aurora Rubel"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "hance, owned by Jill Nichols, owned by Kathy Oelrich"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Jer, owned by Catherine Brown, owned by Doug & Sue Tack"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Frost, owned by Andrea Vaz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Tag, owned by Ka"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Windermer Nitewitch of Sow's Ear, owned by Paul Hartman & Kai"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Champion: Qualyns Falcon of Blue Barns, owned by Ru"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve: Goliath, owned by Jim Yue"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Goliath, owned by Jim Yue"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Jewel, own:d by Paula Hughes"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: E. Carolita Eli, Shane & Deree Schilling"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Wild Remain, owrbth: Eastlake Mejan o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Rooson Cara, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Windtree (et, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Rooson Ciga, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: DMC Trey, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Maggie, owned t"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Wits End Wink, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Wacky Jacke, ou"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Hot Shot Flit, owi"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Whoopie, ovned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Rooson Ciara, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Wits End Wirk, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Penny Dot, ovned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Billy, ownedby Calvin Filbrun"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Tomba, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Fox Run Kiam, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Hillside Josyn, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Sir Bentle, awned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Farmcliff Duke, on"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Twist of Fze, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Treetop Jotko, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Foxport Keeper, c"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Fox Run Soric, 0"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "1"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Wildwest lackpot, owned by Joan Stroh"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Farmcliff Fred of"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Wind Song Tracy"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: T.F.Just-A-lirtc"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back_ocr_hqmax.txt",
+      "chars_before": 79207,
+      "chars_after": 79207,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 13,
+      "warn_hits": 42,
+      "top_codes": "bare_entries\u00d725,missing_owned_by\u00d716,owner_tail_trunc\u00d78,class_header_gap\u00d73,place_smash\u00d72,orphan_entry_count\u00d71",
+      "top_catalog": "C6/O1\u00d725,S4/O\u00d716,O6\u00d78,C1\u00d73,S1-S3\u00d72,C6\u00d71",
+      "by_code": {
+        "place_smash": 2,
+        "owner_tail_trunc": 8,
+        "missing_owned_by": 16,
+        "bare_entries": 25,
+        "orphan_entry_count": 1,
+        "class_header_gap": 3
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "land, owned by Lloyd & Shirley Cox, owned by Cheryl Hart"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "ns, owned by Teresa Wellman, owned by Jerry Roach"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Reserve: Goliath, owned by Jim Yue"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Goliath, owned by Jim Yue"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Cortenbachs Moon Wizard of Oz, owned by Lis"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Cortenbact's Moon Wizard of Oz, owned by Lis"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Horsemaser's Willy, owned by Neil & Pam Cal"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Beau Monle Paige of Coldwater, owned by Mi"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Fox Run Ben, owned by Ker"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Frost, owned by Andrea Vaz"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Roxi, ownedby Kim & Nick Pelych"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Tag, ownedby Kathy Oelrich"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Bandit, own=d by Candy Schrank"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: E. Carolina Eli, Shane & Deree Schilling"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Karl, own:d by Robin Davis"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Willie Wonderful of T.F, owr"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Dutch Cresk Dickens, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Ben of T.l. Farms, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Champion: Fox Run Ben, owne:"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Tierr: Magnum, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: WestwoodContender, ownec"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: B.T. Willieof Hart Farms, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: South Hun's Cupid, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Flashpoints Star Bounder, ov"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: South Hunfs Comet, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Three Oaks Sparkle, owned"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "5"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxport Liser, owned by Michelle Ward"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Foxwarren Beaufort, owned by Aurora Rubel"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: South Hun's Cupid, owned b"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 front_ocr_hqmax.txt",
+      "chars_before": 81200,
+      "chars_after": 81200,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 33,
+      "warn_hits": 37,
+      "top_codes": "missing_owned_by\u00d725,owner_tail_trunc\u00d715,class_header_gap\u00d713,bare_entries\u00d79,place_smash\u00d75,4th_then_6th_no_5\u00d72,orphan_entry_count\u00d71",
+      "top_catalog": "S4/O\u00d725,O6\u00d715,C1\u00d713,C6/O1\u00d79,S1-S3\u00d75,?/4th_then_6th_no_5\u00d72,C6\u00d71",
+      "by_code": {
+        "place_smash": 5,
+        "4th_then_6th_no_5": 2,
+        "owner_tail_trunc": 15,
+        "missing_owned_by": 25,
+        "bare_entries": 9,
+        "orphan_entry_count": 1,
+        "class_header_gap": 13
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Ripley, owned by Kendal Makowicz, owned by Antonio & Barbara Sullo"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Y, owned by Bob Franklin, owned by Chuck Schobert"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "gsy, owned by Richard & Annetee Ken:, owned by Kim Hunter & Jim Hughes, owned by Charlie & Julie Kemp"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "Farmcliff, owned by Doug & Sue Tack, owned by Bob Franklin"
+        },
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "elsea, owned by Bety McArthur, owned by Nelliw Niewola \u2013 Entries: 6"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Vagabond Voodoo of Little Eden, owned by Michelle Ward\n6th: Ash Creek Ghillie, owned by Marty & Theresa Gottlieb"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Patty, owned by T.L. Henslee\n6th: Red Oak Maddy of Gunsmoke, ow"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Wyncroft Natasha, owned by K"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Wyncroft Natasha, owned by K"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Quarrystone Pita, owned by Nc"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Windyview Briar, owned by Eile"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Raven of Waymore, owned by Shane & De"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Corn Row Maggie, owned by Dan Peck & J"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Tabasco of Way More, owned by Shane & I"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "12 1/2-15\" Reserve: Heaven Hill Foxy, owned by L"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Loblolly Maggie Mai, owned by Dian"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Wesworld Hamilton, owned by Christy Parkinson & Suzi Utz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Fenton's Powsheik Pirate, owned by Dian"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Wesworld Sara Little Foot, owned by Kz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "hen, owned by Caren Low"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "of Blue Barns, owned by Russell & Da"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Goliath, owned by Jim Yue"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: North Country Pinnochio, owne"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Meynell Cinder of Courtwood, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: All Season's Woody of Dutch Creek, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: TF. Just-A-Flirt of White Stockings, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Three Oaks Sukhoi of Good Times, Steve Spruill"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Three Oaks Gus of Misty Morning, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Karma, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: TPF. Crispy Tortilla Jones, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Seaview Ricky Rocket, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Reserve: Rainland Romeo, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Red Oak Maddy of Gunsmoke, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Our Gang's Spanky, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "Champion: Foxnorton Hooker, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Windermere Turner, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Spanky's Little Man, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Fenton's Powsheik Pirate, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Jack Be Nimble Reggie, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Romeny Kaz, 0"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144208_ocr_hqmax.txt",
+      "chars_before": 54242,
+      "chars_after": 54242,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 6,
+      "warn_hits": 7,
+      "top_codes": "owner_tail_trunc\u00d76,bare_entries\u00d76,missing_owned_by\u00d71",
+      "top_catalog": "O6\u00d76,C6/O1\u00d76,S4/O\u00d71",
+      "by_code": {
+        "owner_tail_trunc": 6,
+        "missing_owned_by": 1,
+        "bare_entries": 6
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Camerton Hall Izod, owned by Pauline & J"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Camerton Hall Salute, owned by Jan & Mz"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: T.F. Half Track, owned by Jan & Mark Bjo"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Three Oaks Dentilla, owned by Kesha Sar"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Lands End Bully, owned by Doris & Guy"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Heaven Hill Guiness, owned by Shelly Hol"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Ms. Scarlett of Heaven Hill, owned b"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144530_ocr_hqmax.txt",
+      "chars_before": 53762,
+      "chars_after": 53762,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 4,
+      "warn_hits": 5,
+      "top_codes": "missing_owned_by\u00d75,owner_tail_trunc\u00d72,class_header_gap\u00d72",
+      "top_catalog": "S4/O\u00d75,O6\u00d72,C1\u00d72",
+      "by_code": {
+        "owner_tail_trunc": 2,
+        "missing_owned_by": 5,
+        "class_header_gap": 2
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Camerton Hall Hookie, owned by Ste"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Westside Design, owned by Hugo"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Tortilla Flat Crispy Tortilla Jones, Diana Pappan"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Bobby Duty, Ill"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Brookmill Farm Little Bamber, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Sunset Valley Dottie of Iron Water, o"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Treesbark Flannigan, owned b y Janet Sproles & Marcy Cross"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Impressive Dynamite, owned by Doris Sneider"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Lickity Split Nifty, owned by Darlene McInnes"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_145355_ocr_hqmax.txt",
+      "chars_before": 3698,
+      "chars_after": 3698,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 2,
+      "warn_hits": 1,
+      "top_codes": "owner_tail_trunc\u00d72,orphan_entry_count\u00d71",
+      "top_catalog": "O6\u00d72,C6\u00d71",
+      "by_code": {
+        "owner_tail_trunc": 2,
+        "orphan_entry_count": 1
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Conquest, owned by Ga"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Foxnorton, owned by Ka"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "3"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_145925_ocr_hqmax.txt",
+      "chars_before": 49981,
+      "chars_after": 49981,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 3,
+      "warn_hits": 3,
+      "top_codes": "bare_entries\u00d73,owner_tail_trunc\u00d72,class_header_gap\u00d71",
+      "top_catalog": "C6/O1\u00d73,O6\u00d72,C1\u00d71",
+      "by_code": {
+        "owner_tail_trunc": 2,
+        "bare_entries": 3,
+        "class_header_gap": 1
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Show-Me Bernard of Heartstone, owned by Lyr"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "1st: Clear Fork Rapid of Broken Arrow, owned by P"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Whiriwind Delilah, owned by Melanie Smaill"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_151058_ocr_hqmax.txt",
+      "chars_before": 4237,
+      "chars_after": 4237,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 1,
+      "warn_hits": 10,
+      "top_codes": "orphan_entry_count\u00d710,owner_tail_trunc\u00d71",
+      "top_catalog": "C6\u00d710,O6\u00d71",
+      "by_code": {
+        "owner_tail_trunc": 1,
+        "orphan_entry_count": 10
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Fitaeroe SEEN, owned by Ralph & Bol"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "1"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "3"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "7"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "2"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_152834_ocr_hqmax.txt",
+      "chars_before": 48033,
+      "chars_after": 48033,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 10,
+      "warn_hits": 22,
+      "top_codes": "missing_owned_by\u00d712,bare_entries\u00d710,owner_tail_trunc\u00d79,place_smash\u00d71",
+      "top_catalog": "S4/O\u00d712,C6/O1\u00d710,O6\u00d79,S1-S3\u00d71",
+      "by_code": {
+        "place_smash": 1,
+        "owner_tail_trunc": 9,
+        "missing_owned_by": 12,
+        "bare_entries": 10
+      },
+      "samples": [
+        {
+          "code": "place_smash",
+          "catalog": "S1-S3",
+          "line": "5th: Easton, owned by Points Nipper, owned by Sally Gay"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Crosswinds Trask of Eastlake, owned by Will"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Holfield Jill lll of Orchard Hill, owned by Cher"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Sundowner Farms Lacy Jane, owned by De"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Sundowner Farms Tipster, owned by Alta"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "6th: Sundowner Farms Pistol Pete, owned by Alta"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Darby's Paper Chase Penny, owned by Sa"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Kerry O'Toole of Badakashan, owned by Fay"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Badakashan Celestia Haley, owned by Fay"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Rustler's Emma Peel, owned by Sloan's Ri"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Bear Creek Maggie of Timber Ridge, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Fornit, Gail Jennings"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Duncan, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Heaven Hill Bubbles of Fox Cry, Donna Pie"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Hooter, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Camerton Hall BeBop of Fox Cry, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Norma Jean, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Duncan, name of owner not furnished by Trial Chairperson"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Josee, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Tamsyn, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Lacey, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Toby, name of owner not reported"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc",
+        "place_smash"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_153208_ocr_hqmax.txt",
+      "chars_before": 34227,
+      "chars_after": 34227,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 7,
+      "warn_hits": 21,
+      "top_codes": "orphan_entry_count\u00d710,mangled_by\u00d78,owner_tail_trunc\u00d74,class_header_gap\u00d73,4th_then_6th_no_5\u00d72,missing_owned_by\u00d71",
+      "top_catalog": "C6\u00d710,S4\u00d78,O6\u00d74,C1\u00d73,?/4th_then_6th_no_5\u00d72,S4/O\u00d71",
+      "by_code": {
+        "mangled_by": 8,
+        "4th_then_6th_no_5": 2,
+        "owner_tail_trunc": 4,
+        "missing_owned_by": 1,
+        "orphan_entry_count": 10,
+        "class_header_gap": 3
+      },
+      "samples": [
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "3rd: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "5th: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "6th: Not reported by Trial Chairperson"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Briarpatch Skoal, owned by Carl Finglass\n6th: Farmcliff Blaze, owned by Bob & Genie Franklin"
+        },
+        {
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Lucifer, owned by Linda L. Nickel\n6th: Green Gate Tomba, owned by Joe & Priscilla Testa"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Briarpatch, owned by Tere"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "White Gate, owned by Bill & Na"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Vagabond V, owned by Mich"
+        },
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "Eastlake E, owned by Wi"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "1st: Polar Snow Baby of Good Times, 6wned by Steve Spruill"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "24"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "4"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "8"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "5"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "7"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "23"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "28"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Deegan of Northgate, owned by Douglas & Susan Tack"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Long Hope Mickey of Farmcliff, owned by Bob & Genie Franklin"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "1st: Undercover Cindy, owned by Lynn May Measles"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc"
+      ]
+    }
+  ]
+}
