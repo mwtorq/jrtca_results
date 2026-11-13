@@ -233,8 +233,8 @@
     "codes": [
       "incomplete_entries"
     ],
-    "fail_hits": 7,
-    "top_catalog": "C1/C6\u00d77",
+    "fail_hits": 6,
+    "top_catalog": "C1/C6\u00d76",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {

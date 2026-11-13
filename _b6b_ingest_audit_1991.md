@@ -17,7 +17,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 7 | 0 | C1/C6×7 | `Document_2026-11-03_201758_ocr_hqmax.txt` |
+| FAIL | False | 6 | 0 | C1/C6×6 | `Document_2026-11-03_201758_ocr_hqmax.txt` |
 | FAIL | False | 14 | 0 | C1/C6×10,C1×3,S1-S3×1 | `Document_2026-11-03_205014_ocr_hqmax.txt` |
 | FAIL | False | 18 | 0 | C1/C6×16,C1×2 | `Document_2026-11-03_210248_ocr_hqmax.txt` |
 | FAIL | False | 1 | 0 | C1/C6×1 | `Document_2026-11-03_211454_ocr_hqmax.txt` |
@@ -26,7 +26,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ### `Document_2026-11-03_201758_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 10--12-1/2" Entries: 14 | places=2/6 | Charles Sauter, Go-to-Ground
-- `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2--15", br/r                                          | places=0/3 | Open Class
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2--15" Entries: 7 | places=2/6 | STEEPLECHASE RACES
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 4 | places=2/4 | Dogs, 1 yr & over, 10--12-1/2" Entries: 5
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2--15" Entries: 6 | places=3/6 | RACING CHAMPIONS:

@@ -4,27 +4,22 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
-      "chars_before": 45788,
-      "chars_after": 45788,
+      "chars_before": 45732,
+      "chars_after": 45732,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 7,
+      "fail_hits": 6,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77",
-      "top_catalog": "C1/C6\u00d77",
+      "top_codes": "incomplete_entries\u00d76",
+      "top_catalog": "C1/C6\u00d76",
       "by_code": {
-        "incomplete_entries": 7
+        "incomplete_entries": 6
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Bitches, 1 yr & over, 10--12-1/2\" Entries: 14 | places=2/6 | Charles Sauter, Go-to-Ground"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\", br/r                                          | places=0/3 | Open Class"
         },
         {
           "code": "incomplete_entries",
