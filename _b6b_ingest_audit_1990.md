@@ -19,7 +19,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | FAIL | False | 1 | 0 | C1/C6×1 | `scan_ocr_hqmax.txt` |
 | FAIL | False | 35 | 0 | C1/C6×26,C1×6,C7×2,O6×1 | `Document_2026-11-03_192526_ocr_hqmax.txt` |
-| FAIL | False | 65 | 0 | C1/C6×26,C1×16,S1-S3×15,O6×8 | `Document_2026-11-03_200401_ocr_hqmax.txt` |
+| FAIL | False | 63 | 0 | C1/C6×26,S1-S3×15,C1×14,O6×8 | `Document_2026-11-03_200401_ocr_hqmax.txt` |
 | FAIL | False | 1 | 0 | C1×1 | `Document_2026-11-03_201432_ocr_hqmax.txt` |
 | FAIL | False | 1 | 0 | C1×1 | `Document_2026-11-03_201547_ocr_hqmax.txt` |
 

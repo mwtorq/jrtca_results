@@ -4,9 +4,9 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
-      "chars_before": 36354,
+      "chars_before": 36242,
       "chars_after": 36242,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 6,
       "warn_hits": 0,
@@ -259,17 +259,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_142425_ocr_hqmax.txt",
-      "chars_before": 50819,
-      "chars_after": 50819,
+      "chars_before": 50831,
+      "chars_after": 50831,
       "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 10,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d76,midclass_page_dropout\u00d74",
-      "top_catalog": "C1/C6\u00d76,C1\u00d74",
+      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d73",
+      "top_catalog": "C1/C6\u00d77,C1\u00d73",
       "by_code": {
-        "incomplete_entries": 6,
-        "midclass_page_dropout": 4
+        "incomplete_entries": 7,
+        "midclass_page_dropout": 3
       },
       "samples": [
         {
@@ -290,6 +290,11 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
+          "line": "Entries: 12 | places=0/6 | Entries: 12"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
           "line": "Bitches, 1 yr & over 12 1/2-15\" Entries: 11 | places=1/6 | JRTCA Working Terrier"
         },
         {
@@ -306,11 +311,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Source: Document_2026-11-04_142425.pdf | after page got 5th expected 1 | 5th: White Gate Jackie, owned by Patricia Hafen"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Entries: 12 | after page got 2th expected 1 | 2nd: Long Hope Mickey of Farmcliff, owned by Bob Franklin"
         },
         {
           "code": "midclass_page_dropout",

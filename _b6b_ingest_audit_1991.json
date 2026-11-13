@@ -170,9 +170,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_210248_ocr_hqmax.txt",
-      "chars_before": 60916,
+      "chars_before": 60885,
       "chars_after": 60885,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 18,
       "warn_hits": 0,

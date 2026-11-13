@@ -17,10 +17,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 25 | 0 | C1/C6×13,C1×10,O6×2 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
+| FAIL | False | 24 | 0 | C1/C6×14,C1×8,O6×2 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
 | FAIL | False | 14 | 0 | C1/C6×9,C1×5 | `Document_2026-11-03_230536_ocr_hqmax.txt` |
 | FAIL | False | 3 | 0 | C1/C6×2,S1-S3×1 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
-| FAIL | False | 20 | 0 | C1/C6×14,C1×3,S1-S3×3 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
+| FAIL | False | 20 | 0 | C1/C6×15,S1-S3×3,C1×2 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_002601_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -34,10 +34,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Entries: 11 | places=0/6 | Entries: 15
 - `C1/C6` / `incomplete_entries`: Entries: 15 | places=0/6 | Entries: 12
 - `C1/C6` / `incomplete_entries`: Entries: 12 | places=0/6 | Entries: 6
+- `C1/C6` / `incomplete_entries`: Entries: 6 | places=0/6 | Entries: 6
 - `C1/C6` / `incomplete_entries`: Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2--15" Entries: 0
 - `C1/C6` / `incomplete_entries`: Entries: 6 | places=0/6 | Entries: 11
 - `C1/C6` / `incomplete_entries`: Entries: 11 | places=0/6 | Entries: 4
-- `C1/C6` / `incomplete_entries`: Entries: 4 | places=0/4 | OPEN (Adults)                                               
 
 ### `Document_2026-11-03_230536_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: PRE-Novice PUPPIES                                                          Entr | places=3/6 | Novice (Puppies)                                            
@@ -63,11 +63,11 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10-12-12" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 4
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 4 up to 6 months                         Entries: 7 | places=3/6 | Chiid Handler                                               
 - `C1/C6` / `incomplete_entries`: California Bred                                                                  | places=3/6 | JRTCA Working Terrier                                       
+- `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 9 months                                                       | places=0/3 | Dog Pups, 6 up to 9 months
 - `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 12-1/2--15" Entries: 12 | places=1/6 | Dog Pups, 6 up to 9 months – Entries: 8
 - `C1/C6` / `incomplete_entries`: Entries: 7 | places=0/6 | Bitch Pups, 9 up to 12 months
 - `C1/C6` / `incomplete_entries`: Entries: 12 | places=0/6 | Dogs, 1 yr & over, 12-1/2--15"
 - `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 12 months                                                   En | places=3/6 | Bitch Pups, 6 up to 12 months                               
 - `C1/C6` / `incomplete_entries`: Novice (Puppies)                                                            Entr | places=3/6 | Mike Bales, J.C. Chambers, Go-to-Ground
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 9 up to 12 months                                               Entr | places=3/6 | Bitches, 1 yr & ov
-- `C1/C6` / `incomplete_entries`: NTAIL BEAR, owned by Susan McRae – Entries: 9 | places=0/6 | OPEN (Adults)                                               
-- `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 12 months, 10--12-1/2" Entries: 4 | places=2/4 | Dog Pups, 6 up to 12 months, 12-1/2--15" Entries: 4
+- `C1/C6` / `incomplete_entries`: NTAIL BEAR, owned by Susan McRae – Entries: 9 | places=0/6 | OPEN (Adults)

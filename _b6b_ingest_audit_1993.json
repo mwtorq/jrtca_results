@@ -4,18 +4,18 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
-      "chars_before": 48191,
-      "chars_after": 48191,
+      "chars_before": 48283,
+      "chars_after": 48283,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 25,
+      "fail_hits": 24,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d713,midclass_page_dropout\u00d77,class_header_gap\u00d73,owner_tail_trunc\u00d72",
-      "top_catalog": "C1/C6\u00d713,C1\u00d710,O6\u00d72",
+      "top_codes": "incomplete_entries\u00d714,midclass_page_dropout\u00d75,class_header_gap\u00d73,owner_tail_trunc\u00d72",
+      "top_catalog": "C1/C6\u00d714,C1\u00d78,O6\u00d72",
       "by_code": {
         "class_header_gap": 3,
-        "incomplete_entries": 13,
-        "midclass_page_dropout": 7,
+        "incomplete_entries": 14,
+        "midclass_page_dropout": 5,
         "owner_tail_trunc": 2
       },
       "samples": [
@@ -62,6 +62,11 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
+          "line": "Entries: 6 | places=0/6 | Entries: 6"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
           "line": "Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 0"
         },
         {
@@ -97,17 +102,12 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months                                           Entries: 1 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2\" Entries: 8"
+          "line": "Dog Pups, 6 up to 12 months                                           Entries: 1 | places=0/6 | Dog Pups, 6 up to 12 months                                 "
         },
         {
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "and the Bluegrass Working Terrier Ass | after page got 30th expected 1 | 30rd: Sandercox        Deb McWilliams"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Entries: 6 | after page got 2th expected 1 | 2nd: Tarsia Wasp of Button Top, owned by Florence Clark"
         },
         {
           "code": "midclass_page_dropout",
@@ -128,11 +128,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Alabama Bred                                                                     | after page got 4th expected 7 | 4th: Three Oaks Britches, owned by Carolyn Mc"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 12 months                                           Entries: 1 | after page got 2th expected 1 | 2nd: Dutch Creek Sweet Boy, owned by Bonita K"
         },
         {
           "code": "owner_tail_trunc",
@@ -279,17 +274,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_233615_ocr_hqmax.txt",
-      "chars_before": 50762,
-      "chars_after": 50762,
+      "chars_before": 50789,
+      "chars_after": 50789,
       "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 20,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d714,midclass_page_dropout\u00d73,two_column_smash\u00d73",
-      "top_catalog": "C1/C6\u00d714,C1\u00d73,S1-S3\u00d73",
+      "top_codes": "incomplete_entries\u00d715,two_column_smash\u00d73,midclass_page_dropout\u00d72",
+      "top_catalog": "C1/C6\u00d715,S1-S3\u00d73,C1\u00d72",
       "by_code": {
-        "incomplete_entries": 14,
-        "midclass_page_dropout": 3,
+        "incomplete_entries": 15,
+        "midclass_page_dropout": 2,
         "two_column_smash": 3
       },
       "samples": [
@@ -312,6 +307,11 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "California Bred                                                                  | places=3/6 | JRTCA Working Terrier                                       "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 9 months                                                       | places=0/3 | Dog Pups, 6 up to 9 months"
         },
         {
           "code": "incomplete_entries",
@@ -362,11 +362,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 7 | places=1/6 | JRTCA Working Terrier                                       "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 9 months                                                       | after page got 2th expected 1 | 2nd: Ridgeview Spoticus, owned by Jeff Gibson"
         },
         {
           "code": "midclass_page_dropout",
