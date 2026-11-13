@@ -78,9 +78,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Vol I_ocr_hqmax.txt",
-      "chars_before": 600432,
+      "chars_before": 600396,
       "chars_after": 600396,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 28,
       "warn_hits": 42,
@@ -304,8 +304,8 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt",
-      "chars_before": 59060,
-      "chars_after": 59062,
+      "chars_before": 59064,
+      "chars_after": 59066,
       "cleaned": true,
       "verdict": "WARN",
       "fail_hits": 0,
@@ -649,27 +649,20 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 315784,
-      "chars_after": 315784,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 27,
+      "chars_before": 332158,
+      "chars_after": 332157,
+      "cleaned": true,
+      "verdict": "WARN",
+      "fail_hits": 0,
       "warn_hits": 17,
-      "top_codes": "class_header_gap\u00d725,missing_owned_by\u00d78,orphan_entry_count\u00d78,owner_tail_trunc\u00d72,bare_entries\u00d71",
-      "top_catalog": "C1\u00d725,S4/O\u00d78,C6\u00d78,O6\u00d72,C6/O1\u00d71",
+      "top_codes": "missing_owned_by\u00d78,orphan_entry_count\u00d78,bare_entries\u00d71",
+      "top_catalog": "S4/O\u00d78,C6\u00d78,C6/O1\u00d71",
       "by_code": {
-        "owner_tail_trunc": 2,
         "missing_owned_by": 8,
         "bare_entries": 1,
-        "orphan_entry_count": 8,
-        "class_header_gap": 25
+        "orphan_entry_count": 8
       },
       "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Tortilla Fiat Cheeky, owned by Mary Lou"
-        },
         {
           "code": "missing_owned_by",
           "catalog": "S4/O",
@@ -729,98 +722,10 @@
           "code": "orphan_entry_count",
           "catalog": "C6",
           "line": "22"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Mustang, owned by Jill Goodman"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Prestige Farms Oliver, owned by S. Geroux & J. Gilligan"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Paiches, owned by Kathy & Walt Hawley"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Famclif Spencer, owned by Bob Frankinn"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Killare Bugsy, owned by Len Reiland"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Fox Run Stone, owned by Lea Boa"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Andlin Tessa, owned by Jane Collard"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: The Folly Bella, owned by Dorothy Whiting"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Northgate Chester, owned by Susan Gill"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Gracie, owned by Virginia Mueller"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Farmstead Ripple, owned by Oliver Gramm"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Weiner, owned by Stefanie Cutler"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Meadowlake Parker, owned by Julie Wall"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Prestige Fas Katie Kaboom, owned by Jill Denker"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Prestige Farms Oliver, owned by J. Gillian/S. Geroux"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Meadowlake Token, owned by Ron & Tandee Morris"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Prestige Farms Oliver, owned by Jennifer Gilligan"
         }
       ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc"
-      ]
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Yankee_ocr_hqmax.txt",
@@ -863,8 +768,8 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_III\\2001 Vol III pt 1_ocr_hqmax.txt",
-      "chars_before": 324230,
-      "chars_after": 324234,
+      "chars_before": 324238,
+      "chars_after": 324242,
       "cleaned": true,
       "verdict": "WARN",
       "fail_hits": 0,

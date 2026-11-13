@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=3  PASS=3  WARN=7  FAIL=4
+Volumes: 14  cleaned=3  PASS=3  WARN=8  FAIL=3
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -20,14 +20,14 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | WARN | False | 0 | 5 | C6×4,S4/O×1 | `2001 Coal Tree Farm_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 South Coast_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 Troon Quarry_ocr_hqmax.txt` |
-| FAIL | True | 28 | 42 | C1×25,C6×21,S4/O×17,O6×3,?/cutoff_racing×2,C6/O1×2 | `2001 Vol I_ocr_hqmax.txt` |
+| FAIL | False | 28 | 42 | C1×25,C6×21,S4/O×17,O6×3,?/cutoff_racing×2,C6/O1×2 | `2001 Vol I_ocr_hqmax.txt` |
 | WARN | True | 0 | 2 | C6×2 | `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 OH-PA II_ocr_hqmax.txt` |
 | WARN | False | 0 | 2 | ?/4th_then_2nd×1,S4/O×1 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
 | WARN | False | 0 | 1 | S4/O×1 | `2001 PNWJRTN_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
 | FAIL | False | 27 | 30 | C1×25,C6×19,S4/O×8,?/4th_then_2nd×2,O6×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
-| FAIL | False | 27 | 17 | C1×25,S4/O×8,C6×8,O6×2,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 17 | S4/O×8,C6×8,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | S4/O×3,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
 | WARN | True | 0 | 12 | C6×6,S4/O×4,?/4th_then_2nd×1,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
 | FAIL | False | 27 | 14 | C1×25,S4/O×10,?/4th_then_6th_no_5×2,O6×2,C6×2 | `2001 Vol III pt 2_ocr_hqmax.txt` |
@@ -87,8 +87,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 10
 - `C6` / `orphan_entry_count`: 13
 
-### `2001 Vol II pt 2_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 1st: Tortilla Fiat Cheeky, owned by Mary Lou
+### `2001 Vol II pt 2_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 6th: Prestige Farms Oliver, owned b J. Gilligan/S. Geroux
 - `S4/O` / `missing_owned_by`: 3rd: Washa Charlie, ownéd by Dani Phillips
 - `S4/O` / `missing_owned_by`: 6th: Willowbrook Tucker, Kari Streicher
@@ -100,6 +99,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 3
 - `C6` / `orphan_entry_count`: 4
 - `C6` / `orphan_entry_count`: 7
+- `C6` / `orphan_entry_count`: 22
 
 ### `2001 Yankee_ocr_hqmax.txt` (WARN)
 - `S4` / `mangled_by`: 4th:      Round the Bend Foxy pn ome by G.  Harvey & S. Ryan
