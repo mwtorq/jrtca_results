@@ -176,25 +176,19 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_213104_ocr_hqmax.txt",
-      "chars_before": 21038,
-      "chars_after": 21038,
+      "chars_before": 21091,
+      "chars_after": 21091,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 9,
+      "fail_hits": 7,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d76,midclass_page_dropout\u00d72,class_header_gap\u00d71",
-      "top_catalog": "C1/C6\u00d76,C1\u00d73",
+      "top_codes": "incomplete_entries\u00d76,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d76,C1\u00d71",
       "by_code": {
-        "class_header_gap": 1,
         "incomplete_entries": 6,
-        "midclass_page_dropout": 2
+        "midclass_page_dropout": 1
       },
       "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Farmcliff Cookie Monster, owned by Bob Franklin & Russ Larsen"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -228,17 +222,11 @@
         {
           "code": "midclass_page_dropout",
           "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12-12-15\", brir                                               | after page got 5th expected 3 | 5th: Katy Scarlett, owned by Michelle Clark"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4 | after page got 1th expected 5 | 1st: Farmcliff Cookie Monster, owned by Bob Franklin & Russ Larsen"
+          "line": "Dogs, 1 yr & over, 12-1/2--15\", br/r                                             | after page got 5th expected 3 | 5th: Katy Scarlett, owned by Michelle Clark"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "class_header_gap",
         "incomplete_entries",
         "midclass_page_dropout"
       ]
