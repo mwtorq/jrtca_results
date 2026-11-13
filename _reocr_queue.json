@@ -187,13 +187,12 @@
     "year": 1993,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
     "codes": [
-      "class_header_gap",
       "incomplete_entries",
       "midclass_page_dropout",
       "owner_tail_trunc"
     ],
-    "fail_hits": 19,
-    "top_catalog": "C1/C6\u00d712,C1\u00d76,O6\u00d71",
+    "fail_hits": 15,
+    "top_catalog": "C1/C6\u00d712,C1\u00d72,O6\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {

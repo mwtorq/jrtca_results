@@ -17,7 +17,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 19 | 0 | C1/C6×12,C1×6,O6×1 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
+| FAIL | True | 15 | 0 | C1/C6×12,C1×2,O6×1 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
 | FAIL | False | 14 | 0 | C1/C6×9,C1×5 | `Document_2026-11-03_230536_ocr_hqmax.txt` |
 | FAIL | False | 2 | 0 | C1/C6×2 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
 | FAIL | False | 20 | 0 | C1/C6×15,S1-S3×3,C1×2 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
@@ -26,8 +26,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 ## Sample residual hits (after cleanup)
 
 ### `Document_2026-11-03_224445_ocr_hqmax.txt` (FAIL)
-- `C1` / `class_header_gap`: 4th: White Spirits Orion, owned by Michelle Mezoe
-- `C1` / `class_header_gap`: 4th: Three Oaks Britches, owned by Carolyn McGaughey
 - `C1/C6` / `incomplete_entries`: A Yearbook, Vol. I           19           JRTCNC Win – Entries: 14 | places=0/6 | Entries: 7
 - `C1/C6` / `incomplete_entries`: Entries: 7 | places=0/6 | Entries: 11
 - `C1/C6` / `incomplete_entries`: Entries: 11 | places=0/6 | Entries: 15
@@ -38,6 +36,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2--15", smooth                                        | places=1/6 | OPEN (Adults)                                               
 - `C1/C6` / `incomplete_entries`: Puppies, 9 up to 12 months                                                  Entr | places=0/6 | Dogs, 1 yr & over, 10--12-1/2" Entries: 7
 - `C1/C6` / `incomplete_entries`: OPEN (Puppies)                                                                   | places=3/6 | OPEN (Adults)                                               
+- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months                                                Ent | places=3/6 | Dogs, 1 yr & over, 10--12-1/2" Entries: 9
+- `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 12 months                                           Entries: 1 | places=0/6 | Dog Pups, 6 up to 12 months                                 
 
 ### `Document_2026-11-03_230536_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: PRE-Novice PUPPIES                                                          Entr | places=3/6 | Novice (Puppies)                                            
