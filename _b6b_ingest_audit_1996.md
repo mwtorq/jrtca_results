@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=1  PASS=0  WARN=5  FAIL=25
+Volumes: 30  cleaned=1  PASS=0  WARN=6  FAIL=24
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,7 +17,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 36 | 39 | S4/O×25,C1×14,O6×12,C6/O1×12,S1-S3×10,C6×2 | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
+| WARN | True | 0 | 39 | S4/O×25,C6/O1×12,C6×2 | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 25 | 38 | S4/O×25,O6×18,C6/O1×13,S1-S3×4,C1×3 | `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` |
 | FAIL | False | 41 | 40 | O6×23,S4/O×21,C6/O1×18,S1-S3×11,C1×7,C6×1 | `1996 Vol 1 pg 111-160 front_ocr_hqmax.txt` |
 | FAIL | False | 4 | 2 | O6×3,S4/O×2,C1×1 | `1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt` |
@@ -36,7 +36,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 9 | 14 | C6/O1×10,O6×4,C1×4,S4/O×3,S1-S3×1,C6×1 | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
 | FAIL | False | 23 | 11 | C1×12,S4/O×10,O6×8,S1-S3×3,C6/O1×1 | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
 | FAIL | False | 14 | 24 | S4/O×21,S1-S3×8,C1×5,?/4th_then_6th_no_5×3,O6×1 | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
-| WARN | True | 0 | 32 | S4/O×25,C6/O1×4,C6×3 | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
+| WARN | False | 0 | 32 | S4/O×25,C6/O1×4,C6×3 | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
 | FAIL | False | 21 | 30 | S4/O×25,C1×12,O6×6,C6/O1×4,S1-S3×3,C6×1 | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 13 | 42 | C6/O1×25,S4/O×16,O6×8,C1×3,S1-S3×2,C6×1 | `1996 Vol II pg 93-162 back_ocr_hqmax.txt` |
 | FAIL | False | 33 | 37 | S4/O×25,O6×15,C1×13,C6/O1×9,S1-S3×5,?/4th_then_6th_no_5×2,C6×1 | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
@@ -50,19 +50,19 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Sample residual hits (after cleanup)
 
-### `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `place_smash`: e, owned by Joe & Evelyn Landini, owned by Michelle Ward & Gaye Redpath
-- `S1-S3` / `place_smash`: ischief, owned by Andrew Walter, owned by Kathie Franklin
-- `S1-S3` / `place_smash`: Brooke, owned by Joanna Proctor, owned by Joni Green
-- `S1-S3` / `place_smash`: lee, owned by Rich Henry, owned by Linda Toscano
-- `S1-S3` / `place_smash`: lvy, owned by Mark Thompson, owned by Kathryn Penn
-- `S1-S3` / `place_smash`: Ivy, owned by Mark Thompson, owned by Kathryn Penn – Entries: 2
-- `S1-S3` / `place_smash`: Sparky, owned by Julie Karagainis, owned by Robert McFarland
-- `S1-S3` / `place_smash`: mp, owned by Bonnie Edison, owned by Teresa Wellman
-- `S1-S3` / `place_smash`: ermit, owned by Bob Franklin, owned by Rhonda Yassin
-- `S1-S3` / `place_smash`: a, owned by Lisa Drinkwater, owned by Bob Franklin
-- `O6` / `owner_tail_trunc`: 4th: Killare Deaty of Old Glory, owned by Wendy Wyr
-- `O6` / `owner_tail_trunc`: 1st: Hunters Rui Abigale, owned by Bill & Jackie Kell
+### `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` (WARN)
+- `S4/O` / `missing_owned_by`: 3rd: Riverview Calin, 0
+- `S4/O` / `missing_owned_by`: 4th: Fleetwood Zete, 0
+- `S4/O` / `missing_owned_by`: 5th: Demo Jones, own
+- `S4/O` / `missing_owned_by`: 1st: Qualyn Chaos, ow
+- `S4/O` / `missing_owned_by`: 1st: Fox Run Chant, 0
+- `S4/O` / `missing_owned_by`: 4th: Pine Hill Jerna, oy
+- `S4/O` / `missing_owned_by`: 3rd: Baybriar Kab, ow
+- `S4/O` / `missing_owned_by`: 4th: Slick Willie, ywnec
+- `S4/O` / `missing_owned_by`: 4th: Mustang, ovned t
+- `S4/O` / `missing_owned_by`: 1st: Fox Run Chant, oy
+- `S4/O` / `missing_owned_by`: 3rd: Foxplay Dazle, 0
+- `S4/O` / `missing_owned_by`: 5th: Tiffany Arrov, owr
 
 ### `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` (FAIL)
 - `S1-S3` / `place_smash`: lake, owned by Karen Reavis, owned by James & Kelly Barbeau
