@@ -4,19 +4,19 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
-      "chars_before": 48283,
-      "chars_after": 48283,
+      "chars_before": 48303,
+      "chars_after": 48303,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 24,
+      "fail_hits": 23,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d714,midclass_page_dropout\u00d75,class_header_gap\u00d73,owner_tail_trunc\u00d72",
-      "top_catalog": "C1/C6\u00d714,C1\u00d78,O6\u00d72",
+      "top_codes": "incomplete_entries\u00d714,midclass_page_dropout\u00d75,class_header_gap\u00d73,owner_tail_trunc\u00d71",
+      "top_catalog": "C1/C6\u00d714,C1\u00d78,O6\u00d71",
       "by_code": {
         "class_header_gap": 3,
         "incomplete_entries": 14,
         "midclass_page_dropout": 5,
-        "owner_tail_trunc": 2
+        "owner_tail_trunc": 1
       },
       "samples": [
         {
@@ -128,11 +128,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Alabama Bred                                                                     | after page got 4th expected 7 | 4th: Three Oaks Britches, owned by Carolyn Mc"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "rton Hall Ace In The Hole of White Stockings, owned by"
         },
         {
           "code": "owner_tail_trunc",
