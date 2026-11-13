@@ -242,18 +242,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_231659_ocr_hqmax.txt",
-      "chars_before": 18103,
-      "chars_after": 18103,
+      "chars_before": 18520,
+      "chars_after": 18520,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 8,
+      "fail_hits": 4,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d74,incomplete_entries\u00d73,two_column_smash\u00d71",
-      "top_catalog": "O6\u00d74,C1/C6\u00d73,S1-S3\u00d71",
+      "top_codes": "incomplete_entries\u00d73,two_column_smash\u00d71",
+      "top_catalog": "C1/C6\u00d73,S1-S3\u00d71",
       "by_code": {
         "incomplete_entries": 3,
-        "two_column_smash": 1,
-        "owner_tail_trunc": 4
+        "two_column_smash": 1
       },
       "samples": [
         {
@@ -275,32 +274,11 @@
           "code": "two_column_smash",
           "catalog": "S1-S3",
           "line": "2nd: LB, owned by Deborah Bickler"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Eastlake, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Conformation Champion & Best, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Puppy Conformation Chamg, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Reserve Puppy Confol, owned by"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
         "incomplete_entries",
-        "owner_tail_trunc",
         "two_column_smash"
       ]
     },
@@ -430,9 +408,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_2\\Document_2026-11-04_002601_ocr_hqmax.txt",
-      "chars_before": 2454,
-      "chars_after": 2445,
-      "cleaned": true,
+      "chars_before": 2436,
+      "chars_after": 2436,
+      "cleaned": false,
       "verdict": "PASS",
       "fail_hits": 0,
       "warn_hits": 0,

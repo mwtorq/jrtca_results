@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1993
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=1  PASS=1  WARN=0  FAIL=4
+Volumes: 5  cleaned=0  PASS=1  WARN=0  FAIL=4
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -19,9 +19,9 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | FAIL | False | 25 | 0 | C1/C6×13,C1×10,O6×2 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
 | FAIL | False | 14 | 0 | C1/C6×9,C1×5 | `Document_2026-11-03_230536_ocr_hqmax.txt` |
-| FAIL | False | 8 | 0 | O6×4,C1/C6×3,S1-S3×1 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
+| FAIL | False | 4 | 0 | C1/C6×3,S1-S3×1 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
 | FAIL | False | 20 | 0 | C1/C6×14,C1×3,S1-S3×3 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `Document_2026-11-04_002601_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `Document_2026-11-04_002601_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -58,10 +58,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10--12-1/2" Entries: 8 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 5
 - `C1/C6` / `incomplete_entries`: OPEN (Puppies)                                                                   | places=1/4 | OPEN (Adults)                                               
 - `S1-S3` / `two_column_smash`: 2nd: LB, owned by Deborah Bickler
-- `O6` / `owner_tail_trunc`: Eastlake, owned by
-- `O6` / `owner_tail_trunc`: Conformation Champion & Best, owned by
-- `O6` / `owner_tail_trunc`: Puppy Conformation Chamg, owned by
-- `O6` / `owner_tail_trunc`: Reserve Puppy Confol, owned by
 
 ### `Document_2026-11-03_233615_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: PRE-Novice PUPPIES                                                               | places=2/6 | Novice (Puppies)                                            
