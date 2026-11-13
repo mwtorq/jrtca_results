@@ -1,15 +1,15 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Coal Tree Farm_ocr_hqmax.txt,True,23222,23219,FAIL,3,0,orphan_entry_count×3,C6×3
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 South Coast_ocr_hqmax.txt,False,24563,24563,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Troon Quarry_ocr_hqmax.txt,False,48332,48332,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Vol I_ocr_hqmax.txt,True,636632,636626,FAIL,16,0,"orphan_entry_count×14,bare_entries×2","C6×14,C6/O1×2"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt,True,59079,59081,FAIL,1,0,orphan_entry_count×1,C6×1
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 OH-PA II_ocr_hqmax.txt,False,17410,17410,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt,False,60730,60730,FAIL,1,0,4th_then_2nd×1,?/4th_then_2nd×1
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 PNWJRTN_ocr_hqmax.txt,False,22788,22788,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Summer Celebration_ocr_hqmax.txt,False,41054,41054,FAIL,4,0,"bare_entries×2,orphan_entry_count×2","C6/O1×2,C6×2"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 1_ocr_hqmax.txt,True,369446,369442,FAIL,13,0,"orphan_entry_count×9,4th_then_2nd×2,missing_owned_by×2","C6×9,?/4th_then_2nd×2,S4/O×2"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 2_ocr_hqmax.txt,False,332174,332174,FAIL,13,0,"orphan_entry_count×8,missing_owned_by×4,bare_entries×1","C6×8,S4/O×4,C6/O1×1"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Yankee_ocr_hqmax.txt,False,44103,44103,FAIL,4,0,"missing_owned_by×3,mangled_by×1","S4/O×3,S4×1"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 1_ocr_hqmax.txt,True,324283,324287,FAIL,11,0,"orphan_entry_count×6,missing_owned_by×3,4th_then_2nd×1,4th_then_6th_no_5×1","C6×6,S4/O×3,?/4th_then_2nd×1,?/4th_then_6th_no_5×1"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 2_ocr_hqmax.txt,True,359368,359368,FAIL,3,0,"missing_owned_by×2,4th_then_6th_no_5×1","S4/O×2,?/4th_then_6th_no_5×1"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Coal Tree Farm_ocr_hqmax.txt,True,23219,23130,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 South Coast_ocr_hqmax.txt,False,24569,24569,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Troon Quarry_ocr_hqmax.txt,True,48370,48370,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Vol I_ocr_hqmax.txt,True,637206,637126,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt,False,59191,59191,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 OH-PA II_ocr_hqmax.txt,False,17438,17438,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt,False,60746,60746,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 PNWJRTN_ocr_hqmax.txt,False,22854,22854,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Summer Celebration_ocr_hqmax.txt,True,41115,41117,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 1_ocr_hqmax.txt,True,369636,369636,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 2_ocr_hqmax.txt,True,332679,332690,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Yankee_ocr_hqmax.txt,True,44167,44184,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 1_ocr_hqmax.txt,True,324550,324378,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 2_ocr_hqmax.txt,True,359836,359846,PASS,0,0,,

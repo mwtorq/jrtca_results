@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 1997
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 4  cleaned=0  PASS=1  WARN=0  FAIL=3
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 4  cleaned=0  PASS=4  WARN=0  FAIL=0
+Year verdict: **PASS**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -17,22 +17,9 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 1 | 0 | C6×1 | `1997 Vol I pt 1_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1997 Vol I pt 1_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1997 Vol I pt 2_ocr_hqmax.txt` |
-| FAIL | False | 4 | 0 | C6×3,S4/O×1 | `1997 Vol II pt 1_ocr_hqmax.txt` |
-| FAIL | False | 2 | 0 | C6×2 | `1997 Vol II pt 2_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1997 Vol II pt 1_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1997 Vol II pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
-
-### `1997 Vol I pt 1_ocr_hqmax.txt` (FAIL)
-- `C6` / `orphan_entry_count`: 1
-
-### `1997 Vol II pt 1_ocr_hqmax.txt` (FAIL)
-- `S4/O` / `missing_owned_by`: 4th: Timber DiAd~s heameomr, mctim mA Le. OL PY 1
-- `C6` / `orphan_entry_count`: 31
-- `C6` / `orphan_entry_count`: 16
-- `C6` / `orphan_entry_count`: 5
-
-### `1997 Vol II pt 2_ocr_hqmax.txt` (FAIL)
-- `C6` / `orphan_entry_count`: 10
-- `C6` / `orphan_entry_count`: 12

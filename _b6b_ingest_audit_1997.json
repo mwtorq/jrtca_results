@@ -1,27 +1,19 @@
 {
   "year": 1997,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
-      "chars_before": 359033,
-      "chars_after": 359033,
+      "chars_before": 358930,
+      "chars_after": 358930,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "orphan_entry_count\u00d71",
-      "top_catalog": "C6\u00d71",
-      "by_code": {
-        "orphan_entry_count": 1
-      },
-      "samples": [
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "1"
-        }
-      ],
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
       "reocr_required": false,
       "reocr_codes": []
     },
@@ -42,68 +34,31 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 316786,
-      "chars_after": 316786,
+      "chars_before": 316848,
+      "chars_after": 316848,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "orphan_entry_count\u00d73,missing_owned_by\u00d71",
-      "top_catalog": "C6\u00d73,S4/O\u00d71",
-      "by_code": {
-        "missing_owned_by": 1,
-        "orphan_entry_count": 3
-      },
-      "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "4th: Timber DiAd~s heameomr, mctim mA Le. OL PY 1"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "31"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "16"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "5"
-        }
-      ],
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
       "reocr_required": false,
       "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 284805,
-      "chars_after": 284805,
+      "chars_before": 285021,
+      "chars_after": 285021,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "orphan_entry_count\u00d72",
-      "top_catalog": "C6\u00d72",
-      "by_code": {
-        "orphan_entry_count": 2
-      },
-      "samples": [
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "10"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "12"
-        }
-      ],
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
       "reocr_required": false,
       "reocr_codes": []
     }

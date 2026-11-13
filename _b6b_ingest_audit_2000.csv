@@ -1,6 +1,6 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_I\2000 Vol I_ocr_hqmax.txt,True,852571,852579,FAIL,7,0,"orphan_entry_count×6,missing_owned_by×1","C6×6,S4/O×1"
-2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_II\2000 Vol II_ocr_hqmax.txt,False,508270,508270,FAIL,20,0,"missing_owned_by×17,4th_then_2nd×2,4th_then_6th_no_5×1","S4/O×17,?/4th_then_2nd×2,?/4th_then_6th_no_5×1"
-2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_III\2000 vol 3 pt 1_ocr_hqmax.txt,False,244268,244268,FAIL,4,0,"missing_owned_by×2,4th_then_2nd×1,orphan_entry_count×1","S4/O×2,?/4th_then_2nd×1,C6×1"
-2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_III\2000 Vol III pt 1_ocr_hqmax.txt,False,345518,345518,FAIL,3,0,missing_owned_by×3,S4/O×3
-2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_III\2000 Vol III pt 2_ocr_hqmax.txt,False,244699,244699,FAIL,3,0,"bare_entries×2,owner_tail_trunc×1","C6/O1×2,O6×1"
+2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_I\2000 Vol I_ocr_hqmax.txt,True,853384,853098,PASS,0,0,,
+2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_II\2000 Vol II_ocr_hqmax.txt,True,508348,508395,PASS,0,0,,
+2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_III\2000 vol 3 pt 1_ocr_hqmax.txt,False,244494,244494,PASS,0,0,,
+2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_III\2000 Vol III pt 1_ocr_hqmax.txt,True,345841,345799,PASS,0,0,,
+2000,_ocr_baseline_v2\yearbook_1990_2001\2000\2000_Vol_III\2000 Vol III pt 2_ocr_hqmax.txt,True,244963,244924,PASS,0,0,,

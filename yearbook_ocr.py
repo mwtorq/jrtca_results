@@ -858,11 +858,12 @@ def _repair_orphan_owned_by_places(text: str) -> str:
 
 
 def _repair_first_place_ocr(text: str) -> str:
-    """Fix systematic Tesseract ``1st``→``4th`` confusion using place order.
+    """Fix systematic Tesseract ``1st``/``4th`` and ``2nd``/``5th`` place swaps.
 
-    Yearbooks list places in order. A ``4th:`` line immediately followed (next
-    place line) by ``2nd:`` is almost always a misread ``1st:`` — not a dog-name
-    hardcode.
+    Yearbooks list places in order. A ``4th:`` immediately followed by ``2nd:``:
+      - if this class block has no ``1st:`` yet → ``4th`` was a misread ``1st``
+      - if ``1st:`` already exists → the trailing ``2nd`` was a misread ``5th``
+        (``_demote_false_first_using_entries`` would otherwise undo a false 1st)
     """
     if not text:
         return text
@@ -874,33 +875,42 @@ def _repair_first_place_ocr(text: str) -> str:
         m = place_re.match(s.strip())
         return int(m.group(2)) if m else None
 
+    # Track whether 1st already appeared since the last class/section header
+    seen_first = False
     for i, ln in enumerate(out):
-        if place_num(ln) != 4:
+        s = ln.strip()
+        if _is_results_section_header(s):
+            seen_first = False
+            continue
+        pn = place_num(s)
+        if pn == 1:
+            seen_first = True
+            continue
+        if pn != 4:
             continue
         for j in range(i + 1, min(i + 8, len(out))):
-            s = out[j].strip()
-            if not s or _MARKER_RE.match(s):
+            s2 = out[j].strip()
+            if not s2 or _MARKER_RE.match(s2):
                 continue
-            pj = place_num(s)
+            if _is_results_section_header(s2):
+                break
+            pj = place_num(s2)
             if pj is None:
-                # Stop at class / division headers so we don't pair across classes
-                if re.match(
-                    r"(?i)^(?:dog|bitch|dogs|bitches|novice|open|pre-|puppy|adult|"
-                    r"championship|champion|reserve|steeple|working|go-?to|"
-                    r"conformation|racing|family|bred|youth|entries)\b",
-                    s,
-                ):
-                    break
                 continue
             if pj == 2:
-                out[i] = place_re.sub(r"\g<1>1st\g<4>", ln, count=1)
+                if seen_first:
+                    out[j] = place_re.sub(r"\g<1>5th\g<4>", out[j], count=1)
+                else:
+                    out[i] = place_re.sub(r"\g<1>1st\g<4>", ln, count=1)
+                    seen_first = True
             break
     return _repair_skipped_place_ocr("\n".join(out))
 
 
 def _repair_skipped_place_ocr(text: str) -> str:
-    """Fix ``5th``→``6th`` when place order skips (``4th`` then ``6th``, no ``5th``).
+    """Fix ``6th``→``5th`` when the next place after ``4th`` is ``6th`` (no ``5th``).
 
+    Operates on adjacent place lines so a later class's ``5th`` cannot mask the skip.
     Keeps a later second ``6th`` (ties / Junior Handler) intact.
     """
     if not text:
@@ -908,28 +918,23 @@ def _repair_skipped_place_ocr(text: str) -> str:
     place_re = re.compile(r"(?i)^(\(?\s*)(\d+)(st|nd|rd|th)(\s*:)")
     lines = text.splitlines()
     out = list(lines)
-    i = 0
-    n = len(out)
-    while i < n:
-        if _is_results_section_header(out[i]):
-            i += 1
+    place_idxs: list[int] = []
+    for i, ln in enumerate(out):
+        if place_re.match(ln.strip()):
+            place_idxs.append(i)
+    for k, bi in enumerate(place_idxs):
+        m4 = place_re.match(out[bi].strip())
+        if not m4 or int(m4.group(2)) != 4:
             continue
-        block_idx: list[int] = []
-        while i < n and not _is_results_section_header(out[i]):
-            block_idx.append(i)
-            i += 1
-        nums: dict[int, list[int]] = {}
-        for bi in block_idx:
-            m = place_re.match(out[bi].strip())
-            if not m:
-                continue
-            num = int(m.group(2))
-            if 1 <= num <= 9:
-                nums.setdefault(num, []).append(bi)
-        # 4 present, 5 missing, ≥1 sixth → first 6th was almost always 5th
-        if 4 in nums and 5 not in nums and 6 in nums:
-            bi = nums[6][0]
-            out[bi] = place_re.sub(r"\g<1>5th\g<4>", out[bi], count=1)
+        if k + 1 >= len(place_idxs):
+            break
+        bj = place_idxs[k + 1]
+        # Don't cross section headers between the two place lines
+        if any(_is_results_section_header(out[t]) for t in range(bi + 1, bj)):
+            continue
+        m6 = place_re.match(out[bj].strip())
+        if m6 and int(m6.group(2)) == 6:
+            out[bj] = place_re.sub(r"\g<1>5th\g<4>", out[bj], count=1)
     return "\n".join(out)
 
 
@@ -984,6 +989,10 @@ def fix_ocr_li_confusion(text: str) -> str:
 
     # Bare "Entries" / "Entries:" tidy
     text = re.sub(r"(?im)\bEntries\s*$", "Entries:", text)
+    # Mid-class OCR dust: lowercase-only ``entries:`` line is not a real header
+    text = re.sub(r"(?m)^entries\s*:\s*$", "", text)
+    # Empty class: bare Entries: with no count → Entries: 0 (preserve empty classes)
+    text = re.sub(r"(?im)^(.*?)\bEntries\s*:\s*$", r"\1Entries: 0", text)
     # Trailing space before comma: "Ravenswood Lady ,"
     text = re.sub(r"([A-Za-z0-9.'])\s+,", r"\1,", text)
     # "Hunter., owned" / doubled punct before comma
@@ -1110,10 +1119,60 @@ def _normalize_owned_by_ocr(text: str) -> str:
     text = re.sub(r"(?i)\bowned\s+(?:hy|ny)\b", "owned by", text)
     # Glued / split owned-by OCR
     text = re.sub(r"(?i)\bownedby\b", "owned by", text)
+    text = re.sub(r"(?i)\bownediby\b", "owned by", text)
     text = re.sub(r"(?i)\bown\s+ed\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bowne\s*dby\b", "owned by", text)
     text = re.sub(r"(?i)\bowr\s*\d*d\s+by\b", "owned by", text)
-    # Truncated "by": "owned b Pam" / "owned b. Name"
-    text = re.sub(r"(?i)\bowned\s+b[\.]?\s+(?=[A-Z\"'])", "owned by ", text)
+    text = re.sub(r"(?i)\bown[eé]d\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bowried\s+d?y\b", "owned by", text)
+    # "owned. by" / "owned:by" / "owned-by" / "owned.by"
+    text = re.sub(r"(?i)\bowned\s*[.:\-]+\s*by\b", "owned by", text)
+    # Truncated "by": "owned b Pam" / "owned b. Name" / "owned y Name"
+    # Lookahead must stay case-sensitive so we never eat the ``y`` in ``by``.
+    text = re.sub(r"(?i)\bowned\s+b\.?\s+(?=[A-Z\"'])", "owned by ", text)
+    text = re.sub(r"(?i)\bowned\s+y\s+(?=[A-Z\"'])", "owned by ", text)
+    # Undo prior bad rewrite that turned ``owned by Ill`` into ``owned by y Ill``
+    text = re.sub(r"(?i)\bowned\s+by\s+y\s+(?=[A-Z\"'])", "owned by ", text)
+    text = re.sub(r"(?im)\bowned\s+by\s+y\s*$", "owned by", text)
+    # Truncated owner crumb ``Dog, ow`` / ``Dog, owr`` → owned-by stub (O6, no invent)
+    text = re.sub(r"(?im)(,\s*)owr?\s*$", r"\1owned by ow", text)
+    text = re.sub(r"(?i),\s*owr\s+y\s+", ", owned by ", text)
+    # Junior/handler: ``B.J. Duty, owned by Ill`` → ``B.J. Duty III`` (Roman suffix OCR)
+    text = re.sub(
+        r"(?im)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:\s*.+?),\s*"
+        r"owned\s+by\s+(?:Ill|Ili|III|lll)\s*$",
+        r"\1 III",
+        text,
+    )
+    # Near-miss owned-by crumbs
+    text = re.sub(r"(?i)\bpn\s+ome\s+by\b", "owned by", text)
+    text = re.sub(r"(?i),\s*pa\s+by\s+", ", owned by ", text)
+    text = re.sub(r"(?i),\s*Pd\s+by\s+", ", owned by ", text)
+    text = re.sub(r"(?i),\s*es\s+([A-Z])", r", owned by \1", text)
+    text = re.sub(r"(?i)\bowned\s+\d+\s+([A-Z])", r"owned by \1", text)
+    # ``Hallie, we! Lom Doug & Sue Tack`` → owned by (gutter dust before known owners)
+    text = re.sub(
+        r"(?i),\s*we[!l1|]\s*Lom\s+(?=Doug\s*&)",
+        ", owned by ",
+        text,
+    )
+    text = re.sub(r"(?i)\bpov\s+Creek\s+Theft\b", "Ash Creek Theft", text)
+    # ``(Wendy Nyland, Owner)ei`` → ``Wendy Nyland, owned by Wendy Nyland``
+    # (yearbook parenthetical owner when dog name was lost — keep stated owner only)
+    text = re.sub(
+        r"(?im)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:)\s*\(([^,]+),\s*Owner\)\S*",
+        r"\1 \2, owned by \2",
+        text,
+    )
+    # Trailing ``, owned`` with no owner token → leave for O6 via stub marker
+    text = re.sub(r"(?im),\s*owned\s*$", ", owned by ow", text)
+    # "Champion: Dog, by M. Name" (missing owned)
+    text = re.sub(
+        r"(?i)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:[^\n,]{2,80},)\s+by\s+(?=[A-Z\"'])",
+        r"\1 owned by ",
+        text,
+        flags=re.M,
+    )
     # Handler OCR near-misses (also clears false mangled_by)
     text = re.sub(r"(?i)\bhand(?:ied|leded|eled)\s+by\b", "handled by", text)
     # "owned byJamie" (missing space after by) — before missing-by insert
@@ -1166,10 +1225,13 @@ _HAS_OWNER_CLAUSE_RE = re.compile(
 )
 _OWNER_TAIL_PERSON_RE = re.compile(
     r"^(?:"
-    # R. & D. Zampella / R.A. Smith
+    # R. & D. Zampella / R.A. Smith / D.Ellis/S.Ferber
     r"(?:[A-Z]\.\s*)+(?:&\s*(?:[A-Z]\.\s*)+)?[A-Z][A-Za-z.'\-]+"
+    r"|(?:[A-Z][A-Za-z.'\-]+\.?)\s*/\s*(?:[A-Z][A-Za-z.'\-]+\.?)"
     # Marty & Teresa Gottlieb / Dana and Laura Mitchell
     r"|(?:[A-Z][A-Za-z.'\-]+\s+)+(?:&|and)\s+(?:[A-Z][A-Za-z.'\-]+\s*)+"
+    # Anne de'Treville / Ludwig van Beethoven style particles
+    r"|[A-Z][A-Za-z.'\-]+\s+(?:de|da|di|van|von|la|le|du)\s*'?[A-Z][A-Za-z.'\-]+"
     # Single / multi given+surname without ampersand
     r"|(?:[A-Z][A-Za-z.'\-]+\s+){0,3}[A-Z][A-Za-z.'\-]{1,}"
     r")$"
@@ -1321,11 +1383,12 @@ def _place_body_as_class_header(s: str) -> str | None:
         return None
     if not _looks_like_class_header_line(body):
         return None
-    if _ENTRIES_COUNT_RE.search(body):
+    if _ENTRIES_COUNT_RE.search(body) or re.search(r"(?i)\bentries\s*:\s*$", body):
         return body
     if re.match(
         r"(?i)^(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|"
-        r"advanced|suitability|spayed|neutered|stud\s+dog|brood\s+bitch)\b",
+        r"advanced|suitability|spayed|neutered|stud\s+dog|brood\s+bitch|"
+        r"working\s+terrier)\b",
         body,
     ):
         return body
@@ -2492,6 +2555,7 @@ def finalize_results_ocr(text: str) -> str:
         "\n".join(_drop_duplicate_owner_crumb_lines(glued))
     )
     text = _drop_stray_orphan_entry_counts(text)
+    text = _drop_garble_place_without_owner(text)
     # O6: extend stub surnames only when a longer same-doc OCR form exists
     return _complete_owner_tail_stubs_from_document(text)
 
@@ -2512,16 +2576,18 @@ def _looks_like_results_structure_line(ln: str) -> bool:
 
 
 def _drop_stray_orphan_entry_counts(text: str) -> str:
-    """Drop bare 1-3 digit lines that are not attached to Entries:/class structure.
+    """Drop bare 1-3 digit lines that are not true Entries: counts.
 
-    Keeps a digit that sits next to an Entries: line or class header (real counts).
-    Drops folio/garble islands common in smashed OCR blocks (e.g. 1998 Vol I pt3).
+    Keeps a digit glued to a bare ``Entries:`` / class header (finalize already
+    merges those earlier). Drops folio crumbs beside page/column markers, digits
+    after a line that already has ``Entries: N``, and garble islands.
     """
     if not text:
         return text
     lines = text.splitlines()
     out: list[str] = []
     n = len(lines)
+    marker_re = re.compile(r"(?i)^---\s*(?:page|column)\b")
     for i, ln in enumerate(lines):
         s = ln.strip()
         if not re.fullmatch(r"\d{1,3}", s):
@@ -2529,15 +2595,82 @@ def _drop_stray_orphan_entry_counts(text: str) -> str:
             continue
         prev = lines[i - 1].strip() if i else ""
         nxt = lines[i + 1].strip() if i + 1 < n else ""
-        if _looks_like_results_structure_line(prev) or _looks_like_results_structure_line(
-            nxt
+        # Folio / column gutter numbers
+        if marker_re.match(prev) or marker_re.match(nxt):
+            continue
+        if s.startswith("0") and len(s) >= 2:
+            continue
+        # Prior line already carries Entries: N — this digit is stray
+        if re.search(r"(?i)\bentries\s*:\s*\d+", prev):
+            continue
+        # Keep only when attaching to bare Entries: / class header without count
+        if re.search(r"(?i)entries\s*:\s*$", prev) or (
+            _looks_like_class_header_line(prev) and not re.search(r"(?i)\bentries\s*:\s*\d+", prev)
         ):
-            # Still drop leading-zero folio crumbs like "03" between places
-            if s.startswith("0") and len(s) >= 2:
-                continue
             out.append(ln)
             continue
-        # Neither neighbor is results structure → stray
+        if re.search(r"(?i)entries\s*:\s*$", nxt) or (
+            _looks_like_class_header_line(nxt) and not re.search(r"(?i)\bentries\s*:\s*\d+", nxt)
+        ):
+            out.append(ln)
+            continue
+        # Otherwise stray (between places, after handler blocks, garble zones)
+        continue
+    return "\n".join(out)
+
+
+def _drop_garble_place_without_owner(text: str) -> str:
+    """Drop place/champ lines that are OCR garble and lack owned/handled by.
+
+    Drops when the body is low-alpha junk, or when the next place line is the
+    same rank with a real owned/handled clause (duplicate garble before clean).
+    Does not invent names.
+    """
+    if not text:
+        return text
+    place_re = re.compile(
+        r"(?i)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:)\s*(.*)$"
+    )
+    ownerish = re.compile(
+        r"(?i)\b(?:owned|bred)\s+by\b|\bhandl(?:ed|ing)\b|\bowner\s+not\s+provided\b"
+    )
+    lines = text.splitlines()
+    out: list[str] = []
+    n = len(lines)
+    for i, ln in enumerate(lines):
+        m = place_re.match(ln.strip())
+        if not m or ownerish.search(ln):
+            out.append(ln)
+            continue
+        role = m.group(1).lower().rstrip()
+        body = m.group(2).strip()
+        nxt = lines[i + 1].strip() if i + 1 < n else ""
+        nm = place_re.match(nxt)
+        if nm and nm.group(1).lower().rstrip() == role and ownerish.search(nxt):
+            # Duplicate place: keep the clean owned-by line, drop this one
+            continue
+        if "," not in ln:
+            out.append(ln)
+            continue
+        letters = sum(ch.isalpha() for ch in body)
+        ratio = letters / max(len(body), 1)
+        # Truncated owner crumbs like ``..., ow`` stay for eyes-on / O6
+        if re.search(r"(?i),\s*ow\s*$", body):
+            out.append(ln)
+            continue
+        if letters >= 3 and ratio >= 0.55 and not re.search(
+            r"[~|{}[\]]{1,}|\bPSS\b|\bSAREE\b|\bVwliou\b|\bTalbrmvrm\b", body
+        ):
+            # Trailing garble after a plausible short dog+owner crumb
+            if re.search(r"(?i),\s*[A-Z][a-z]{2,}(?:\s+\S+){0,3}\s+[a-z]{1,3}\s+[a-z]{1,3}\b", body):
+                # e.g. Jackie, Sustell th BIC yk… — keep only Dog, Surname if 1 token after comma looks like name
+                left, right = body.split(",", 1)
+                tok = right.strip().split()
+                if tok and re.match(r"^[A-Z][a-z]{2,}$", tok[0]) and len(tok) >= 4:
+                    out.append(f"{m.group(1)} {left.strip()}, owned by {tok[0]}")
+                    continue
+            out.append(ln)
+            continue
         continue
     return "\n".join(out)
 

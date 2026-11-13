@@ -1,5 +1,5 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 1_ocr_hqmax.txt,False,359033,359033,FAIL,1,0,orphan_entry_count×1,C6×1
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 1_ocr_hqmax.txt,False,358930,358930,PASS,0,0,,
 1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 2_ocr_hqmax.txt,False,205059,205059,PASS,0,0,,
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 1_ocr_hqmax.txt,False,316786,316786,FAIL,4,0,"orphan_entry_count×3,missing_owned_by×1","C6×3,S4/O×1"
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 2_ocr_hqmax.txt,False,284805,284805,FAIL,2,0,orphan_entry_count×2,C6×2
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 1_ocr_hqmax.txt,False,316848,316848,PASS,0,0,,
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 2_ocr_hqmax.txt,False,285021,285021,PASS,0,0,,
