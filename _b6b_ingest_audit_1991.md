@@ -53,7 +53,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 12-1/2--15" Entries: 6 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2" Entries: 6
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2-15" Entries: 4 | places=1/4 | RACING CHAMPIONS:
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2-15" Entries: 9 | places=3/6 | STEEPLECHASE RACES
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Huntington Beach, California, August 10-11, 1991
+- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Judges:         Terri Batzer, Conformation; Jack Batzer, Go-
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 12-1/2-15" – Entries: 10 | places=2/6 | Dogs, 1 yr & over, 10--12-1/2" – Entries: 12
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2-15", smooth                                         | places=2/6 | CHAMPIONSHIP CERTIFICATE (10-12 1/2") Entries: 17
 - `C1/C6` / `incomplete_entries`: Child & Junior Handler                                                           | places=2/6 | Bred by Exhibitor                                           

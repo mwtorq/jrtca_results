@@ -19,17 +19,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-      "chars_before": 152378,
+      "chars_before": 152309,
       "chars_after": 152309,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 29,
+      "fail_hits": 28,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d73",
-      "top_catalog": "C1/C6\u00d726,C1\u00d73",
+      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d72",
+      "top_catalog": "C1/C6\u00d726,C1\u00d72",
       "by_code": {
         "incomplete_entries": 26,
-        "midclass_page_dropout": 3
+        "midclass_page_dropout": 2
       },
       "samples": [
         {
@@ -156,11 +156,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "American Bred Bitch                                                              | after page got 4th expected 3 | 4th: Punky, owned by Jan Yonelunas"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Cowasjee of VA.; Gold Coast Terrier Trial, FL 3/04/90. | after page got 3th expected 1 | 3rd: Camerton Hall Genius, owned by Jack & Pauline Fawkes"
         }
       ],
       "reocr_required": true,
@@ -342,7 +337,7 @@
         {
           "code": "midclass_page_dropout",
           "catalog": "C1",
-          "line": "12-1/2\u201415\", br/r                                                                 | after page got 4th expected 1 | 4th: Bramblewood Brevity, owned by Mr. & Mrs."
+          "line": "12-1/2--15\", smooth | after page got 4th expected 1 | 4th: Bramblewood Brevity, owned by Mr. & Mrs. Jeff Good"
         },
         {
           "code": "midclass_page_dropout",

@@ -1309,7 +1309,10 @@ _SECTIONISH_RE = re.compile(
     r"\bgo-?to-?ground\b|\bagility\b|"
     r"\bworking\s+terrier\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
-    r"\d+\s*(?:up to|/|-)\s*\d+"
+    # Height/age ranges only — not calendar dates (3/04) or Source years (2026-11)
+    r"\b(?:4|6|9|10|12)(?:\s*-\s*1\s*/\s*2|\s*1\s*/\s*2)?\s*"
+    r"(?:up\s+to|/|--|-)\s*"
+    r"(?:6|9|10|12|15)(?:\s*-\s*1\s*/\s*2|\s*1\s*/\s*2)?\b"
 )
 _CLASS_HEADER_HINT_RE = re.compile(
     r"(?i)entries\s*:|"
@@ -1327,7 +1330,9 @@ _CLASS_HEADER_HINT_RE = re.compile(
     r"\bgo-?to-?ground\b|\bagility\b|"
     r"\bworking\s+terrier\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
-    r"\d+\s*(?:up to|/|-)\s*\d+|"
+    r"\b(?:4|6|9|10|12)(?:\s*-\s*1\s*/\s*2|\s*1\s*/\s*2)?\s*"
+    r"(?:up\s+to|/|--|-)\s*"
+    r"(?:6|9|10|12|15)(?:\s*-\s*1\s*/\s*2|\s*1\s*/\s*2)?\b|"
     r"yr\s*&?\s*older|months?\b"
 )
 
