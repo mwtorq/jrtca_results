@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1991
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 4  cleaned=0  PASS=0  WARN=0  FAIL=4
+Volumes: 4  cleaned=1  PASS=0  WARN=0  FAIL=4
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,7 +17,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 11 | 0 | C1/C6×8,C1×3 | `Document_2026-11-03_201758_ocr_hqmax.txt` |
+| FAIL | True | 10 | 0 | C1/C6×7,C1×3 | `Document_2026-11-03_201758_ocr_hqmax.txt` |
 | FAIL | False | 14 | 0 | C1/C6×10,C1×3,S1-S3×1 | `Document_2026-11-03_205014_ocr_hqmax.txt` |
 | FAIL | False | 18 | 0 | C1/C6×16,C1×2 | `Document_2026-11-03_210248_ocr_hqmax.txt` |
 | FAIL | False | 1 | 0 | C1/C6×1 | `Document_2026-11-03_211454_ocr_hqmax.txt` |
@@ -32,7 +32,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 4 | places=2/4 | Dogs, 1 yr & over, 10--12-1/2" Entries: 5
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2--15" Entries: 6 | places=3/6 | RACING CHAMPIONS:
 - `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10-12-1/2" Entries: 10 | places=0/6 | Judges:         Marcy Ortolano, Conformation; Richard Ortola
-- `C1/C6` / `incomplete_entries`: Child Handler                                                      Entries: 4 | places=1/4 | Junior Handler                                              
 - `C1` / `midclass_page_dropout`: Bitch Pups, 9 up to 12 months                                                    | after page got 2th expected 3 | 2nd: Rustler's Peggy Sue, owned by Brenda Swa
 - `C1` / `midclass_page_dropout`: JRTCA Novice Class – Entries: 15 | after page got 4th expected 5 | 4th: River Run lvy, owned by Rom Roscioli
 - `C1` / `midclass_page_dropout`: Family Class                                                           Entries:  | after page got 1th expected 6 | 1st: Winston of The Hollow, owned by The Holl

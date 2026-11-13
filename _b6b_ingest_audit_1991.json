@@ -4,16 +4,16 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
-      "chars_before": 45841,
-      "chars_after": 45841,
-      "cleaned": false,
+      "chars_before": 45855,
+      "chars_after": 45809,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 11,
+      "fail_hits": 10,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d78,midclass_page_dropout\u00d73",
-      "top_catalog": "C1/C6\u00d78,C1\u00d73",
+      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d73",
+      "top_catalog": "C1/C6\u00d77,C1\u00d73",
       "by_code": {
-        "incomplete_entries": 8,
+        "incomplete_entries": 7,
         "midclass_page_dropout": 3
       },
       "samples": [
@@ -51,11 +51,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dogs, 1 yr & over, 10-12-1/2\" Entries: 10 | places=0/6 | Judges:         Marcy Ortolano, Conformation; Richard Ortola"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child Handler                                                      Entries: 4 | places=1/4 | Junior Handler                                              "
         },
         {
           "code": "midclass_page_dropout",
