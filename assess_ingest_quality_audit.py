@@ -150,7 +150,10 @@ _NOT_PROVIDED_BY_RE = re.compile(
     r"(?i)\b(?:not\s+provided|owner\s+not\s+provided)\s+by\b|"
     r"\bprovided\s+by\s+(?:trial\s+)?(?:chair|chairman|chairperson)\b"
 )
-_OWNER_NOT_PROVIDED_RE = re.compile(r"(?i)\bowner\s+not\s+provided\b")
+# Yearbook may omit "owned by" when the owner was not given; treat as intentional.
+_OWNER_NOT_PROVIDED_RE = re.compile(
+    r"(?i)\b(?:name\s+of\s+)?owner\s+not\s+(?:provided|furnished|reported)\b"
+)
 _PROPER_OWNED_BY_RE = re.compile(r"(?i)\bowned\s+by\b")
 
 
