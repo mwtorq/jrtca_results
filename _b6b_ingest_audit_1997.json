@@ -1,507 +1,66 @@
 {
   "year": 1997,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
-      "chars_before": 358915,
-      "chars_after": 358915,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 25,
+      "chars_before": 355900,
+      "chars_after": 355853,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d723,owner_tail_trunc\u00d72",
-      "top_catalog": "S1-S3\u00d723,O6\u00d72",
-      "by_code": {
-        "two_column_smash": 23,
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: fst: Lost Creek Ruby, owned by Debbie McWilliams"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: pn            1stt Wheezer, owned by Suzie & Greg Barton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Texas, owned by Anne Detreville"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: an            1stt Maypole Crazy, owned by Sally Yancey"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1St: o\u20acaview oabrina, owned by uldi Lough"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Marksworth Jinx, owned by Stephanie Giddens"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: pi            1stt Deep Run Derek, owned by John & Vicky Brown"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: r=            6th. Ravenswood Rasp, owned by Ben & Janet Sutcliffe"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt R.A. Snickers, owned by Arnaldo Mellado"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: stt Rascal, owned by Melissa Croft"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Gunsmoke Fancy, owned by Kenneth & Rose Cox"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: fst Patimac Twister, owned by Railine Scott"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: llan's Dock Holliday, owned by Lance & Izetta Wright"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: BJ, owned by Stephanie Miller"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Glen Coe Moose, owned by Holly Cipriano"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: fst: Timber Ridge Rudger, owned by Jan Bell"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: high & Low Munchkin, owned by Melissa Lowe"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: yh: Button Top Jack, owned by Brian & Lynn Rowell"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: h: Kensington Azure Te, owned by Bob & Margie Duty"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: pe             1stt Run Away Ghilly, owned by Lynn Rowell"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: Not provided by Trial Chairperson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: aN aehinrs Brien FArinlzat rived Tes Pol BP Vectlocs \u00a7 owns"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Champion: Heaven Hill Jezebel, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: Farmcliff Donny, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
-      "chars_before": 205049,
-      "chars_after": 205049,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 27,
+      "chars_before": 209530,
+      "chars_after": 201203,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d726,class_header_gap\u00d71",
-      "top_catalog": "S1-S3\u00d726,C1\u00d71",
-      "by_code": {
-        "class_header_gap": 1,
-        "two_column_smash": 26
-      },
-      "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Fox Run Scout, owned by Gerald & Joanne Von Essen"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Conquest Gone West, owned by Neil & Pam Caine"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Bowery Bud, owned by Michelle Davies"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: drd: Luke MacTavish of Glenwood, owned by Bruce Glen"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: h: Killare Hunter, owned by Judi Bower"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: h: Fox Run Topper, owned by Rick & Mary Thornton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: h: Briarpatch Zoe, owned by Roger & Tabby Shury"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: h: Riverview Calvin, owned by Karen Vernon"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: h: Elvis, owned by Susan Travaglini"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Deep Run Derek, owned by John & Vicki Brown"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt The Folly Lucy, owned by Rick & Mary Thornton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: h: Briarpatch Mohawk, owned by Chuck & Diana Hufnagel"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: h: Brookside Tickle, owned by Debbie LaMantia"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: h: Fox Run Chant, owned by Douglas & Susan Tack"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: h: Roxie, owned by Lynn Eshleman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: h: Rand N'Thor, owned by Michael & Cheryl Anibecki"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt The Folly Zoe, owned by Mary Thorton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: lino Jack, owned by George & Miwa lino"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: lino Jack, owned by George & Miwa lino"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: lino Jack, owned by George & Miwa lino"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: jth: The Corner Fame, owned by Leslie Kelly & Kate Bomberger"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: h: Riley, owned by Jolie Larder"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: h: Frasier, owned by Lee Hatch"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: h: Undercover Roxi, owned by Kim Jacobson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Kalole's Thorn, owned by Marty & Teresa Gottlieb"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt Crossewinds Spookie, owned by David & Allison Miller"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: Not Provided"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 316826,
-      "chars_after": 316826,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 23,
+      "chars_before": 328737,
+      "chars_after": 310732,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d722,class_header_gap\u00d71",
-      "top_catalog": "S1-S3\u00d722,C1\u00d71",
-      "by_code": {
-        "class_header_gap": 1,
-        "two_column_smash": 22
-      },
-      "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "3rd: Farmliff Tackle, owned by Megan Johnson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: rarmciir crile, owned by py bob rrankliin"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: lino Jack, owned by George & Miwa lino"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: lino Jack, owned by George & Miwa lino"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: lino Jack, owned by George & Miwa lino"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: lean, owned by Sharon Kelleher"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: windermere Tussle, owned by Linda Cowasjee"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: easton Point Skipper, owned by Sally Gay"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: est: Tortilla Flat Flurry, owned by Deborah Holly"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: h: Briarpatch Bultaco, owned by Karen Wass"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: h: Glynnsong Buddy, owned by Sue/Elizabeth Murphree"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: dth: DC Sweet Boy, owned by Bonita Knickmeyer"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: dest: Sow's Ear Julien, owned by P.Hartman/K.McCarthy"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: rarmliit Duke, owned by J.Hughes/K.Hunter"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: ili Farms ire, owned by Dy Mark & Janice Bjorkiand"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: h: Phantom Stealth, owned by Alison Tyler"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: stt KaCee Mad Dog, owned by Susan Perry"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: h: Nell, owned by Chris & Ellen Lesch"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: h: Windtree White Magic, owned by Bev Dalton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: h: The Barking Lot Hoopla, owned by Tina Stafford"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: not provided"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: not provided"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: albachiaras Cadfravy nuinad hv Carrie | aCamhbaoe"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 285021,
-      "chars_after": 285021,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 10,
+      "chars_before": 280928,
+      "chars_after": 280790,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d710",
-      "top_catalog": "S1-S3\u00d710",
-      "by_code": {
-        "two_column_smash": 10
-      },
-      "samples": [
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: timber Ridge Rudger, owned by Jan Bell"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: JR, owned by Pete Frey"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: lino Jack, owned by George & Miwa lino"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: rarmclilt Rudi, owned by Larey LUIS A SRE4 JF PS dE\" 4 SNEED. LN ..4do\u00ae amu"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: Not Provided"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Best: not provided by trial chairman"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: Not provided by Trial Chairperson i"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: Not Provided by Trial Chairperson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: i."
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }
