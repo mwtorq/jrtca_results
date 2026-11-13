@@ -20,7 +20,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 15 | 0 | C1/C6×12,C1×2,O6×1 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
 | FAIL | False | 14 | 0 | C1/C6×9,C1×5 | `Document_2026-11-03_230536_ocr_hqmax.txt` |
 | FAIL | False | 2 | 0 | C1/C6×2 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
-| FAIL | False | 20 | 0 | C1/C6×15,S1-S3×3,C1×2 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
+| FAIL | False | 17 | 0 | C1/C6×15,C1×2 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_002601_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
