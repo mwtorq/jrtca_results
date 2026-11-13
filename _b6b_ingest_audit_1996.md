@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=6  PASS=0  WARN=3  FAIL=27
+Volumes: 30  cleaned=1  PASS=0  WARN=4  FAIL=26
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,22 +17,22 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 36 | 39 | S4/O×25,C1×14,O6×12,C6/O1×12,S1-S3×10,C6×2 | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
-| FAIL | True | 25 | 38 | S4/O×25,O6×18,C6/O1×13,S1-S3×4,C1×3 | `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` |
+| FAIL | False | 36 | 39 | S4/O×25,C1×14,O6×12,C6/O1×12,S1-S3×10,C6×2 | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
+| FAIL | False | 25 | 38 | S4/O×25,O6×18,C6/O1×13,S1-S3×4,C1×3 | `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` |
 | FAIL | False | 41 | 40 | O6×23,S4/O×21,C6/O1×18,S1-S3×11,C1×7,C6×1 | `1996 Vol 1 pg 111-160 front_ocr_hqmax.txt` |
 | FAIL | False | 4 | 2 | O6×3,S4/O×2,C1×1 | `1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt` |
 | WARN | False | 0 | 1 | S4/O×1 | `1996 Vol 1 pg 161-178 back_ocr_hqmax.txt` |
 | WARN | False | 0 | 5 | S4/O×5 | `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` |
-| WARN | True | 0 | 29 | S4/O×25,C6/O1×4 | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
-| FAIL | True | 4 | 22 | S4/O×17,C6/O1×5,C1×2,S1-S3×1,O6×1 | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
+| WARN | False | 0 | 29 | S4/O×25,C6/O1×4 | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
+| FAIL | False | 4 | 22 | S4/O×17,C6/O1×5,C1×2,S1-S3×1,O6×1 | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
 | FAIL | False | 11 | 23 | S4/O×20,S1-S3×6,C1×5,C6/O1×3 | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
 | FAIL | False | 19 | 31 | S4/O×25,O6×10,C1×6,C6/O1×5,S1-S3×3,C6×1 | `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` |
-| FAIL | True | 15 | 13 | S4/O×12,O6×7,C1×7,S1-S3×1,C6×1 | `1996 Vol 1 pg 61-110 back_ocr_hqmax.txt` |
+| FAIL | False | 15 | 13 | S4/O×12,O6×7,C1×7,S1-S3×1,C6×1 | `1996 Vol 1 pg 61-110 back_ocr_hqmax.txt` |
 | FAIL | False | 25 | 33 | S4/O×25,O6×18,C6/O1×7,C1×6,S1-S3×1,C6×1 | `1996 Vol 1 pg 61-110 front_ocr_hqmax.txt` |
 | FAIL | False | 10 | 26 | S4/O×18,S4×8,O6×7,C1×2,S1-S3×1 | `1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 16 | 37 | S4/O×17,O6×14,C6/O1×11,S4×9,C1×2 | `1996 Vol II pg 163-220 back_ocr_hqmax.txt` |
-| FAIL | False | 49 | 50 | O6×25,S4/O×24,C1×17,C6/O1×12,S4×8,S1-S3×7,C6×4,?/4th_then_6th_no_5×2 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
-| FAIL | True | 13 | 34 | C6/O1×22,S4/O×12,C1×7,S1-S3×3,O6×3 | `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` |
+| WARN | True | 0 | 51 | S4/O×24,C6/O1×12,S4×8,C6×4,?/4th_then_6th_no_5×3 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
+| FAIL | False | 13 | 34 | C6/O1×22,S4/O×12,C1×7,S1-S3×3,O6×3 | `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 9 | 14 | C6/O1×10,O6×4,C1×4,S4/O×3,S1-S3×1,C6×1 | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
 | FAIL | False | 23 | 11 | C1×12,S4/O×10,O6×8,S1-S3×3,C6/O1×1 | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
 | FAIL | False | 14 | 24 | S4/O×21,S1-S3×8,C1×5,?/4th_then_6th_no_5×3,O6×1 | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
@@ -222,20 +222,22 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `O6` / `owner_tail_trunc`: 6th: Will-O-Maor Rex, owned by Michelle Williams & Kimberly Hor
 - `O6` / `owner_tail_trunc`: 5th: Will-O-Moa Rex, owned by Michelle Williams & Kimberly Hor
 
-### `1996 Vol II pg 163-220 front_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `place_smash`: k, owned by Debbie McWilliams, owned by Lynn May Measles
-- `S1-S3` / `place_smash`: 5th: Easton, owned by Points Nipper, owned by Sally Gay
-- `S1-S3` / `place_smash`: 2nd: Farmstead Keswick Itch, Jazz, owned by, owned by by Sandy Judy & Galterio Joel McElerney
-- `S1-S3` / `place_smash`: 3rd: Moonrunner Courtland My Keeper, Girl, owned by, owned by by Joseph Clay Ackerman Jankowski & Kellyann Morander
-- `S1-S3` / `place_smash`: -uego, owned by Donald & Joan LaPla, owned by N. Gaye Redpath
-- `S1-S3` / `place_smash`: ike, owned by Judy Tuthill, owned by Bob & Genie Franklin
-- `S1-S3` / `place_smash`: eks, owned by N. Gaye Redpath, owned by Ken Chambers, owned by Susan Norman
+### `1996 Vol II pg 163-220 front_ocr_hqmax.txt` (WARN)
 - `S4` / `mangled_by`: 4th: Not reported by Trial Chairperson
 - `S4` / `mangled_by`: 3rd: Not reported by Trial Chairperson
 - `S4` / `mangled_by`: 5th: Not reported by Trial Chairperson
 - `S4` / `mangled_by`: 6th: Not reported by Trial Chairperson
 - `?` / `4th_then_6th_no_5`: 4th: Risky of High & Low, owned by Mellisa Lowe
 6th: High & Low Frostbite of Running Wild, owned by Bob Zeiner
+- `?` / `4th_then_6th_no_5`: 4th: Bently, owned by Tabitha & Roger Shury
+6th: Agnew, owned by Margo Weston
+- `?` / `4th_then_6th_no_5`: 4th: Crossewinds Sarah, owned by Becky Crosse
+6th: Willowbend Dalley Up, owned by Claudia Spra
+- `S4/O` / `missing_owned_by`: 3rd: Merill's mountain Christmas Belle, owned
+- `S4/O` / `missing_owned_by`: 4th: Three Oaks Penny of Green Acres, owner
+- `S4/O` / `missing_owned_by`: 2nd: Trebor Chase Black Jack Daniels, owned b
+- `S4/O` / `missing_owned_by`: Reserve: Crosswinds Puzzle of Orchard Hill, own
+- `S4/O` / `missing_owned_by`: 3rd: Falling Branch Celia, owned b
 
 ### `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` (FAIL)
 - `S1-S3` / `place_smash`: 5th: SpringateRuff-n-Tuff, owned by Amy, owned by Dog Pups, 9 up to 12 months

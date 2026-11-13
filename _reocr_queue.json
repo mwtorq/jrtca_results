@@ -434,18 +434,6 @@
   },
   {
     "year": 1996,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
-    "codes": [
-      "class_header_gap",
-      "owner_tail_trunc",
-      "place_smash"
-    ],
-    "fail_hits": 49,
-    "top_catalog": "O6\u00d725,S4/O\u00d724,C1\u00d717,C6/O1\u00d712,S4\u00d78,S1-S3\u00d77,C6\u00d74,?/4th_then_6th_no_5\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1996,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
     "codes": [
       "class_header_gap",

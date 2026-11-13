@@ -4,9 +4,9 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt",
-      "chars_before": 60005,
-      "chars_after": 59955,
-      "cleaned": true,
+      "chars_before": 59891,
+      "chars_after": 59891,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 36,
       "warn_hits": 39,
@@ -231,9 +231,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
-      "chars_before": 60949,
+      "chars_before": 60921,
       "chars_after": 60921,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 25,
       "warn_hits": 38,
@@ -803,9 +803,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt",
-      "chars_before": 49659,
+      "chars_before": 49658,
       "chars_after": 49658,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "WARN",
       "fail_hits": 0,
       "warn_hits": 29,
@@ -952,9 +952,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt",
-      "chars_before": 47435,
+      "chars_before": 47369,
       "chars_after": 47369,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 4,
       "warn_hits": 22,
@@ -1499,9 +1499,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt",
-      "chars_before": 61687,
-      "chars_after": 61670,
-      "cleaned": true,
+      "chars_before": 61650,
+      "chars_after": 61650,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 15,
       "warn_hits": 13,
@@ -2318,60 +2318,22 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
-      "chars_before": 59421,
-      "chars_after": 59421,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 49,
-      "warn_hits": 50,
-      "top_codes": "owner_tail_trunc\u00d725,missing_owned_by\u00d724,class_header_gap\u00d717,bare_entries\u00d712,mangled_by\u00d78,place_smash\u00d77,orphan_entry_count\u00d74,4th_then_6th_no_5\u00d72",
-      "top_catalog": "O6\u00d725,S4/O\u00d724,C1\u00d717,C6/O1\u00d712,S4\u00d78,S1-S3\u00d77,C6\u00d74,?/4th_then_6th_no_5\u00d72",
+      "chars_before": 62095,
+      "chars_after": 62072,
+      "cleaned": true,
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 51,
+      "top_codes": "missing_owned_by\u00d724,bare_entries\u00d712,mangled_by\u00d78,orphan_entry_count\u00d74,4th_then_6th_no_5\u00d73",
+      "top_catalog": "S4/O\u00d724,C6/O1\u00d712,S4\u00d78,C6\u00d74,?/4th_then_6th_no_5\u00d73",
       "by_code": {
-        "place_smash": 7,
         "mangled_by": 8,
-        "4th_then_6th_no_5": 2,
-        "owner_tail_trunc": 25,
+        "4th_then_6th_no_5": 3,
         "missing_owned_by": 24,
         "bare_entries": 12,
-        "orphan_entry_count": 4,
-        "class_header_gap": 17
+        "orphan_entry_count": 4
       },
       "samples": [
-        {
-          "code": "place_smash",
-          "catalog": "S1-S3",
-          "line": "k, owned by Debbie McWilliams, owned by Lynn May Measles"
-        },
-        {
-          "code": "place_smash",
-          "catalog": "S1-S3",
-          "line": "5th: Easton, owned by Points Nipper, owned by Sally Gay"
-        },
-        {
-          "code": "place_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: Farmstead Keswick Itch, Jazz, owned by, owned by by Sandy Judy & Galterio Joel McElerney"
-        },
-        {
-          "code": "place_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: Moonrunner Courtland My Keeper, Girl, owned by, owned by by Joseph Clay Ackerman Jankowski & Kellyann Morander"
-        },
-        {
-          "code": "place_smash",
-          "catalog": "S1-S3",
-          "line": "-uego, owned by Donald & Joan LaPla, owned by N. Gaye Redpath"
-        },
-        {
-          "code": "place_smash",
-          "catalog": "S1-S3",
-          "line": "ike, owned by Judy Tuthill, owned by Bob & Genie Franklin"
-        },
-        {
-          "code": "place_smash",
-          "catalog": "S1-S3",
-          "line": "eks, owned by N. Gaye Redpath, owned by Ken Chambers, owned by Susan Norman"
-        },
         {
           "code": "mangled_by",
           "catalog": "S4",
@@ -2403,119 +2365,9 @@
           "line": "4th: Bently, owned by Tabitha & Roger Shury\n6th: Agnew, owned by Margo Weston"
         },
         {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Windy View Questor, owned by William & Ga"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Marksworth Milestone, owned by Terry Clc"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Falling Branch Rye, owned by Grimsley & A"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Riggo, owned by Mike"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Brandy of Rednek, owned by Bot"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Lunstarr Jackie of Flying \"A\", owned by L"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Broken Arrow Bailee, owned by LeeE. & L"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Lunstarr Jackie of Flying \"A\", owned by Leg"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: Courtwood Chili, owned by J"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Wingate Shandy, owned by Rick & Mar"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Farmcliff Molly of Glencoe, owned by Ht"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Katie Clover of Mouse Moor, owned by I"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: North Country Pinocchio, owned by Nore"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "6th: Green Acres Cotton Eyed Joe, owned by M"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Reserve: Elusive Raider, owned by Nancy & Bil"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Thistledown Shawnee, owned by Chuck & Di"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Briarpatch Misty of Cairngorm, owned by Sara"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Polar Snow Baby of Good Times, owned by St"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Best: Meynell Cinder of Courtwood, owned by Rus"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Conquest Chaos of Little Eden, owned by I"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "6th: Copper of Whispering Winds, owned by Ken"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "5th: Loblolly Alexis of Easton Point, owned by Sa"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Foxshadows Hankerin to Hunt, owned by Jax"
+          "code": "4th_then_6th_no_5",
+          "catalog": "?",
+          "line": "4th: Crossewinds Sarah, owned by Becky Crosse\n6th: Willowbend Dalley Up, owned by Claudia Spra"
         },
         {
           "code": "missing_owned_by",
@@ -2536,20 +2388,136 @@
           "code": "missing_owned_by",
           "catalog": "S4/O",
           "line": "Reserve: Crosswinds Puzzle of Orchard Hill, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Falling Branch Celia, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Reyem Al, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Fomit, Gail Jennings"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Duncan, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Heaven Hill Bubbles of Fox Cry, Danna Pierce"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Hooter, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Norma Jean, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: White Stockings Miller Time, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Margarita, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Duncan, name of own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Josee, name of owner not reported"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Jack Be Quick, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "4th: Harley Dude, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Heaven Hill Zodiac, 0"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: White Stockings Erin, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd:   Bamber, ow"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Eagles Nest Shaman, owned"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "3rd: Nathan Quinter Ji Grove, own"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "6th: Eagles Nest Shaman, owned b"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "2nd: Desert View Mamie, owne"
+        },
+        {
+          "code": "bare_entries",
+          "catalog": "C6/O1",
+          "line": "Entries:"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "10"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "19"
+        },
+        {
+          "code": "orphan_entry_count",
+          "catalog": "C6",
+          "line": "12"
         }
       ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc",
-        "place_smash"
-      ]
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
-      "chars_before": 85914,
-      "chars_after": 85748,
-      "cleaned": true,
+      "chars_before": 85520,
+      "chars_after": 85520,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 13,
       "warn_hits": 34,
