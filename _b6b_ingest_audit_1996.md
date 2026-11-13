@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=21  PASS=10  WARN=0  FAIL=20
+Volumes: 30  cleaned=8  PASS=11  WARN=0  FAIL=19
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,35 +17,35 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
 | FAIL | True | 41 | 0 | O6×21,S4/O×13,S1-S3×4,C1×3 | `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` |
 | FAIL | True | 58 | 0 | O6×25,S4/O×14,S1-S3×11,C1×8 | `1996 Vol 1 pg 111-160 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
-| FAIL | True | 8 | 0 | S4/O×4,C1×2,S1-S3×1,O6×1 | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
-| FAIL | True | 28 | 0 | S4/O×16,S1-S3×6,C1×5,O6×1 | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
-| FAIL | True | 41 | 0 | S4/O×19,O6×13,C1×6,S1-S3×3 | `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
+| FAIL | False | 8 | 0 | S4/O×4,C1×2,S1-S3×1,O6×1 | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
+| FAIL | False | 28 | 0 | S4/O×16,S1-S3×6,C1×5,O6×1 | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
+| FAIL | False | 41 | 0 | S4/O×19,O6×13,C1×6,S1-S3×3 | `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 17 | 0 | O6×7,C1×7,S4/O×2,S1-S3×1 | `1996 Vol 1 pg 61-110 back_ocr_hqmax.txt` |
 | FAIL | True | 45 | 0 | O6×24,S4/O×14,C1×6,S1-S3×1 | `1996 Vol 1 pg 61-110 front_ocr_hqmax.txt` |
-| FAIL | True | 32 | 0 | S4/O×13,S4×8,O6×8,C1×2,S1-S3×1 | `1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt` |
+| FAIL | False | 32 | 0 | S4/O×13,S4×8,O6×8,C1×2,S1-S3×1 | `1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt` |
 | FAIL | True | 37 | 0 | O6×16,S4×9,S4/O×9,C1×3 | `1996 Vol II pg 163-220 back_ocr_hqmax.txt` |
-| FAIL | True | 28 | 0 | S4/O×17,S4×8,O6×1,C6×1,C1×1 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
+| FAIL | False | 28 | 0 | S4/O×17,S4×8,O6×1,C6×1,C1×1 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
 | FAIL | True | 24 | 0 | S4/O×8,C1×7,O6×6,S1-S3×3 | `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` |
-| FAIL | True | 13 | 0 | C1×7,O6×5,S1-S3×1 | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
-| FAIL | True | 35 | 0 | C1×12,O6×11,S4/O×9,S1-S3×3 | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
-| FAIL | True | 30 | 0 | S4/O×12,S1-S3×8,O6×5,C1×5 | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
-| FAIL | True | 37 | 0 | S1-S3×11,S4/O×11,C1×11,O6×4 | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
-| FAIL | True | 53 | 0 | S4/O×25,C1×14,O6×11,S1-S3×3 | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
+| FAIL | False | 9 | 0 | C1×6,S1-S3×2,O6×1 | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
+| FAIL | False | 30 | 0 | S4/O×12,S1-S3×8,O6×5,C1×5 | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
+| FAIL | False | 21 | 0 | C1×11,S1-S3×10 | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
+| FAIL | True | 19 | 0 | C1×12,O6×4,S1-S3×2,S4/O×1 | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
 | FAIL | True | 27 | 0 | O6×13,S4/O×9,C1×3,S1-S3×2 | `1996 Vol II pg 93-162 back_ocr_hqmax.txt` |
-| FAIL | True | 29 | 0 | S4/O×11,O6×10,S1-S3×5,C1×3 | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `Document_2026-11-04_144208_ocr_hqmax.txt` |
+| FAIL | False | 29 | 0 | S4/O×11,O6×10,S1-S3×5,C1×3 | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `Document_2026-11-04_144208_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_144530_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_145355_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_145925_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_151058_ocr_hqmax.txt` |
-| FAIL | True | 9 | 0 | S4/O×8,O6×1 | `Document_2026-11-04_152834_ocr_hqmax.txt` |
+| FAIL | False | 9 | 0 | S4/O×8,O6×1 | `Document_2026-11-04_152834_ocr_hqmax.txt` |
 | FAIL | False | 16 | 0 | S4×8,O6×4,C1×3,S4/O×1 | `Document_2026-11-04_153208_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -200,33 +200,16 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 4th: Fox Run Tyler, c
 - `S4/O` / `missing_owned_by`: 2nd: Sparky, twned
 
-### `1996 Vol II pg 23-92 back_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `place_smash`: 5th: SpringateRuff-n-Tuff, owned by Amy, owned by Dog Pups, 9 up to 12 months
-- `O6` / `owner_tail_trunc`: 5th: Bonnie Bee, owned by Gavin Com
-- `O6` / `owner_tail_trunc`: 4th: Molly, owned by Mary Web
-- `O6` / `owner_tail_trunc`: 3rd: AE die A mn: Céiimemtme aimed Bu William R (av OYRrien AgLity 1, owned by VIT Led
-- `O6` / `owner_tail_trunc`: 4th: Mineral Sorings Indiana Bones, owned by Mari
-- `O6` / `owner_tail_trunc`: 2nd: Ash Creek Matt, owned by Marty & Teresa Got
-- `C1` / `class_header_gap`: 1st: Beacon Jagle of Ravenswood, owned by Ben & Janet Sutcliffe
-- `C1` / `class_header_gap`: 1st: Lucy Mae, owned by J.Neff & J.Gay
-- `C1` / `class_header_gap`: 1st: Jera-lyn, owned by Maureen McKernan
-- `C1` / `class_header_gap`: 1st: All Seascns Woody, owned by Bontia Knickmeyer
-- `C1` / `class_header_gap`: 1st: RA Dixie, owned by RA Terriers
-- `C1` / `class_header_gap`: 1st: Farmstead Abby, owned by Richard & Annette
-
 ### `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `place_smash`: Champion: Single Single Track Track Hunter, Kasey, owned by, owned by by Mark James & Lisa Titus Green
 - `S1-S3` / `place_smash`: 12 12 1/2-15" Champion: Wyndcroft Will-O-Moor Natasha, Riley, owned by, owned by by Kathy Mark & Hunter Missy & Kulbacty Jeff Finkernagel
 - `S1-S3` / `place_smash`: al, owned by Tony Mason, owned by Mark Thompson
-- `O6` / `owner_tail_trunc`: 3rd: Deegan of Northgate, owned by Doug
-- `O6` / `owner_tail_trunc`: 4th: Farmcliff Hampton, owned by Vicki Jot
-- `O6` / `owner_tail_trunc`: 4th: Lickity Split Sassy, owned by Bob Fra
-- `O6` / `owner_tail_trunc`: 10-12 1/2" Champion: Farmcliff Betty, owned by ow
-- `O6` / `owner_tail_trunc`: 10-12 1/2" Reserve: Courtland Mi Girl, owned by ow
-- `O6` / `owner_tail_trunc`: 12 1/2-15" Reserve: Romney Kaz, owned by ow
-- `O6` / `owner_tail_trunc`: 2nd: Tucker, owned by Jc
-- `O6` / `owner_tail_trunc`: 3rd: Rudy, owned by Jea
 - `O6` / `owner_tail_trunc`: 1st: Haley's Comet, owned by Karen Rea
+- `C1` / `class_header_gap`: 1st: Whatapack Wylie, owned by Brad Ruppert
+- `C1` / `class_header_gap`: 1st: Foxnorton Tyke of M, owned by Karen Fitzpatrick
+- `C1` / `class_header_gap`: 1st: Vagabond Yoodoo o, owned by Michelle Ward
+- `C1` / `class_header_gap`: 1st: Meadowlake Haleys, owned by Karen Fitzpatrick
+- `C1` / `class_header_gap`: 1st: Round the Bend Que, owned by Michelle Ward
+- `C1` / `class_header_gap`: 1st: Banshee, owned by Melissa Lowe
 
 ### `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` (FAIL)
 - `S1-S3` / `place_smash`: irl, owned by J. Jankowski & K. Morande, owned by Genie Franklin
@@ -243,7 +226,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `O6` / `owner_tail_trunc`: 1st: Fox Run Risk, owned by ow
 
 ### `1996 Vol II pg 23-92 front_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `place_smash`: Reserve: Sows Laurel Ear Liberty, Run Orry, owned by, owned by by Paul Kate Hartman Bomberger & Karen McCarthy
 - `S1-S3` / `place_smash`: Buddy, owned by Andrew Burigo, owned by B. Franklin & C. Curtis
 - `S1-S3` / `place_smash`: 1, owned by J. Jankowski & K. Morand, owned by Genie Franklin
 - `S1-S3` / `place_smash`: on, owned by Vicki Johnson, owned by Bob Franklin
@@ -254,21 +236,22 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S1-S3` / `place_smash`: f Little Eden, owned by Michelle Ward, owned by Mark Thompson, owned by Leslie Woodcock
 - `S1-S3` / `place_smash`: 3, owned by Jeff Hamblin, owned by Gaye Redpath
 - `S1-S3` / `place_smash`: tifox, owned by Kelly & James Baneau, owned by Sue Hardin
-- `O6` / `owner_tail_trunc`: 1st: Bobby Duty, owned by Iif
+- `C1` / `class_header_gap`: 1st: Loblolly Jim, owned by Debra Ellis
+- `C1` / `class_header_gap`: 1st: The Larches Pick, owned by Donald & Joan LaPlace
 
 ### `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` (FAIL)
 - `S1-S3` / `place_smash`: gie, owned by Charlene Schlueter, owned by Aurora Rubel
 - `S1-S3` / `place_smash`: hance, owned by Jill Nichols, owned by Kathy Oelrich
-- `S1-S3` / `place_smash`: Jer, owned by Catherine Brown, owned by Doug & Sue Tack
 - `O6` / `owner_tail_trunc`: 4th: Frost, owned by Andrea Vaz
-- `O6` / `owner_tail_trunc`: 5th: Windtree (et, owned by ow
-- `O6` / `owner_tail_trunc`: 3rd: Rooson Ciga, owned by ow
-- `O6` / `owner_tail_trunc`: 2nd: Rooson Ciara, owned by ow
-- `O6` / `owner_tail_trunc`: 1st: Tag, owned by Ka
-- `O6` / `owner_tail_trunc`: 4th: Fox Run Kiam, owned by ow
 - `O6` / `owner_tail_trunc`: 4th: Windermer Nitewitch of Sow's Ear, owned by Paul Hartman & Kai
-- `O6` / `owner_tail_trunc`: 12 1/2-15" Champion: Qualyns Falcon of Blue Barns, owned by Ru
 - `O6` / `owner_tail_trunc`: Reserve: Goliath, owned by Jim Yue
+- `O6` / `owner_tail_trunc`: 1st: Goliath, owned by Jim Yue
+- `S4/O` / `missing_owned_by`: 4th: Wild Remain, owrbth: Eastlake Mejan o
+- `C1` / `class_header_gap`: 1st: Foxport Laser of Little Eden, owned by Michelle Ward
+- `C1` / `class_header_gap`: 1st: Fox RunSly, owned by Sandra Ferber
+- `C1` / `class_header_gap`: 1st: Wildwest lackpot, owned by Joan Stroh
+- `C1` / `class_header_gap`: 1st: Farmcliff Fred of, owned by Mark & Janice Bjorkland
+- `C1` / `class_header_gap`: 1st: Wind Song Tracy, owned by Cheryl Hart
 
 ### `1996 Vol II pg 93-162 back_ocr_hqmax.txt` (FAIL)
 - `S1-S3` / `place_smash`: land, owned by Lloyd & Shirley Cox, owned by Cheryl Hart
