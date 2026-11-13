@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=3  PASS=3  WARN=8  FAIL=3
+Volumes: 14  cleaned=3  PASS=3  WARN=9  FAIL=2
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -27,10 +27,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | WARN | False | 0 | 1 | S4/O×1 | `2001 PNWJRTN_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
 | FAIL | False | 27 | 30 | C1×25,C6×19,S4/O×8,?/4th_then_2nd×2,O6×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
-| WARN | True | 0 | 17 | S4/O×8,C6×8,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
+| WARN | False | 0 | 17 | S4/O×8,C6×8,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | S4/O×3,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
 | WARN | True | 0 | 12 | C6×6,S4/O×4,?/4th_then_2nd×1,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
-| FAIL | False | 27 | 14 | C1×25,S4/O×10,?/4th_then_6th_no_5×2,O6×2,C6×2 | `2001 Vol III pt 2_ocr_hqmax.txt` |
+| WARN | True | 0 | 11 | S4/O×9,?/4th_then_6th_no_5×1,C6×1 | `2001 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -121,17 +121,14 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 6
 - `C6` / `orphan_entry_count`: 1
 
-### `2001 Vol III pt 2_ocr_hqmax.txt` (FAIL)
-- `?` / `4th_then_6th_no_5`: 4th: Bent Creek Carley, owned by Marc & Laura Cormier
-6th: Stone's Throw Griffey, owned by Karen Merriman
-- `O6` / `owner_tail_trunc`: 1st: Rat Race Remember When, owned by Gary & Donna Ric
+### `2001 Vol III pt 2_ocr_hqmax.txt` (WARN)
+- `?` / `4th_then_6th_no_5`: 4th: Tortilla Flat Milo, owned by Joey Gerding
+6th: Anderson Acres Ellie May, owned by Tony & Kim Anderson
 - `S4/O` / `missing_owned_by`: 1st: Sassy, owner unknown
 - `S4/O` / `missing_owned_by`: 5th: Falling Branch Trumpet, Kathy & Bob Montbleau
 - `S4/O` / `missing_owned_by`: 6th: Quitealot UdlSy, OWIicG Dy UcDla Ltuallv
 - `S4/O` / `missing_owned_by`: 5th: Razzmatazz, owner unknown
 - `S4/O` / `missing_owned_by`: 4th: Razzmatazz, owner unknown
 - `S4/O` / `missing_owned_by`: 5th:     Pepper, pa by Richard Burfoot
-- `S4/O` / `missing_owned_by`: 3rd: BayBriar Penelopy, by David & Jeannette Hutchison
+- `S4/O` / `missing_owned_by`: 2nd: Farmeliftdoe, ownediby Bobi& Genie Franklin
 - `C6` / `orphan_entry_count`: 5
-- `C1` / `class_header_gap`: 1st: Brown's Valley Mustang Sally, owned by L. & A. Wendland
-- `C1` / `class_header_gap`: 1st: Green Gate Tomba, owned by Joe & Priscilla Testa
