@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 2000
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=2  PASS=0  WARN=4  FAIL=1
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 5  cleaned=1  PASS=0  WARN=5  FAIL=0
+Year verdict: **WARN**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -17,27 +17,25 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 28 | 12 | C1×25,C6×7,S4/O×5,O6×3 | `2000 Vol I_ocr_hqmax.txt` |
-| WARN | True | 0 | 27 | S4/O×22,S4×2,?/4th_then_2nd×2,?/4th_then_6th_no_5×1 | `2000 Vol II_ocr_hqmax.txt` |
+| WARN | True | 0 | 13 | C6×7,S4/O×6 | `2000 Vol I_ocr_hqmax.txt` |
+| WARN | False | 0 | 27 | S4/O×22,S4×2,?/4th_then_2nd×2,?/4th_then_6th_no_5×1 | `2000 Vol II_ocr_hqmax.txt` |
 | WARN | False | 0 | 11 | S4/O×7,C6×2,S4×1,?/4th_then_2nd×1 | `2000 vol 3 pt 1_ocr_hqmax.txt` |
 | WARN | False | 0 | 15 | S4/O×8,C6×7 | `2000 Vol III pt 1_ocr_hqmax.txt` |
 | WARN | False | 0 | 6 | S4/O×4,C6/O1×2 | `2000 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
-### `2000 Vol I_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 2nd: Jumping Koxa Roo, owned by Steve & Betty Roo
-- `O6` / `owner_tail_trunc`: 1st: R.A. Cyclone Sally, owned by Samuel & i
+### `2000 Vol I_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 6th: Pandemonium, Dana and Laura Mitchell
 - `S4/O` / `missing_owned_by`: 2nd: Tortilla Flat Moka Smudj, Patty Freimark
 - `S4/O` / `missing_owned_by`: 1st: Raindance Apache, owned b Pam Shepherd
 - `S4/O` / `missing_owned_by`: 4th: Pterodactyl Pandora, Dawn Kleninger
+- `S4/O` / `missing_owned_by`: 5th: Working Terrier Dog, 10 up to 12 1/2", smooth         Entries:
 - `S4/O` / `missing_owned_by`: 3rd: Lost Creek Lexington, owner unknown
 - `C6` / `orphan_entry_count`: 10
 - `C6` / `orphan_entry_count`: 2
 - `C6` / `orphan_entry_count`: 16
 - `C6` / `orphan_entry_count`: 3
-- `C1` / `class_header_gap`: 1st: Marksworth Beau, owned by Catherine Tobias
 
 ### `2000 Vol II_ocr_hqmax.txt` (WARN)
 - `S4` / `mangled_by`: 2nd: Gizmo, woend by John & Vicki Brown

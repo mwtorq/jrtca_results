@@ -2556,6 +2556,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "hoy",  # RTF/image: Linda Hoy complete (2000 Vol III pt2 Neutered Adult Dog)
         "lum",  # yearbook txt: Christopher & Pamela Lum complete (2000 vol 3 pt1 Rimshot)
         "pan",  # yearbook txt: Luting Pan complete (2000 vol 3 pt1 Long Hope Bambi)
+        "roo",  # yearbook txt: Steve & Betty Roo complete (2000 Vol I Jumping Koxa Roo)
         "wren",
         "quick",
         "wilde",

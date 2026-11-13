@@ -1,34 +1,22 @@
 {
   "year": 2000,
-  "verdict": "FAIL",
+  "verdict": "WARN",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_I\\2000 Vol I_ocr_hqmax.txt",
-      "chars_before": 801406,
-      "chars_after": 801416,
+      "chars_before": 852448,
+      "chars_after": 852455,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 28,
-      "warn_hits": 12,
-      "top_codes": "class_header_gap\u00d725,orphan_entry_count\u00d77,missing_owned_by\u00d75,owner_tail_trunc\u00d73",
-      "top_catalog": "C1\u00d725,C6\u00d77,S4/O\u00d75,O6\u00d73",
+      "verdict": "WARN",
+      "fail_hits": 0,
+      "warn_hits": 13,
+      "top_codes": "orphan_entry_count\u00d77,missing_owned_by\u00d76",
+      "top_catalog": "C6\u00d77,S4/O\u00d76",
       "by_code": {
-        "owner_tail_trunc": 3,
-        "missing_owned_by": 5,
-        "orphan_entry_count": 7,
-        "class_header_gap": 25
+        "missing_owned_by": 6,
+        "orphan_entry_count": 7
       },
       "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Jumping Koxa Roo, owned by Steve & Betty Roo"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: R.A. Cyclone Sally, owned by Samuel & i"
-        },
         {
           "code": "missing_owned_by",
           "catalog": "S4/O",
@@ -48,6 +36,11 @@
           "code": "missing_owned_by",
           "catalog": "S4/O",
           "line": "4th: Pterodactyl Pandora, Dawn Kleninger"
+        },
+        {
+          "code": "missing_owned_by",
+          "catalog": "S4/O",
+          "line": "5th: Working Terrier Dog, 10 up to 12 1/2\", smooth         Entries:"
         },
         {
           "code": "missing_owned_by",
@@ -73,109 +66,16 @@
           "code": "orphan_entry_count",
           "catalog": "C6",
           "line": "3"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Marksworth Beau, owned by Catherine Tobias"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Tippycanoe Storm, owned by Barbara Tyler"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Spankey, owned by Sindy Barbour"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: TF. Ivana Fox, owned by Meridith Hindle"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Button Top Adventure, owned by Flo Clark"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Rustling Oaks Jack, owned by Teresa Vanderbilt"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: tt Fox Tale Riot, owned by Mark & Janice Bjorkland"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Westwood Nugget, owned by Barry & Lillian Leno"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Orchard Hill Divot, owned by Carol Voyles"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Rootie Tootie, owned by Lynn May Measles"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Lands End Bully, owned by Didi Gough"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Undercover Gage, owned by Dorothy Stair"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Sweet Grass Annie, owned by Catherine Brown"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Glenhaven Belle, owned by G. Morin & J. Veazy"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Northgate Chester, owned by Susan Gill"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Big Sky Annie, owned by Doug & Sue Tack"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Foxfield Garth, owned by Debbie Verg"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: istt Blazing Jack's Freeway, owned by Vega/Carson"
         }
       ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc"
-      ]
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_II\\2000 Vol II_ocr_hqmax.txt",
-      "chars_before": 508269,
+      "chars_before": 508270,
       "chars_after": 508270,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "WARN",
       "fail_hits": 0,
       "warn_hits": 27,
