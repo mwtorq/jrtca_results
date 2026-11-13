@@ -1,0 +1,81 @@
+{
+  "year": 1993,
+  "verdict": "PASS",
+  "volumes": [
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
+      "chars_before": 48275,
+      "chars_after": 48275,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_230536_ocr_hqmax.txt",
+      "chars_before": 38629,
+      "chars_after": 38629,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_231659_ocr_hqmax.txt",
+      "chars_before": 18044,
+      "chars_after": 18044,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_233615_ocr_hqmax.txt",
+      "chars_before": 50757,
+      "chars_after": 50757,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_2\\Document_2026-11-04_002601_ocr_hqmax.txt",
+      "chars_before": 2359,
+      "chars_after": 2359,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    }
+  ]
+}

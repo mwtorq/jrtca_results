@@ -1137,6 +1137,12 @@ def _normalize_owned_by_ocr(text: str) -> str:
     # Truncated owner crumb ``Dog, ow`` / ``Dog, owr`` → owned-by stub (O6, no invent)
     text = re.sub(r"(?im)(,\s*)owr?\s*$", r"\1owned by ow", text)
     text = re.sub(r"(?i),\s*owr\s+y\s+", ", owned by ", text)
+    # Cropped ``, owl`` / ``, ov`` / ``, owne`` / ``, own:`` / bare ``, o`` (owned-by bleed)
+    text = re.sub(r"(?im),\s*owl\s*$", ", owned by ow", text)
+    text = re.sub(r"(?im),\s*ov\s*$", ", owned by ow", text)
+    text = re.sub(r"(?im),\s*owne\s*$", ", owned by ow", text)
+    text = re.sub(r"(?im),\s*own:?\s*$", ", owned by ow", text)
+    text = re.sub(r"(?im),\s*o\s*$", ", owned by ow", text)
     # Junior/handler: ``B.J. Duty, owned by Ill`` → ``B.J. Duty III`` (Roman suffix OCR)
     text = re.sub(
         r"(?im)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:\s*.+?),\s*"
@@ -1300,6 +1306,7 @@ _SECTIONISH_RE = re.compile(
     r"\btrailing\b|\blocating\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
+    r"\bworking\s+terrier\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
     r"\d+\s*(?:up to|/|-)\s*\d+"
 )
@@ -1317,6 +1324,7 @@ _CLASS_HEADER_HINT_RE = re.compile(
     r"\btrailing\b|\blocating\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
+    r"\bworking\s+terrier\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
     r"\d+\s*(?:up to|/|-)\s*\d+|"
     r"yr\s*&?\s*older|months?\b"
@@ -1408,7 +1416,8 @@ def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
         s = line.strip()
         if not s:
             continue
-        if _COLUMN_MARK_RE.match(s):
+        if _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            # Column/page/ensemble markers: mid-class continuation, not a new gap.
             gap_armed = False
             continue
         if _PLACE_FIRST_RE.match(s):
@@ -2823,6 +2832,11 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "deo",  # image: Roy & Sandra Deo complete (1999 Vol I pt1 Sun Dance)
         "fee",  # image: Dennie/Dennis Fee complete (1999 Vol I pt2 Paramount Ecstasy)
         "hoy",  # RTF/image: Linda Hoy complete (2000 Vol III pt2 Neutered Adult Dog)
+        "foy",  # yearbook: Gail / Gail & Ed Foy complete (1992-1993 Down East*)
+        "nye",  # yearbook: Michael & Andrea Nye complete (1992 Zig)
+        "coe",  # yearbook: Tricia Coe complete (1992 Pippen / Hobbit Hollow)
+        "kai",  # yearbook: Gwen & Randy Kai complete (1992 Hunter's Haven / Button Top)
+        "hey",  # yearbook: Ward Hey / Jamie Hey complete (1992-1994 Fox Run Sadie)
         "lum",  # yearbook txt: Christopher & Pamela Lum complete (2000 vol 3 pt1 Rimshot)
         "pan",  # yearbook txt: Luting Pan complete (2000 vol 3 pt1 Long Hope Bambi)
         "roo",  # yearbook txt: Steve & Betty Roo complete (2000 Vol I Jumping Koxa Roo)
