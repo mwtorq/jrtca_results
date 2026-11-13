@@ -3532,6 +3532,16 @@ def _iter_midclass_page_dropout_hits(
             place_ranks = []
             saw_page = False
             continue
+        # Bare DIVISION banners are section chrome, not place-classes.
+        if re.match(
+            r"(?i)^(?:Conformation|Racing|Go-?to-?Ground|Agility|Obedience|"
+            r"Working(?:\s+Terrier)?)\s+DIVISION\b",
+            s,
+        ):
+            in_class = False
+            place_ranks = []
+            saw_page = False
+            continue
         if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
             in_class = True
             place_ranks = []

@@ -19,9 +19,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-      "chars_before": 152398,
+      "chars_before": 152329,
       "chars_after": 152329,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 27,
       "warn_hits": 0,
@@ -165,13 +165,13 @@
       "chars_after": 178740,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 40,
+      "fail_hits": 39,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d714",
-      "top_catalog": "C1/C6\u00d726,C1\u00d714",
+      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d713",
+      "top_catalog": "C1/C6\u00d726,C1\u00d713",
       "by_code": {
         "incomplete_entries": 26,
-        "midclass_page_dropout": 14
+        "midclass_page_dropout": 13
       },
       "samples": [
         {
@@ -353,11 +353,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Bitches, 1 yr & over, 10-12-1/2\" | after page got 3th expected 5 | 3rd: Thomas of Loblolly, owned by Debra Ellis"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Conformation Division | after page got 3th expected 1 | 3rd: Kango Jack, owned by Suzanne Rodriguez"
         },
         {
           "code": "midclass_page_dropout",

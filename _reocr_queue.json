@@ -10,47 +10,25 @@
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
-    "year": 1995,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
+    "year": 1990,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
     "codes": [
       "incomplete_entries",
       "midclass_page_dropout"
     ],
-    "fail_hits": 6,
-    "top_catalog": "C1/C6\u00d75,C1\u00d71",
+    "fail_hits": 27,
+    "top_catalog": "C1/C6\u00d726,C1\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
-    "year": 1995,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124704_ocr_hqmax.txt",
+    "year": 1990,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_200401_ocr_hqmax.txt",
     "codes": [
       "incomplete_entries",
       "midclass_page_dropout"
     ],
-    "fail_hits": 8,
-    "top_catalog": "C1/C6\u00d77,C1\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1995,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_134403_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries",
-      "midclass_page_dropout"
-    ],
-    "fail_hits": 16,
-    "top_catalog": "C1/C6\u00d711,C1\u00d75",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1995,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_142425_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries",
-      "midclass_page_dropout"
-    ],
-    "fail_hits": 9,
-    "top_catalog": "C1/C6\u00d77,C1\u00d72",
+    "fail_hits": 39,
+    "top_catalog": "C1/C6\u00d726,C1\u00d713",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -162,28 +140,6 @@
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
-    "year": 1990,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries",
-      "midclass_page_dropout"
-    ],
-    "fail_hits": 27,
-    "top_catalog": "C1/C6\u00d726,C1\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1990,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_200401_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries",
-      "midclass_page_dropout"
-    ],
-    "fail_hits": 40,
-    "top_catalog": "C1/C6\u00d726,C1\u00d714",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
     "year": 1993,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
     "codes": [
@@ -226,6 +182,50 @@
     ],
     "fail_hits": 20,
     "top_catalog": "C1/C6\u00d715,S1-S3\u00d73,C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1995,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
+    "codes": [
+      "incomplete_entries",
+      "midclass_page_dropout"
+    ],
+    "fail_hits": 6,
+    "top_catalog": "C1/C6\u00d75,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1995,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124704_ocr_hqmax.txt",
+    "codes": [
+      "incomplete_entries",
+      "midclass_page_dropout"
+    ],
+    "fail_hits": 8,
+    "top_catalog": "C1/C6\u00d77,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1995,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_134403_ocr_hqmax.txt",
+    "codes": [
+      "incomplete_entries",
+      "midclass_page_dropout"
+    ],
+    "fail_hits": 16,
+    "top_catalog": "C1/C6\u00d711,C1\u00d75",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1995,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_142425_ocr_hqmax.txt",
+    "codes": [
+      "incomplete_entries",
+      "midclass_page_dropout"
+    ],
+    "fail_hits": 9,
+    "top_catalog": "C1/C6\u00d77,C1\u00d72",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]
