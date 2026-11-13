@@ -4,17 +4,17 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
-      "chars_before": 45855,
-      "chars_after": 45809,
+      "chars_before": 45807,
+      "chars_after": 45764,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 10,
+      "fail_hits": 9,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d73",
-      "top_catalog": "C1/C6\u00d77,C1\u00d73",
+      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d72",
+      "top_catalog": "C1/C6\u00d77,C1\u00d72",
       "by_code": {
         "incomplete_entries": 7,
-        "midclass_page_dropout": 3
+        "midclass_page_dropout": 2
       },
       "samples": [
         {
@@ -56,11 +56,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Bitch Pups, 9 up to 12 months                                                    | after page got 2th expected 3 | 2nd: Rustler's Peggy Sue, owned by Brenda Swa"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "JRTCA Novice Class \u2013 Entries: 15 | after page got 4th expected 5 | 4th: River Run lvy, owned by Rom Roscioli"
         },
         {
           "code": "midclass_page_dropout",
