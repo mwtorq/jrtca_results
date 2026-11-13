@@ -602,6 +602,7 @@ def fix_place_rank_ocr(text: str) -> str:
     text = re.sub(r"(?im)^RESERVE\s*:\s*", "Reserve: ", text or "")
     text = re.sub(r"(?im)^CHAMPION\s*:\s*", "Champion: ", text or "")
     text = re.sub(r"(?im)^2eserve\s*:\s*", "Reserve: ", text or "")
+    text = re.sub(r"(?im)^(?:d|t)eserve\s*:\s*", "Reserve: ", text or "")
     text = re.sub(r"(?im)^3ronze\s+Medallion\b", "Bronze Medallion", text or "")
     # Bare ``istt Name`` (leading 1st: digit lost)
     text = re.sub(r"(?im)^istt\s+", "1st: ", text or "")
