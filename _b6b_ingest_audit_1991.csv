@@ -1,0 +1,5 @@
+year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
+1991,_ocr_baseline_v2\yearbook_1990_2001\1991\1991_Yearbook_Vol_1\Document_2026-11-03_201758_ocr_hqmax.txt,False,45726,45726,PASS,0,0,,
+1991,_ocr_baseline_v2\yearbook_1990_2001\1991\1991_Yearbook_Vol_1\Document_2026-11-03_205014_ocr_hqmax.txt,False,47933,47933,PASS,0,0,,
+1991,_ocr_baseline_v2\yearbook_1990_2001\1991\1991_Yearbook_Vol_2\Document_2026-11-03_210248_ocr_hqmax.txt,False,60788,60788,PASS,0,0,,
+1991,_ocr_baseline_v2\yearbook_1990_2001\1991\1991_Yearbook_Vol_2\Document_2026-11-03_211454_ocr_hqmax.txt,False,12553,12553,PASS,0,0,,

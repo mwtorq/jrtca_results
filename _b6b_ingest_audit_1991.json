@@ -1,0 +1,66 @@
+{
+  "year": 1991,
+  "verdict": "PASS",
+  "volumes": [
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
+      "chars_before": 45726,
+      "chars_after": 45726,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_205014_ocr_hqmax.txt",
+      "chars_before": 47933,
+      "chars_after": 47933,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_210248_ocr_hqmax.txt",
+      "chars_before": 60788,
+      "chars_after": 60788,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_211454_ocr_hqmax.txt",
+      "chars_before": 12553,
+      "chars_after": 12553,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    }
+  ]
+}

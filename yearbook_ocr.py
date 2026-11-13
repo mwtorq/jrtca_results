@@ -2834,6 +2834,8 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "hoy",  # RTF/image: Linda Hoy complete (2000 Vol III pt2 Neutered Adult Dog)
         "foy",  # yearbook: Gail / Gail & Ed Foy complete (1992-1993 Down East*)
         "orr",  # image: Beth Orr complete (1990)
+        "six",  # image: John Six complete (1991)
+        "jay",  # image: Beth Jay complete (1991)
         "ord",  # image: Jim Ord complete (1990)
         "fey",  # image: Larry Fey complete (1990)
         "paz",  # image: Tara Paz complete (1995)
