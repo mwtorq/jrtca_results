@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=10  PASS=30  WARN=0  FAIL=0
+Volumes: 30  cleaned=1  PASS=30  WARN=0  FAIL=0
 Year verdict: **PASS**  SQL-apply unlock: YES
 
 ## Intent
@@ -17,29 +17,29 @@ Year verdict: **PASS**  SQL-apply unlock: YES
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol 1 pg 111-160 back_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 111-160 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 61-110 back_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol 1 pg 61-110 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol II pg 163-220 back_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol II pg 163-220 back_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol II pg 93-162 back_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol II pg 93-162 back_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_144208_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_144530_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_145355_ocr_hqmax.txt` |

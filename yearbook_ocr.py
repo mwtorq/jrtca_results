@@ -1404,7 +1404,7 @@ def _place_body_as_class_header(s: str) -> str | None:
 
 
 def _class_entries_n(line: str) -> int | None:
-    m = re.search(r"(?i)\bEntries\s*:\s*(\d+)\b", line)
+    m = re.search(r"(?i)\bE(?:n|i|a)tr(?:ies|les|icer)?\s*:\s*(\d+)\b", line)
     return int(m.group(1)) if m else None
 
 
@@ -1445,7 +1445,7 @@ def _iter_post_page_missing_header_indices(lines: list[str]) -> list[int]:
             place_ranks = []
             armed_post_page = False
             continue
-        if re.match(r"(?i)^Entries\s*:\s*\d+\s*$", s):
+        if re.match(r"(?i)^E(?:n|i|a)tr(?:ies|les|icer)?\s*:\s*\d+\s*$", s):
             entries_n = _class_entries_n(s)
             continue
         if page_chrome_re.match(s) or (
@@ -1458,15 +1458,28 @@ def _iter_post_page_missing_header_indices(lines: list[str]) -> list[int]:
             # Non-page markers: do not arm; do not clear an already-armed post-page gap.
             continue
         if _PLACE_FIRST_RE.match(s) or _PLACE_NON_FIRST_RE.match(s) or _CHAMP_RESERVE_ROLE_RE.match(s):
+            m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+            rank = int(m.group(1)) if m else None
             if armed_post_page:
+                # Mid-class continuation: ranks keep ascending across the page break.
+                if (
+                    rank is not None
+                    and place_ranks
+                    and rank == max(place_ranks) + 1
+                ):
+                    armed_post_page = False
+                    place_ranks.append(rank)
+                    continue
                 gaps.append(i)
                 armed_post_page = False
                 # New class started without header; reset tracking from this place block.
                 entries_n = None
                 place_ranks = []
-            m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
-            if m:
-                place_ranks.append(int(m.group(1)))
+                if rank is not None:
+                    place_ranks.append(rank)
+                continue
+            if rank is not None:
+                place_ranks.append(rank)
             continue
     return gaps
 
@@ -2910,6 +2923,7 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "orr",  # image: Beth Orr complete (1990)
         "six",  # image: John Six complete (1991)
         "jay",  # image: Beth Jay complete (1991)
+        "low",  # Melissa Low/Lowe complete short form
         "ord",  # image: Jim Ord complete (1990)
         "fey",  # image: Larry Fey complete (1990)
         "paz",  # image: Tara Paz complete (1995)
@@ -3441,24 +3455,79 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
     for gi in _iter_class_header_gap_indices(lines)[:max_samples]:
         sample = lines[gi].strip()[:160]
         hits.append(("class_header_gap", sample))
-    # Two-column smash / column-bleed dust: glued titles or OCR corruption only.
-    # Clean spaced headers (STEEPLECHASE RACES, Go-to-Ground DIVISION) do not flag.
+    # Two-column smash / column-bleed:
+    # (1) glued or corrupted division titles
+    # (2) same-line place + foreign division keyword
+    # (3) foreign racing/GTG/agility header jammed BETWEEN ascending ranks of a class
+    # Clean DIVISION boundaries and judge lines are not smash.
     n = 0
     glued_re = re.compile(
         r"(?i)STEEPLECHASERACES|GO-TO-GROUNDDIVISION|GOTOGROUNDDIVISION|"
         r"AGILITYDIVISI[O0]L|CONFORMATIONDIVISION|RACINGDIVISION|"
-        r"Go-?to-?Ground\s*[¢]HAMPION|(?<![A-Za-z])DIVISI[O0]L(?![A-Za-z])"
+        r"Go-?to-?Ground\s*[¢]HAMPION|(?<![A-Za-z])DIVISI[O0]L(?![A-Za-z])|"
+        r"(?<![A-Za-z])\)IVISION(?![A-Za-z])"
     )
-    for ln in lines:
+    foreign_hdr_re = re.compile(
+        r"(?i)^(?:STEEPLECHASE(?:\s+RACES)?|FLAT\s+RACES|RACING\s+DIVISION|"
+        r"ADULT\s+RACING\s+CHAMPION|PUPPY\s+RACING\s+CHAMPION|RACING\s+CHAMPIONS?|"
+        r"GO-?TO-?GROUND\s+DIVISION|AGILITY\s+DIVISION|"
+        r"Go-?to-?Ground\s+CHAMPION)\b"
+    )
+    place_re = re.compile(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:")
+    division_boundary_re = re.compile(
+        r"(?i)^(?:CONFORMATION|RACING|GO-?TO-?GROUND|AGILITY)\s+DIVISION\b"
+    )
+    seen = set()
+    for i, ln in enumerate(lines):
         if n >= max_samples:
             break
         s = ln.strip()
         if not s:
             continue
         if glued_re.search(s):
-            hits.append(("two_column_smash", s[:160]))
-            n += 1
-    return hits
+            key = ("g", s[:80])
+            if key not in seen:
+                hits.append(("two_column_smash", s[:160]))
+                seen.add(key)
+                n += 1
+            continue
+        pm = place_re.match(s)
+        if not pm:
+            continue
+        # same-line foreign header jammed into a place line
+        if foreign_hdr_re.search(s) and place_re.match(s):
+            # place line that also embeds a division title
+            if re.search(r"(?i)\b(?:STEEPLECHASE|FLAT\s+RACES|RACING\s+DIVISION|GO-?TO-?GROUND\s+DIVISION|AGILITY\s+DIVISION)\b", s):
+                key = ("s", s[:80])
+                if key not in seen:
+                    hits.append(("two_column_smash", s[:160]))
+                    seen.add(key)
+                    n += 1
+                continue
+        rank = int(pm.group(1))
+        # Look forward for next ascending place; if foreign hdr sits between, flag.
+        for j in range(i + 1, min(len(lines), i + 8)):
+            t = lines[j].strip()
+            if not t:
+                continue
+            if division_boundary_re.match(t) or _looks_like_class_header_line(t) or _SECTIONISH_RE.search(t):
+                break  # clean class/division boundary — not mid-class bleed
+            if _MARKER_RE.match(t) or _COLUMN_MARK_RE.match(t):
+                break
+            if foreign_hdr_re.match(t):
+                # foreign header before next place → column bleed
+                key = ("i", t[:80])
+                if key not in seen:
+                    hits.append(("two_column_smash", t[:160]))
+                    seen.add(key)
+                    n += 1
+                break
+            nm = place_re.match(t)
+            if nm:
+                nxt = int(nm.group(1))
+                if nxt == rank + 1:
+                    break  # clean ascending continuation
+                break
     return hits
 
 
