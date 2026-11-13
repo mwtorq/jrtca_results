@@ -218,11 +218,10 @@
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_212636_ocr_hqmax.txt",
     "codes": [
       "incomplete_entries",
-      "midclass_page_dropout",
-      "two_column_smash"
+      "midclass_page_dropout"
     ],
-    "fail_hits": 28,
-    "top_catalog": "C1/C6\u00d720,C1\u00d75,S1-S3\u00d73",
+    "fail_hits": 25,
+    "top_catalog": "C1/C6\u00d720,C1\u00d75",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {

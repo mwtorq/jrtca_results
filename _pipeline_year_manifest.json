@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T20:37:11Z",
+  "updated": "2026-11-13T20:39:19Z",
   "years": {
     "1997": {
       "a1": "done",
@@ -187,9 +187,9 @@
       "b6b_fail": 6,
       "b6b_warn": 0,
       "b6b_pass": 0,
-      "b6b_cleaned_vols": 1,
+      "b6b_cleaned_vols": 0,
       "timestamps": {
-        "b6b_done": "2026-11-13T20:37:11Z"
+        "b6b_done": "2026-11-13T20:39:19Z"
       }
     },
     "1993": {

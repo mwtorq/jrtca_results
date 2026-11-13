@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1992
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 6  cleaned=1  PASS=0  WARN=0  FAIL=6
+Volumes: 6  cleaned=0  PASS=0  WARN=0  FAIL=6
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,8 +17,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 4 | 0 | C1/C6×4 | `Document_2026-11-03_212153_ocr_hqmax.txt` |
-| FAIL | False | 28 | 0 | C1/C6×20,C1×5,S1-S3×3 | `Document_2026-11-03_212636_ocr_hqmax.txt` |
+| FAIL | False | 4 | 0 | C1/C6×4 | `Document_2026-11-03_212153_ocr_hqmax.txt` |
+| FAIL | False | 25 | 0 | C1/C6×20,C1×5 | `Document_2026-11-03_212636_ocr_hqmax.txt` |
 | FAIL | False | 9 | 0 | C1/C6×5,C1×4 | `Document_2026-11-03_213104_ocr_hqmax.txt` |
 | FAIL | False | 12 | 0 | C1/C6×7,C1×5 | `Document_2026-11-03_220343_ocr_hqmax.txt` |
 | FAIL | False | 5 | 0 | C1/C6×2,C1×2,O6×1 | `Document_2026-11-03_220931_ocr_hqmax.txt` |

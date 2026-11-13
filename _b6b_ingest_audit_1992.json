@@ -4,9 +4,9 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_212153_ocr_hqmax.txt",
-      "chars_before": 30816,
+      "chars_before": 30796,
       "chars_after": 30796,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 4,
       "warn_hits": 0,
@@ -34,18 +34,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_212636_ocr_hqmax.txt",
-      "chars_before": 56278,
-      "chars_after": 56278,
+      "chars_before": 56386,
+      "chars_after": 56386,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 28,
+      "fail_hits": 25,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d720,midclass_page_dropout\u00d75,two_column_smash\u00d73",
-      "top_catalog": "C1/C6\u00d720,C1\u00d75,S1-S3\u00d73",
+      "top_codes": "incomplete_entries\u00d720,midclass_page_dropout\u00d75",
+      "top_catalog": "C1/C6\u00d720,C1\u00d75",
       "by_code": {
         "incomplete_entries": 20,
-        "midclass_page_dropout": 5,
-        "two_column_smash": 3
+        "midclass_page_dropout": 5
       },
       "samples": [
         {
@@ -167,28 +166,12 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Novice (Adults)                                                                  | after page got 4th expected 5 | 4th: L'il Effort Petey, owned by Kathy Hunter"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "od, owned by Linda Cranford"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "wne, owned by Kim Lavers Magnussen"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "tain, owned by Shirley Merrill"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
         "incomplete_entries",
-        "midclass_page_dropout",
-        "two_column_smash"
+        "midclass_page_dropout"
       ]
     },
     {
