@@ -1,63 +1,36 @@
 {
   "year": 1996,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt",
-      "chars_before": 63700,
-      "chars_after": 63700,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "chars_before": 63711,
+      "chars_after": 63710,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71",
-      "top_catalog": "O6\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Champion: Camerton Hall BeBop, owned by ow"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
-      "chars_before": 61479,
-      "chars_after": 61479,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "chars_before": 61585,
+      "chars_after": 61584,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71,class_header_gap\u00d71",
-      "top_catalog": "O6\u00d71,C1\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1,
-        "class_header_gap": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserv: Fox Valley Dylan of Chucks Run, owned by ow"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "5th: The Bowery Mst, owned by Teresa Wellman"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt",
@@ -151,110 +124,63 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 front_ocr_hqmax.txt",
-      "chars_before": 46991,
-      "chars_after": 46991,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "chars_before": 47036,
+      "chars_after": 47035,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71,class_header_gap\u00d71",
-      "top_catalog": "O6\u00d71,C1\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1,
-        "class_header_gap": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Best: Foxfield Sprig, owned by ow"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "4th: Hart Farm Hammer, owned by Cheryl Hart"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt",
-      "chars_before": 61062,
-      "chars_after": 61062,
+      "chars_before": 61137,
+      "chars_after": 61137,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "class_header_gap\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "class_header_gap": 1
-      },
-      "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "4th: Badakhashan Celestial Haley, owned by Fay Craft"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt",
-      "chars_before": 61663,
-      "chars_after": 61663,
+      "chars_before": 61704,
+      "chars_after": 61704,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "class_header_gap\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "class_header_gap": 1
-      },
-      "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "6th: Hitts Badger, owned by Mark Hitt"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt",
-      "chars_before": 57351,
-      "chars_after": 57351,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "chars_before": 57371,
+      "chars_after": 57370,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71",
-      "top_catalog": "O6\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Champion: RA Piker, owned by ow"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt",
@@ -273,60 +199,33 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back_ocr_hqmax.txt",
-      "chars_before": 71650,
-      "chars_after": 71650,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "chars_before": 71666,
+      "chars_after": 71665,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71,two_column_smash\u00d71",
-      "top_catalog": "O6\u00d71,S1-S3\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1,
-        "two_column_smash": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Chanpion: Single Track Hunter, owned by ow"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "RACING DIViSIOl"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
-      "chars_before": 64022,
-      "chars_after": 64022,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "chars_before": 64038,
+      "chars_after": 64037,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71",
-      "top_catalog": "O6\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Over 12 1/2\" Reserve: Merlin of Lost Creek, owned by ow"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
@@ -390,143 +289,78 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front_ocr_hqmax.txt",
-      "chars_before": 84137,
-      "chars_after": 84137,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "chars_before": 84166,
+      "chars_after": 84165,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d72",
-      "top_catalog": "O6\u00d72",
-      "by_code": {
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Champion: Razz Matazz, owned by ow"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Champion: Turbo Charge, owned by ow"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt",
-      "chars_before": 89791,
-      "chars_after": 89791,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "chars_before": 89818,
+      "chars_after": 89817,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d72",
-      "top_catalog": "O6\u00d72",
-      "by_code": {
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Reserve: Horsemasters Willy, owned by ow"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Chanpion: Salishan Maggie, owned by ow"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back_ocr_hqmax.txt",
-      "chars_before": 79656,
-      "chars_after": 79656,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "chars_before": 79671,
+      "chars_after": 79670,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71",
-      "top_catalog": "O6\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Reserve: Horsemasters Willy, owned by ow"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 front_ocr_hqmax.txt",
-      "chars_before": 81744,
-      "chars_after": 81744,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "chars_before": 81765,
+      "chars_after": 81764,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d72",
-      "top_catalog": "O6\u00d72",
-      "by_code": {
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Under 12 1/2\" Reserve: Heaven Hill Jezebel, owned by ow"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Over 12 1/2\" Champion: Three Oaks Hunter, owned by ow"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144208_ocr_hqmax.txt",
-      "chars_before": 53646,
-      "chars_after": 53646,
+      "chars_before": 53739,
+      "chars_after": 53739,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "class_header_gap\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "class_header_gap": 1
-      },
-      "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "4th: Hart Farm Hammer of Ravenswood, owned by Janet Sutcliffe"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144530_ocr_hqmax.txt",
