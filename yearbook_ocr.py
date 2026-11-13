@@ -3598,28 +3598,38 @@ def _iter_midclass_page_dropout_hits(
 
 _TRIAL_TITLE_LINE_RE = re.compile(
     r"(?i)^(?:"
-    r".{0,70}\b(?:Jack\s+Russell\s+)?Terrier\s+(?:Club\s+)?"
-    r"(?:Fall\s+|Spring\s+|Summer\s+|Winter\s+)?Trial\b|"
-    r".{0,70}\b(?:Spring|Fall|Summer|Winter|National|Puppy|Hunt)\s+Trial\b|"
-    r".{0,70}\b(?:Classic|Festival|Fun\s+(?:Day|Weekend)|"
+    r".{0,80}\b(?:Jack\s+Russell\s+)?Terrier\s+(?:Club\s+)?"
+    r"(?:Fall\s+|Spring\s+|Summer\s+|Winter\s+)?Trials?\b|"
+    r".{0,80}\b(?:Spring|Fall|Summer|Winter|National|Puppy|Hunt|"
+    r"May|June|July|August|September|October|November|December|"
+    r"Inaugural|Annual)\s+Trials?\b|"
+    r".{0,80}\b(?:JRT|JRTC|JRTNNC|JRTCA|PNWJRTN|SWJRTN|MWJRTC|"
+    r"CCJRTC|OH-?PA)\b.{0,50}\bTrials?\b|"
+    r".{0,80}\b(?:Classic|Festival|Fun\s+(?:Day|Weekend)|"
     r"Fun\s+N['’]?\s*Games|Promenade|Spring\s+Fling|"
     r"Memorial(?:\s+Day)?\s+Bash|Celebration|Two\s+Step|"
-    r"Ruckus\s+in\s+the\s+Rockies|Harvest|Terrier\s+Fest)\b|"
-    r".{0,50}\bNational(?:s)?\b.{0,24}\bTrial\b|"
-    r".{0,50}\b(?:Southeast|Southwest|Midwest|Northwest|Northeast)\s+Regional\b"
-    r").{0,50}$"
+    r"Ruckus\s+in\s+the\s+Rockies|Harvest|Terrier\s+Fest|"
+    r"Spectacular|Jamboree|Challenge|Premier|Fling|"
+    r"Ice\s+Breaker|Round\s*-?\s*Up|Rendezvous|Congress|"
+    r"Yuletide|Fiesta|Extravaganza|Research\s+Foundation\s+Trial)\b|"
+    r".{0,60}\bNational(?:s)?\b.{0,24}\bTrials?\b|"
+    r".{0,50}\b(?:Southeast|Southwest|Midwest|Northwest|Northeast)\s+Regional\b|"
+    # Short title line ending in Trial / Trials / Trial I-II
+    r"[A-Z0-9].{2,70}\bTrials?\b(?:\s*[IVX\d]+)?\s*$"
+    r")"
 )
 
 _EARLY_TRIAL_RESTART_RE = re.compile(
     r"(?i)^(?:"
+    # New-trial restart is conformation start — NOT GTG after racing (same trial).
     r"CONFORMATION\s+DIVISION\b|"
-    r"GO-?TO-?GROUND\s+DIVISION\b|"
+    r"DIVISION\s+A,?\s*CONFORMATION\b|"
     r"Dog\s+Pups?,?\s*6\s+up\s+to\s+9\b|"
     r"Bitch\s+Pups?,?\s*6\s+up\s+to\s+9\b|"
-    r"Novice\s+Pupp(?:y|ies)\b|"
     r"Pups?,?\s*4\s+up\s+to\s+6\b|"
     r"Dog\s+Pups?,?\s*4\s+up\s+to\s+6\b|"
-    r"Child\s+Handler\b"
+    r"Puppies\s+4\s+up\s+to\s+6\b|"
+    r"Puppies,?\s*4\s+up\s+to\s+6\b"
     r")"
 )
 
@@ -3631,10 +3641,11 @@ _PAGE_NUM_ONLY_RE = re.compile(
 def _looks_like_trial_title_line(s: str) -> bool:
     """True when a line is a yearbook trial title at page TOP (not an award cite)."""
     t = norm_space(s or "")
-    if not t or len(t) < 8 or len(t) > 110:
+    if not t or len(t) < 6 or len(t) > 110:
         return False
     if re.search(
-        r"(?i)\b(?:owned\s+by|entries\s*:|summary\s+of|certificates?|trial\s+results)\b",
+        r"(?i)\b(?:owned\s+by|entries\s*:|summary\s+of|certificates?|"
+        r"trial\s+results)\b",
         t,
     ):
         return False
@@ -3649,27 +3660,44 @@ def _looks_like_trial_title_line(s: str) -> bool:
     if not _TRIAL_TITLE_LINE_RE.search(t):
         return False
     letters = sum(1 for c in t if c.isalpha())
-    return letters >= 8
+    return letters >= 6
 
 
 def _page_has_top_trial_header(tops: list[tuple[int, str]]) -> bool:
-    """Authenticated when a trial title OR Chairman+Judges header block is at page top."""
+    """Authenticated when a trial title OR Chair+Judges header block is at page top."""
     if any(_looks_like_trial_title_line(s) for _, s in tops[:10]):
         return True
     window = tops[:12]
     lines = [s for _, s in window]
-    has_chair = any(re.match(r"(?i)^Chairman\s*:", s) for s in lines)
+    has_chair = any(
+        re.match(r"(?i)^Chair(?:man|person|s)\s*:", s) for s in lines
+    )
     has_judge = any(re.match(r"(?i)^Judges?\s*:", s) for s in lines)
     has_where = any(
         re.search(
-            r"(?i),\s*(?:January|February|March|April|May|June|July|"
-            r"August|September|October|November|December)\b",
+            r"(?i)(?:,\s*(?:January|February|March|April|May|June|July|"
+            r"August|September|October|November|December)\b|"
+            r"\b(?:California|Colorado|Florida|Georgia|Illinois|Kentucky|"
+            r"Maryland|New\s+York|North\s+Carolina|Ohio|Pennsylvania|"
+            r"Tennessee|Texas|Virginia|Washington)\b)",
             s,
         )
         for s in lines
     )
-    has_conf = any(re.match(r"(?i)^CONFORMATION\s+DIVISION\b", s) for s in lines)
-    return bool(has_chair and has_judge and (has_where or has_conf))
+    has_conf = any(
+        re.match(r"(?i)^(?:CONFORMATION\s+DIVISION|DIVISION\s+A,?\s*CONFORMATION)\b", s)
+        for s in lines
+    )
+    # Chair + Judges + (place or conformation) authenticates even if title OCR truncated
+    if has_chair and has_judge and (has_where or has_conf):
+        return True
+    # Chair + place + conformation (Judges line often on facing even page)
+    if has_chair and has_where and has_conf:
+        return True
+    # Truncated title line + conformation start (title OCR cut off but trial banner present)
+    if has_conf and any(_looks_like_trial_title_line(s) for s in lines[:4]):
+        return True
+    return False
 
 
 def _iter_missing_trial_header_hits(
@@ -3679,9 +3707,9 @@ def _iter_missing_trial_header_hits(
 
     Trial titles are at the TOP of the page. Yearbook/scan footers and
     ``--- page N ---`` markers are NOT trial continuity. Never smash classes
-    across a trial boundary: a CONFORMATION/GTG restart after late-trial racing
-    champions (or equivalent end) requires an explicit trial title / header
-    block in the page-top window.
+    across a trial boundary: a CONFORMATION restart after late-trial racing
+    champions requires an explicit trial title / header block in the page-top
+    window. Go-to-Ground after racing is same-trial continuation — not a restart.
     """
     hits: list[tuple[str, str]] = []
     page_idxs = [
@@ -3708,11 +3736,7 @@ def _iter_missing_trial_header_hits(
         return tops
 
     def _page_is_late(start: int, end: int) -> bool:
-        """True only for end-of-trial markers (racing champs / late agility).
-
-        Mid-trial Puppy Championship / Championship Certificate must NOT arm
-        the next-page trial-header gate (those are same-trial continuations).
-        """
+        """True only for end-of-trial markers (racing champs / late agility)."""
         nonempty = [
             lines[j].strip() for j in range(start + 1, end) if lines[j].strip()
         ]
@@ -3734,7 +3758,9 @@ def _iter_missing_trial_header_hits(
         for _, s in tops:
             if _looks_like_trial_title_line(s):
                 continue
-            if re.match(r"(?i)^(?:Chairman|Judges)\s*:", s):
+            if re.match(r"(?i)^Chair(?:man|person|s)\s*:", s):
+                continue
+            if re.match(r"(?i)^Judges?\s*:", s):
                 continue
             if re.search(
                 r"(?i),\s*(?:January|February|March|April|May|June|July|"
