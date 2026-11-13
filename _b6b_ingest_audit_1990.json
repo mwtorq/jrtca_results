@@ -19,17 +19,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-      "chars_before": 152309,
-      "chars_after": 152309,
-      "cleaned": false,
+      "chars_before": 152398,
+      "chars_after": 152329,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 28,
+      "fail_hits": 27,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d72",
-      "top_catalog": "C1/C6\u00d726,C1\u00d72",
+      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d726,C1\u00d71",
       "by_code": {
         "incomplete_entries": 26,
-        "midclass_page_dropout": 2
+        "midclass_page_dropout": 1
       },
       "samples": [
         {
@@ -146,11 +146,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Novice (Puppies) Entries: 10 | places=0/6 | EOF"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 10--12-1/2\", br/r                                          | after page got 3th expected 7 | 3rd: Fox Run Tory, owned by Sandi Ferber"
         },
         {
           "code": "midclass_page_dropout",
