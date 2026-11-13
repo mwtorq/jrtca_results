@@ -4,17 +4,16 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_212153_ocr_hqmax.txt",
-      "chars_before": 30857,
+      "chars_before": 30839,
       "chars_after": 30819,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 6,
+      "fail_hits": 5,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d75,owner_tail_trunc\u00d71",
-      "top_catalog": "C1/C6\u00d75,O6\u00d71",
+      "top_codes": "incomplete_entries\u00d75",
+      "top_catalog": "C1/C6\u00d75",
       "by_code": {
-        "incomplete_entries": 5,
-        "owner_tail_trunc": 1
+        "incomplete_entries": 5
       },
       "samples": [
         {
@@ -31,17 +30,11 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Novice (Adults)                                                                  | places=2/6 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "CHAMPION: FARMCLIFF RAZZELLE OF HOPDIGGITY, owned by"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "incomplete_entries",
-        "owner_tail_trunc"
+        "incomplete_entries"
       ]
     },
     {
@@ -205,9 +198,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_213104_ocr_hqmax.txt",
-      "chars_before": 21024,
+      "chars_before": 21026,
       "chars_after": 21026,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 9,
       "warn_hits": 0,
@@ -407,9 +400,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_2\\Document_2026-11-03_221749_ocr_hqmax.txt",
-      "chars_before": 49635,
+      "chars_before": 48960,
       "chars_after": 48960,
-      "cleaned": true,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 15,
       "warn_hits": 0,

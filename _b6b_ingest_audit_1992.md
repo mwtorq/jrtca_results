@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1992
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 6  cleaned=3  PASS=0  WARN=0  FAIL=6
+Volumes: 6  cleaned=1  PASS=0  WARN=0  FAIL=6
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,12 +17,12 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 6 | 0 | C1/C6×5,O6×1 | `Document_2026-11-03_212153_ocr_hqmax.txt` |
+| FAIL | True | 5 | 0 | C1/C6×5 | `Document_2026-11-03_212153_ocr_hqmax.txt` |
 | FAIL | False | 28 | 0 | C1/C6×20,C1×5,S1-S3×3 | `Document_2026-11-03_212636_ocr_hqmax.txt` |
-| FAIL | True | 9 | 0 | C1/C6×5,C1×4 | `Document_2026-11-03_213104_ocr_hqmax.txt` |
+| FAIL | False | 9 | 0 | C1/C6×5,C1×4 | `Document_2026-11-03_213104_ocr_hqmax.txt` |
 | FAIL | False | 12 | 0 | C1/C6×7,C1×5 | `Document_2026-11-03_220343_ocr_hqmax.txt` |
 | FAIL | False | 5 | 0 | C1/C6×2,C1×2,O6×1 | `Document_2026-11-03_220931_ocr_hqmax.txt` |
-| FAIL | True | 15 | 0 | C1/C6×11,C1×4 | `Document_2026-11-03_221749_ocr_hqmax.txt` |
+| FAIL | False | 15 | 0 | C1/C6×11,C1×4 | `Document_2026-11-03_221749_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -30,7 +30,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Child Handler                                                            Entries | places=3/6 | Junior Handler                                              
 - `C1/C6` / `incomplete_entries`: PRE-Novice PUPPIES                                                               | places=3/6 | Novice (Puppies)                                            
 - `C1/C6` / `incomplete_entries`: Novice (Adults)                                                                  | places=2/6 | OPEN (Adults)                                               
-- `O6` / `owner_tail_trunc`: CHAMPION: FARMCLIFF RAZZELLE OF HOPDIGGITY, owned by
 
 ### `Document_2026-11-03_212636_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 12 months, 12-1/2--15" Entries: 10 | places=2/6 | Roger North, Conformation; Bill Breakstone, Go-to-Ground
