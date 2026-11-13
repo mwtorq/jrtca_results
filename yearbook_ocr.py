@@ -585,6 +585,8 @@ _PLACE_RANK_OCR = (
 def fix_place_rank_ocr(text: str) -> str:
     """Correct misread trial/class place ranks (Sths→5ths, Bths→6ths, …)."""
     text = re.sub(r"(?im)^(\d+(?:st|nd|rd|th):\s*)istt\s+", r"\1", text or "")
+    # Bare ``istt Name`` (leading 1st: digit lost)
+    text = re.sub(r"(?im)^istt\s+", "1st: ", text or "")
     if not text:
         return text
     # Leading dust before place: "'1st:" / "é2nd:" / "©3rd:"
@@ -2602,6 +2604,8 @@ def finalize_results_ocr(text: str) -> str:
     text = _unglue_place_embedded_class_headers(text)
     # ``1st: teserve:`` / ``1st: 5t:`` role/rank dust before true body
     text = _repair_mangled_place_role_prefixes(text)
+    # Working Terrier / Natural Instinct title reused as Best/Champ section
+    text = _repair_wt_best_champ_section_headers(text)
     # Youth Handler ``2nd``/``1st``/``2nd`` duplicate dust
     text = _dedupe_adjacent_identical_place_lines(text)
     # ``3rd`` before ``1st`` under same header (column merge) — clear false C1
@@ -3414,15 +3418,104 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
 
 _BEST_RESERVE_SECTION_RE = re.compile(
     r"(?i)^(?:(?:SPECIAL\s+AWARD,\s*)?BEST\b.+\bRESERVE\b|"
-    r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6)\b|"
+    r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6|NATURAL)\b|"
+    # mid-line BEST…RESERVE (e.g. YOUTH HIGH SCORE BEST & RESERVE)
+    r".*\bBEST\b.+\bRESERVE\b|"
     r"RACING\s+CHAMPIONS?\b|GO-?TO-?GROUND\s+CHAMPION\b|"
     r"ADULT\s+RACING\s+CHAMPION\b|PUPPY\s+RACING\s+CHAMPION\b|"
     r".*\b(?:CONFORMATION\s+)?CHAMPION\s*(?:&|AND)\s*RESERVE\b|"
+    r"(?:WORKING\s+TERRIER|NATURAL\s+INSTINCT)\s+CONFORMATION\s+CHAMPION\b|"
     r"PUPPIES?\s*:?\s*$|ADULTS?\s*:?\s*$)"
 )
 _BEST_RESERVE_ROLE_LINE_RE = re.compile(
     r"(?i)^(?:Best|Reserve|Champion)\s*:\s+\S"
 )
+# Includes smash forms like ``Working 1st Name, Terrier Dog, … Entries: N``.
+_WT_BEST_SECTION_CANDIDATE_RE = re.compile(
+    r"(?i)^(?:Working\b.*\bTerrier\b|Natural\s+Instinct\b|"
+    r"(?:Dog|Bitch)\s+Pups?,.{0,60}Entries\s*:)"
+)
+
+
+def _repair_wt_best_champ_section_headers(text: str) -> str:
+    """Rewrite height-class titles that OCR reused as Best/Champ section headers.
+
+    Yearbooks print ``BEST WORKING TERRIER DOG & RESERVE`` (or conformation
+    Champion & Reserve) after the height classes. OCR often echoes the prior
+    ``Working Terrier Dog, … Entries: N`` title instead, which arms C1/C6
+    incomplete_entries and C7 best_reserve_missing_header. When the next
+    content line is ``Best:`` / ``Champion:``, restore the real section title.
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out = list(lines)
+    for i, ln in enumerate(lines):
+        s = ln.strip()
+        if not _WT_BEST_SECTION_CANDIDATE_RE.match(s):
+            continue
+        if _BEST_RESERVE_SECTION_RE.match(s):
+            continue
+        nxt = None
+        for j in range(i + 1, min(i + 8, len(lines))):
+            t = lines[j].strip()
+            if not t:
+                continue
+            if (
+                _PAGE_BREAK_RE.match(t)
+                or _COLUMN_MARK_RE.match(t)
+                or _MARKER_RE.match(t)
+            ):
+                continue
+            nxt = t
+            break
+        if not nxt:
+            continue
+        role_m = re.match(r"(?i)^(Best|Champion)\s*:\s+\S", nxt)
+        if not role_m:
+            continue
+        if re.search(r"(?i)\bdog\b", s):
+            sex = "DOG"
+        elif re.search(r"(?i)\bbitch\b", s):
+            sex = "BITCH"
+        else:
+            sex = "TERRIER"
+        entries = ""
+        em = re.search(r"(?i)\bEntries\s*:\s*(\d+)", s)
+        if em:
+            entries = f" – Entries: {em.group(1)}"
+        is_ni = bool(re.match(r"(?i)^Natural\s+Instinct", s))
+        is_pup = bool(re.match(r"(?i)^(?:Dog|Bitch)\s+Pups?\b", s))
+        role = role_m.group(1).lower()
+        if is_pup:
+            # Height-class title reused as BEST 4-6 / dog-pup Best section.
+            age = "4-6 MONTH" if re.search(r"(?i)4\s*up\s*to\s*6", s) else "PUP"
+            if role == "best":
+                if sex == "BITCH":
+                    new = f"BEST {age} BITCH PUP & RESERVE{entries}"
+                elif sex == "DOG":
+                    new = f"BEST {age} DOG PUP & RESERVE{entries}"
+                else:
+                    new = f"BEST {age} PUPPY & RESERVE{entries}"
+            else:
+                new = f"PUPPY CONFORMATION CHAMPION & RESERVE{entries}"
+        elif role == "best":
+            if is_ni:
+                new = f"BEST NATURAL INSTINCT {sex} & RESERVE{entries}"
+            else:
+                new = f"BEST WORKING TERRIER {sex} & RESERVE{entries}"
+        else:
+            if is_ni:
+                new = (
+                    f"NATURAL INSTINCT CONFORMATION CHAMPION & RESERVE{entries}"
+                )
+            else:
+                new = f"WORKING TERRIER CONFORMATION CHAMPION & RESERVE{entries}"
+        prefix = ln[: len(ln) - len(ln.lstrip())]
+        out[i] = prefix + new
+    return "\n".join(out)
+
+
 _PAGE_BREAK_RE = re.compile(
     r"(?i)^(?:---\s*page\s+\d+\s*---|JRTCA\b.*YEARBOOK\b)"
 )
