@@ -4,24 +4,19 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
-      "chars_before": 36436,
-      "chars_after": 36436,
-      "cleaned": false,
+      "chars_before": 36354,
+      "chars_after": 36242,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 8,
+      "fail_hits": 6,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d76,midclass_page_dropout\u00d72",
-      "top_catalog": "C1/C6\u00d76,C1\u00d72",
+      "top_codes": "incomplete_entries\u00d75,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d75,C1\u00d71",
       "by_code": {
-        "incomplete_entries": 6,
-        "midclass_page_dropout": 2
+        "incomplete_entries": 5,
+        "midclass_page_dropout": 1
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice Adults                                                                    | places=2/4 | Open Puppies                                                "
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -46,11 +41,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Novice Obedience                                                                 | places=3/6 | Agility, On Lead I--Novice                                  "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12 1/2-15\" | after page got 5th expected 1 | 5th: Fieldstone Murphy, owned by Joseph Testa"
         },
         {
           "code": "midclass_page_dropout",
