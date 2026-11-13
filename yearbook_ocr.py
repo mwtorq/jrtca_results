@@ -1297,7 +1297,7 @@ _SECTIONISH_RE = re.compile(
     r"(?i)entries\s*:|division\b|champion\s*&\s*reserve|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
     r"\b(?:novice|open|advanced|bred by|puppies|pups|adults|veterans?)\b|"
-    r"\b(?:american|alabama|georgia|california|new\s+york|florida)\s+bred\b|"
+    r"\b(?:american|alabama|georgia|california|new\s+york|florida|kansas|missouri)\s+bred\b|"
     r"missing class header|"
     r"\b(?:smooth|rough|broken)\b|"
     r"\b(?:bitches|dogs)\b|"
@@ -1318,7 +1318,7 @@ _SECTIONISH_RE = re.compile(
 _CLASS_HEADER_HINT_RE = re.compile(
     r"(?i)entries\s*:|"
     r"\b(?:novice|open|advanced|bred by|puppies|pups|adults?|veterans?)\b|"
-    r"\b(?:american|alabama|georgia|california|new\s+york|florida)\s+bred\b|"
+    r"\b(?:american|alabama|georgia|california|new\s+york|florida|kansas|missouri)\s+bred\b|"
     r"\b(?:smooth|rough|broken)\b|"
     r"\b(?:bitches|dogs)\b|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
