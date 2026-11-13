@@ -1,42 +1,21 @@
 {
   "year": 1997,
-  "verdict": "WARN",
+  "verdict": "FAIL",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
-      "chars_before": 359080,
+      "chars_before": 359033,
       "chars_after": 359033,
-      "cleaned": true,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 5,
-      "top_codes": "orphan_entry_count\u00d73,missing_owned_by\u00d72",
-      "top_catalog": "C6\u00d73,S4/O\u00d72",
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 1,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d71",
+      "top_catalog": "C6\u00d71",
       "by_code": {
-        "missing_owned_by": 2,
-        "orphan_entry_count": 3
+        "orphan_entry_count": 1
       },
       "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Kingmont Harlaquin, owr 3d by Lynda Banducci"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Buster, ownedby Tim & Wendy Griffith"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "26"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "23"
-        },
         {
           "code": "orphan_entry_count",
           "catalog": "C6",
@@ -48,86 +27,38 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
-      "chars_before": 205064,
-      "chars_after": 205064,
+      "chars_before": 205059,
+      "chars_after": 205059,
       "cleaned": false,
-      "verdict": "WARN",
+      "verdict": "PASS",
       "fail_hits": 0,
-      "warn_hits": 2,
-      "top_codes": "missing_owned_by\u00d72",
-      "top_catalog": "S4/O\u00d72",
-      "by_code": {
-        "missing_owned_by": 2
-      },
-      "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: High Mountain Lucy, Karen Vernon"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: , Courtney Bottington"
-        }
-      ],
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
       "reocr_required": false,
       "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 316779,
-      "chars_after": 316779,
+      "chars_before": 316786,
+      "chars_after": 316786,
       "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 13,
-      "top_codes": "missing_owned_by\u00d77,orphan_entry_count\u00d76",
-      "top_catalog": "S4/O\u00d77,C6\u00d76",
+      "verdict": "FAIL",
+      "fail_hits": 4,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d73,missing_owned_by\u00d71",
+      "top_catalog": "C6\u00d73,S4/O\u00d71",
       "by_code": {
-        "missing_owned_by": 7,
-        "orphan_entry_count": 6
+        "missing_owned_by": 1,
+        "orphan_entry_count": 3
       },
       "samples": [
         {
           "code": "missing_owned_by",
           "catalog": "S4/O",
-          "line": "6th: Blue Barns Tracker, R. & D. Zampella"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
           "line": "4th: Timber DiAd~s heameomr, mctim mA Le. OL PY 1"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Katlin Cortenbach, handling Little Orbit of Cortenbach"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Kari Carlsen, handling Westgate Ruffian"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Ali Mae Hop, handling Hopdiggity Checkers"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Pat Martin, handling Bar-C Abilene Rose"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Matisse, Ruth Evans"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "8"
         },
         {
           "code": "orphan_entry_count",
@@ -142,11 +73,6 @@
         {
           "code": "orphan_entry_count",
           "catalog": "C6",
-          "line": "17"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
           "line": "5"
         }
       ],
@@ -155,39 +81,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 284794,
-      "chars_after": 284794,
+      "chars_before": 284805,
+      "chars_after": 284805,
       "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 6,
-      "top_codes": "missing_owned_by\u00d73,orphan_entry_count\u00d73",
-      "top_catalog": "S4/O\u00d73,C6\u00d73",
+      "verdict": "FAIL",
+      "fail_hits": 2,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d72",
+      "top_catalog": "C6\u00d72",
       "by_code": {
-        "missing_owned_by": 3,
-        "orphan_entry_count": 3
+        "orphan_entry_count": 2
       },
       "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "Champion: Blue Jeans, Donna Pierce"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Button Top Jim Winston, Joel Pritchet"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Showbizz Fizz, al Darlene Irvine"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "03"
-        },
         {
           "code": "orphan_entry_count",
           "catalog": "C6",

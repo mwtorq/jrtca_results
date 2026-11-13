@@ -412,6 +412,7 @@ _OCR_NAME_PHRASES = (
     (r"(?i)(?<=: )\biggerdown\b", "Diggertown"),
     (r"(?i)(?<=: )\bephen\b", "Stephen"),
     (r"(?im)^ACING\s+CHAMPIONS\b", "RACING CHAMPIONS"),
+    (r"(?im)^ACING\s+DIVISION\b", "RACING DIVISION"),
     (r"(?im)^UPPIES\b", "PUPPIES"),
     (r"(?im)^DULTS\b", "ADULTS"),
     # Cut-off leading letter on division / youth / agility / role headers
@@ -958,6 +959,7 @@ def fix_ocr_li_confusion(text: str) -> str:
     text = normalize_agility_level_ocr(text)
     text = normalize_cert_entries_glue(text)
     text = _normalize_owned_by_ocr(text)
+    text = _insert_missing_owned_by_phrase(text)
     # "O'Toole,owned by" missing space after comma
     text = re.sub(r",(owned\s+by\b)", r", \1", text, flags=re.IGNORECASE)
     # "Ringlet,t, owned by" / "Name,x, owned" — gutter letter between commas
@@ -1104,7 +1106,16 @@ def _normalize_owned_by_ocr(text: str) -> str:
 
     # Explicit near-misses before generic levenshtein
     text = re.sub(r"(?i)\bdowend\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bwoend\s+by\b", "owned by", text)
     text = re.sub(r"(?i)\bowned\s+(?:hy|ny)\b", "owned by", text)
+    # Glued / split owned-by OCR
+    text = re.sub(r"(?i)\bownedby\b", "owned by", text)
+    text = re.sub(r"(?i)\bown\s+ed\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bowr\s*\d*d\s+by\b", "owned by", text)
+    # Truncated "by": "owned b Pam" / "owned b. Name"
+    text = re.sub(r"(?i)\bowned\s+b[\.]?\s+(?=[A-Z\"'])", "owned by ", text)
+    # Handler OCR near-misses (also clears false mangled_by)
+    text = re.sub(r"(?i)\bhand(?:ied|leded|eled)\s+by\b", "handled by", text)
     # "owned byJamie" (missing space after by) — before missing-by insert
     text = re.sub(r"(?i)\bowned\s+by([A-Za-z])", r"owned by \1", text)
     # "owned Butch Harris" (missing by) — capital owner token; never tokens
@@ -1143,6 +1154,68 @@ def _normalize_owned_by_ocr(text: str) -> str:
         text,
     )
     return text
+
+
+_PLACE_ROLE_LINE_RE = re.compile(
+    r"(?i)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:)\s*(.*)$"
+)
+_HAS_OWNER_CLAUSE_RE = re.compile(
+    r"(?i)\b(?:owned|bred)\s+by\b|\bhandl(?:ed|ing)\b|\bhandler\s+not\s+provided\b|"
+    r"\bowner\s+(?:not\s+provided|unknown)\b|\blast\s+name\s+not\s+provided\b|"
+    r"\bdisqualified\b|\bentries\s*:"
+)
+_OWNER_TAIL_PERSON_RE = re.compile(
+    r"^(?:"
+    # R. & D. Zampella / R.A. Smith
+    r"(?:[A-Z]\.\s*)+(?:&\s*(?:[A-Z]\.\s*)+)?[A-Z][A-Za-z.'\-]+"
+    # Marty & Teresa Gottlieb / Dana and Laura Mitchell
+    r"|(?:[A-Z][A-Za-z.'\-]+\s+)+(?:&|and)\s+(?:[A-Z][A-Za-z.'\-]+\s*)+"
+    # Single / multi given+surname without ampersand
+    r"|(?:[A-Z][A-Za-z.'\-]+\s+){0,3}[A-Z][A-Za-z.'\-]{1,}"
+    r")$"
+)
+
+
+def _insert_missing_owned_by_phrase(text: str) -> str:
+    """Insert ``owned by`` on place lines that already have ``Dog, Person``.
+
+    Structural only: does not invent surnames. Skips handler / DQ / unknown-owner
+    wording and empty dog slots (``2nd: , Name`` → ``2nd: Name``).
+    """
+    if not text:
+        return text
+    out: list[str] = []
+    for ln in text.splitlines():
+        m = _PLACE_ROLE_LINE_RE.match(ln.strip())
+        if not m or "," not in ln or _HAS_OWNER_CLAUSE_RE.search(ln):
+            out.append(ln)
+            continue
+        prefix, body = m.group(1), m.group(2).strip()
+        # Junior/child empty dog: "2nd: , Courtney Bottington"
+        if re.match(r"^,\s+\S", body):
+            out.append(f"{prefix} {body.lstrip(', ').strip()}")
+            continue
+        # OCR crumb "al Name" before owner
+        body2 = re.sub(r"(?i),\s+al\s+([A-Z])", r", \1", body)
+        left, right = body2.rsplit(",", 1)
+        left, right = left.strip(), right.strip()
+        if not left or not right or _HAS_OWNER_CLAUSE_RE.search(right):
+            out.append(ln)
+            continue
+        # Reject class-header bleed / garble tails
+        if re.search(r"(?i)\bentries\s*:|\d\s*(?:up to|/)\s*\d", left):
+            out.append(ln)
+            continue
+        if len(right) < 2 or not _OWNER_TAIL_PERSON_RE.match(right):
+            out.append(ln)
+            continue
+        # Reject mostly-garble dog names (too few letters)
+        letters = sum(ch.isalpha() for ch in left)
+        if letters < 3 or letters / max(len(left), 1) < 0.45:
+            out.append(ln)
+            continue
+        out.append(f"{prefix} {left}, owned by {right}")
+    return "\n".join(out)
 
 
 
@@ -2382,6 +2455,22 @@ def finalize_results_ocr(text: str) -> str:
     i = 0
     while i < len(lines):
         ln = lines[i]
+        # Page/cert numbers parked alone after column markers are not entry counts
+        if (
+            re.fullmatch(r"\d{1,3}", ln.strip())
+            and glued
+            and re.match(r"(?i)^---\s*column\s+(?:LEFT|RIGHT)\s*---$", glued[-1].strip())
+        ):
+            i += 1
+            continue
+        # Lone digits immediately before a page break are folio noise
+        if (
+            re.fullmatch(r"\d{1,3}", ln.strip())
+            and i + 1 < len(lines)
+            and re.match(r"(?i)^---\s*page\s+\d+\s*---$", lines[i + 1].strip())
+        ):
+            i += 1
+            continue
         if (
             i + 1 < len(lines)
             and re.fullmatch(r"\d{1,2}", lines[i + 1].strip())
@@ -2402,8 +2491,55 @@ def finalize_results_ocr(text: str) -> str:
     text = _dedupe_adjacent_class_headers(
         "\n".join(_drop_duplicate_owner_crumb_lines(glued))
     )
+    text = _drop_stray_orphan_entry_counts(text)
     # O6: extend stub surnames only when a longer same-doc OCR form exists
     return _complete_owner_tail_stubs_from_document(text)
+
+
+def _looks_like_results_structure_line(ln: str) -> bool:
+    s = (ln or "").strip()
+    if not s:
+        return False
+    if re.match(r"(?i)^---\s*(?:page|column)\b", s):
+        return True
+    if re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:", s):
+        return True
+    if re.search(r"(?i)\bentries\s*:", s):
+        return True
+    if _looks_like_class_header_line(s):
+        return True
+    return False
+
+
+def _drop_stray_orphan_entry_counts(text: str) -> str:
+    """Drop bare 1-3 digit lines that are not attached to Entries:/class structure.
+
+    Keeps a digit that sits next to an Entries: line or class header (real counts).
+    Drops folio/garble islands common in smashed OCR blocks (e.g. 1998 Vol I pt3).
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out: list[str] = []
+    n = len(lines)
+    for i, ln in enumerate(lines):
+        s = ln.strip()
+        if not re.fullmatch(r"\d{1,3}", s):
+            out.append(ln)
+            continue
+        prev = lines[i - 1].strip() if i else ""
+        nxt = lines[i + 1].strip() if i + 1 < n else ""
+        if _looks_like_results_structure_line(prev) or _looks_like_results_structure_line(
+            nxt
+        ):
+            # Still drop leading-zero folio crumbs like "03" between places
+            if s.startswith("0") and len(s) >= 2:
+                continue
+            out.append(ln)
+            continue
+        # Neither neighbor is results structure → stray
+        continue
+    return "\n".join(out)
 
 
 # Residual OCR failure signatures — if these remain AFTER finalize, the page

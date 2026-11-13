@@ -1,61 +1,36 @@
 {
   "year": 1999,
-  "verdict": "WARN",
+  "verdict": "FAIL",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_I\\1999 Vol I, pt 1_ocr_hqmax.txt",
-      "chars_before": 218135,
-      "chars_after": 218135,
+      "chars_before": 218163,
+      "chars_after": 218163,
       "cleaned": false,
-      "verdict": "WARN",
+      "verdict": "PASS",
       "fail_hits": 0,
-      "warn_hits": 2,
-      "top_codes": "missing_owned_by\u00d71,orphan_entry_count\u00d71",
-      "top_catalog": "S4/O\u00d71,C6\u00d71",
-      "by_code": {
-        "missing_owned_by": 1,
-        "orphan_entry_count": 1
-      },
-      "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Nirvana Farms Madison, Peggy Dominico"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "27"
-        }
-      ],
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
       "reocr_required": false,
       "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_I\\1999 Vol I, pt 2_ocr_hqmax.txt",
-      "chars_before": 202854,
-      "chars_after": 202853,
-      "cleaned": true,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 3,
-      "top_codes": "missing_owned_by\u00d72,orphan_entry_count\u00d71",
-      "top_catalog": "S4/O\u00d72,C6\u00d71",
+      "chars_before": 202879,
+      "chars_after": 202879,
+      "cleaned": false,
+      "verdict": "FAIL",
+      "fail_hits": 1,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d71",
+      "top_catalog": "C6\u00d71",
       "by_code": {
-        "missing_owned_by": 2,
         "orphan_entry_count": 1
       },
       "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Daniel, last name not provided"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: White Spirits Abbey Rose, Dan & Cindy McClary"
-        },
         {
           "code": "orphan_entry_count",
           "catalog": "C6",
@@ -67,35 +42,16 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_II\\1999 Vol II, pt 1_ocr_hqmax.txt",
-      "chars_before": 171140,
-      "chars_after": 171140,
+      "chars_before": 171150,
+      "chars_after": 171150,
       "cleaned": false,
-      "verdict": "WARN",
+      "verdict": "PASS",
       "fail_hits": 0,
-      "warn_hits": 3,
-      "top_codes": "missing_owned_by\u00d72,cutoff_racing\u00d71",
-      "top_catalog": "S4/O\u00d72,?/cutoff_racing\u00d71",
-      "by_code": {
-        "cutoff_racing": 1,
-        "missing_owned_by": 2
-      },
-      "samples": [
-        {
-          "code": "cutoff_racing",
-          "catalog": "?",
-          "line": "ACING DIVISION"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "4th: Winslow Genevieve, Lisa Fitzgerald"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Disqualified, Exhibitor cross-entered in Open Division"
-        }
-      ],
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
       "reocr_required": false,
       "reocr_codes": []
     },
@@ -116,25 +72,19 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_III\\1999 Vol III, pt 1_ocr_hqmax.txt",
-      "chars_before": 249569,
-      "chars_after": 249569,
+      "chars_before": 249568,
+      "chars_after": 249568,
       "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 3,
-      "top_codes": "missing_owned_by\u00d71,bare_entries\u00d71,orphan_entry_count\u00d71",
-      "top_catalog": "S4/O\u00d71,C6/O1\u00d71,C6\u00d71",
+      "verdict": "FAIL",
+      "fail_hits": 2,
+      "warn_hits": 0,
+      "top_codes": "bare_entries\u00d71,orphan_entry_count\u00d71",
+      "top_catalog": "C6/O1\u00d71,C6\u00d71",
       "by_code": {
-        "missing_owned_by": 1,
         "bare_entries": 1,
         "orphan_entry_count": 1
       },
       "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "4th: Wishbone, own ed by Heather Reid"
-        },
         {
           "code": "bare_entries",
           "catalog": "C6/O1",
@@ -151,17 +101,16 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_III\\1999 Vol III, pt 2_ocr_hqmax.txt",
-      "chars_before": 293064,
-      "chars_after": 293066,
+      "chars_before": 293103,
+      "chars_after": 293105,
       "cleaned": true,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 12,
-      "top_codes": "missing_owned_by\u00d77,4th_then_6th_no_5\u00d73,orphan_entry_count\u00d72",
-      "top_catalog": "S4/O\u00d77,?/4th_then_6th_no_5\u00d73,C6\u00d72",
+      "verdict": "FAIL",
+      "fail_hits": 5,
+      "warn_hits": 0,
+      "top_codes": "4th_then_6th_no_5\u00d73,orphan_entry_count\u00d72",
+      "top_catalog": "?/4th_then_6th_no_5\u00d73,C6\u00d72",
       "by_code": {
         "4th_then_6th_no_5": 3,
-        "missing_owned_by": 7,
         "orphan_entry_count": 2
       },
       "samples": [
@@ -179,41 +128,6 @@
           "code": "4th_then_6th_no_5",
           "catalog": "?",
           "line": "4th: Farmstead Holly, handled by Jeffrey Finkernagel\n6th: Lona Hope Minnie, owned by Nellie Niewola"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Trevor, last name not provided"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Kristen Mogrovejo, handling North Country Petey"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Jessica Morrison, handling Cody"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Felicia Franklin, handling Gadget"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Katie Fitzgerald, handling Winslow Genevieve"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Rocky Cassone, handling Muscle Russell Comet"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Amanda Mogrovejo, handling North Country Petey"
         },
         {
           "code": "orphan_entry_count",

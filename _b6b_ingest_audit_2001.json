@@ -1,36 +1,25 @@
 {
   "year": 2001,
-  "verdict": "WARN",
+  "verdict": "FAIL",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Coal Tree Farm_ocr_hqmax.txt",
-      "chars_before": 23213,
-      "chars_after": 23213,
-      "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 5,
-      "top_codes": "orphan_entry_count\u00d74,missing_owned_by\u00d71",
-      "top_catalog": "C6\u00d74,S4/O\u00d71",
+      "chars_before": 23222,
+      "chars_after": 23219,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 3,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d73",
+      "top_catalog": "C6\u00d73",
       "by_code": {
-        "missing_owned_by": 1,
-        "orphan_entry_count": 4
+        "orphan_entry_count": 3
       },
       "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Woods End Calico, Doug & Noreen Loranger"
-        },
         {
           "code": "orphan_entry_count",
           "catalog": "C6",
           "line": "16"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "17"
         },
         {
           "code": "orphan_entry_count",
@@ -78,95 +67,23 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Vol I_ocr_hqmax.txt",
-      "chars_before": 636522,
-      "chars_after": 636512,
+      "chars_before": 636632,
+      "chars_after": 636626,
       "cleaned": true,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 42,
-      "top_codes": "orphan_entry_count\u00d721,missing_owned_by\u00d717,cutoff_racing\u00d72,bare_entries\u00d72",
-      "top_catalog": "C6\u00d721,S4/O\u00d717,?/cutoff_racing\u00d72,C6/O1\u00d72",
+      "verdict": "FAIL",
+      "fail_hits": 16,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d714,bare_entries\u00d72",
+      "top_catalog": "C6\u00d714,C6/O1\u00d72",
       "by_code": {
-        "cutoff_racing": 2,
-        "missing_owned_by": 17,
         "bare_entries": 2,
-        "orphan_entry_count": 21
+        "orphan_entry_count": 14
       },
       "samples": [
-        {
-          "code": "cutoff_racing",
-          "catalog": "?",
-          "line": "ACING DIVISION"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: T.J. Fans Reality, Teresa Wellman"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Armowhead Norma Sue, Jack & Laurie Phillips"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Heaven Hill Angel, Sammy & Danetta Hopewell"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Jack's B' Quick Zeus, Travis & Cat Hallman"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Amowhead Margarita, Kathy & Scott Neus"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Woods End Calico, Doug & Noreen Loranger"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Orchard Hill Dion, Lynn Jerome"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Lone Pine Squirrel, Russ & Barbara Gilford"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Randsom Penny Power, Kim Lutz"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Piccadilly Lucy, John & Judy Tyno"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Star, owner unknown"
-        },
         {
           "code": "bare_entries",
           "catalog": "C6/O1",
           "line": "Entries:"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "11"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "32"
         },
         {
           "code": "orphan_entry_count",
@@ -202,16 +119,6 @@
           "code": "orphan_entry_count",
           "catalog": "C6",
           "line": "15"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "16"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "33"
         }
       ],
       "reocr_required": false,
@@ -219,27 +126,22 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt",
-      "chars_before": 59078,
-      "chars_after": 59080,
+      "chars_before": 59079,
+      "chars_after": 59081,
       "cleaned": true,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 2,
-      "top_codes": "orphan_entry_count\u00d72",
-      "top_catalog": "C6\u00d72",
+      "verdict": "FAIL",
+      "fail_hits": 1,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d71",
+      "top_catalog": "C6\u00d71",
       "by_code": {
-        "orphan_entry_count": 2
+        "orphan_entry_count": 1
       },
       "samples": [
         {
           "code": "orphan_entry_count",
           "catalog": "C6",
           "line": "9"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "29"
         }
       ],
       "reocr_required": false,
@@ -262,28 +164,22 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt",
-      "chars_before": 60721,
-      "chars_after": 60721,
+      "chars_before": 60730,
+      "chars_after": 60730,
       "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 2,
-      "top_codes": "4th_then_2nd\u00d71,missing_owned_by\u00d71",
-      "top_catalog": "?/4th_then_2nd\u00d71,S4/O\u00d71",
+      "verdict": "FAIL",
+      "fail_hits": 1,
+      "warn_hits": 0,
+      "top_codes": "4th_then_2nd\u00d71",
+      "top_catalog": "?/4th_then_2nd\u00d71",
       "by_code": {
-        "4th_then_2nd": 1,
-        "missing_owned_by": 1
+        "4th_then_2nd": 1
       },
       "samples": [
         {
           "code": "4th_then_2nd",
           "catalog": "?",
           "line": "4th: Arins Trax, owned by Alison Linstrum\n2nd: Sows Ear Tuck, owned by Bob & Genie Franklin"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Silent Partner Baltazar, George Ridler"
         }
       ],
       "reocr_required": false,
@@ -291,24 +187,16 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 PNWJRTN_ocr_hqmax.txt",
-      "chars_before": 22779,
-      "chars_after": 22779,
+      "chars_before": 22788,
+      "chars_after": 22788,
       "cleaned": false,
-      "verdict": "WARN",
+      "verdict": "PASS",
       "fail_hits": 0,
-      "warn_hits": 1,
-      "top_codes": "missing_owned_by\u00d71",
-      "top_catalog": "S4/O\u00d71",
-      "by_code": {
-        "missing_owned_by": 1
-      },
-      "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: J&J Miniva, Judie Baker & Janice Freimark"
-        }
-      ],
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
       "reocr_required": false,
       "reocr_codes": []
     },
@@ -317,9 +205,9 @@
       "chars_before": 41054,
       "chars_after": 41054,
       "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 4,
+      "verdict": "FAIL",
+      "fail_hits": 4,
+      "warn_hits": 0,
       "top_codes": "bare_entries\u00d72,orphan_entry_count\u00d72",
       "top_catalog": "C6/O1\u00d72,C6\u00d72",
       "by_code": {
@@ -348,26 +236,20 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 369413,
-      "chars_after": 369413,
-      "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 30,
-      "top_codes": "orphan_entry_count\u00d719,missing_owned_by\u00d78,4th_then_2nd\u00d72,cutoff_racing\u00d71",
-      "top_catalog": "C6\u00d719,S4/O\u00d78,?/4th_then_2nd\u00d72,?/cutoff_racing\u00d71",
+      "chars_before": 369446,
+      "chars_after": 369442,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 13,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d79,4th_then_2nd\u00d72,missing_owned_by\u00d72",
+      "top_catalog": "C6\u00d79,?/4th_then_2nd\u00d72,S4/O\u00d72",
       "by_code": {
-        "cutoff_racing": 1,
         "4th_then_2nd": 2,
-        "missing_owned_by": 8,
-        "orphan_entry_count": 19
+        "missing_owned_by": 2,
+        "orphan_entry_count": 9
       },
       "samples": [
-        {
-          "code": "cutoff_racing",
-          "catalog": "?",
-          "line": "ACING DIVISION"
-        },
         {
           "code": "4th_then_2nd",
           "catalog": "?",
@@ -376,32 +258,7 @@
         {
           "code": "missing_owned_by",
           "catalog": "S4/O",
-          "line": "2nd: J&J Miniva, Judie Baker & Janice Freimark"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "4th: Sweetgrass Nelson, Rodger & Caryn Funk"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
           "line": "2nd: Farmcliff Holland, owried Dy Doug & Sue Tack"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Windy Hollow Mr. Bentley, Joyce Alteman"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "26"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "38"
         },
         {
           "code": "orphan_entry_count",
@@ -412,16 +269,6 @@
           "code": "orphan_entry_count",
           "catalog": "C6",
           "line": "10"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "13"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "1"
         },
         {
           "code": "orphan_entry_count",
@@ -449,16 +296,16 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 332157,
-      "chars_after": 332157,
+      "chars_before": 332174,
+      "chars_after": 332174,
       "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 17,
-      "top_codes": "missing_owned_by\u00d78,orphan_entry_count\u00d78,bare_entries\u00d71",
-      "top_catalog": "S4/O\u00d78,C6\u00d78,C6/O1\u00d71",
+      "verdict": "FAIL",
+      "fail_hits": 13,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d78,missing_owned_by\u00d74,bare_entries\u00d71",
+      "top_catalog": "C6\u00d78,S4/O\u00d74,C6/O1\u00d71",
       "by_code": {
-        "missing_owned_by": 8,
+        "missing_owned_by": 4,
         "bare_entries": 1,
         "orphan_entry_count": 8
       },
@@ -466,17 +313,7 @@
         {
           "code": "missing_owned_by",
           "catalog": "S4/O",
-          "line": "6th: Prestige Farms Oliver, owned b J. Gilligan/S. Geroux"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
           "line": "3rd: Washa Charlie, own\u00e9d by Dani Phillips"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Willowbrook Tucker, Kari Streicher"
         },
         {
           "code": "missing_owned_by",
@@ -487,11 +324,6 @@
           "code": "missing_owned_by",
           "catalog": "S4/O",
           "line": "3rd:      Na TL Clementine, by Doug & Sue Tack"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Silent Partner Baltazar, George Ridler"
         },
         {
           "code": "missing_owned_by",
@@ -532,9 +364,9 @@
       "chars_before": 44103,
       "chars_after": 44103,
       "cleaned": false,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 4,
+      "verdict": "FAIL",
+      "fail_hits": 4,
+      "warn_hits": 0,
       "top_codes": "missing_owned_by\u00d73,mangled_by\u00d71",
       "top_catalog": "S4/O\u00d73,S4\u00d71",
       "by_code": {
@@ -568,18 +400,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_III\\2001 Vol III pt 1_ocr_hqmax.txt",
-      "chars_before": 324266,
-      "chars_after": 324270,
+      "chars_before": 324283,
+      "chars_after": 324287,
       "cleaned": true,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 12,
-      "top_codes": "orphan_entry_count\u00d76,missing_owned_by\u00d74,4th_then_2nd\u00d71,4th_then_6th_no_5\u00d71",
-      "top_catalog": "C6\u00d76,S4/O\u00d74,?/4th_then_2nd\u00d71,?/4th_then_6th_no_5\u00d71",
+      "verdict": "FAIL",
+      "fail_hits": 11,
+      "warn_hits": 0,
+      "top_codes": "orphan_entry_count\u00d76,missing_owned_by\u00d73,4th_then_2nd\u00d71,4th_then_6th_no_5\u00d71",
+      "top_catalog": "C6\u00d76,S4/O\u00d73,?/4th_then_2nd\u00d71,?/4th_then_6th_no_5\u00d71",
       "by_code": {
         "4th_then_2nd": 1,
         "4th_then_6th_no_5": 1,
-        "missing_owned_by": 4,
+        "missing_owned_by": 3,
         "orphan_entry_count": 6
       },
       "samples": [
@@ -597,11 +429,6 @@
           "code": "missing_owned_by",
           "catalog": "S4/O",
           "line": "3rd: A [ab lpr . PES RO PR Ls) aD Rs i SAREE J EN I Bx es rl . . >. DEAS : Tr ne Oe Dar pes, et Som Sheer or, i renoh RA FEE TTI RYT RI XT [ Eb Re iA BY? Phos E"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Muscle Russell Dynamite, Heath Ogbum & Jill Goodman"
         },
         {
           "code": "missing_owned_by",
@@ -639,18 +466,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_III\\2001 Vol III pt 2_ocr_hqmax.txt",
-      "chars_before": 359352,
-      "chars_after": 359354,
+      "chars_before": 359368,
+      "chars_after": 359368,
       "cleaned": true,
-      "verdict": "WARN",
-      "fail_hits": 0,
-      "warn_hits": 11,
-      "top_codes": "missing_owned_by\u00d79,4th_then_6th_no_5\u00d71,orphan_entry_count\u00d71",
-      "top_catalog": "S4/O\u00d79,?/4th_then_6th_no_5\u00d71,C6\u00d71",
+      "verdict": "FAIL",
+      "fail_hits": 3,
+      "warn_hits": 0,
+      "top_codes": "missing_owned_by\u00d72,4th_then_6th_no_5\u00d71",
+      "top_catalog": "S4/O\u00d72,?/4th_then_6th_no_5\u00d71",
       "by_code": {
         "4th_then_6th_no_5": 1,
-        "missing_owned_by": 9,
-        "orphan_entry_count": 1
+        "missing_owned_by": 2
       },
       "samples": [
         {
@@ -661,42 +487,12 @@
         {
           "code": "missing_owned_by",
           "catalog": "S4/O",
-          "line": "1st: Sassy, owner unknown"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Falling Branch Trumpet, Kathy & Bob Montbleau"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Quitealot UdlSy, OWIicG Dy UcDla Ltuallv"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Razzmatazz, owner unknown"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "4th: Razzmatazz, owner unknown"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
           "line": "5th:     Pepper, pa by Richard Burfoot"
         },
         {
           "code": "missing_owned_by",
           "catalog": "S4/O",
           "line": "2nd: Farmeliftdoe, ownediby Bobi& Genie Franklin"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "5"
         }
       ],
       "reocr_required": false,

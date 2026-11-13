@@ -1,15 +1,15 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Coal Tree Farm_ocr_hqmax.txt,False,23213,23213,WARN,0,5,"orphan_entry_count×4,missing_owned_by×1","C6×4,S4/O×1"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Coal Tree Farm_ocr_hqmax.txt,True,23222,23219,FAIL,3,0,orphan_entry_count×3,C6×3
 2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 South Coast_ocr_hqmax.txt,False,24563,24563,PASS,0,0,,
 2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Troon Quarry_ocr_hqmax.txt,False,48332,48332,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Vol I_ocr_hqmax.txt,True,636522,636512,WARN,0,42,"orphan_entry_count×21,missing_owned_by×17,cutoff_racing×2,bare_entries×2","C6×21,S4/O×17,?/cutoff_racing×2,C6/O1×2"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt,True,59078,59080,WARN,0,2,orphan_entry_count×2,C6×2
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Vol I_ocr_hqmax.txt,True,636632,636626,FAIL,16,0,"orphan_entry_count×14,bare_entries×2","C6×14,C6/O1×2"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt,True,59079,59081,FAIL,1,0,orphan_entry_count×1,C6×1
 2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 OH-PA II_ocr_hqmax.txt,False,17410,17410,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt,False,60721,60721,WARN,0,2,"4th_then_2nd×1,missing_owned_by×1","?/4th_then_2nd×1,S4/O×1"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 PNWJRTN_ocr_hqmax.txt,False,22779,22779,WARN,0,1,missing_owned_by×1,S4/O×1
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Summer Celebration_ocr_hqmax.txt,False,41054,41054,WARN,0,4,"bare_entries×2,orphan_entry_count×2","C6/O1×2,C6×2"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 1_ocr_hqmax.txt,False,369413,369413,WARN,0,30,"orphan_entry_count×19,missing_owned_by×8,4th_then_2nd×2,cutoff_racing×1","C6×19,S4/O×8,?/4th_then_2nd×2,?/cutoff_racing×1"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 2_ocr_hqmax.txt,False,332157,332157,WARN,0,17,"missing_owned_by×8,orphan_entry_count×8,bare_entries×1","S4/O×8,C6×8,C6/O1×1"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Yankee_ocr_hqmax.txt,False,44103,44103,WARN,0,4,"missing_owned_by×3,mangled_by×1","S4/O×3,S4×1"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 1_ocr_hqmax.txt,True,324266,324270,WARN,0,12,"orphan_entry_count×6,missing_owned_by×4,4th_then_2nd×1,4th_then_6th_no_5×1","C6×6,S4/O×4,?/4th_then_2nd×1,?/4th_then_6th_no_5×1"
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 2_ocr_hqmax.txt,True,359352,359354,WARN,0,11,"missing_owned_by×9,4th_then_6th_no_5×1,orphan_entry_count×1","S4/O×9,?/4th_then_6th_no_5×1,C6×1"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt,False,60730,60730,FAIL,1,0,4th_then_2nd×1,?/4th_then_2nd×1
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 PNWJRTN_ocr_hqmax.txt,False,22788,22788,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Summer Celebration_ocr_hqmax.txt,False,41054,41054,FAIL,4,0,"bare_entries×2,orphan_entry_count×2","C6/O1×2,C6×2"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 1_ocr_hqmax.txt,True,369446,369442,FAIL,13,0,"orphan_entry_count×9,4th_then_2nd×2,missing_owned_by×2","C6×9,?/4th_then_2nd×2,S4/O×2"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 2_ocr_hqmax.txt,False,332174,332174,FAIL,13,0,"orphan_entry_count×8,missing_owned_by×4,bare_entries×1","C6×8,S4/O×4,C6/O1×1"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Yankee_ocr_hqmax.txt,False,44103,44103,FAIL,4,0,"missing_owned_by×3,mangled_by×1","S4/O×3,S4×1"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 1_ocr_hqmax.txt,True,324283,324287,FAIL,11,0,"orphan_entry_count×6,missing_owned_by×3,4th_then_2nd×1,4th_then_6th_no_5×1","C6×6,S4/O×3,?/4th_then_2nd×1,?/4th_then_6th_no_5×1"
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 2_ocr_hqmax.txt,True,359368,359368,FAIL,3,0,"missing_owned_by×2,4th_then_6th_no_5×1","S4/O×2,?/4th_then_6th_no_5×1"
