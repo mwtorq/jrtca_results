@@ -5641,7 +5641,7 @@ def _is_ocr_noise_line(s: str) -> bool:
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
         r"        go-?to-?ground|conformation|novice|open|advanced|starters|"
         r"brace|utility|jumpers?|puppy|puppies|working\s+terrier|"
-        r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veterans?|"
+        r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pairs?\s+class|veterans?|"
         r"handler|showmanship|pee\s*wee|suitability|spayed|neutered|"
         r"(?:on|off)\s+lead|trailing|locating|"
         r"bitches|dogs|pups|older|months?|"
@@ -5656,12 +5656,13 @@ def _is_ocr_noise_line(s: str) -> bool:
     # NOTE: ``Advanced, On Lead Entries: N`` must stay (was false-noise → C1 gap).
     # NOTE: Obedience ``Brace`` / ``Utility`` Entries headers must stay (1999 Vol III
     # pt1 Pioneer Classic: false-noise drop → C1 before His Buddy).
+    # NOTE: ``Pairs Class Entries: N`` must stay (singular ``pair`` missed plural).
     if re.search(r"(?i)\bentries\s*:", s):
         if re.match(r"(?i)^entries\s*:", s):
             return False
         if re.search(
             r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|advanced|"
-            r"starters|adults?|pair|brace|utility|jumpers?|"
+            r"starters|adults?|pairs?|brace|utility|jumpers?|"
             r"family|bred|youth|child|junior|handler|pee\s*wee|showmanship|"
             r"working|veterans?|racing|agility|steeple|"
             r"(?:on|off)\s+lead|trailing|locating|"
