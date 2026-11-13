@@ -133,36 +133,19 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_134403_ocr_hqmax.txt",
-      "chars_before": 52938,
-      "chars_after": 52938,
+      "chars_before": 52867,
+      "chars_after": 52867,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 21,
+      "fail_hits": 17,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d711,midclass_page_dropout\u00d76,champ_abbrev\u00d73,best_reserve_missing_header\u00d71",
-      "top_catalog": "C1/C6\u00d711,C1\u00d76,H8\u00d73,C7\u00d71",
+      "top_codes": "incomplete_entries\u00d711,midclass_page_dropout\u00d76",
+      "top_catalog": "C1/C6\u00d711,C1\u00d76",
       "by_code": {
-        "champ_abbrev": 3,
         "incomplete_entries": 11,
-        "midclass_page_dropout": 6,
-        "best_reserve_missing_header": 1
+        "midclass_page_dropout": 6
       },
       "samples": [
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "12 1/2-15\" Cham"
-        },
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "serve: Wild Goose National, owned by CJ & Ouida Harris"
-        },
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "serve: Dutch Creek Classy, owned by Bonita Knickmeyer"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -242,17 +225,10 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Bitch Pups, 6 up to 9 months, smooth                                        Entr | after page got 2th expected 6 | 2nd: Foxport La:"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: The Larches Liam McGee, owned by Donald & Joan LaPlace"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "best_reserve_missing_header",
-        "champ_abbrev",
         "incomplete_entries",
         "midclass_page_dropout"
       ]

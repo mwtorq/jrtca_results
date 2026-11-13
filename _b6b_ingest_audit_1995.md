@@ -20,7 +20,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 6 | 0 | C1/C6×5,C1×1 | `Document_2026-11-04_124005_ocr_hqmax.txt` |
 | FAIL | False | 8 | 0 | C1/C6×7,C1×1 | `Document_2026-11-04_124704_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_130318_ocr_hqmax.txt` |
-| FAIL | False | 21 | 0 | C1/C6×11,C1×6,H8×3,C7×1 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
+| FAIL | False | 17 | 0 | C1/C6×11,C1×6 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
 | FAIL | False | 10 | 0 | C1/C6×7,C1×3 | `Document_2026-11-04_142425_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -44,9 +44,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1` / `midclass_page_dropout`: Dogs, 1 yr & over, 12 1/2-15" Entries: 8 | after page got 4th expected 2 | 4th: Westwood Sparkle, owned by Alice Reynolds
 
 ### `Document_2026-11-04_134403_ocr_hqmax.txt` (FAIL)
-- `H8` / `champ_abbrev`: 12 1/2-15" Cham
-- `H8` / `champ_abbrev`: serve: Wild Goose National, owned by CJ & Ouida Harris
-- `H8` / `champ_abbrev`: serve: Dutch Creek Classy, owned by Bonita Knickmeyer
 - `C1/C6` / `incomplete_entries`: Pups, 6 up to 9 months, 12 1/2-15" Entries: 4 | places=2/4 | Pups, 9 up to 12 months, 10-12 1/2" Entries: 4
 - `C1/C6` / `incomplete_entries`: Pups, 9 up to 12 months, 10-12 1/2" Entries: 4 | places=1/4 | Dogs, 1 yr & over, 10-12 1/2" Entries: 17
 - `C1/C6` / `incomplete_entries`: Dog Pups, 9 up to 12 months, smooth                                          Ent | places=2/4 | Dogs, 1 yr & over, 12 1/2-15" r & br                        
@@ -56,6 +53,9 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Entries: 9 | places=0/6 | Entries: 11
 - `C1/C6` / `incomplete_entries`: Entries: 11 | places=0/6 | Entries: 3
 - `C1/C6` / `incomplete_entries`: Entries: 3 | places=0/3 | Entries: 10
+- `C1/C6` / `incomplete_entries`: Entries: 10 | places=0/6 | EOF
+- `C1` / `midclass_page_dropout`: Source: Document_2026-11-04_134403.pdf | after page got 2th expected 1 | 2nd: Fox Run Spice, owned by Sandra Ferber
+- `C1` / `midclass_page_dropout`: Bitches, 1 yr & over, 12 1/2-15", r/br                                           | after page got 3th expected 2 | 3rd: Max, owned by T. Beers
 
 ### `Document_2026-11-04_142425_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 9 up to 12 months, r/br                                              | places=1/6 | AGILITY
