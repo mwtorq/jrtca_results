@@ -162,6 +162,28 @@
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
+    "year": 1990,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+    "codes": [
+      "incomplete_entries",
+      "midclass_page_dropout"
+    ],
+    "fail_hits": 27,
+    "top_catalog": "C1/C6\u00d726,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1990,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_200401_ocr_hqmax.txt",
+    "codes": [
+      "incomplete_entries",
+      "midclass_page_dropout"
+    ],
+    "fail_hits": 40,
+    "top_catalog": "C1/C6\u00d726,C1\u00d714",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
     "year": 1993,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
     "codes": [
@@ -170,8 +192,8 @@
       "midclass_page_dropout",
       "owner_tail_trunc"
     ],
-    "fail_hits": 23,
-    "top_catalog": "C1/C6\u00d714,C1\u00d78,O6\u00d71",
+    "fail_hits": 19,
+    "top_catalog": "C1/C6\u00d712,C1\u00d76,O6\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -205,28 +227,6 @@
     ],
     "fail_hits": 20,
     "top_catalog": "C1/C6\u00d715,S1-S3\u00d73,C1\u00d72",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1990,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries",
-      "midclass_page_dropout"
-    ],
-    "fail_hits": 27,
-    "top_catalog": "C1/C6\u00d726,C1\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1990,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_200401_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries",
-      "midclass_page_dropout"
-    ],
-    "fail_hits": 40,
-    "top_catalog": "C1/C6\u00d726,C1\u00d714",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]

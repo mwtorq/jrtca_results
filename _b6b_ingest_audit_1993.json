@@ -4,26 +4,21 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
-      "chars_before": 48303,
-      "chars_after": 48303,
-      "cleaned": false,
+      "chars_before": 48730,
+      "chars_after": 48730,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 23,
+      "fail_hits": 19,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d714,midclass_page_dropout\u00d75,class_header_gap\u00d73,owner_tail_trunc\u00d71",
-      "top_catalog": "C1/C6\u00d714,C1\u00d78,O6\u00d71",
+      "top_codes": "incomplete_entries\u00d712,midclass_page_dropout\u00d74,class_header_gap\u00d72,owner_tail_trunc\u00d71",
+      "top_catalog": "C1/C6\u00d712,C1\u00d76,O6\u00d71",
       "by_code": {
-        "class_header_gap": 3,
-        "incomplete_entries": 14,
-        "midclass_page_dropout": 5,
+        "class_header_gap": 2,
+        "incomplete_entries": 12,
+        "midclass_page_dropout": 4,
         "owner_tail_trunc": 1
       },
       "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "4th: Tasha R:z"
-        },
         {
           "code": "class_header_gap",
           "catalog": "C1",
@@ -72,17 +67,7 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Entries: 6 | places=0/6 | Entries: 11"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 11 | places=0/6 | Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 4 | places=0/4 | OPEN (Adults)                                               "
+          "line": "Bitches, 1 yr & over, 12-1/2--15\", smooth                                        | places=1/6 | OPEN (Adults)                                               "
         },
         {
           "code": "incomplete_entries",
@@ -108,11 +93,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "and the Bluegrass Working Terrier Ass | after page got 30th expected 1 | 30rd: Sandercox        Deb McWilliams"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Family                                          Entries: 6 | after page got 4th expected 7 | 4th: Tasha R:z"
         },
         {
           "code": "midclass_page_dropout",
