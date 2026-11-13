@@ -183,18 +183,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_200401_ocr_hqmax.txt",
-      "chars_before": 179115,
-      "chars_after": 179115,
+      "chars_before": 178740,
+      "chars_after": 178740,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 55,
+      "fail_hits": 40,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,two_column_smash\u00d715,midclass_page_dropout\u00d714",
-      "top_catalog": "C1/C6\u00d726,S1-S3\u00d715,C1\u00d714",
+      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d714",
+      "top_catalog": "C1/C6\u00d726,C1\u00d714",
       "by_code": {
         "incomplete_entries": 26,
-        "midclass_page_dropout": 14,
-        "two_column_smash": 15
+        "midclass_page_dropout": 14
       },
       "samples": [
         {
@@ -386,23 +385,12 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Bitch Pups, 6 up to 12 months, up to 12 1/2\" Entries: 10 | after page got 5th expected 7 | 5th: MURPHY, owned by Debbie Kratzer"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "kle, owned by Vail Juhring"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "bod, owned by A. Reynolds & D. Hekkala"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
         "incomplete_entries",
-        "midclass_page_dropout",
-        "two_column_smash"
+        "midclass_page_dropout"
       ]
     },
     {
