@@ -230,8 +230,8 @@
       "incomplete_entries",
       "midclass_page_dropout"
     ],
-    "fail_hits": 7,
-    "top_catalog": "C1/C6\u00d76,C1\u00d71",
+    "fail_hits": 5,
+    "top_catalog": "C1/C6\u00d74,C1\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {

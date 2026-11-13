@@ -19,7 +19,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | FAIL | False | 4 | 0 | C1/C6×4 | `Document_2026-11-03_212153_ocr_hqmax.txt` |
 | FAIL | False | 25 | 0 | C1/C6×20,C1×5 | `Document_2026-11-03_212636_ocr_hqmax.txt` |
-| FAIL | False | 7 | 0 | C1/C6×6,C1×1 | `Document_2026-11-03_213104_ocr_hqmax.txt` |
+| FAIL | False | 5 | 0 | C1/C6×4,C1×1 | `Document_2026-11-03_213104_ocr_hqmax.txt` |
 | FAIL | False | 12 | 0 | C1/C6×7,C1×5 | `Document_2026-11-03_220343_ocr_hqmax.txt` |
 | FAIL | False | 5 | 0 | C1/C6×2,C1×2,O6×1 | `Document_2026-11-03_220931_ocr_hqmax.txt` |
 | FAIL | False | 15 | 0 | C1/C6×11,C1×4 | `Document_2026-11-03_221749_ocr_hqmax.txt` |
@@ -45,11 +45,9 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             
 
 ### `Document_2026-11-03_213104_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Dogs; 1 yr & over, 12-1/2--15" Entries: 16
+- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Dogs, 1 yr & over, 12-1/2--15" Entries: 16
 - `C1/C6` / `incomplete_entries`: Novice (Puppies)                                                                 | places=3/6 | Novice (Adults)                                             
 - `C1/C6` / `incomplete_entries`: OPEN (Puppies)                                                                   | places=1/4 | OPEN (Adults)                                               
-- `C1/C6` / `incomplete_entries`: Entries: 12 | places=0/6 | Entries: 12
-- `C1/C6` / `incomplete_entries`: Entries: 12 | places=1/6 | Dogs; 1 yr & over, 10--12-1/2", br/r                        
 - `C1/C6` / `incomplete_entries`: Novice (Adults)                                                                  | places=2/6 | Bitches, 1 yr & over, 10-12-1/2" Entries: 13
 - `C1` / `midclass_page_dropout`: Dogs, 1 yr & over, 12-1/2--15", br/r                                             | after page got 5th expected 3 | 5th: Katy Scarlett, owned by Michelle Clark
 

@@ -176,23 +176,23 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_213104_ocr_hqmax.txt",
-      "chars_before": 21091,
-      "chars_after": 21091,
+      "chars_before": 21053,
+      "chars_after": 21053,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 7,
+      "fail_hits": 5,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d76,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d76,C1\u00d71",
+      "top_codes": "incomplete_entries\u00d74,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d74,C1\u00d71",
       "by_code": {
-        "incomplete_entries": 6,
+        "incomplete_entries": 4,
         "midclass_page_dropout": 1
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Dogs; 1 yr & over, 12-1/2--15\" Entries: 16"
+          "line": "Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 16"
         },
         {
           "code": "incomplete_entries",
@@ -203,16 +203,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "OPEN (Puppies)                                                                   | places=1/4 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 12 | places=0/6 | Entries: 12"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Entries: 12 | places=1/6 | Dogs; 1 yr & over, 10--12-1/2\", br/r                        "
         },
         {
           "code": "incomplete_entries",
