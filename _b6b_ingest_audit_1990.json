@@ -23,19 +23,14 @@
       "chars_after": 152329,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 10,
+      "fail_hits": 8,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d710",
-      "top_catalog": "C1/C6\u00d710",
+      "top_codes": "incomplete_entries\u00d78",
+      "top_catalog": "C1/C6\u00d78",
       "by_code": {
-        "incomplete_entries": 10
+        "incomplete_entries": 8
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             "
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -54,7 +49,7 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "OPEN (Adults)                                                                    | places=1/6 | Dog Pups, 6 up to 9 months Entries: 4"
+          "line": "Novice (Puppies)                                                          Entrie | places=0/6 | Novice (Adults)                                             "
         },
         {
           "code": "incomplete_entries",
@@ -88,20 +83,15 @@
       "chars_after": 178740,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 38,
+      "fail_hits": 39,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d725,midclass_page_dropout\u00d713",
-      "top_catalog": "C1/C6\u00d725,C1\u00d713",
+      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d713",
+      "top_catalog": "C1/C6\u00d726,C1\u00d713",
       "by_code": {
-        "incomplete_entries": 25,
+        "incomplete_entries": 26,
         "midclass_page_dropout": 13
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             "
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -170,11 +160,6 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Entries: 23 | places=1/6 | Rough/Broken coated dog pups, 9 to 12 months, up to 15\" Entr"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Entries: 8 | places=0/6 | O, owned by Kay Gitchell \u2013 Entries: 4"
         },
         {
@@ -186,16 +171,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 6 | places=0/6 | Open Class"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2\u2014-15\" Entries: 9 | places=1/6 | Bitches, 1 yr & over, 10-12-1/2\" Entries: 12"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months                                                      | places=1/6 | Bitch Pups, 6 up to 12 months                               "
         },
         {
           "code": "incomplete_entries",
@@ -216,6 +191,31 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "3, owned by Nancy & Reg Parker \u2013 Entries: 19 | places=0/6 | Bitch Pups, 9 up to 12 months, smooth                       "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 5 | places=0/5 | Entries: 4"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 4 | places=0/4 | Entries: 8"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 8 | places=0/6 | Entries: 8"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 8 | places=0/6 | Entries: 7"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 7 | places=0/6 | EOF"
         },
         {
           "code": "midclass_page_dropout",

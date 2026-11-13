@@ -1,105 +1,51 @@
 {
   "year": 1991,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
-      "chars_before": 45732,
-      "chars_after": 45732,
+      "chars_before": 45690,
+      "chars_after": 45690,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d71",
-      "top_catalog": "C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10-12-1/2\" Entries: 10 | places=0/6 | Judges:         Marcy Ortolano, Conformation; Richard Ortola"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_205014_ocr_hqmax.txt",
-      "chars_before": 48046,
-      "chars_after": 48046,
+      "chars_before": 48095,
+      "chars_after": 48095,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d72,C1\u00d71",
-      "by_code": {
-        "incomplete_entries": 2,
-        "midclass_page_dropout": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 3 | places=0/3 | Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 16 | after page got 1th expected 4 | 1st: Raheen Lilac Magpie, owned by Jaci Jenson"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_210248_ocr_hqmax.txt",
-      "chars_before": 60916,
-      "chars_after": 60885,
+      "chars_before": 60997,
+      "chars_after": 60966,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d72,incomplete_entries\u00d71",
-      "top_catalog": "C1\u00d72,C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1,
-        "midclass_page_dropout": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "American Bred                                                                    | after page got 4th expected 7 | 4th: Raven, owned by Mia DiBenedetto"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\", br'r                                             | after page got 5th expected 7 | 5th: The Hollow Mr. Belvedere, owned by Lauri"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_211454_ocr_hqmax.txt",

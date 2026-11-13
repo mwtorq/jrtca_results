@@ -23,12 +23,12 @@
       "chars_after": 56386,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 7,
+      "fail_hits": 5,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d74,incomplete_entries\u00d73",
-      "top_catalog": "C1\u00d74,C1/C6\u00d73",
+      "top_codes": "midclass_page_dropout\u00d74,incomplete_entries\u00d71",
+      "top_catalog": "C1\u00d74,C1/C6\u00d71",
       "by_code": {
-        "incomplete_entries": 3,
+        "incomplete_entries": 1,
         "midclass_page_dropout": 4
       },
       "samples": [
@@ -36,16 +36,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dog Pups, 6 up to 12 months, 12-1/2-15\" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 10-12-1/2\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 11 | places=1/6 | Judges:         Nancy Breakstone, Conformation; Bob Kilmarti"
         },
         {
           "code": "midclass_page_dropout",
@@ -125,20 +115,15 @@
       "chars_after": 48960,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 5,
+      "fail_hits": 4,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d73,incomplete_entries\u00d72",
-      "top_catalog": "C1\u00d73,C1/C6\u00d72",
+      "top_codes": "midclass_page_dropout\u00d73,incomplete_entries\u00d71",
+      "top_catalog": "C1\u00d73,C1/C6\u00d71",
       "by_code": {
-        "incomplete_entries": 2,
+        "incomplete_entries": 1,
         "midclass_page_dropout": 3
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Pupples)                                                                 | places=1/6 | Judges:       Jack Batzer, Conformation; Louise Thomas, Go-t"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",

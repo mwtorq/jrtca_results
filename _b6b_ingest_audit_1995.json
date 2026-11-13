@@ -8,25 +8,14 @@
       "chars_after": 36242,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 3,
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d72,C1\u00d71",
+      "top_codes": "midclass_page_dropout\u00d71",
+      "top_catalog": "C1\u00d71",
       "by_code": {
-        "incomplete_entries": 2,
         "midclass_page_dropout": 1
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10-12 1/2\", br/r                                              | places=1/6 | BEST DOG & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Open Adults, 10-12 1/2\" Entries: 7 | places=1/6 | Bitch Pups, 6 up to 9 months, 10-12 1/2\" Entries: 7"
-        },
         {
           "code": "midclass_page_dropout",
           "catalog": "C1",
@@ -35,7 +24,6 @@
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "incomplete_entries",
         "midclass_page_dropout"
       ]
     },
@@ -172,20 +160,15 @@
       "chars_after": 50831,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 5,
+      "fail_hits": 3,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d74,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d74,C1\u00d71",
+      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d72,C1\u00d71",
       "by_code": {
-        "incomplete_entries": 4,
+        "incomplete_entries": 2,
         "midclass_page_dropout": 1
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 9 up to 12 months, r/br                                              | places=1/6 | AGILITY"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -195,11 +178,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Entries: 12 | places=0/6 | Entries: 12"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over 12 1/2-15\" Entries: 11 | places=1/6 | JRTCA Working Terrier"
         },
         {
           "code": "midclass_page_dropout",

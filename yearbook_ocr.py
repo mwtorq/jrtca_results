@@ -3433,8 +3433,8 @@ def _iter_incomplete_entries_hits(
     """Entries:N classes that end with a clearly truncated place set.
 
     Yearbooks often list fewer places than Entries when few dogs placed.
-    FAIL only on severe shortfalls: no parseable places with N>=3, or missing
-    >=5 of the expected top-6 slots (short GTG/OPEN printouts are common).
+    FAIL only when Entries:N>=3 has no parseable 1st..6th places at all
+    (partial top-N printouts are normal yearbook style, not FAIL).
     """
     hits: list[tuple[str, str]] = []
     entries_n: int | None = None
@@ -3448,9 +3448,7 @@ def _iter_incomplete_entries_hits(
         need = min(entries_n, 6)
         got = len({r for r in place_ranks if 1 <= r <= 6})
         # got==0 with N>=3: class had Entries but no parseable places (often smash 1st)
-        severe = (got == 0 and entries_n >= 3) or (
-            place_ranks and (need - got >= 5)
-        )
+        severe = got == 0 and entries_n >= 3
         if severe:
             hits.append(
                 (

@@ -17,10 +17,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 12 | 0 | C1/C6×9,C1×2,O6×1 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
+| FAIL | True | 11 | 0 | C1/C6×8,C1×2,O6×1 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
 | FAIL | False | 6 | 0 | C1×5,C1/C6×1 | `Document_2026-11-03_230536_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-03_231659_ocr_hqmax.txt` |
-| FAIL | False | 8 | 0 | C1/C6×7,C1×1 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
+| FAIL | False | 6 | 0 | C1/C6×5,C1×1 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_002601_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -32,7 +32,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Entries: 15 | places=0/6 | Entries: 12
 - `C1/C6` / `incomplete_entries`: Entries: 12 | places=0/6 | Entries: 6
 - `C1/C6` / `incomplete_entries`: Entries: 6 | places=0/6 | Entries: 6
-- `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12-1/2--15", smooth                                        | places=1/6 | OPEN (Adults)                                               
 - `C1/C6` / `incomplete_entries`: Puppies, 9 up to 12 months                                                  Entr | places=0/6 | Dogs, 1 yr & over, 10--12-1/2" Entries: 7
 - `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 12 months                                           Entries: 1 | places=0/6 | Dog Pups, 6 up to 12 months                                 
 - `C1` / `midclass_page_dropout`: and the Bluegrass Working Terrier Ass | after page got 30th expected 1 | 30rd: Sandercox        Deb McWilliams
@@ -50,9 +49,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 ### `Document_2026-11-03_233615_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10-12-12" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 4
 - `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 9 months                                                       | places=0/3 | Dog Pups, 6 up to 9 months
-- `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 12-1/2--15" Entries: 12 | places=1/6 | Dog Pups, 6 up to 9 months – Entries: 8
 - `C1/C6` / `incomplete_entries`: Entries: 7 | places=0/6 | Bitch Pups, 9 up to 12 months
 - `C1/C6` / `incomplete_entries`: Entries: 12 | places=0/6 | Dogs, 1 yr & over, 12-1/2--15"
 - `C1/C6` / `incomplete_entries`: NTAIL BEAR, owned by Susan McRae – Entries: 9 | places=0/6 | OPEN (Adults)                                               
-- `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10--12-1/2" Entries: 7 | places=1/6 | JRTCA Working Terrier                                       
 - `C1` / `midclass_page_dropout`: Bitch Pups, 6 up to 9 months                                                  En | after page got 2th expected 7 | 2nd: Heaven Hill

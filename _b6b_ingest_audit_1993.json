@@ -8,12 +8,12 @@
       "chars_after": 48788,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 12,
+      "fail_hits": 11,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d79,midclass_page_dropout\u00d72,owner_tail_trunc\u00d71",
-      "top_catalog": "C1/C6\u00d79,C1\u00d72,O6\u00d71",
+      "top_codes": "incomplete_entries\u00d78,midclass_page_dropout\u00d72,owner_tail_trunc\u00d71",
+      "top_catalog": "C1/C6\u00d78,C1\u00d72,O6\u00d71",
       "by_code": {
-        "incomplete_entries": 9,
+        "incomplete_entries": 8,
         "midclass_page_dropout": 2,
         "owner_tail_trunc": 1
       },
@@ -47,11 +47,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Entries: 6 | places=0/6 | Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\", smooth                                        | places=1/6 | OPEN (Adults)                                               "
         },
         {
           "code": "incomplete_entries",
@@ -159,12 +154,12 @@
       "chars_after": 50824,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 8,
+      "fail_hits": 6,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d77,C1\u00d71",
+      "top_codes": "incomplete_entries\u00d75,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d75,C1\u00d71",
       "by_code": {
-        "incomplete_entries": 7,
+        "incomplete_entries": 5,
         "midclass_page_dropout": 1
       },
       "samples": [
@@ -181,11 +176,6 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 12 | places=1/6 | Dog Pups, 6 up to 9 months \u2013 Entries: 8"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Entries: 7 | places=0/6 | Bitch Pups, 9 up to 12 months"
         },
         {
@@ -197,11 +187,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "NTAIL BEAR, owned by Susan McRae \u2013 Entries: 9 | places=0/6 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 7 | places=1/6 | JRTCA Working Terrier                                       "
         },
         {
           "code": "midclass_page_dropout",

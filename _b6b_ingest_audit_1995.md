@@ -17,17 +17,15 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 3 | 0 | C1/C6×2,C1×1 | `Document_2026-11-04_124005_ocr_hqmax.txt` |
+| FAIL | True | 1 | 0 | C1×1 | `Document_2026-11-04_124005_ocr_hqmax.txt` |
 | FAIL | True | 4 | 0 | C1/C6×4 | `Document_2026-11-04_124704_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_130318_ocr_hqmax.txt` |
 | FAIL | False | 10 | 0 | C1/C6×7,C1×3 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
-| FAIL | False | 5 | 0 | C1/C6×4,C1×1 | `Document_2026-11-04_142425_ocr_hqmax.txt` |
+| FAIL | False | 3 | 0 | C1/C6×2,C1×1 | `Document_2026-11-04_142425_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
 ### `Document_2026-11-04_124005_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10-12 1/2", br/r                                              | places=1/6 | BEST DOG & RESERVE
-- `C1/C6` / `incomplete_entries`: Open Adults, 10-12 1/2" Entries: 7 | places=1/6 | Bitch Pups, 6 up to 9 months, 10-12 1/2" Entries: 7
 - `C1` / `midclass_page_dropout`: Agility I--Off Lead                                                              | after page got 1th expected 2 | 1st: Crossruff Palmer, owned by Deborah Holly
 
 ### `Document_2026-11-04_124704_ocr_hqmax.txt` (FAIL)
@@ -49,8 +47,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1` / `midclass_page_dropout`: Bitch Pups, 6 up to 9 months, smooth                                        Entr | after page got 2th expected 6 | 2nd: Foxport La:
 
 ### `Document_2026-11-04_142425_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 9 up to 12 months, r/br                                              | places=1/6 | AGILITY
 - `C1/C6` / `incomplete_entries`: Entries: 7 | places=0/6 | Entries: 12
 - `C1/C6` / `incomplete_entries`: Entries: 12 | places=0/6 | Entries: 12
-- `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over 12 1/2-15" Entries: 11 | places=1/6 | JRTCA Working Terrier
 - `C1` / `midclass_page_dropout`: Jasmine, owned by Rick & Leslie Hemsing – Entries: 0 | after page got 4th expected 1 | 4th: Fiona, owned by Missy Kulbacky
