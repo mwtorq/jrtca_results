@@ -231,11 +231,10 @@
     "year": 1991,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
     "codes": [
-      "incomplete_entries",
-      "midclass_page_dropout"
+      "incomplete_entries"
     ],
-    "fail_hits": 9,
-    "top_catalog": "C1/C6\u00d77,C1\u00d72",
+    "fail_hits": 7,
+    "top_catalog": "C1/C6\u00d77",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
