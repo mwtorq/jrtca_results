@@ -1403,12 +1403,82 @@ def _place_body_as_class_header(s: str) -> str | None:
     return None
 
 
+def _class_entries_n(line: str) -> int | None:
+    m = re.search(r"(?i)\bEntries\s*:\s*(\d+)\b", line)
+    return int(m.group(1)) if m else None
+
+
+def _iter_post_page_missing_header_indices(lines: list[str]) -> list[int]:
+    """Place lines after a completed Entries:N class + page/chrome with no new header.
+
+    True mid-class page breaks (class not yet filled to N) are NOT gaps.
+    Completed class + page/chrome + place (any rank) without a header IS a gap.
+    Column LEFT/RIGHT alone does not arm this (column split may continue a class);
+    ``--- page ---`` and yearbook chrome do.
+    """
+    gaps: list[int] = []
+    entries_n: int | None = None
+    place_ranks: list[int] = []
+    armed_post_page = False
+    page_chrome_re = re.compile(
+        r"(?i)^(?:---\s*page\s+\d+\s*---|JRTCA\b|YEARBOOK\b|continued\b)$"
+    )
+
+    def class_complete() -> bool:
+        if entries_n is None or not place_ranks:
+            return False
+        uniq = set(place_ranks)
+        if len(place_ranks) >= entries_n:
+            return True
+        if max(place_ranks) >= entries_n and len(uniq) >= max(1, entries_n - 1):
+            return True
+        if set(range(1, entries_n + 1)).issubset(uniq):
+            return True
+        return False
+
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if not s:
+            continue
+        if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+            entries_n = _class_entries_n(s)
+            place_ranks = []
+            armed_post_page = False
+            continue
+        if re.match(r"(?i)^Entries\s*:\s*\d+\s*$", s):
+            entries_n = _class_entries_n(s)
+            continue
+        if page_chrome_re.match(s) or (
+            _MARKER_RE.match(s) and re.search(r"(?i)page\s+\d+", s)
+        ):
+            if class_complete():
+                armed_post_page = True
+            continue
+        if _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            # Non-page markers: do not arm; do not clear an already-armed post-page gap.
+            continue
+        if _PLACE_FIRST_RE.match(s) or _PLACE_NON_FIRST_RE.match(s) or _CHAMP_RESERVE_ROLE_RE.match(s):
+            if armed_post_page:
+                gaps.append(i)
+                armed_post_page = False
+                # New class started without header; reset tracking from this place block.
+                entries_n = None
+                place_ranks = []
+            m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+            if m:
+                place_ranks.append(int(m.group(1)))
+            continue
+    return gaps
+
+
 def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
-    """Indices of ``1st:`` lines that restart a class with no header above.
+    """Indices of place/role lines that restart a class with no header above.
 
     Arms on non-first places and on Champion/Reserve role lines (common before
     Youth/Pee Wee handler blocks under BEST … CHAMPION & RESERVE).
-    Column LEFT/RIGHT markers reset the arm — a new column is not a class gap.
+    Column LEFT/RIGHT markers reset the classic arm (new column is not a gap).
+    Page breaks after a completed Entries:N class arm via
+    ``_iter_post_page_missing_header_indices`` (merged below).
     """
     gaps: list[int] = []
     gap_armed = False
@@ -1417,7 +1487,7 @@ def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
         if not s:
             continue
         if _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
-            # Column/page/ensemble markers: mid-class continuation, not a new gap.
+            # Column/page/ensemble markers: classic mid-class arm resets.
             gap_armed = False
             continue
         if _PLACE_FIRST_RE.match(s):
@@ -1428,7 +1498,11 @@ def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
             gap_armed = True
         elif _SECTIONISH_RE.search(s) or _looks_like_class_header_line(s):
             gap_armed = False
-    return gaps
+    # Merge post-page missing-header gaps (dedicated FAIL pattern).
+    for gi in _iter_post_page_missing_header_indices(lines):
+        if gi not in gaps:
+            gaps.append(gi)
+    return sorted(gaps)
 
 
 def _line_fingerprint_keys(s: str) -> set[str]:
@@ -3362,10 +3436,43 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
             if n >= max_samples:
                 break
     # Place-rank / Champ-Reserve → 1st gaps with no recoverable title yet
+    # (includes post-page missing header after completed Entries:N class)
     lines = text.splitlines()
     for gi in _iter_class_header_gap_indices(lines)[:max_samples]:
         sample = lines[gi].strip()[:160]
         hits.append(("class_header_gap", sample))
+    # Two-column smash: conformation + racing/agility headers interleaved inside
+    # a short place window without a clean DIVISION boundary.
+    n = 0
+    section_re = re.compile(
+        r"(?i)\b(?:Bitch\s+Pups?|Dog\s+Pups?|Bitches?|Dogs?|Racing\s+Champions?|"
+        r"Adult\s+Racing\s+Champion|Puppy\s+Racing\s+Champion|Steeplechase|"
+        r"Go-?to-?Ground|Agility|CONFORMATION\s+DIVISION|RACING\s+DIVISION)\b"
+    )
+    place_re = re.compile(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:")
+    for i, ln in enumerate(lines):
+        if n >= max_samples:
+            break
+        s = ln.strip()
+        if not s or not place_re.match(s):
+            continue
+        # Look at nearby lines for foreign section headers jammed among places
+        window = []
+        for j in range(max(0, i - 3), min(len(lines), i + 4)):
+            t = lines[j].strip()
+            if section_re.search(t) and not place_re.match(t):
+                window.append(t)
+        kinds = set()
+        for t in window:
+            if re.search(r"(?i)racing\s+champion|steeplechase|racing\s+division", t):
+                kinds.add("racing")
+            if re.search(r"(?i)bitch\s+pups?|dog\s+pups?|\bbitches\b|\bdogs\b|conformation", t):
+                kinds.add("confo")
+            if re.search(r"(?i)go-?to-?ground|agility", t):
+                kinds.add("other")
+        if len(kinds) >= 2:
+            hits.append(("two_column_smash", s[:160]))
+            n += 1
     return hits
 
 

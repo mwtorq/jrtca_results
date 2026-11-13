@@ -65,6 +65,8 @@ CODE_TO_CATALOG: dict[str, str] = {
     "missing_owned_by": "S4/O",
     "owend_by": "O5",
     "class_header_gap": "C1",
+    "two_column_smash": "S1-S3",
+    "post_page_missing_header": "C1",
     "trial_bleed": "C5",
     "bare_entries": "C6/O1",
     "orphan_entry_count": "C6",
@@ -99,6 +101,9 @@ FAIL_CODES = {
     # User paste / catalog — must FAIL and schedule re-OCR (not inventable)
     "owner_tail_trunc",
     "class_header_gap",
+    "two_column_smash",
+    "two_column_smash",
+    "post_page_missing_header",
     # Former WARN-tier residuals — now FAIL; must clear before SQL apply (2026-11-13)
     "missing_owned_by",
     "orphan_entry_count",
@@ -113,6 +118,7 @@ FAIL_CODES = {
 REOCR_CODES = {
     "owner_tail_trunc",
     "class_header_gap",
+    "two_column_smash",
     "placeholder",
     "place_smash",
     "height_pct",

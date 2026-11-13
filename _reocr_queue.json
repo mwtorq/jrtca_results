@@ -6,8 +6,8 @@
       "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 4,
-    "top_catalog": "C6/O1\u00d712,C1\u00d73,S4/O\u00d72,O6\u00d71",
+    "fail_hits": 3,
+    "top_catalog": "C1\u00d72,O6\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -16,8 +16,8 @@
     "codes": [
       "owner_tail_trunc"
     ],
-    "fail_hits": 12,
-    "top_catalog": "O6\u00d712,S4/O\u00d72",
+    "fail_hits": 13,
+    "top_catalog": "O6\u00d713",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -26,19 +26,18 @@
     "codes": [
       "class_header_gap"
     ],
-    "fail_hits": 2,
-    "top_catalog": "C6/O1\u00d72,C1\u00d72",
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
     "year": 1994,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_084730_ocr_hqmax.txt",
     "codes": [
-      "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 23,
-    "top_catalog": "O6\u00d722,C1\u00d71",
+    "fail_hits": 21,
+    "top_catalog": "O6\u00d721",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -47,19 +46,18 @@
     "codes": [
       "owner_tail_trunc"
     ],
-    "fail_hits": 5,
-    "top_catalog": "C6/O1\u00d714,S4/O\u00d78,O6\u00d75",
+    "fail_hits": 9,
+    "top_catalog": "O6\u00d76,S4/O\u00d73",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
     "year": 1994,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_111318_ocr_hqmax.txt",
     "codes": [
-      "class_header_gap",
       "owner_tail_trunc"
     ],
-    "fail_hits": 5,
-    "top_catalog": "O6\u00d74,S4/O\u00d71,C1\u00d71",
+    "fail_hits": 4,
+    "top_catalog": "O6\u00d74",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -68,8 +66,8 @@
     "codes": [
       "owner_tail_trunc"
     ],
-    "fail_hits": 6,
-    "top_catalog": "O6\u00d76,C6/O1\u00d76",
+    "fail_hits": 5,
+    "top_catalog": "O6\u00d75",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -78,20 +76,19 @@
     "codes": [
       "owner_tail_trunc"
     ],
-    "fail_hits": 7,
-    "top_catalog": "C6/O1\u00d723,O6\u00d77,?/4th_then_6th_no_5\u00d71,S4/O\u00d71",
+    "fail_hits": 5,
+    "top_catalog": "O6\u00d74,S4/O\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
     "year": 1995,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
     "codes": [
-      "class_header_gap",
       "owner_tail_trunc",
       "place_smash"
     ],
-    "fail_hits": 11,
-    "top_catalog": "O6\u00d79,S1-S3\u00d71,S4/O\u00d71,C6\u00d71,C1\u00d71",
+    "fail_hits": 9,
+    "top_catalog": "O6\u00d77,S1-S3\u00d71,S4/O\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -100,8 +97,8 @@
     "codes": [
       "owner_tail_trunc"
     ],
-    "fail_hits": 5,
-    "top_catalog": "O6\u00d75,S4/O\u00d74,C6\u00d71",
+    "fail_hits": 6,
+    "top_catalog": "O6\u00d75,S4/O\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -111,17 +108,18 @@
       "owner_tail_trunc"
     ],
     "fail_hits": 6,
-    "top_catalog": "C6\u00d710,O6\u00d76",
+    "top_catalog": "O6\u00d76",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
     "year": 1995,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_134403_ocr_hqmax.txt",
     "codes": [
-      "class_header_gap"
+      "class_header_gap",
+      "owner_tail_trunc"
     ],
-    "fail_hits": 3,
-    "top_catalog": "S4/O\u00d75,C1\u00d73",
+    "fail_hits": 5,
+    "top_catalog": "C1\u00d73,O6\u00d71,S4/O\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -132,7 +130,311 @@
       "owner_tail_trunc"
     ],
     "fail_hits": 11,
-    "top_catalog": "C1\u00d76,O6\u00d75,S4/O\u00d73,C6/O1\u00d72",
+    "top_catalog": "C1\u00d76,O6\u00d75",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 15,
+    "top_catalog": "S1-S3\u00d714,O6\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 14,
+    "top_catalog": "S1-S3\u00d710,C1\u00d73,O6\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "two_column_smash"
+    ],
+    "fail_hits": 26,
+    "top_catalog": "S1-S3\u00d725,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 11,
+    "top_catalog": "S1-S3\u00d711",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 10,
+    "top_catalog": "S1-S3\u00d710",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 front_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 10,
+    "top_catalog": "S1-S3\u00d710",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 11,
+    "top_catalog": "S1-S3\u00d711",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 15,
+    "top_catalog": "S1-S3\u00d715",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 front_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 15,
+    "top_catalog": "S1-S3\u00d712,C1\u00d72,O6\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "two_column_smash"
+    ],
+    "fail_hits": 27,
+    "top_catalog": "S1-S3\u00d725,C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "two_column_smash"
+    ],
+    "fail_hits": 26,
+    "top_catalog": "S1-S3\u00d725,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt",
+    "codes": [
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 26,
+    "top_catalog": "S1-S3\u00d725,O6\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "two_column_smash"
+    ],
+    "fail_hits": 11,
+    "top_catalog": "S1-S3\u00d710,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 19,
+    "top_catalog": "S1-S3\u00d715,C1\u00d73,O6\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
+    "codes": [
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 20,
+    "top_catalog": "S1-S3\u00d719,O6\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 16,
+    "top_catalog": "S1-S3\u00d716",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 20,
+    "top_catalog": "S1-S3\u00d720",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "two_column_smash"
+    ],
+    "fail_hits": 30,
+    "top_catalog": "S1-S3\u00d725,C1\u00d75",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "two_column_smash"
+    ],
+    "fail_hits": 28,
+    "top_catalog": "S1-S3\u00d725,C1\u00d73",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 30,
+    "top_catalog": "S1-S3\u00d725,C1\u00d73,O6\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 25,
+    "top_catalog": "S1-S3\u00d721,O6\u00d72,C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 24,
+    "top_catalog": "S1-S3\u00d722,O6\u00d71,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 front_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "owner_tail_trunc",
+      "two_column_smash"
+    ],
+    "fail_hits": 28,
+    "top_catalog": "S1-S3\u00d725,O6\u00d72,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144208_ocr_hqmax.txt",
+    "codes": [
+      "class_header_gap",
+      "two_column_smash"
+    ],
+    "fail_hits": 13,
+    "top_catalog": "S1-S3\u00d711,C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144530_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 25,
+    "top_catalog": "S1-S3\u00d725",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_145925_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 17,
+    "top_catalog": "S1-S3\u00d717",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_152834_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 20,
+    "top_catalog": "S1-S3\u00d720",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_153208_ocr_hqmax.txt",
+    "codes": [
+      "two_column_smash"
+    ],
+    "fail_hits": 8,
+    "top_catalog": "S1-S3\u00d78",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]
