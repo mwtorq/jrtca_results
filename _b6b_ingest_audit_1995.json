@@ -1,503 +1,81 @@
 {
   "year": 1995,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
-      "chars_before": 36138,
-      "chars_after": 36138,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 17,
+      "chars_before": 36144,
+      "chars_after": 36110,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d711,two_column_smash\u00d74,place_smash\u00d71,missing_owned_by\u00d71",
-      "top_catalog": "O6\u00d711,S1-S3\u00d75,S4/O\u00d71",
-      "by_code": {
-        "place_smash": 1,
-        "owner_tail_trunc": 11,
-        "missing_owned_by": 1,
-        "two_column_smash": 4
-      },
-      "samples": [
-        {
-          "code": "place_smash",
-          "catalog": "S1-S3",
-          "line": "y, owned by Bob Franklin, owned by Sandy Brown"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "5th: Abby, owned by Annette & Richard Ker"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Whispering Winds Sony, owned by Wt"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: South Hunt Cupid, owned by Jerry & E"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Briarwood Ace, owned by Cindy & Dav"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Greengate Tomba, owned by Joe & Pri"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Westwood Jade, owned by Rick & Les"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Whispering Winds Heido Ho, owned b!"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: hree Oaks Double D, owned by Carolyn McGaughey"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: JR, owned by Neal Damron"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "ver, owned by Val Wasch"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Best: disqualified"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: High & Low's Gin & Tonic, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Loblolly, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Windy Hill, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Eastlake, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Westgate Rocket, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "place_smash",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124704_ocr_hqmax.txt",
-      "chars_before": 44344,
-      "chars_after": 44344,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 6,
+      "chars_before": 44391,
+      "chars_after": 44390,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d75,missing_owned_by\u00d71",
-      "top_catalog": "O6\u00d75,S4/O\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 5,
-        "missing_owned_by": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "10-12 1/2\" Reserve: TF Half Track, owned by Jin"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Drambuie, owned by Jin"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Undercover Annie, owned by ow"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Wild Goose Maryland, owned by ow"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Wild Goose Fancy, owned by ow"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "Champion: Big Valley Sudsy, t"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_130318_ocr_hqmax.txt",
-      "chars_before": 4098,
-      "chars_after": 4098,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 11,
+      "chars_before": 3897,
+      "chars_after": 3896,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d79,two_column_smash\u00d72",
-      "top_catalog": "O6\u00d79,S1-S3\u00d72",
-      "by_code": {
-        "owner_tail_trunc": 9,
-        "two_column_smash": 2
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "5. wis BB     i, owned by Sanc"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Truffle, owned by Kevi"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Whirlwind, owned by Debt"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: a, owned by Didi"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Ce, owned by Pam"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd:, owned by Kelly & Ja"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: a, owned by Didi"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: Ce, owned by Pam"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "A     They, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Falcon of Blue Barns, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "North Country Polo, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_134403_ocr_hqmax.txt",
-      "chars_before": 52499,
-      "chars_after": 52499,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 12,
+      "chars_before": 52899,
+      "chars_after": 52875,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d77,class_header_gap\u00d73,owner_tail_trunc\u00d71,missing_owned_by\u00d71",
-      "top_catalog": "S1-S3\u00d77,C1\u00d73,O6\u00d71,S4/O\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1,
-        "missing_owned_by": 1,
-        "class_header_gap": 3,
-        "two_column_smash": 7
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Becky, owned by ow"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Rummy, oy"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Loblolly La"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Foxport La"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Round the"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "Reserve: Ty, owned by Carolyn Churton"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "hloe, owned by Vanna Teschner"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: drd: Ridgeview Bon Bon, owned by Didi Gough"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "3rd: llow Scamper, owned by Margaret Wheeler"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "4th: y' Annie, owned by Doug & Sue Tack"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "5th: wder Oaks Josie of Timbre Ridge, owned by Bonnie Hurley"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: ce Eden, owned by Will Hahn"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_142425_ocr_hqmax.txt",
-      "chars_before": 50872,
-      "chars_after": 50872,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 31,
+      "chars_before": 50828,
+      "chars_after": 50735,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d714,owner_tail_trunc\u00d710,class_header_gap\u00d77",
-      "top_catalog": "S1-S3\u00d714,O6\u00d710,C1\u00d77",
-      "by_code": {
-        "owner_tail_trunc": 10,
-        "class_header_gap": 7,
-        "two_column_smash": 14
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Bowser, owned by ow"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Windermere Turner of Stealth, owned by Stez"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Seaview Scooter, owned by Didi Gough & Liz"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Morganfield Eve, owned by Karen Reavis & T"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Wesworld Hamilton, owned by Christy Parkison & Suzie Utz"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "4th: Little Rascals Spike, owned by The Benintendo Gang"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Windermere Pistol, owned by Sandy & Joel"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Popy of Farmstead, owned by Judy Galterio"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: The Larches Pick, owned by Joan & Donald"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: The Larches Pic"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Windy Hill Suga"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Morganfield Eve, owned by Karen Reavis & T"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "vdy, owned by Debra Ellis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "stan, owned by Zen & Laurie Wojcik"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "gan, owned by Pam Molloy"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "owdy, owned by Debra Ellis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "indal, owned by Debra Ellis"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "lite, owned by Mickey Smith"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "unny, owned by Sarah & Terry Grainger"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "fucker, owned by Kari Steicher"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "egan, owned by Susan Schwartz"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "cuit, owned by Susan Schwartz \u2013 Entries: 1"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "wie, owned by Pat & Christine Boylan"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "cuit, owned by Susan Schwartz"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: couple of years inthe U.S."
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Foxhall Turbo of Whispering Winds, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Ruby, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Foxnorton Domino of Meadowlake, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Conquest Covergirl of Checkmate, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Ravenswood Punch of Wind Song, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }
