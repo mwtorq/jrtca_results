@@ -58,13 +58,13 @@
       "chars_after": 48051,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 14,
+      "fail_hits": 13,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d710,midclass_page_dropout\u00d73,two_column_smash\u00d71",
-      "top_catalog": "C1/C6\u00d710,C1\u00d73,S1-S3\u00d71",
+      "top_codes": "incomplete_entries\u00d710,midclass_page_dropout\u00d72,two_column_smash\u00d71",
+      "top_catalog": "C1/C6\u00d710,C1\u00d72,S1-S3\u00d71",
       "by_code": {
         "incomplete_entries": 10,
-        "midclass_page_dropout": 3,
+        "midclass_page_dropout": 2,
         "two_column_smash": 1
       },
       "samples": [
@@ -112,11 +112,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Bitches, 1 yr & over, 10--12-1/2\" Entries: 4 | places=2/4 | Bitches, 1 yr & over, 12-1/2--15\" Entries: 12"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Source: Document_2026-11-03_205014.pdf | after page got 5th expected 1 | 5th: Beau Monde Ruff E Nuff, owned by Patti St. Clair"
         },
         {
           "code": "midclass_page_dropout",

@@ -137,13 +137,13 @@
       "chars_after": 52867,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 17,
+      "fail_hits": 16,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d711,midclass_page_dropout\u00d76",
-      "top_catalog": "C1/C6\u00d711,C1\u00d76",
+      "top_codes": "incomplete_entries\u00d711,midclass_page_dropout\u00d75",
+      "top_catalog": "C1/C6\u00d711,C1\u00d75",
       "by_code": {
         "incomplete_entries": 11,
-        "midclass_page_dropout": 6
+        "midclass_page_dropout": 5
       },
       "samples": [
         {
@@ -199,11 +199,6 @@
         {
           "code": "midclass_page_dropout",
           "catalog": "C1",
-          "line": "Source: Document_2026-11-04_134403.pdf | after page got 2th expected 1 | 2nd: Fox Run Spice, owned by Sandra Ferber"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
           "line": "Bitches, 1 yr & over, 12 1/2-15\", r/br                                           | after page got 3th expected 2 | 3rd: Max, owned by T. Beers"
         },
         {
@@ -239,13 +234,13 @@
       "chars_after": 50831,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 10,
+      "fail_hits": 9,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d73",
-      "top_catalog": "C1/C6\u00d77,C1\u00d73",
+      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d72",
+      "top_catalog": "C1/C6\u00d77,C1\u00d72",
       "by_code": {
         "incomplete_entries": 7,
-        "midclass_page_dropout": 3
+        "midclass_page_dropout": 2
       },
       "samples": [
         {
@@ -282,11 +277,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Bitch Pups, 6 up to 12 months                                                Ent | places=3/6 | Dogs, 1 yr & over, 10-12 1/2\" Entries: 13"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Source: Document_2026-11-04_142425.pdf | after page got 5th expected 1 | 5th: White Gate Jackie, owned by Patricia Hafen"
         },
         {
           "code": "midclass_page_dropout",

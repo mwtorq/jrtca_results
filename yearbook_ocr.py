@@ -1332,10 +1332,17 @@ _CLASS_HEADER_HINT_RE = re.compile(
 )
 
 
+def _is_hq_metadata_line(s: str) -> bool:
+    """True for HQ preamble lines (Source/OCR/…) — never class headers."""
+    return bool(re.match(r"(?i)^(?:Source|DerivedYear|OCR|FontHint)\s*:", (s or "").strip()))
+
+
 def _looks_like_class_header_line(s: str) -> bool:
     """True when a short line looks like a recovered class/section title."""
     t = norm_space(s or "")
     if not t or len(t) > 120:
+        return False
+    if _is_hq_metadata_line(t):
         return False
     if _PLACE_FIRST_RE.match(t) or _PLACE_NON_FIRST_RE.match(t):
         return False
@@ -3508,6 +3515,9 @@ def _iter_midclass_page_dropout_hits(
         s = line.strip()
         if not s:
             continue
+        # HQ preamble (Source: …pdf) can match height-ish SECTIONISH on dates.
+        if _is_hq_metadata_line(s):
+            continue
         # End place-class tracking before sectionish can re-open on racing results.
         if _is_non_place_result_line(s):
             in_class = False
@@ -3739,11 +3749,12 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
 
     # Truncated / column-bled place bodies (must FAIL; not hidden by PASS).
     # e.g. "5th: aheen, owned by …", "6th: r, owned by …", "OF WILL-O-MOGOR, owned by …"
+    # Allow legitimate 2-letter ALL-CAPS names (LB, JR) — only flag lowercase
+    # stubs or a single-letter body.
     n = 0
-    # Case-sensitive dog-body checks: lowercase start OR 1-2 letter stub after rank.
     trunc_place_re = re.compile(
         r"^(?i:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*"
-        r"(?:(?-i:[a-z]).{0,40}|(?-i:[A-Za-z]{1,2}))\s*,\s*(?i:owned\s+by)\b"
+        r"(?:(?-i:[a-z]).{0,40}|(?-i:[a-z]{1,2}|[A-Z]))\s*,\s*(?i:owned\s+by)\b"
     )
     bled_owned_re = re.compile(
         r"^(?:(?:OF|IN)\s+\S.{0,40}|(?-i:[a-z][A-Za-z']{1,20}))\s*,\s*(?i:owned\s+by)\b"

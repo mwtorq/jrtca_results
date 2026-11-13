@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1990
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=0  PASS=0  WARN=0  FAIL=5
+Volumes: 5  cleaned=0  PASS=2  WARN=0  FAIL=3
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -18,10 +18,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
 | FAIL | False | 1 | 0 | C1/C6×1 | `scan_ocr_hqmax.txt` |
-| FAIL | False | 35 | 0 | C1/C6×26,C1×6,C7×2,O6×1 | `Document_2026-11-03_192526_ocr_hqmax.txt` |
+| FAIL | False | 34 | 0 | C1/C6×26,C1×5,C7×2,O6×1 | `Document_2026-11-03_192526_ocr_hqmax.txt` |
 | FAIL | False | 63 | 0 | C1/C6×26,S1-S3×15,C1×14,O6×8 | `Document_2026-11-03_200401_ocr_hqmax.txt` |
-| FAIL | False | 1 | 0 | C1×1 | `Document_2026-11-03_201432_ocr_hqmax.txt` |
-| FAIL | False | 1 | 0 | C1×1 | `Document_2026-11-03_201547_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `Document_2026-11-03_201432_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `Document_2026-11-03_201547_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -54,10 +54,4 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10-12-1/2" Entries: 7 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 4
 - `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10-12-1/2" Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2-15" Entries: 5
 - `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 12-1/2-15" Entries: 5 | places=2/5 | Judges:        Alf Edmunds, Conformation; Bill Breakstone, G
-- `C1/C6` / `incomplete_entries`: Child Handler                                                                    | places=3/6 | Junior Handler                                              
-
-### `Document_2026-11-03_201432_ocr_hqmax.txt` (FAIL)
-- `C1` / `midclass_page_dropout`: Source: Document_2026-11-03_201432.pdf | after page got 3th expected 1 | 3rd: MEYNELL RAILROAD OF BLACK WATCH, owned by Wendy Snider
-
-### `Document_2026-11-03_201547_ocr_hqmax.txt` (FAIL)
-- `C1` / `midclass_page_dropout`: Source: Document_2026-11-03_201547.pdf | after page got 5th expected 1 | 5th: MURPHY, owned by Debbie Kratzer
+- `C1/C6` / `incomplete_entries`: Child Handler                                                                    | places=3/6 | Junior Handler

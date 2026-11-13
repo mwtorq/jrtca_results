@@ -19,7 +19,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | FAIL | False | 24 | 0 | C1/C6×14,C1×8,O6×2 | `Document_2026-11-03_224445_ocr_hqmax.txt` |
 | FAIL | False | 14 | 0 | C1/C6×9,C1×5 | `Document_2026-11-03_230536_ocr_hqmax.txt` |
-| FAIL | False | 3 | 0 | C1/C6×2,S1-S3×1 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
+| FAIL | False | 2 | 0 | C1/C6×2 | `Document_2026-11-03_231659_ocr_hqmax.txt` |
 | FAIL | False | 20 | 0 | C1/C6×15,S1-S3×3,C1×2 | `Document_2026-11-03_233615_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_002601_ocr_hqmax.txt` |
 
@@ -56,7 +56,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 ### `Document_2026-11-03_231659_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10--12-1/2" Entries: 8 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 5
 - `C1/C6` / `incomplete_entries`: OPEN (Puppies) Entries: 4 | places=1/4 | OPEN (Adults)                                               
-- `S1-S3` / `two_column_smash`: 2nd: LB, owned by Deborah Bickler
 
 ### `Document_2026-11-03_233615_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: PRE-Novice PUPPIES                                                               | places=2/6 | Novice (Puppies)                                            

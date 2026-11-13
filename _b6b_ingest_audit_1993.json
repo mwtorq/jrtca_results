@@ -241,13 +241,12 @@
       "chars_after": 18423,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 3,
+      "fail_hits": 2,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72,two_column_smash\u00d71",
-      "top_catalog": "C1/C6\u00d72,S1-S3\u00d71",
+      "top_codes": "incomplete_entries\u00d72",
+      "top_catalog": "C1/C6\u00d72",
       "by_code": {
-        "incomplete_entries": 2,
-        "two_column_smash": 1
+        "incomplete_entries": 2
       },
       "samples": [
         {
@@ -259,17 +258,11 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "OPEN (Puppies) Entries: 4 | places=1/4 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: LB, owned by Deborah Bickler"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "incomplete_entries",
-        "two_column_smash"
+        "incomplete_entries"
       ]
     },
     {

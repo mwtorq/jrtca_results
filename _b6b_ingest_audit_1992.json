@@ -38,13 +38,13 @@
       "chars_after": 56386,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 25,
+      "fail_hits": 24,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d720,midclass_page_dropout\u00d75",
-      "top_catalog": "C1/C6\u00d720,C1\u00d75",
+      "top_codes": "incomplete_entries\u00d720,midclass_page_dropout\u00d74",
+      "top_catalog": "C1/C6\u00d720,C1\u00d74",
       "by_code": {
         "incomplete_entries": 20,
-        "midclass_page_dropout": 5
+        "midclass_page_dropout": 4
       },
       "samples": [
         {
@@ -141,11 +141,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 13 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2\" Entries: 19"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Source: Document_2026-11-03_212636.pdf | after page got 2th expected 1 | 2nd: Lunstarr Rooster, owned by Kris Mackay"
         },
         {
           "code": "midclass_page_dropout",
@@ -311,13 +306,13 @@
       "chars_after": 16279,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 5,
+      "fail_hits": 4,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d72,owner_tail_trunc\u00d71",
-      "top_catalog": "C1/C6\u00d72,C1\u00d72,O6\u00d71",
+      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d71,owner_tail_trunc\u00d71",
+      "top_catalog": "C1/C6\u00d72,C1\u00d71,O6\u00d71",
       "by_code": {
         "incomplete_entries": 2,
-        "midclass_page_dropout": 2,
+        "midclass_page_dropout": 1,
         "owner_tail_trunc": 1
       },
       "samples": [
@@ -330,11 +325,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "OPEN (Puppies)                                                                   | places=0/4 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Source: Document_2026-11-03_220931.pdf | after page got 4th expected 1 | 4th: Farmcliff Kathy, owned by Bob & Genie Franklin"
         },
         {
           "code": "midclass_page_dropout",

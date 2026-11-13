@@ -18,7 +18,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
 | FAIL | False | 6 | 0 | C1/C6×6 | `Document_2026-11-03_201758_ocr_hqmax.txt` |
-| FAIL | False | 14 | 0 | C1/C6×10,C1×3,S1-S3×1 | `Document_2026-11-03_205014_ocr_hqmax.txt` |
+| FAIL | False | 13 | 0 | C1/C6×10,C1×2,S1-S3×1 | `Document_2026-11-03_205014_ocr_hqmax.txt` |
 | FAIL | False | 18 | 0 | C1/C6×16,C1×2 | `Document_2026-11-03_210248_ocr_hqmax.txt` |
 | FAIL | False | 1 | 0 | C1/C6×1 | `Document_2026-11-03_211454_ocr_hqmax.txt` |
 
@@ -42,9 +42,9 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 12 months, 12-1/2--15" Entries: 3 | places=0/3 | Bitch Pups, 6 up to 12 months, 10--12-1/2" Entries: 4
 - `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10--12-1/2" Entries: 5 | places=2/5 | Dogs, 1 yr & over, 12-1/2--15" Entries: 16
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 10--12-1/2" Entries: 4 | places=2/4 | Bitches, 1 yr & over, 12-1/2--15" Entries: 12
-- `C1` / `midclass_page_dropout`: Source: Document_2026-11-03_205014.pdf | after page got 5th expected 1 | 5th: Beau Monde Ruff E Nuff, owned by Patti St. Clair
 - `C1` / `midclass_page_dropout`: Bitch Pups, 6 up to 12 months                                                    | after page got 6th expected 4 | 6th: Ms. Scarlett of Hidden Hollow, owned by 
 - `C1` / `midclass_page_dropout`: Dogs, 1 yr & over, 12-1/2--15" Entries: 16 | after page got 1th expected 4 | 1st: Raheen Lilac Magpie, owned by Jaci Jenson
+- `S1-S3` / `two_column_smash`: 2nd: hunting dogs were an
 
 ### `Document_2026-11-03_210248_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             

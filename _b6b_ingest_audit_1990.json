@@ -33,14 +33,14 @@
       "chars_after": 152202,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 35,
+      "fail_hits": 34,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d75,best_reserve_missing_header\u00d72,class_header_gap\u00d71,owner_tail_trunc\u00d71",
-      "top_catalog": "C1/C6\u00d726,C1\u00d76,C7\u00d72,O6\u00d71",
+      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d74,best_reserve_missing_header\u00d72,class_header_gap\u00d71,owner_tail_trunc\u00d71",
+      "top_catalog": "C1/C6\u00d726,C1\u00d75,C7\u00d72,O6\u00d71",
       "by_code": {
         "class_header_gap": 1,
         "incomplete_entries": 26,
-        "midclass_page_dropout": 5,
+        "midclass_page_dropout": 4,
         "best_reserve_missing_header": 2,
         "owner_tail_trunc": 1
       },
@@ -164,11 +164,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Novice (Puppies) Entries: 10 | places=0/6 | EOF"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Source: Document_2026-11-03_192526.pdf | after page got 4th expected 1 | 4th: The Hollow Mr. Belvedere, owned by The Hollow Terriers"
         },
         {
           "code": "midclass_page_dropout",
@@ -446,50 +441,30 @@
       "chars_before": 2902,
       "chars_after": 2902,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "midclass_page_dropout": 1
-      },
-      "samples": [
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Source: Document_2026-11-03_201432.pdf | after page got 3th expected 1 | 3rd: MEYNELL RAILROAD OF BLACK WATCH, owned by Wendy Snider"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_201547_ocr_hqmax.txt",
       "chars_before": 2911,
       "chars_after": 2911,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "midclass_page_dropout": 1
-      },
-      "samples": [
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Source: Document_2026-11-03_201547.pdf | after page got 5th expected 1 | 5th: MURPHY, owned by Debbie Kratzer"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

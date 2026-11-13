@@ -20,8 +20,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 6 | 0 | C1/C6×5,C1×1 | `Document_2026-11-04_124005_ocr_hqmax.txt` |
 | FAIL | False | 8 | 0 | C1/C6×7,C1×1 | `Document_2026-11-04_124704_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_130318_ocr_hqmax.txt` |
-| FAIL | False | 17 | 0 | C1/C6×11,C1×6 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
-| FAIL | False | 10 | 0 | C1/C6×7,C1×3 | `Document_2026-11-04_142425_ocr_hqmax.txt` |
+| FAIL | False | 16 | 0 | C1/C6×11,C1×5 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
+| FAIL | False | 9 | 0 | C1/C6×7,C1×2 | `Document_2026-11-04_142425_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -54,8 +54,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Entries: 11 | places=0/6 | Entries: 3
 - `C1/C6` / `incomplete_entries`: Entries: 3 | places=0/3 | Entries: 10
 - `C1/C6` / `incomplete_entries`: Entries: 10 | places=0/6 | EOF
-- `C1` / `midclass_page_dropout`: Source: Document_2026-11-04_134403.pdf | after page got 2th expected 1 | 2nd: Fox Run Spice, owned by Sandra Ferber
 - `C1` / `midclass_page_dropout`: Bitches, 1 yr & over, 12 1/2-15", r/br                                           | after page got 3th expected 2 | 3rd: Max, owned by T. Beers
+- `C1` / `midclass_page_dropout`: Novice, On Lead                                                             Entr | after page got 3th expected 7 | 3rd: Tortilla Flat Streak, owned by Gaye Ann 
 
 ### `Document_2026-11-04_142425_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 9 up to 12 months, r/br                                              | places=1/6 | AGILITY
@@ -65,6 +65,5 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over 12 1/2-15" Entries: 11 | places=1/6 | JRTCA Working Terrier
 - `C1/C6` / `incomplete_entries`: Agility I, Off Lead, 10-12 1/2" Entries: 4 | places=2/4 | Agility I, Off Lead, 12 12/-15" Entries: 6
 - `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months                                                Ent | places=3/6 | Dogs, 1 yr & over, 10-12 1/2" Entries: 13
-- `C1` / `midclass_page_dropout`: Source: Document_2026-11-04_142425.pdf | after page got 5th expected 1 | 5th: White Gate Jackie, owned by Patricia Hafen
 - `C1` / `midclass_page_dropout`: Jasmine, owned by Rick & Leslie Hemsing – Entries: 0 | after page got 4th expected 1 | 4th: Fiona, owned by Missy Kulbacky
 - `C1` / `midclass_page_dropout`: Dogs, 1 yr & over, 10-12 1/2", r/br                                              | after page got 3th expected 2 | 3rd: Camerton Hall Echo, owned by Jack & Paul
