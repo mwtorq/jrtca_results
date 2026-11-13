@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=4  PASS=3  WARN=10  FAIL=1
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 14  cleaned=4  PASS=3  WARN=11  FAIL=0
+Year verdict: **WARN**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -20,13 +20,13 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | WARN | False | 0 | 5 | C6×4,S4/O×1 | `2001 Coal Tree Farm_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 South Coast_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 Troon Quarry_ocr_hqmax.txt` |
-| FAIL | False | 28 | 42 | C1×25,C6×21,S4/O×17,O6×3,?/cutoff_racing×2,C6/O1×2 | `2001 Vol I_ocr_hqmax.txt` |
+| WARN | True | 0 | 42 | C6×21,S4/O×17,?/cutoff_racing×2,C6/O1×2 | `2001 Vol I_ocr_hqmax.txt` |
 | WARN | True | 0 | 2 | C6×2 | `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `2001 OH-PA II_ocr_hqmax.txt` |
 | WARN | False | 0 | 2 | ?/4th_then_2nd×1,S4/O×1 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
 | WARN | False | 0 | 1 | S4/O×1 | `2001 PNWJRTN_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
-| WARN | True | 0 | 30 | C6×19,S4/O×8,?/4th_then_2nd×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
+| WARN | False | 0 | 30 | C6×19,S4/O×8,?/4th_then_2nd×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
 | WARN | False | 0 | 17 | S4/O×8,C6×8,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | S4/O×3,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
 | WARN | True | 0 | 12 | C6×6,S4/O×4,?/4th_then_2nd×1,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
@@ -41,10 +41,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 6
 - `C6` / `orphan_entry_count`: 3
 
-### `2001 Vol I_ocr_hqmax.txt` (FAIL)
+### `2001 Vol I_ocr_hqmax.txt` (WARN)
 - `?` / `cutoff_racing`: ACING DIVISION
-- `O6` / `owner_tail_trunc`: 6th: Edisons Prince Jake, owned by Tyno
-- `O6` / `owner_tail_trunc`: 6th: Rey nard Harley, owned by ey
 - `S4/O` / `missing_owned_by`: 1st: T.J. Fans Reality, Teresa Wellman
 - `S4/O` / `missing_owned_by`: 3rd: Armowhead Norma Sue, Jack & Laurie Phillips
 - `S4/O` / `missing_owned_by`: 6th: Heaven Hill Angel, Sammy & Danetta Hopewell
@@ -54,6 +52,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 3rd: Orchard Hill Dion, Lynn Jerome
 - `S4/O` / `missing_owned_by`: 6th: Lone Pine Squirrel, Russ & Barbara Gilford
 - `S4/O` / `missing_owned_by`: 3rd: Randsom Penny Power, Kim Lutz
+- `S4/O` / `missing_owned_by`: 5th: Piccadilly Lucy, John & Judy Tyno
+- `S4/O` / `missing_owned_by`: 5th: Star, owner unknown
 
 ### `2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt` (WARN)
 - `C6` / `orphan_entry_count`: 9
