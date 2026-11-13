@@ -71,6 +71,7 @@ CODE_TO_CATALOG: dict[str, str] = {
     "midclass_page_dropout": "C1",
     "best_reserve_missing_header": "C7",
     "trial_bleed": "C5",
+    "missing_trial_header": "C5",
     "bare_entries": "C6/O1",
     "orphan_entry_count": "C6",
     "champ_reserve_split": "C7",
@@ -110,6 +111,7 @@ FAIL_CODES = {
     "incomplete_entries",
     "midclass_page_dropout",
     "best_reserve_missing_header",
+    "missing_trial_header",
     # Former WARN-tier residuals — now FAIL; must clear before SQL apply (2026-11-13)
     "missing_owned_by",
     "orphan_entry_count",
@@ -137,6 +139,7 @@ REOCR_CODES = {
     "incomplete_entries",
     "midclass_page_dropout",
     "best_reserve_missing_header",
+    "missing_trial_header",
     "champ_abbrev",
 }
 
