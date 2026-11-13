@@ -4,24 +4,18 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
-      "chars_before": 45911,
-      "chars_after": 45909,
-      "cleaned": true,
+      "chars_before": 45788,
+      "chars_after": 45788,
+      "cleaned": false,
       "verdict": "FAIL",
       "fail_hits": 7,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d76,class_header_gap\u00d71",
-      "top_catalog": "C1/C6\u00d76,C1\u00d71",
+      "top_codes": "incomplete_entries\u00d77",
+      "top_catalog": "C1/C6\u00d77",
       "by_code": {
-        "class_header_gap": 1,
-        "incomplete_entries": 6
+        "incomplete_entries": 7
       },
       "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: The Hollow Natasha, owned by The Hollow Terriers"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -51,11 +45,15 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dogs, 1 yr & over, 10-12-1/2\" Entries: 10 | places=0/6 | Judges:         Marcy Ortolano, Conformation; Richard Ortola"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Family Class Entries: 6 | places=2/6 | JRTCA Working Terrier Dog                                   "
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "class_header_gap",
         "incomplete_entries"
       ]
     },
