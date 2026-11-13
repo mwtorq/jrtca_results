@@ -3,5 +3,5 @@ year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes
 1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212636_ocr_hqmax.txt,False,56386,56386,FAIL,24,0,"incomplete_entries×20,midclass_page_dropout×4","C1/C6×20,C1×4"
 1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_213104_ocr_hqmax.txt,False,21053,21053,FAIL,5,0,"incomplete_entries×4,midclass_page_dropout×1","C1/C6×4,C1×1"
 1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220343_ocr_hqmax.txt,False,36820,36820,FAIL,12,0,"incomplete_entries×7,midclass_page_dropout×4,class_header_gap×1","C1/C6×7,C1×5"
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220931_ocr_hqmax.txt,False,16279,16279,FAIL,4,0,"incomplete_entries×2,midclass_page_dropout×1,owner_tail_trunc×1","C1/C6×2,C1×1,O6×1"
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220931_ocr_hqmax.txt,False,16262,16262,FAIL,3,0,"incomplete_entries×2,midclass_page_dropout×1","C1/C6×2,C1×1"
 1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_221749_ocr_hqmax.txt,False,48960,48960,FAIL,15,0,"incomplete_entries×11,midclass_page_dropout×4","C1/C6×11,C1×4"

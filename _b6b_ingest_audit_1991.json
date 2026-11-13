@@ -54,18 +54,17 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_205014_ocr_hqmax.txt",
-      "chars_before": 48051,
-      "chars_after": 48051,
+      "chars_before": 48046,
+      "chars_after": 48046,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 13,
+      "fail_hits": 12,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d710,midclass_page_dropout\u00d72,two_column_smash\u00d71",
-      "top_catalog": "C1/C6\u00d710,C1\u00d72,S1-S3\u00d71",
+      "top_codes": "incomplete_entries\u00d710,midclass_page_dropout\u00d72",
+      "top_catalog": "C1/C6\u00d710,C1\u00d72",
       "by_code": {
         "incomplete_entries": 10,
-        "midclass_page_dropout": 2,
-        "two_column_smash": 1
+        "midclass_page_dropout": 2
       },
       "samples": [
         {
@@ -122,18 +121,12 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 16 | after page got 1th expected 4 | 1st: Raheen Lilac Magpie, owned by Jaci Jenson"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: hunting dogs were an"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
         "incomplete_entries",
-        "midclass_page_dropout",
-        "two_column_smash"
+        "midclass_page_dropout"
       ]
     },
     {

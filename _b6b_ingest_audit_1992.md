@@ -21,7 +21,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | FAIL | False | 24 | 0 | C1/C6×20,C1×4 | `Document_2026-11-03_212636_ocr_hqmax.txt` |
 | FAIL | False | 5 | 0 | C1/C6×4,C1×1 | `Document_2026-11-03_213104_ocr_hqmax.txt` |
 | FAIL | False | 12 | 0 | C1/C6×7,C1×5 | `Document_2026-11-03_220343_ocr_hqmax.txt` |
-| FAIL | False | 4 | 0 | C1/C6×2,C1×1,O6×1 | `Document_2026-11-03_220931_ocr_hqmax.txt` |
+| FAIL | False | 3 | 0 | C1/C6×2,C1×1 | `Document_2026-11-03_220931_ocr_hqmax.txt` |
 | FAIL | False | 15 | 0 | C1/C6×11,C1×4 | `Document_2026-11-03_221749_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
@@ -69,7 +69,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1/C6` / `incomplete_entries`: Pups, 4 up to 6 months                                                        En | places=3/6 | Child Handler                                               
 - `C1/C6` / `incomplete_entries`: OPEN (Puppies)                                                                   | places=0/4 | OPEN (Adults)                                               
 - `C1` / `midclass_page_dropout`: Dogs, 1 yr & over, 12-1/2--16" Entries: 10 | after page got 3th expected 7 | 3rd: JoJo of Blackiand, owned by Debra & John Cox
-- `O6` / `owner_tail_trunc`: Spects, owned by
 
 ### `Document_2026-11-03_221749_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10--12-1/2" Entries: 4 | places=2/4 | Dogs, 1 yr & over, 12-12-15" Entries: 7
