@@ -850,26 +850,6 @@
   },
   {
     "year": 1995,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
-    "codes": [
-      "midclass_page_dropout"
-    ],
-    "fail_hits": 1,
-    "top_catalog": "C1\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1995,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124704_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries"
-    ],
-    "fail_hits": 4,
-    "top_catalog": "C1/C6\u00d74",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1995,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_134403_ocr_hqmax.txt",
     "codes": [
       "incomplete_entries",

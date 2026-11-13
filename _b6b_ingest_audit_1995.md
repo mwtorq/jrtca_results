@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1995
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=3  PASS=1  WARN=0  FAIL=4
+Volumes: 5  cleaned=3  PASS=3  WARN=0  FAIL=2
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,22 +17,13 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | True | 1 | 0 | C1×1 | `Document_2026-11-04_124005_ocr_hqmax.txt` |
-| FAIL | True | 4 | 0 | C1/C6×4 | `Document_2026-11-04_124704_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_124005_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_124704_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_130318_ocr_hqmax.txt` |
 | FAIL | False | 10 | 0 | C1/C6×7,C1×3 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
 | FAIL | False | 3 | 0 | C1/C6×2,C1×1 | `Document_2026-11-04_142425_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
-
-### `Document_2026-11-04_124005_ocr_hqmax.txt` (FAIL)
-- `C1` / `midclass_page_dropout`: Agility I--Off Lead                                                              | after page got 1th expected 2 | 1st: Crossruff Palmer, owned by Deborah Holly
-
-### `Document_2026-11-04_124704_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: Bitches, 1 yr & over, 12 1/2-15" Entries: 16 | places=0/6 | Bitch Pups, 6 up to 9 months, 10-12 1/2" Entries: 4
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 9 months, 10-12 1/2" Entries: 4 | places=0/4 | Bitch Pups, 6 up to 9 months, 12 1/2-15" Entries: 2
-- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 9 months, 10-12 1/2" Entries: 5 | places=0/5 | Dog Pups, 6 up to 9 months, r/br                            
-- `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10-12 1/2", smooth                                          E | places=0/3 | Bitches, 1 yr & over, 10-12 1/2"
 
 ### `Document_2026-11-04_134403_ocr_hqmax.txt` (FAIL)
 - `C1/C6` / `incomplete_entries`: Yearbook, Vol. Il                                 99                  Buckeye St | places=0/4 | Entries: 7

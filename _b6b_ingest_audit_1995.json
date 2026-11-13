@@ -4,68 +4,33 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
-      "chars_before": 36354,
-      "chars_after": 36242,
+      "chars_before": 36403,
+      "chars_after": 36291,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "midclass_page_dropout\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "midclass_page_dropout": 1
-      },
-      "samples": [
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Agility I--Off Lead                                                              | after page got 1th expected 2 | 1st: Crossruff Palmer, owned by Deborah Holly"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124704_ocr_hqmax.txt",
-      "chars_before": 44391,
-      "chars_after": 44390,
+      "chars_before": 44393,
+      "chars_after": 44392,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d74",
-      "top_catalog": "C1/C6\u00d74",
-      "by_code": {
-        "incomplete_entries": 4
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12 1/2-15\" Entries: 16 | places=0/6 | Bitch Pups, 6 up to 9 months, 10-12 1/2\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 9 months, 10-12 1/2\" Entries: 4 | places=0/4 | Bitch Pups, 6 up to 9 months, 12 1/2-15\" Entries: 2"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 9 months, 10-12 1/2\" Entries: 5 | places=0/5 | Dog Pups, 6 up to 9 months, r/br                            "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10-12 1/2\", smooth                                          E | places=0/3 | Bitches, 1 yr & over, 10-12 1/2\""
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_130318_ocr_hqmax.txt",
