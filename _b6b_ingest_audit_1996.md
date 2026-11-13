@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=5  PASS=15  WARN=0  FAIL=15
+Volumes: 30  cleaned=7  PASS=17  WARN=0  FAIL=13
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -25,19 +25,19 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 8 | 0 | S4/O×4,C1×2,S1-S3×1,O6×1 | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
-| FAIL | False | 28 | 0 | S4/O×16,S1-S3×6,C1×5,O6×1 | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
+| FAIL | True | 2 | 0 | C1×2 | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
 | FAIL | False | 41 | 0 | S4/O×19,O6×13,C1×6,S1-S3×3 | `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `1996 Vol 1 pg 61-110 back_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 61-110 back_ocr_hqmax.txt` |
 | FAIL | False | 45 | 0 | O6×24,S4/O×14,C1×6,S1-S3×1 | `1996 Vol 1 pg 61-110 front_ocr_hqmax.txt` |
 | FAIL | False | 32 | 0 | S4/O×13,S4×8,O6×8,C1×2,S1-S3×1 | `1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 37 | 0 | O6×16,S4×9,S4/O×9,C1×3 | `1996 Vol II pg 163-220 back_ocr_hqmax.txt` |
 | FAIL | False | 28 | 0 | S4/O×17,S4×8,O6×1,C6×1,C1×1 | `1996 Vol II pg 163-220 front_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol II pg 23-92 back_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
-| FAIL | True | 33 | 0 | S4/O×15,S1-S3×8,O6×7,C1×3 | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
+| PASS | False | 0 | 0 | — | `1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol II pg 23-92 front_ocr_hqmax.txt` |
-| FAIL | True | 15 | 0 | C1×10,O6×4,S4/O×1 | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
+| FAIL | True | 14 | 0 | C1×9,O6×4,S4/O×1 | `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` |
 | FAIL | False | 27 | 0 | O6×13,S4/O×9,C1×3,S1-S3×2 | `1996 Vol II pg 93-162 back_ocr_hqmax.txt` |
 | FAIL | False | 29 | 0 | S4/O×11,O6×10,S1-S3×5,C1×3 | `1996 Vol II pg 93-162 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_144208_ocr_hqmax.txt` |
@@ -46,7 +46,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_145925_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `Document_2026-11-04_151058_ocr_hqmax.txt` |
 | FAIL | False | 9 | 0 | S4/O×8,O6×1 | `Document_2026-11-04_152834_ocr_hqmax.txt` |
-| FAIL | False | 1 | 0 | C1×1 | `Document_2026-11-04_153208_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_153208_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
@@ -89,18 +89,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C1` / `class_header_gap`: 1st: Rainland Juliet, owned by Robert & Linda Fleck
 
 ### `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `place_smash`: s, owned by Doug Stephenson, owned by Doug Stephenson
-- `S1-S3` / `place_smash`: ie, owned by Julie Felten, owned by Didi Gough
-- `S1-S3` / `place_smash`: le, owned by Jeffrey Gibson, owned by Bob Franklin
-- `S1-S3` / `place_smash`: Flat, owned by Jamie Sproles, owned by RA & Kris Mackay
-- `S1-S3` / `place_smash`: a, owned by Jeffrey Gibson, owned by Bob Franklin
-- `S1-S3` / `place_smash`: nberg, owned by Kathy Walker White, owned by Dan Peck
-- `O6` / `owner_tail_trunc`: 3rd: Gin of Lunstarr, owned by ow
-- `S4/O` / `missing_owned_by`: 2nd: Ms. Scarlett of Heaven Hill, own:
-- `S4/O` / `missing_owned_by`: 5th: Farmcliff Donny, ov
-- `S4/O` / `missing_owned_by`: Reserve: Top "E" Mill, c
-- `S4/O` / `missing_owned_by`: 3rd: The Bowery Mist, c
-- `S4/O` / `missing_owned_by`: 1st: Veronica, owned b
+- `C1` / `class_header_gap`: 1st: Foxnorten Tyke of, owned by Karen Fitzpatrick
+- `C1` / `class_header_gap`: 1st: Windermere Wend, owned by Pam Simmons
 
 ### `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` (FAIL)
 - `S1-S3` / `place_smash`: 2lli, owned by Barbara Tyler, owned by Bonnie Edison
@@ -172,20 +162,6 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 4th: Josee, name of owner not reported
 - `S4/O` / `missing_owned_by`: 3rd: Heaven Hill Zodiac, 0
 
-### `1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `place_smash`: irl, owned by J. Jankowski & K. Morande, owned by Genie Franklin
-- `S1-S3` / `place_smash`: ton, owned by Vicki Johnson, owned by Doug & Sue Tack, owned by Bob Franklin
-- `S1-S3` / `place_smash`: isha, owned by K. Hunter & P. Finkernag, owned by Kevin & Melissa McGrath
-- `S1-S3` / `place_smash`: itewitch, owned by P. Hartman & K. McC, owned by R. & D. Zampella
-- `S1-S3` / `place_smash`: rk, owned by Linda Cowasjee, owned by The Hollow Terriers
-- `S1-S3` / `place_smash`: Baybriar, owned by Jeanette Hutchinsc, owned by Lisa Johnson, owned by Sandra Ferber
-- `S1-S3` / `place_smash`: r, owned by Kate Bomberger, owned by Kate Bomberger, owned by Bob Franklin, owned by Margaret Strickland
-- `S1-S3` / `place_smash`: t, owned by Phil Hawkins, owned by Joni, Dale & Becky Green
-- `O6` / `owner_tail_trunc`: 3rd: Farmcliff Betty, owned by Franklin & Ci
-- `O6` / `owner_tail_trunc`: 5th: Mo Clilean, owned by ow
-- `O6` / `owner_tail_trunc`: 1st: Hillside Joslyn, owned by ow
-- `O6` / `owner_tail_trunc`: 1st: Romney Kaz, owned by ow
-
 ### `1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt` (FAIL)
 - `O6` / `owner_tail_trunc`: 4th: Frost, owned by Andrea Vaz
 - `O6` / `owner_tail_trunc`: 4th: Windermer Nitewitch of Sow's Ear, owned by Paul Hartman & Kai
@@ -238,6 +214,3 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `S4/O` / `missing_owned_by`: 4th: Tamsyn, name of owner not reported
 - `S4/O` / `missing_owned_by`: 5th: Lacey, name of owner not reported
 - `S4/O` / `missing_owned_by`: 3rd: Toby, name of owner not reported
-
-### `Document_2026-11-04_153208_ocr_hqmax.txt` (FAIL)
-- `C1` / `class_header_gap`: 1st: Long Hope Mickey of Farmcliff, owned by Bob Franklin
