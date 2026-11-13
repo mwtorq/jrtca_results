@@ -4,104 +4,265 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_201758_ocr_hqmax.txt",
-      "chars_before": 45706,
-      "chars_after": 45706,
+      "chars_before": 45841,
+      "chars_after": 45841,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 2,
+      "fail_hits": 11,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d72",
-      "top_catalog": "O6\u00d72",
+      "top_codes": "incomplete_entries\u00d78,midclass_page_dropout\u00d73",
+      "top_catalog": "C1/C6\u00d78,C1\u00d73",
       "by_code": {
-        "owner_tail_trunc": 2
+        "incomplete_entries": 8,
+        "midclass_page_dropout": 3
       },
       "samples": [
         {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "RESERVE: NEWMARKET'S BOBBETT OF FLATWOOD, owned by"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 9 up to 12 months                                                    | places=2/5 | OPEN (Adults)                                               "
         },
         {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "RESERVE: FARMCLIFF COOKIE MONSTER, owned by"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 10--12-1/2\" Entries: 14 | places=2/6 | Charles Sauter, Go-to-Ground"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2--15\", br/r                                          | places=0/3 | Open Class"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 7 | places=2/6 | STEEPLECHASE RACES"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4 | places=2/4 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 5"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 6 | places=3/6 | RACING CHAMPIONS:"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dogs, 1 yr & over, 10-12-1/2\" Entries: 10 | places=0/6 | Judges:         Marcy Ortolano, Conformation; Richard Ortola"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Child Handler                                                      Entries: 4 | places=1/4 | Junior Handler                                              "
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Bitch Pups, 9 up to 12 months                                                    | after page got 2th expected 3 | 2nd: Rustler's Peggy Sue, owned by Brenda Swa"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "JRTCA Novice Class \u2013 Entries: 15 | after page got 4th expected 5 | 4th: River Run lvy, owned by Rom Roscioli"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Family Class                                                           Entries:  | after page got 1th expected 6 | 1st: Winston of The Hollow, owned by The Holl"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "owner_tail_trunc"
+        "incomplete_entries",
+        "midclass_page_dropout"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_1\\Document_2026-11-03_205014_ocr_hqmax.txt",
-      "chars_before": 47883,
-      "chars_after": 47883,
+      "chars_before": 48051,
+      "chars_after": 48051,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 5,
+      "fail_hits": 14,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d74,two_column_smash\u00d71",
-      "top_catalog": "O6\u00d74,S1-S3\u00d71",
+      "top_codes": "incomplete_entries\u00d710,midclass_page_dropout\u00d73,two_column_smash\u00d71",
+      "top_catalog": "C1/C6\u00d710,C1\u00d73,S1-S3\u00d71",
       "by_code": {
-        "two_column_smash": 1,
-        "owner_tail_trunc": 4
+        "incomplete_entries": 10,
+        "midclass_page_dropout": 3,
+        "two_column_smash": 1
       },
       "samples": [
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Novice (Puppies)Entries: 4 | places=2/4 | Novice (Adults)Entries: 8"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Puppies, 4 up to 6 months                                                        | places=3/6 | Dog Pups, 6 up to 12 months                                 "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 10 | places=3/6 | STEEPLECHASE RACES"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=2/4 | Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 2"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=2/4 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 3"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 3 | places=0/3 | Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 5 | places=2/5 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 16"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 10--12-1/2\" Entries: 4 | places=2/4 | Bitches, 1 yr & over, 12-1/2--15\" Entries: 12"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Source: Document_2026-11-03_205014.pdf | after page got 5th expected 1 | 5th: Beau Monde Ruff E Nuff, owned by Patti St. Clair"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Bitch Pups, 6 up to 12 months                                                    | after page got 6th expected 4 | 6th: Ms. Scarlett of Hidden Hollow, owned by "
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 16 | after page got 1th expected 4 | 1st: Raheen Lilac Magpie, owned by Jaci Jenson"
+        },
         {
           "code": "two_column_smash",
           "catalog": "S1-S3",
           "line": "2nd: hunting dogs were an"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "RESERVE: BEAU JESTE BENTLEY OF FOXPORT, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "BEST: NEWMARKET'S BOBBETT OF FLATWOOD, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Fox Run Tucker of Courtwood, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "3rd: Lunstarr Sassy of Button Top, owned by"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "owner_tail_trunc",
+        "incomplete_entries",
+        "midclass_page_dropout",
         "two_column_smash"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_210248_ocr_hqmax.txt",
-      "chars_before": 60717,
-      "chars_after": 60717,
-      "cleaned": false,
+      "chars_before": 60916,
+      "chars_after": 60885,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 1,
+      "fail_hits": 18,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71",
-      "top_catalog": "O6\u00d71",
+      "top_codes": "incomplete_entries\u00d716,midclass_page_dropout\u00d72",
+      "top_catalog": "C1/C6\u00d716,C1\u00d72",
       "by_code": {
-        "owner_tail_trunc": 1
+        "incomplete_entries": 16,
+        "midclass_page_dropout": 2
       },
       "samples": [
         {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "RESERVE: BEAU JESTE BENTLEY OF FOXPORT, owned by"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Novice (Adults)                                                                  | places=3/6 | Bitch Pups, 6 up to 12 months                               "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dogs, 1 yr & over, 10-\u2014-12-1/2\" Entries: 5 | places=2/5 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 6"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 6 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2\" Entries: 6"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2-15\" Entries: 4 | places=1/4 | RACING CHAMPIONS:"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2-15\" Entries: 9 | places=3/6 | STEEPLECHASE RACES"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Huntington Beach, California, August 10-11, 1991"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months, 12-1/2-15\" \u2013 Entries: 10 | places=2/6 | Dogs, 1 yr & over, 10--12-1/2\" \u2013 Entries: 12"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2-15\", smooth                                         | places=2/6 | CHAMPIONSHIP CERTIFICATE (10-12 1/2\") Entries: 17"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Child & Junior Handler                                                           | places=2/6 | Bred by Exhibitor                                           "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 12 months                                                      | places=3/6 | Bitch Pups, 6 up to 12 months                               "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 12 months, 12-1/2-15\" Entries: 4 | places=2/4 | Judges:        Molly Harsh, Conformation; Ken Chambers, Go-t"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 9 months                                                     | places=2/5 | Novice (Puppies)                                            "
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "American Bred                                                                    | after page got 4th expected 7 | 4th: Raven, owned by Mia DiBenedetto"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Dogs, 1 yr & over, 10--12-1/2\", br'r                                             | after page got 5th expected 7 | 5th: The Hollow Mr. Belvedere, owned by Lauri"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "owner_tail_trunc"
+        "incomplete_entries",
+        "midclass_page_dropout"
       ]
     },
     {
@@ -109,15 +270,25 @@
       "chars_before": 12652,
       "chars_after": 12652,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "incomplete_entries\u00d71",
+      "top_catalog": "C1/C6\u00d71",
+      "by_code": {
+        "incomplete_entries": 1
+      },
+      "samples": [
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "PRE-Novice PUPPIES                                                   Entries: 9 | places=3/6 | Novice (Puppies)                                            "
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "incomplete_entries"
+      ]
     }
   ]
 }

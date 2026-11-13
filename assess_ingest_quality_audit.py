@@ -67,6 +67,9 @@ CODE_TO_CATALOG: dict[str, str] = {
     "class_header_gap": "C1",
     "two_column_smash": "S1-S3",
     "post_page_missing_header": "C1",
+    "incomplete_entries": "C1/C6",
+    "midclass_page_dropout": "C1",
+    "best_reserve_missing_header": "C7",
     "trial_bleed": "C5",
     "bare_entries": "C6/O1",
     "orphan_entry_count": "C6",
@@ -104,6 +107,9 @@ FAIL_CODES = {
     "two_column_smash",
     "two_column_smash",
     "post_page_missing_header",
+    "incomplete_entries",
+    "midclass_page_dropout",
+    "best_reserve_missing_header",
     # Former WARN-tier residuals — now FAIL; must clear before SQL apply (2026-11-13)
     "missing_owned_by",
     "orphan_entry_count",
@@ -128,6 +134,10 @@ REOCR_CODES = {
     "height_40_42",
     "height_glued",
     "height_trunc_paren",
+    "incomplete_entries",
+    "midclass_page_dropout",
+    "best_reserve_missing_header",
+    "champ_abbrev",
 }
 
 PLACEHOLDER_RE = re.compile(r"(?i)\[missing class header\]")

@@ -4,17 +4,18 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
-      "chars_before": 48205,
-      "chars_after": 48205,
+      "chars_before": 48191,
+      "chars_after": 48191,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 8,
+      "fail_hits": 25,
       "warn_hits": 0,
-      "top_codes": "class_header_gap\u00d73,two_column_smash\u00d73,owner_tail_trunc\u00d72",
-      "top_catalog": "C1\u00d73,S1-S3\u00d73,O6\u00d72",
+      "top_codes": "incomplete_entries\u00d713,midclass_page_dropout\u00d77,class_header_gap\u00d73,owner_tail_trunc\u00d72",
+      "top_catalog": "C1/C6\u00d713,C1\u00d710,O6\u00d72",
       "by_code": {
         "class_header_gap": 3,
-        "two_column_smash": 3,
+        "incomplete_entries": 13,
+        "midclass_page_dropout": 7,
         "owner_tail_trunc": 2
       },
       "samples": [
@@ -34,19 +35,104 @@
           "line": "4th: Three Oaks Britches, owned by Carolyn McGaughey"
         },
         {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "6th: n Top Bill, owned by Florence Clark"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "A Yearbook, Vol. I           19           JRTCNC Win \u2013 Entries: 14 | places=0/6 | Entries: 7"
         },
         {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: po       1stt Hart's Farm Goblin, owned by Cheryl Hart"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 7 | places=0/6 | Entries: 11"
         },
         {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "2nd: photos from the"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 11 | places=0/6 | Entries: 15"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 15 | places=0/6 | Entries: 12"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 12 | places=0/6 | Entries: 6"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 0"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 6 | places=0/6 | Entries: 11"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 11 | places=0/6 | Entries: 4"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 4 | places=0/4 | OPEN (Adults)                                               "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Puppies, 9 up to 12 months                                                  Entr | places=0/6 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 7"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "OPEN (Puppies)                                                                   | places=3/6 | OPEN (Adults)                                               "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months                                                Ent | places=3/6 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 9"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 12 months                                           Entries: 1 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2\" Entries: 8"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "and the Bluegrass Working Terrier Ass | after page got 30th expected 1 | 30rd: Sandercox        Deb McWilliams"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Entries: 6 | after page got 2th expected 1 | 2nd: Tarsia Wasp of Button Top, owned by Florence Clark"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Family                                          Entries: 6 | after page got 4th expected 7 | 4th: Tasha R:z"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Dogs, 1 yr & over, 12-1/2--15\", brir                                             | after page got 4th expected 3 | 4th: White Spirits Orion, owned by Michelle M"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Pups, 6 up to 9 months                                                           | after page got 5th expected 6 | 5th: Orchard Hill Elvis Pupsley, owned by Rob"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Alabama Bred                                                                     | after page got 4th expected 7 | 4th: Three Oaks Britches, owned by Carolyn Mc"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Dog Pups, 6 up to 12 months                                           Entries: 1 | after page got 2th expected 1 | 2nd: Dutch Creek Sweet Boy, owned by Bonita K"
         },
         {
           "code": "owner_tail_trunc",
@@ -62,40 +148,129 @@
       "reocr_required": true,
       "reocr_codes": [
         "class_header_gap",
-        "owner_tail_trunc",
-        "two_column_smash"
+        "incomplete_entries",
+        "midclass_page_dropout",
+        "owner_tail_trunc"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_230536_ocr_hqmax.txt",
-      "chars_before": 38534,
-      "chars_after": 38534,
+      "chars_before": 38662,
+      "chars_after": 38662,
       "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 14,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "incomplete_entries\u00d79,midclass_page_dropout\u00d75",
+      "top_catalog": "C1/C6\u00d79,C1\u00d75",
+      "by_code": {
+        "incomplete_entries": 9,
+        "midclass_page_dropout": 5
+      },
+      "samples": [
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "PRE-Novice PUPPIES                                                          Entr | places=3/6 | Novice (Puppies)                                            "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Novice (Puppies)                                                                 | places=3/6 | Novice (Adults)                                             "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Novice (Adults)                                                                  | places=3/6 | Bitch Pups, 6 up to 9 months                                "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "DIVISION A, CONFORMATION \u2013 Entries: 4 | places=0/4 | Dog Pups, 4 up to 6 months \u2013 Entries: 13"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 5 | places=1/5 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 6"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "JRTCA Working Terrier Dog                                                        | places=3/6 | JRTCA Working Terrier Bitch                                 "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 9 months                                                  Entr | places=3/6 | Bitches, 1 yr & over, 10-12-1/2\", br/r                      "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 8 | places=2/6 | EOF"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "CHAMPIONSHIP CERTIFICATE (12-1/2--15\")                            Entries: 16 | after page got 2th expected 4 | 2nd: Lil Rascals Jackie, owned by John Benintend"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Dog Pups, 6 up to 9 months                                                     E | after page got 3th expected 4 | 3rd: The Hollow Tracker, owned by The Hollow "
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Novice (Adults)                                                                  | after page got 2th expected 4 | 2nd: North Country Penn, owned by Marilyn Pro"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Veteran Class \u2013 Entries: 5 | after page got 4th expected 5 | 4th: The Manor Bally, owned by C.Young & D.Tarchini"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr & over, 10--12-1/2\", smooth                                        | after page got 4th expected 5 | 4th: Windermere Jazz, owned by Iris Mensing"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "incomplete_entries",
+        "midclass_page_dropout"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_231659_ocr_hqmax.txt",
-      "chars_before": 18019,
-      "chars_after": 18019,
+      "chars_before": 18103,
+      "chars_after": 18103,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 5,
+      "fail_hits": 8,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d74,two_column_smash\u00d71",
-      "top_catalog": "O6\u00d74,S1-S3\u00d71",
+      "top_codes": "owner_tail_trunc\u00d74,incomplete_entries\u00d73,two_column_smash\u00d71",
+      "top_catalog": "O6\u00d74,C1/C6\u00d73,S1-S3\u00d71",
       "by_code": {
+        "incomplete_entries": 3,
         "two_column_smash": 1,
         "owner_tail_trunc": 4
       },
       "samples": [
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Child & Junior Handler                                                           | places=2/4 | Bred by Exhibitor Dog                                       "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 8 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 5"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "OPEN (Puppies)                                                                   | places=1/4 | OPEN (Adults)                                               "
+        },
         {
           "code": "two_column_smash",
           "catalog": "S1-S3",
@@ -124,33 +299,111 @@
       ],
       "reocr_required": true,
       "reocr_codes": [
+        "incomplete_entries",
         "owner_tail_trunc",
         "two_column_smash"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_233615_ocr_hqmax.txt",
-      "chars_before": 50647,
-      "chars_after": 50647,
+      "chars_before": 50762,
+      "chars_after": 50762,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 5,
+      "fail_hits": 20,
       "warn_hits": 0,
-      "top_codes": "two_column_smash\u00d75",
-      "top_catalog": "S1-S3\u00d75",
+      "top_codes": "incomplete_entries\u00d714,midclass_page_dropout\u00d73,two_column_smash\u00d73",
+      "top_catalog": "C1/C6\u00d714,C1\u00d73,S1-S3\u00d73",
       "by_code": {
-        "two_column_smash": 5
+        "incomplete_entries": 14,
+        "midclass_page_dropout": 3,
+        "two_column_smash": 3
       },
       "samples": [
         {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: i1stt Wyndcroft Natasha, owned by K. Hunter/J. Finkernagel"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "PRE-Novice PUPPIES                                                               | places=2/6 | Novice (Puppies)                                            "
         },
         {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: fstt Ravenswood Javex, owned by Ben & Janet Sutcliffe"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months, 10-12-12\" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 4 up to 6 months                         Entries: 7 | places=3/6 | Chiid Handler                                               "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "California Bred                                                                  | places=3/6 | JRTCA Working Terrier                                       "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 12 | places=1/6 | Dog Pups, 6 up to 9 months \u2013 Entries: 8"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 7 | places=0/6 | Bitch Pups, 9 up to 12 months"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 12 | places=0/6 | Dogs, 1 yr & over, 12-1/2--15\""
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 12 months                                                   En | places=3/6 | Bitch Pups, 6 up to 12 months                               "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Novice (Puppies)                                                            Entr | places=3/6 | Mike Bales, J.C. Chambers, Go-to-Ground"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 9 up to 12 months                                               Entr | places=3/6 | Bitches, 1 yr & ov"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "NTAIL BEAR, owned by Susan McRae \u2013 Entries: 9 | places=0/6 | OPEN (Adults)                                               "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=2/4 | Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=2/4 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 5"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 7 | places=1/6 | JRTCA Working Terrier                                       "
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Dog Pups, 6 up to 9 months                                                       | after page got 2th expected 1 | 2nd: Ridgeview Spoticus, owned by Jeff Gibson"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Bitch Pups, 6 up to 9 months                                                  En | after page got 2th expected 7 | 2nd: Heaven Hill"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Entries: 11 | after page got 2th expected 1 | 2nd: Sunset Valley Sadie, owned by Ann Ingram"
         },
         {
           "code": "two_column_smash",
@@ -170,38 +423,25 @@
       ],
       "reocr_required": true,
       "reocr_codes": [
+        "incomplete_entries",
+        "midclass_page_dropout",
         "two_column_smash"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_2\\Document_2026-11-04_002601_ocr_hqmax.txt",
-      "chars_before": 2359,
-      "chars_after": 2359,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "chars_before": 2454,
+      "chars_after": 2445,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d72",
-      "top_catalog": "O6\u00d72",
-      "by_code": {
-        "owner_tail_trunc": 2
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Buttor, owned by"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "Lobilol, owned by"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

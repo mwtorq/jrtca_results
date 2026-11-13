@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1990
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=0  PASS=2  WARN=0  FAIL=3
+Volumes: 5  cleaned=0  PASS=0  WARN=0  FAIL=5
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -17,39 +17,47 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
-| FAIL | False | 1 | 0 | S1-S3×1 | `scan_ocr_hqmax.txt` |
-| FAIL | False | 11 | 0 | O6×7,S1-S3×3,C1×1 | `Document_2026-11-03_192526_ocr_hqmax.txt` |
-| FAIL | False | 27 | 0 | S1-S3×16,O6×11 | `Document_2026-11-03_200401_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-03_201432_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-03_201547_ocr_hqmax.txt` |
+| FAIL | False | 1 | 0 | C1/C6×1 | `scan_ocr_hqmax.txt` |
+| FAIL | False | 35 | 0 | C1/C6×26,C1×6,C7×2,O6×1 | `Document_2026-11-03_192526_ocr_hqmax.txt` |
+| FAIL | False | 65 | 0 | C1/C6×26,C1×16,S1-S3×15,O6×8 | `Document_2026-11-03_200401_ocr_hqmax.txt` |
+| FAIL | False | 1 | 0 | C1×1 | `Document_2026-11-03_201432_ocr_hqmax.txt` |
+| FAIL | False | 1 | 0 | C1×1 | `Document_2026-11-03_201547_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
 ### `scan_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `two_column_smash`: 1st: i1stt REDBUD BEAU, owned by David & Sara Marcum
+- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, over 12 1/2" - 15" Entries: 8 | places=1/6 | Bitches, 1 year and over, 10" - 12 1/2" Entries: 22
 
 ### `Document_2026-11-03_192526_ocr_hqmax.txt` (FAIL)
 - `C1` / `class_header_gap`: 1st: Rushill Rake of Jumping Jax and Rushill Shark, owned by Sally McKenney
-- `S1-S3` / `two_column_smash`: 1st: i1stt Woodluck Jennyanydots, owned by Karen Tritschier
-- `S1-S3` / `two_column_smash`: 1st: tstt Farmdliff Snooper, owned by Bob Franklin
-- `S1-S3` / `two_column_smash`: 1st: i1stt Foxmoor Maybelline, owned by Kathy Gregorieff
-- `O6` / `owner_tail_trunc`: RESERVE: SASS N'DASH DANNY'S BLUE CHIP OF STONE'S THROW, owned by
-- `O6` / `owner_tail_trunc`: RESERVE: NORTH FORK BLOSSOM OF WESTWOOD, owned by
-- `O6` / `owner_tail_trunc`: CHAMPION: HAMMER & TONGS ABYGAIL OF HILLSIDE, owned by
-- `O6` / `owner_tail_trunc`: 12-1/2--15' HORSEMASTERS SPROCKET OF GLEN ECHO, owned by
-- `O6` / `owner_tail_trunc`: Reserve: HAMMER & TONGS ABIGAIL OF HILLSIDE, owned by
-- `O6` / `owner_tail_trunc`: RESERVE: TREETOP ZENITH ACORN, owned by
+- `C1/C6` / `incomplete_entries`: Child Handler                                                      Entries: 8 | places=3/6 | Junior Handler                                              
+- `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 9 months, 12-1/2--15" Entries: 4 | places=2/4 | New York Bred                                               
+- `C1/C6` / `incomplete_entries`: PRE-Novice PUPPIES                                                 Entries: 7 | places=2/6 | Novice (Puppies)                                            
+- `C1/C6` / `incomplete_entries`: Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             
+- `C1/C6` / `incomplete_entries`: American Bred Dog                                                          Entri | places=3/6 | Bitch Pups, 6 up to 12 months, 10-12-1/2" Entries: 5
+- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 3 | places=0/3 | Dogs, 1 yr & over, 10--12-1/2" Entries: 6
+- `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10--12-1/2" Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2--15" Entries: 5
+- `C1/C6` / `incomplete_entries`: Novice (Adults)                                                                  | places=3/6 | OPEN (Puppies & Adults)                                     
+- `C1/C6` / `incomplete_entries`: OPEN (Puppies & Adults)                                                          | places=3/6 | CHAMPIONSHIP CERTIFICATE                                    
+- `C1/C6` / `incomplete_entries`: Dog Pups, 6 up to 12 months, 12-1/2—-15" Entries: 5 | places=2/5 | Bitch Pups, 6 up to 12 months, 10--12-1/2" Entries: 6
+- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10--12-1/2" Entries: 6 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2-15" Entries: 3
 
 ### `Document_2026-11-03_200401_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `two_column_smash`: kle, owned by Vail Juhring
-- `S1-S3` / `two_column_smash`: bod, owned by A. Reynolds & D. Hekkala
-- `S1-S3` / `two_column_smash`: OF PRESTWICK, owned by Sally Yancey
-- `S1-S3` / `two_column_smash`: 3rd: i'oxmoor Hunter, owned by Kathy Gregorieff
-- `S1-S3` / `two_column_smash`: 3rd: sper Willy, owned by Joyce Elder
-- `S1-S3` / `two_column_smash`: 6th: olla of Farmstead, owned by Judy Ciccarello
-- `S1-S3` / `two_column_smash`: sstan, owned by Laurie & Zen Wojcik
-- `S1-S3` / `two_column_smash`: irney, owned by Bob Franklin
-- `S1-S3` / `two_column_smash`: stin, owned by Kellyann Morander
-- `S1-S3` / `two_column_smash`: ami, owned by Linda Toscano
-- `S1-S3` / `two_column_smash`: etel, owned by Bob Franklin
-- `S1-S3` / `two_column_smash`: ispell, owned by Daniel & Karen Kinsley
+- `C1/C6` / `incomplete_entries`: Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             
+- `C1/C6` / `incomplete_entries`: OPEN (Adults)                                                                    | places=0/6 | 1st: Raincliff's Smooth Gerald, owned by George Ridler
+- `C1/C6` / `incomplete_entries`: Entries: 18 | places=0/6 | Entries: 11
+- `C1/C6` / `incomplete_entries`: Entries: 11 | places=0/6 | Entries: 2
+- `C1/C6` / `incomplete_entries`: Entries: 4 | places=0/4 | Dog Pups, 9 up to 12 months
+- `C1/C6` / `incomplete_entries`: Entries: 7 | places=0/6 | Bitch Pups, 9 up to 12 months
+- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 12-1/2-15" Entries: 6 | places=3/6 | Dogs, 1 yr & over, 10-12-1/2" Entries: 7
+- `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10-12-1/2" Entries: 7 | places=3/6 | Dogs, 1 yr & over, 12-1/2-15" Entries: 5
+- `C1/C6` / `incomplete_entries`: Bitch Pups, 6 up to 12 months, 10-12-1/2" Entries: 7 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2--15" Entries: 4
+- `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 10-12-1/2" Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2-15" Entries: 5
+- `C1/C6` / `incomplete_entries`: Dogs, 1 yr & over, 12-1/2-15" Entries: 5 | places=2/5 | Judges:        Alf Edmunds, Conformation; Bill Breakstone, G
+- `C1/C6` / `incomplete_entries`: Child Handler                                                                    | places=3/6 | Junior Handler                                              
+
+### `Document_2026-11-03_201432_ocr_hqmax.txt` (FAIL)
+- `C1` / `midclass_page_dropout`: Source: Document_2026-11-03_201432.pdf | after page got 3th expected 1 | 3rd: MEYNELL RAILROAD OF BLACK WATCH, owned by Wendy Snider
+
+### `Document_2026-11-03_201547_ocr_hqmax.txt` (FAIL)
+- `C1` / `midclass_page_dropout`: Source: Document_2026-11-03_201547.pdf | after page got 5th expected 1 | 5th: MURPHY, owned by Debbie Kratzer

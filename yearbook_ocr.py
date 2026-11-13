@@ -2784,7 +2784,13 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
         r'(?i)\b10\s*-\s*12\s+2\s*"?|\b10\s*-\s*12\s+12\s*"?|\b12\s+2\s*-\s*15\s*"?|'
         r'\b12\s*%\s*2\b|\b12\s+2\s+up\s+to\s+15\b'
     )),
-    ("champ_abbrev", re.compile(r"(?i)\bChamp\s*:")),
+    # Truncated racing/conformation champ labels (Cham/Reser/rampion/serve)
+    ("champ_abbrev", re.compile(
+        r"(?im)(?:\bChamp\s*:|"
+        r"^(?:\d+(?:st|nd|rd|th)\s*:\s*)?(?:hampion|rampion)\s*:|"
+        r"^[^\n]{0,48}\b(?:Cham|Reser)\b|"
+        r"^(?:\d+(?:st|nd|rd|th)\s*:\s*)?serve:)"
+    )),
     ("height_40_42", re.compile(
         r"(?i)\b40\s*-\s*12\b|\b42\s*1/2\b|\b42\.?112\b|\b42\s*112\b|"
         r"\b42112\s*-\s*45\b|\b4211245\b|\b40\s*-\s*12\s*\.?\s*112\b|"
@@ -3392,6 +3398,198 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
     return "\n".join(out)
 
 
+_BEST_RESERVE_SECTION_RE = re.compile(
+    r"(?i)^(?:BEST\b.+\bRESERVE\b|BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN)\b|"
+    r"RACING\s+CHAMPIONS?\b|GO-?TO-?GROUND\s+CHAMPION\b|"
+    r"ADULT\s+RACING\s+CHAMPION\b|PUPPY\s+RACING\s+CHAMPION\b|"
+    r"PUPPIES?\s*:?\s*$|ADULTS?\s*:?\s*$)"
+)
+_BEST_RESERVE_ROLE_LINE_RE = re.compile(
+    r"(?i)^(?:Best|Reserve|Champion)\s*:\s+\S"
+)
+_PAGE_BREAK_RE = re.compile(
+    r"(?i)^(?:---\s*page\s+\d+\s*---|JRTCA\b.*YEARBOOK\b)"
+)
+
+
+def _iter_incomplete_entries_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Entries:N classes that end with a clearly truncated place set.
+
+    Yearbooks often list fewer places than Entries when few dogs placed.
+    FAIL only on severe shortfalls: got<=2 with N>=4, or missing >=3 of the
+    expected top-6 slots.
+    """
+    hits: list[tuple[str, str]] = []
+    entries_n: int | None = None
+    header = ""
+    place_ranks: list[int] = []
+
+    def flush(sample: str) -> None:
+        nonlocal entries_n, header, place_ranks
+        if entries_n is None:
+            return
+        need = min(entries_n, 6)
+        got = len({r for r in place_ranks if 1 <= r <= 6})
+        # got==0 with N>=3: class had Entries but no parseable places (often smash 1st)
+        severe = (got == 0 and entries_n >= 3) or (
+            place_ranks
+            and ((got <= 2 and entries_n >= 4) or (need - got >= 3))
+        )
+        if severe:
+            hits.append(
+                (
+                    "incomplete_entries",
+                    f"{header[:80]} | places={got}/{need} | {sample[:60]}",
+                )
+            )
+        entries_n = None
+        header = ""
+        place_ranks = []
+
+    for line in lines:
+        if len(hits) >= max_samples:
+            break
+        s = line.strip()
+        if not s:
+            continue
+        if _PAGE_BREAK_RE.match(s) or _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            continue
+        if _BEST_RESERVE_SECTION_RE.match(s) or _BEST_RESERVE_ROLE_LINE_RE.match(s):
+            flush(s)
+            continue
+        if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+            flush(s)
+            n = _class_entries_n(s)
+            # Racing/championship blocks use Champion/Reserve lines, not 1st..6th.
+            if n is not None and n > 0 and not re.search(
+                r"(?i)championship|\bracing\b|^\s*adults?\s*:|^\s*puppies?\s*:",
+                s,
+            ):
+                entries_n = n
+                header = s
+                place_ranks = []
+            continue
+        m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+        if m and entries_n is not None:
+            place_ranks.append(int(m.group(1)))
+            continue
+    flush("EOF")
+    return hits
+
+
+def _is_non_place_result_line(s: str) -> bool:
+    """Champion/Reserve/Best role lines (incl. racing height) — not 1st..6th classes."""
+    if _BEST_RESERVE_SECTION_RE.match(s) or _BEST_RESERVE_ROLE_LINE_RE.match(s):
+        return True
+    # 10-12 1/2" Champion/Reserve: Name...
+    if re.match(
+        r'(?i)^(?:\d|Over|Under).{0,28}(?:Champion|Reserve|Cham|Reser)\b',
+        s,
+    ):
+        return True
+    return False
+
+
+def _iter_midclass_page_dropout_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Mid-class page breaks that resume at a non-next place rank (dropout)."""
+    hits: list[tuple[str, str]] = []
+    in_class = False
+    place_ranks: list[int] = []
+    saw_page = False
+    header = ""
+
+    for line in lines:
+        if len(hits) >= max_samples:
+            break
+        s = line.strip()
+        if not s:
+            continue
+        # End place-class tracking before sectionish can re-open on racing results.
+        if _is_non_place_result_line(s):
+            in_class = False
+            place_ranks = []
+            saw_page = False
+            continue
+        if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+            in_class = True
+            place_ranks = []
+            saw_page = False
+            header = s[:80]
+            continue
+        if _PAGE_BREAK_RE.match(s) or (
+            _MARKER_RE.match(s) and re.search(r"(?i)page\s+\d+", s)
+        ):
+            if in_class:
+                saw_page = True
+            continue
+        if _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            continue
+        m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+        if not m:
+            continue
+        rank = int(m.group(1))
+        if saw_page and in_class:
+            expected = (max(place_ranks) + 1) if place_ranks else 1
+            if rank != expected:
+                hits.append(
+                    (
+                        "midclass_page_dropout",
+                        f"{header} | after page got {rank}th expected {expected} | {s[:70]}",
+                    )
+                )
+                saw_page = False
+                # treat as new block starting at this rank
+                place_ranks = [rank]
+                continue
+            saw_page = False
+        if in_class:
+            place_ranks.append(rank)
+    return hits
+
+
+def _iter_best_reserve_missing_header_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Best:/Reserve: role lines without a BEST…RESERVE section header above."""
+    hits: list[tuple[str, str]] = []
+    for i, line in enumerate(lines):
+        if len(hits) >= max_samples:
+            break
+        s = line.strip()
+        if not re.match(r"(?i)^(?:Best|Reserve)\s*:\s+\S", s):
+            continue
+        ok = False
+        for j in range(i - 1, max(-1, i - 12), -1):
+            t = lines[j].strip()
+            if not t:
+                continue
+            if _PAGE_BREAK_RE.match(t) or _COLUMN_MARK_RE.match(t) or _MARKER_RE.match(t):
+                continue
+            if _BEST_RESERVE_SECTION_RE.match(t):
+                ok = True
+                break
+            # paired Champion/Best immediately above is enough
+            if re.match(r"(?i)^(?:Best|Champion)\s*:\s+\S", t):
+                ok = True
+                break
+            # racing height Champion/Reserve lines
+            if re.match(
+                r'(?i)^(?:\d|Over|Under).{0,24}(?:Champion|Reserve|Cham|Reser)\b',
+                t,
+            ):
+                ok = True
+                break
+            # first non-chrome line wasn't a section → missing header
+            break
+        if not ok:
+            hits.append(("best_reserve_missing_header", s[:160]))
+    return hits
+
+
 def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str, str]]:
     """Return residual audit hits ``(code, sample_line)`` after finalize."""
     if not text:
@@ -3456,6 +3654,15 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
     for gi in _iter_class_header_gap_indices(lines)[:max_samples]:
         sample = lines[gi].strip()[:160]
         hits.append(("class_header_gap", sample))
+    # Incomplete Entries:N place sets / mid-class page dropouts / Best-Reserve bare roles
+    for code, sample in _iter_incomplete_entries_hits(lines, max_samples=max_samples):
+        hits.append((code, sample[:160]))
+    for code, sample in _iter_midclass_page_dropout_hits(lines, max_samples=max_samples):
+        hits.append((code, sample[:160]))
+    for code, sample in _iter_best_reserve_missing_header_hits(
+        lines, max_samples=max_samples
+    ):
+        hits.append((code, sample[:160]))
     # Two-column smash / column-bleed:
     # (1) glued or corrupted division titles
     # (2) same-line place + foreign division keyword
