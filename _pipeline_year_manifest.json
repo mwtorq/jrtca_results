@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T21:37:46Z",
+  "updated": "2026-11-13T22:04:47Z",
   "years": {
     "1997": {
       "a1": "done",
@@ -21,15 +21,15 @@
         "a1_done": "2026-11-07T17:22:23Z",
         "a2_done": "2026-11-07T17:22:48Z",
         "b6_done": "2026-11-07T17:23:16Z",
-        "b6b_done": "2026-11-13T18:52:06Z",
+        "b6b_done": "2026-11-13T21:48:24Z",
         "c10_staged": "2026-11-08T02:19:20Z"
       },
       "b6b": "done",
-      "b6b_verdict": "PASS",
-      "b6b_unlocked": true,
-      "b6b_fail": 0,
+      "b6b_verdict": "FAIL",
+      "b6b_unlocked": false,
+      "b6b_fail": 4,
       "b6b_warn": 0,
-      "b6b_pass": 4,
+      "b6b_pass": 0,
       "b6b_cleaned_vols": 4
     },
     "1998": {
@@ -52,16 +52,16 @@
         "a1_done": "2026-11-07T17:22:23Z",
         "a2_done": "2026-11-07T17:24:03Z",
         "b6_done": "2026-11-07T17:24:15Z",
-        "b6b_done": "2026-11-13T19:02:53Z",
+        "b6b_done": "2026-11-13T21:48:47Z",
         "c10_staged": "2026-11-08T02:21:20Z"
       },
       "b6b": "done",
-      "b6b_verdict": "PASS",
-      "b6b_unlocked": true,
-      "b6b_fail": 0,
+      "b6b_verdict": "FAIL",
+      "b6b_unlocked": false,
+      "b6b_fail": 7,
       "b6b_warn": 0,
-      "b6b_pass": 7,
-      "b6b_cleaned_vols": 2
+      "b6b_pass": 0,
+      "b6b_cleaned_vols": 3
     },
     "1999": {
       "a1": "done",
@@ -83,16 +83,16 @@
         "a1_done": "2026-11-08T15:47:35Z",
         "a2_done": "2026-11-08T15:48:08Z",
         "b6_done": "2026-11-08T15:48:14Z",
-        "b6b_done": "2026-11-13T19:17:14Z",
+        "b6b_done": "2026-11-13T21:49:12Z",
         "c10_staged": "2026-11-08T15:58:54Z"
       },
       "b6b": "done",
-      "b6b_verdict": "PASS",
-      "b6b_unlocked": true,
-      "b6b_fail": 0,
+      "b6b_verdict": "FAIL",
+      "b6b_unlocked": false,
+      "b6b_fail": 6,
       "b6b_warn": 0,
-      "b6b_pass": 6,
-      "b6b_cleaned_vols": 3
+      "b6b_pass": 0,
+      "b6b_cleaned_vols": 1
     },
     "2000": {
       "a1": "done",
@@ -114,16 +114,16 @@
         "a1_done": "2026-11-08T15:47:35Z",
         "a2_done": "2026-11-08T15:48:53Z",
         "b6_done": "2026-11-08T15:48:55Z",
-        "b6b_done": "2026-11-13T19:33:12Z",
+        "b6b_done": "2026-11-13T21:49:53Z",
         "c10_staged": "2026-11-08T15:58:54Z"
       },
       "b6b": "done",
-      "b6b_verdict": "PASS",
-      "b6b_unlocked": true,
-      "b6b_fail": 0,
+      "b6b_verdict": "FAIL",
+      "b6b_unlocked": false,
+      "b6b_fail": 5,
       "b6b_warn": 0,
-      "b6b_pass": 5,
-      "b6b_cleaned_vols": 2
+      "b6b_pass": 0,
+      "b6b_cleaned_vols": 1
     },
     "2001": {
       "a1": "done",
@@ -145,16 +145,16 @@
         "a1_done": "2026-11-08T15:47:35Z",
         "a2_done": "2026-11-08T15:49:59Z",
         "b6_done": "2026-11-08T15:50:01Z",
-        "b6b_done": "2026-11-13T19:46:13Z",
+        "b6b_done": "2026-11-13T21:50:45Z",
         "c10_staged": "2026-11-08T15:58:54Z"
       },
       "b6b": "done",
-      "b6b_verdict": "PASS",
-      "b6b_unlocked": true,
-      "b6b_fail": 0,
+      "b6b_verdict": "FAIL",
+      "b6b_unlocked": false,
+      "b6b_fail": 14,
       "b6b_warn": 0,
-      "b6b_pass": 14,
-      "b6b_cleaned_vols": 4
+      "b6b_pass": 0,
+      "b6b_cleaned_vols": 2
     },
     "1990": {
       "b6b": "done",
@@ -163,45 +163,45 @@
       "b6b_fail": 2,
       "b6b_warn": 0,
       "b6b_pass": 3,
-      "b6b_cleaned_vols": 0,
+      "b6b_cleaned_vols": 2,
       "timestamps": {
-        "b6b_done": "2026-11-13T21:34:23Z"
+        "b6b_done": "2026-11-13T22:04:31Z"
       }
     },
     "1991": {
       "b6b": "done",
       "b6b_verdict": "FAIL",
       "b6b_unlocked": false,
-      "b6b_fail": 4,
+      "b6b_fail": 3,
       "b6b_warn": 0,
-      "b6b_pass": 0,
-      "b6b_cleaned_vols": 0,
+      "b6b_pass": 1,
+      "b6b_cleaned_vols": 1,
       "timestamps": {
-        "b6b_done": "2026-11-13T21:34:27Z"
+        "b6b_done": "2026-11-13T22:04:35Z"
       }
     },
     "1992": {
       "b6b": "done",
       "b6b_verdict": "FAIL",
       "b6b_unlocked": false,
-      "b6b_fail": 6,
+      "b6b_fail": 2,
       "b6b_warn": 0,
-      "b6b_pass": 0,
-      "b6b_cleaned_vols": 0,
+      "b6b_pass": 4,
+      "b6b_cleaned_vols": 3,
       "timestamps": {
-        "b6b_done": "2026-11-13T21:37:46Z"
+        "b6b_done": "2026-11-13T22:04:39Z"
       }
     },
     "1993": {
       "b6b": "done",
       "b6b_verdict": "FAIL",
       "b6b_unlocked": false,
-      "b6b_fail": 4,
+      "b6b_fail": 3,
       "b6b_warn": 0,
-      "b6b_pass": 1,
-      "b6b_cleaned_vols": 0,
+      "b6b_pass": 2,
+      "b6b_cleaned_vols": 2,
       "timestamps": {
-        "b6b_done": "2026-11-13T21:36:18Z"
+        "b6b_done": "2026-11-13T22:04:43Z"
       }
     },
     "1994": {
@@ -223,21 +223,21 @@
       "b6b_fail": 4,
       "b6b_warn": 0,
       "b6b_pass": 1,
-      "b6b_cleaned_vols": 0,
+      "b6b_cleaned_vols": 3,
       "timestamps": {
-        "b6b_done": "2026-11-13T21:34:43Z"
+        "b6b_done": "2026-11-13T22:04:47Z"
       }
     },
     "1996": {
       "b6b": "done",
-      "b6b_verdict": "PASS",
-      "b6b_unlocked": true,
-      "b6b_fail": 0,
+      "b6b_verdict": "FAIL",
+      "b6b_unlocked": false,
+      "b6b_fail": 28,
       "b6b_warn": 0,
-      "b6b_pass": 30,
+      "b6b_pass": 2,
       "b6b_cleaned_vols": 21,
       "timestamps": {
-        "b6b_done": "2026-11-13T18:30:00Z"
+        "b6b_done": "2026-11-13T21:48:03Z"
       }
     }
   }

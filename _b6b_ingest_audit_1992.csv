@@ -1,7 +1,7 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212153_ocr_hqmax.txt,False,30796,30796,FAIL,4,0,incomplete_entries×4,C1/C6×4
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212636_ocr_hqmax.txt,False,56386,56386,FAIL,24,0,"incomplete_entries×20,midclass_page_dropout×4","C1/C6×20,C1×4"
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_213104_ocr_hqmax.txt,False,21053,21053,FAIL,5,0,"incomplete_entries×4,midclass_page_dropout×1","C1/C6×4,C1×1"
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220343_ocr_hqmax.txt,False,36906,36906,FAIL,11,0,"incomplete_entries×8,midclass_page_dropout×3","C1/C6×8,C1×3"
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220931_ocr_hqmax.txt,False,16262,16262,FAIL,3,0,"incomplete_entries×2,midclass_page_dropout×1","C1/C6×2,C1×1"
-1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_221749_ocr_hqmax.txt,False,48960,48960,FAIL,15,0,"incomplete_entries×11,midclass_page_dropout×4","C1/C6×11,C1×4"
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212153_ocr_hqmax.txt,True,30816,30796,PASS,0,0,,
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_212636_ocr_hqmax.txt,False,56386,56386,FAIL,7,0,"midclass_page_dropout×4,incomplete_entries×3","C1×4,C1/C6×3"
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_1\Document_2026-11-03_213104_ocr_hqmax.txt,False,21053,21053,PASS,0,0,,
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220343_ocr_hqmax.txt,True,37672,37462,PASS,0,0,,
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_220931_ocr_hqmax.txt,False,16304,16304,PASS,0,0,,
+1992,_ocr_baseline_v2\yearbook_1990_2001\1992\1992_Yearbook_Vol_2\Document_2026-11-03_221749_ocr_hqmax.txt,True,49635,48960,FAIL,5,0,"midclass_page_dropout×3,incomplete_entries×2","C1×3,C1/C6×2"

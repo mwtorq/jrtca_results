@@ -4,16 +4,16 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124005_ocr_hqmax.txt",
-      "chars_before": 36242,
+      "chars_before": 36354,
       "chars_after": 36242,
-      "cleaned": false,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 6,
+      "fail_hits": 3,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d75,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d75,C1\u00d71",
+      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d72,C1\u00d71",
       "by_code": {
-        "incomplete_entries": 5,
+        "incomplete_entries": 2,
         "midclass_page_dropout": 1
       },
       "samples": [
@@ -26,21 +26,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Open Adults, 10-12 1/2\" Entries: 7 | places=1/6 | Bitch Pups, 6 up to 9 months, 10-12 1/2\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 9 months, 12 1/2-15\" Entries: 4 | places=2/4 | Dog Pups, 6 up to 9 months, 12 1/2-15\""
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 9 up to 12 months, r/br                                              | places=3/6 | Bitches, 1 yr & over, 10-12 1/2\""
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice Obedience                                                                 | places=3/6 | Agility, On Lead I--Novice                                  "
         },
         {
           "code": "midclass_page_dropout",
@@ -56,24 +41,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124704_ocr_hqmax.txt",
-      "chars_before": 44390,
+      "chars_before": 44391,
       "chars_after": 44390,
-      "cleaned": false,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 8,
+      "fail_hits": 4,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d77,C1\u00d71",
+      "top_codes": "incomplete_entries\u00d74",
+      "top_catalog": "C1/C6\u00d74",
       "by_code": {
-        "incomplete_entries": 7,
-        "midclass_page_dropout": 1
+        "incomplete_entries": 4
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2-15\", br/r                                           En | places=3/6 | RACING CHAMPIONS:"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -93,34 +72,18 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dogs, 1 yr & over, 10-12 1/2\", smooth                                          E | places=0/3 | Bitches, 1 yr & over, 10-12 1/2\""
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Open Adults                                                                      | places=3/6 | PUPPY CHAMPIONSHIP                                          "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 9 months                                                       | places=2/5 | Dog Pups, 9 up to 12 months                                 "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12 1/2-15\" Entries: 8 | after page got 4th expected 2 | 4th: Westwood Sparkle, owned by Alice Reynolds"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
+        "incomplete_entries"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_130318_ocr_hqmax.txt",
-      "chars_before": 3896,
+      "chars_before": 3897,
       "chars_after": 3896,
-      "cleaned": false,
+      "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
       "warn_hits": 0,
@@ -137,30 +100,15 @@
       "chars_after": 52867,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 16,
+      "fail_hits": 10,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d711,midclass_page_dropout\u00d75",
-      "top_catalog": "C1/C6\u00d711,C1\u00d75",
+      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d73",
+      "top_catalog": "C1/C6\u00d77,C1\u00d73",
       "by_code": {
-        "incomplete_entries": 11,
-        "midclass_page_dropout": 5
+        "incomplete_entries": 7,
+        "midclass_page_dropout": 3
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Pups, 6 up to 9 months, 12 1/2-15\" Entries: 4 | places=2/4 | Pups, 9 up to 12 months, 10-12 1/2\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Pups, 9 up to 12 months, 10-12 1/2\" Entries: 4 | places=1/4 | Dogs, 1 yr & over, 10-12 1/2\" Entries: 17"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 9 up to 12 months, smooth                                          Ent | places=2/4 | Dogs, 1 yr & over, 12 1/2-15\" r & br                        "
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -199,17 +147,7 @@
         {
           "code": "midclass_page_dropout",
           "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 12 1/2-15\", r/br                                           | after page got 3th expected 2 | 3rd: Max, owned by T. Beers"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
           "line": "Novice, On Lead                                                             Entr | after page got 3th expected 7 | 3rd: Tortilla Flat Streak, owned by Gaye Ann "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Novice Agility I, On-Lead                                                        | after page got 3th expected 2 | 3rd: Courtland Moo Cow, owned by K. Morander "
         },
         {
           "code": "midclass_page_dropout",
@@ -234,24 +172,19 @@
       "chars_after": 50831,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 9,
+      "fail_hits": 5,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d72",
-      "top_catalog": "C1/C6\u00d77,C1\u00d72",
+      "top_codes": "incomplete_entries\u00d74,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d74,C1\u00d71",
       "by_code": {
-        "incomplete_entries": 7,
-        "midclass_page_dropout": 2
+        "incomplete_entries": 4,
+        "midclass_page_dropout": 1
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Bitch Pups, 9 up to 12 months, r/br                                              | places=1/6 | AGILITY"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "JRTCA Working Terrier Bitch                                                      | places=3/6 | CONFORMATION DIVISION"
         },
         {
           "code": "incomplete_entries",
@@ -269,24 +202,9 @@
           "line": "Bitches, 1 yr & over 12 1/2-15\" Entries: 11 | places=1/6 | JRTCA Working Terrier"
         },
         {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Agility I, Off Lead, 10-12 1/2\" Entries: 4 | places=2/4 | Agility I, Off Lead, 12 12/-15\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months                                                Ent | places=3/6 | Dogs, 1 yr & over, 10-12 1/2\" Entries: 13"
-        },
-        {
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Jasmine, owned by Rick & Leslie Hemsing \u2013 Entries: 0 | after page got 4th expected 1 | 4th: Fiona, owned by Missy Kulbacky"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 10-12 1/2\", r/br                                              | after page got 3th expected 2 | 3rd: Camerton Hall Echo, owned by Jack & Paul"
         }
       ],
       "reocr_required": true,

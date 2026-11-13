@@ -4,33 +4,18 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_212153_ocr_hqmax.txt",
-      "chars_before": 30796,
+      "chars_before": 30816,
       "chars_after": 30796,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d74",
-      "top_catalog": "C1/C6\u00d74",
-      "by_code": {
-        "incomplete_entries": 4
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "PRE-Novice PUPPIES                                                               | places=3/6 | Novice (Puppies)                                            "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Adults)                                                                  | places=2/6 | OPEN (Adults)                                               "
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_212636_ocr_hqmax.txt",
@@ -38,69 +23,19 @@
       "chars_after": 56386,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 24,
+      "fail_hits": 7,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d720,midclass_page_dropout\u00d74",
-      "top_catalog": "C1/C6\u00d720,C1\u00d74",
+      "top_codes": "midclass_page_dropout\u00d74,incomplete_entries\u00d73",
+      "top_catalog": "C1\u00d74,C1/C6\u00d73",
       "by_code": {
-        "incomplete_entries": 20,
+        "incomplete_entries": 3,
         "midclass_page_dropout": 4
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 10 | places=2/6 | Roger North, Conformation; Bill Breakstone, Go-to-Ground"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Dog Pups, 6 up to 12 months, 12-1/2-15\" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 10-12-1/2\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 21 | places=3/6 | Bitches, 1 yr & over, 10-12-1/2\" Entries: 16"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10-12-1/2\" Entries: 5 | places=2/5 | Go-to-Ground"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Hollow Terriers \u2013 Entries: 13, owned by C.Tatum & S.Yancey | places=2/6 | Bitch Pups, 9 up to 12 months, 10-15\", br/r                 "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog and Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 6 | places=2/6 | Dog and Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "PRE-Novice PUPPIES                                                               | places=3/6 | Novice (Puppies)                                            "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 16 | places=3/6 | STEEPLECHASE RACES"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 5 | places=2/5 | Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 10-12-1/2\" Entries: 20 | places=3/6 | Bitches, 1 yr & over, 12-1/2-15\" Entries: 10"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2-15\" Entries: 10 | places=2/6 | Joan Stroh, Conformation; Jay Stroh, Go-to-Ground"
         },
         {
           "code": "incomplete_entries",
@@ -111,36 +46,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 11 | places=1/6 | Judges:         Nancy Breakstone, Conformation; Bob Kilmarti"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Family Class                                                                Entr | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\", smooth                      "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 20 | places=3/6 | Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 7 | places=3/6 | Dogs,1 yr & over, 10-12-1/2\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs,1 yr & over, 10-12-1/2\" Entries: 7 | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 14"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 5 | places=2/5 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 13"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 13 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2\" Entries: 19"
         },
         {
           "code": "midclass_page_dropout",
@@ -174,202 +79,61 @@
       "chars_before": 21053,
       "chars_after": 21053,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 5,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d74,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d74,C1\u00d71",
-      "by_code": {
-        "incomplete_entries": 4,
-        "midclass_page_dropout": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 16"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                                 | places=3/6 | Novice (Adults)                                             "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "OPEN (Puppies)                                                                   | places=1/4 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Adults)                                                                  | places=2/6 | Bitches, 1 yr & over, 10-12-1/2\" Entries: 13"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\", br/r                                             | after page got 5th expected 3 | 5th: Katy Scarlett, owned by Michelle Clark"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_2\\Document_2026-11-03_220343_ocr_hqmax.txt",
-      "chars_before": 36906,
-      "chars_after": 36906,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 11,
+      "chars_before": 37672,
+      "chars_after": 37462,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d78,midclass_page_dropout\u00d73",
-      "top_catalog": "C1/C6\u00d78,C1\u00d73",
-      "by_code": {
-        "incomplete_entries": 8,
-        "midclass_page_dropout": 3
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 9 up to 12 months                                              Entri | places=3/6 | Bitches, 1 yr & over, 10-12-12\", brir                       "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "OPEN (Puppies)                                                                   | places=2/4 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 9 | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 20"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 8 | places=2/6 | Bitch Pups, 6 up to 12 months                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 4 | places=1/4 | Tarheel Working Terrier Trial"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child/Junior Handler                                           Entries: 7 | places=3/6 | Bred by Exhibitor Dog                                       "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 9 up to 12 months, smooth                                  Entries:  | places=2/5 | Bitch Pups, 9 up to 12 months, br/rough                     "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-12-15\", smooth                                    Entries: | places=2/6 | PRE-Novice PUPPIES                                          "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "OPEN (Adults)                                                                Ent | after page got 2th expected 4 | 2nd: Goulden's Ridge Courtney, owned by Kelly"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 8 | after page got 6th expected 5 | 6th: Portadown Minx, owned by Ann Norton"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Stud Dog and Get                                                               E | after page got 3th expected 6 | 3rd: Prestwick's Rattler, owned by Sally Yanc"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_2\\Document_2026-11-03_220931_ocr_hqmax.txt",
-      "chars_before": 16262,
-      "chars_after": 16262,
+      "chars_before": 16304,
+      "chars_after": 16304,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d72,C1\u00d71",
-      "by_code": {
-        "incomplete_entries": 2,
-        "midclass_page_dropout": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Pups, 4 up to 6 months                                                        En | places=3/6 | Child Handler                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "OPEN (Puppies)                                                                   | places=0/4 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12-1/2--16\" Entries: 10 | after page got 3th expected 7 | 3rd: JoJo of Blackiand, owned by Debra & John Cox"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_2\\Document_2026-11-03_221749_ocr_hqmax.txt",
-      "chars_before": 48960,
+      "chars_before": 49635,
       "chars_after": 48960,
-      "cleaned": false,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 15,
+      "fail_hits": 5,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d711,midclass_page_dropout\u00d74",
-      "top_catalog": "C1/C6\u00d711,C1\u00d74",
+      "top_codes": "midclass_page_dropout\u00d73,incomplete_entries\u00d72",
+      "top_catalog": "C1\u00d73,C1/C6\u00d72",
       "by_code": {
-        "incomplete_entries": 11,
-        "midclass_page_dropout": 4
+        "incomplete_entries": 2,
+        "midclass_page_dropout": 3
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 4 | places=2/4 | Dogs, 1 yr & over, 12-12-15\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 9 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2\" Entries: 9"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 7 | places=3/6 | STEEPLECHASE RACES"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Pups, 6 up to 12 months, 10-12-1/2\" Entries: 5 | places=1/5 | Pups, 6 up to 12 months, 12-1/2--15\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2--156\" Entries: 9 | places=3/6 | Bitches, 1 yr & over, 10-12-12\" Entries: 8"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -378,27 +142,7 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=1/4 | Dog Pups, 6 up to 12 months, 12-1/2-16\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 3 | places=0/3 | Bitch Pups, 6 up to 12 months, 12-1/2--16\" Entries: 1"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                        Entries: | places=2/6 | Novice (Adults)                                             "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "OPEN (Adults)                                                                    | places=2/6 | JUDGES:     Martyn Hulme, Conformation; Laurie Lewis, Go-to-"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 10--12-1/2\" Entries: 6 | places=3/6 | Pups, 6 up to 12 months, 12-1/2--15\" Entries: 14"
         },
         {
           "code": "midclass_page_dropout",
@@ -414,11 +158,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "CHAMPIONSHIP CERTIFICATE (12-1/2--15\")                              Entries: 37 | after page got 5th expected 7 | 5th: The Hollow Pippa of North Country, owned "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bred by Exhibitor Bitch                                                       En | after page got 5th expected 4 | 5th: Honey Hill Mr. Trapper of the Manor, own"
         }
       ],
       "reocr_required": true,

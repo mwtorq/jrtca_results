@@ -19,34 +19,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-      "chars_before": 152329,
+      "chars_before": 152398,
       "chars_after": 152329,
-      "cleaned": false,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 27,
+      "fail_hits": 10,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d726,C1\u00d71",
+      "top_codes": "incomplete_entries\u00d710",
+      "top_catalog": "C1/C6\u00d710",
       "by_code": {
-        "incomplete_entries": 26,
-        "midclass_page_dropout": 1
+        "incomplete_entries": 10
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child Handler                                                      Entries: 8 | places=3/6 | Junior Handler                                              "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 9 months, 12-1/2--15\" Entries: 4 | places=2/4 | New York Bred                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "PRE-Novice PUPPIES                                                 Entries: 7 | places=2/6 | Novice (Puppies)                                            "
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -55,77 +39,7 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "American Bred Dog                                                          Entri | places=3/6 | Bitch Pups, 6 up to 12 months, 10-12-1/2\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 3 | places=0/3 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Adults)                                                                  | places=3/6 | OPEN (Puppies & Adults)                                     "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "OPEN (Puppies & Adults)                                                          | places=3/6 | CHAMPIONSHIP CERTIFICATE                                    "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2\u2014-15\" Entries: 5 | places=2/5 | Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 6 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2-15\" Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 12 | places=3/6 | Dogs, 1 yr & over, 12-1/2-15\" Entries: 8"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2-15\" Entries: 8 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2\" Entries: 16"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 10--12-1/2\" Entries: 16 | places=3/6 | Bitches, 1 yr & over, 12-1/2--15\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 7 | places=3/6 | STEEPLECHASE RACES"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 11 | places=3/6 | Dogs, 1 yr & over, 12-1/2\u2014-15\" Entries: 9"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2\u2014-15\" Entries: 9 | places=3/6 | Jack Batzer, Go-to-Ground"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 10--12-1/2\" Entries: 15 | places=3/6 | Bitches, 1 yr & over, 12-1/2--15\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 9 | places=3/6 | Conformation Champion & RESERVE"
         },
         {
           "code": "incomplete_entries",
@@ -140,23 +54,32 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "PRE-NOYVICE PUPPIES Entries: 14 | places=3/6 | Novice (Puppies) Entries: 10"
+          "line": "OPEN (Adults)                                                                    | places=1/6 | Dog Pups, 6 up to 9 months Entries: 4"
         },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Novice (Puppies) Entries: 10 | places=0/6 | EOF"
+          "line": "fp ye id Ky: Fir ade hry |                  boy Pups, 6 up to 12 months          | places=0/6 | py \u00a9 4    Wel ANE     I we if             :         Dogs, 1 "
         },
         {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "American Bred Bitch                                                              | after page got 4th expected 3 | 4th: Punky, owned by Jan Yonelunas"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "rane YT ey oo.                    Dogs, 1 yr & over, 12:1/2-15\" Entries: 6 | places=0/6 | I'L Fut FTN Ma a Bitches, 1 yr & over, 10--12-1/2\" Entries: "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "AS 4 io 3 { TT                           OPEN (Puppies)                          | places=0/6 | F                               A           ue              "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 9 months                                                       | places=0/6 | Go-to-Ground CHAMPIONS & RESERVES (Continued)"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "incomplete_entries",
-        "midclass_page_dropout"
+        "incomplete_entries"
       ]
     },
     {
@@ -165,12 +88,12 @@
       "chars_after": 178740,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 39,
+      "fail_hits": 38,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d726,midclass_page_dropout\u00d713",
-      "top_catalog": "C1/C6\u00d726,C1\u00d713",
+      "top_codes": "incomplete_entries\u00d725,midclass_page_dropout\u00d713",
+      "top_catalog": "C1/C6\u00d725,C1\u00d713",
       "by_code": {
-        "incomplete_entries": 26,
+        "incomplete_entries": 25,
         "midclass_page_dropout": 13
       },
       "samples": [
@@ -207,62 +130,12 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 12-1/2-15\" Entries: 6 | places=3/6 | Dogs, 1 yr & over, 10-12-1/2\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10-12-1/2\" Entries: 7 | places=3/6 | Dogs, 1 yr & over, 12-1/2-15\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10-12-1/2\" Entries: 7 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10-12-1/2\" Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2-15\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2-15\" Entries: 5 | places=2/5 | Judges:        Alf Edmunds, Conformation; Bill Breakstone, G"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child Handler                                                                    | places=3/6 | Junior Handler                                              "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Junior Handler                                                         Entries:  | places=3/6 | Bred by Exhibitor Dog                                       "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 6 | places=3/6 | Bitch Pups, 6 up to 12 months, 10-12-1/2\" Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Pups, 4 up to 6 months \u2013 Entries: 11 | places=0/6 | Child Handler"
         },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "PUPPY Conformation Champion & RESERVE \u2013 Entries: 3 | places=0/3 | CHAMPION: COTSWOLD REMINGTON, owned by KELLEEN ROSSMAN"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months                                                      | places=2/6 | Bitch Pups, 6 up to 12 months                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 4 | places=2/4 | RACING CHAMPIONS:"
         },
         {
           "code": "incomplete_entries",
@@ -277,22 +150,72 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Pups, 4 up to 6 months                                                           | places=3/6 | Child Handler                                               "
+          "line": "Dogs, 1 yr & over, 12-1/2-15\" Entries: 10 | places=0/6 | DIVISION A, CONFORMATION"
         },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 9 months                                                       | places=2/6 | Conformation Champion & RESERVE"
+          "line": "Entries: 11 | places=0/6 | Entries: 5"
         },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=1/4 | Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 10"
+          "line": "Entries: 5 | places=0/5 | Junior Handler award"
         },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 10 | places=0/6 | EOF"
+          "line": "Entries: 23 | places=0/6 | Entries: 23"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 23 | places=1/6 | Rough/Broken coated dog pups, 9 to 12 months, up to 15\" Entr"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 8 | places=0/6 | O, owned by Kay Gitchell \u2013 Entries: 4"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "O, owned by Kay Gitchell \u2013 Entries: 4 | places=0/4 | Judges:         Linda Cowasjee, Conformation and Go-to-Groun"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 6 | places=0/6 | Open Class"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dogs, 1 yr & over, 12-1/2\u2014-15\" Entries: 9 | places=1/6 | Bitches, 1 yr & over, 10-12-1/2\" Entries: 12"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dog Pups, 6 up to 12 months                                                      | places=1/6 | Bitch Pups, 6 up to 12 months                               "
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 4 | places=0/4 | Entries: 3"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 3 | places=0/3 | Handler Award"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Entries: 8 | places=0/6 | 3, owned by Nancy & Reg Parker \u2013 Entries: 19"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "3, owned by Nancy & Reg Parker \u2013 Entries: 19 | places=0/6 | Bitch Pups, 9 up to 12 months, smooth                       "
         },
         {
           "code": "midclass_page_dropout",
@@ -383,9 +306,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_201547_ocr_hqmax.txt",
-      "chars_before": 2911,
-      "chars_after": 2911,
-      "cleaned": false,
+      "chars_before": 4079,
+      "chars_after": 2894,
+      "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
       "warn_hits": 0,

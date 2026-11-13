@@ -8,43 +8,18 @@
       "chars_after": 45732,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 6,
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d76",
-      "top_catalog": "C1/C6\u00d76",
+      "top_codes": "incomplete_entries\u00d71",
+      "top_catalog": "C1/C6\u00d71",
       "by_code": {
-        "incomplete_entries": 6
+        "incomplete_entries": 1
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 10--12-1/2\" Entries: 14 | places=2/6 | Charles Sauter, Go-to-Ground"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 7 | places=2/6 | STEEPLECHASE RACES"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4 | places=2/4 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 6 | places=3/6 | RACING CHAMPIONS:"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Dogs, 1 yr & over, 10-12-1/2\" Entries: 10 | places=0/6 | Judges:         Marcy Ortolano, Conformation; Richard Ortola"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Family Class Entries: 6 | places=2/6 | JRTCA Working Terrier Dog                                   "
         }
       ],
       "reocr_required": true,
@@ -58,40 +33,15 @@
       "chars_after": 48046,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 12,
+      "fail_hits": 3,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d710,midclass_page_dropout\u00d72",
-      "top_catalog": "C1/C6\u00d710,C1\u00d72",
+      "top_codes": "incomplete_entries\u00d72,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d72,C1\u00d71",
       "by_code": {
-        "incomplete_entries": 10,
-        "midclass_page_dropout": 2
+        "incomplete_entries": 2,
+        "midclass_page_dropout": 1
       },
       "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)Entries: 4 | places=2/4 | Novice (Adults)Entries: 8"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppies, 4 up to 6 months                                                        | places=3/6 | Dog Pups, 6 up to 12 months                                 "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 10 | places=3/6 | STEEPLECHASE RACES"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=2/4 | Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 2"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=2/4 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 3"
-        },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
@@ -101,21 +51,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 3 | places=0/3 | Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10--12-1/2\" Entries: 5 | places=2/5 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 16"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 10--12-1/2\" Entries: 4 | places=2/4 | Bitches, 1 yr & over, 12-1/2--15\" Entries: 12"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 12 months                                                    | after page got 6th expected 4 | 6th: Ms. Scarlett of Hidden Hollow, owned by "
         },
         {
           "code": "midclass_page_dropout",
@@ -131,16 +66,16 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1991\\1991_Yearbook_Vol_2\\Document_2026-11-03_210248_ocr_hqmax.txt",
-      "chars_before": 60885,
+      "chars_before": 60916,
       "chars_after": 60885,
-      "cleaned": false,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 18,
+      "fail_hits": 3,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d716,midclass_page_dropout\u00d72",
-      "top_catalog": "C1/C6\u00d716,C1\u00d72",
+      "top_codes": "midclass_page_dropout\u00d72,incomplete_entries\u00d71",
+      "top_catalog": "C1\u00d72,C1/C6\u00d71",
       "by_code": {
-        "incomplete_entries": 16,
+        "incomplete_entries": 1,
         "midclass_page_dropout": 2
       },
       "samples": [
@@ -148,66 +83,6 @@
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Novice (Puppies)                                                                 | places=1/6 | Novice (Adults)                                             "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Adults)                                                                  | places=3/6 | Bitch Pups, 6 up to 12 months                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 10-\u2014-12-1/2\" Entries: 5 | places=2/5 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2--15\" Entries: 6 | places=3/6 | Bitches, 1 yr & over, 10--12-1/2\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2-15\" Entries: 4 | places=1/4 | RACING CHAMPIONS:"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2-15\" Entries: 9 | places=3/6 | STEEPLECHASE RACES"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months                                                    | places=3/6 | Judges:         Terri Batzer, Conformation; Jack Batzer, Go-"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 12-1/2-15\" \u2013 Entries: 10 | places=2/6 | Dogs, 1 yr & over, 10--12-1/2\" \u2013 Entries: 12"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2-15\", smooth                                         | places=2/6 | CHAMPIONSHIP CERTIFICATE (10-12 1/2\") Entries: 17"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child & Junior Handler                                                           | places=2/6 | Bred by Exhibitor                                           "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months                                                      | places=3/6 | Bitch Pups, 6 up to 12 months                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 12-1/2-15\" Entries: 4 | places=2/4 | Judges:        Molly Harsh, Conformation; Ken Chambers, Go-t"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 9 months                                                     | places=2/5 | Novice (Puppies)                                            "
         },
         {
           "code": "midclass_page_dropout",
@@ -231,25 +106,15 @@
       "chars_before": 12652,
       "chars_after": 12652,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d71",
-      "top_catalog": "C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "PRE-Novice PUPPIES                                                   Entries: 9 | places=3/6 | Novice (Puppies)                                            "
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

@@ -6,14 +6,14 @@
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
       "chars_before": 48788,
       "chars_after": 48788,
-      "cleaned": false,
+      "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 15,
+      "fail_hits": 12,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d712,midclass_page_dropout\u00d72,owner_tail_trunc\u00d71",
-      "top_catalog": "C1/C6\u00d712,C1\u00d72,O6\u00d71",
+      "top_codes": "incomplete_entries\u00d79,midclass_page_dropout\u00d72,owner_tail_trunc\u00d71",
+      "top_catalog": "C1/C6\u00d79,C1\u00d72,O6\u00d71",
       "by_code": {
-        "incomplete_entries": 12,
+        "incomplete_entries": 9,
         "midclass_page_dropout": 2,
         "owner_tail_trunc": 1
       },
@@ -51,27 +51,12 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Entries: 6 | places=3/6 | Dogs, 1 yr & over, 12-1/2--15\" Entries: 0"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Bitches, 1 yr & over, 12-1/2--15\", smooth                                        | places=1/6 | OPEN (Adults)                                               "
         },
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
           "line": "Puppies, 9 up to 12 months                                                  Entr | places=0/6 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "OPEN (Puppies)                                                                   | places=3/6 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months                                                Ent | places=3/6 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 9"
         },
         {
           "code": "incomplete_entries",
@@ -107,54 +92,19 @@
       "chars_after": 38662,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 14,
+      "fail_hits": 6,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d79,midclass_page_dropout\u00d75",
-      "top_catalog": "C1/C6\u00d79,C1\u00d75",
+      "top_codes": "midclass_page_dropout\u00d75,incomplete_entries\u00d71",
+      "top_catalog": "C1\u00d75,C1/C6\u00d71",
       "by_code": {
-        "incomplete_entries": 9,
+        "incomplete_entries": 1,
         "midclass_page_dropout": 5
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "PRE-Novice PUPPIES                                                          Entr | places=3/6 | Novice (Puppies)                                            "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                                 | places=3/6 | Novice (Adults)                                             "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Adults)                                                                  | places=3/6 | Bitch Pups, 6 up to 9 months                                "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "DIVISION A, CONFORMATION \u2013 Entries: 4 | places=0/4 | Dog Pups, 4 up to 6 months \u2013 Entries: 13"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 5 | places=1/5 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "JRTCA Working Terrier Dog                                                        | places=3/6 | JRTCA Working Terrier Bitch                                 "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 9 months                                                  Entr | places=3/6 | Bitches, 1 yr & over, 10-12-1/2\", br/r                      "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 8 | places=2/6 | EOF"
         },
         {
           "code": "midclass_page_dropout",
@@ -193,30 +143,15 @@
       "chars_before": 18423,
       "chars_after": 18423,
       "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72",
-      "top_catalog": "C1/C6\u00d72",
-      "by_code": {
-        "incomplete_entries": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 8 | places=3/6 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "OPEN (Puppies) Entries: 4 | places=1/4 | OPEN (Adults)                                               "
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_233615_ocr_hqmax.txt",
@@ -224,34 +159,19 @@
       "chars_after": 50824,
       "cleaned": false,
       "verdict": "FAIL",
-      "fail_hits": 17,
+      "fail_hits": 8,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d715,midclass_page_dropout\u00d72",
-      "top_catalog": "C1/C6\u00d715,C1\u00d72",
+      "top_codes": "incomplete_entries\u00d77,midclass_page_dropout\u00d71",
+      "top_catalog": "C1/C6\u00d77,C1\u00d71",
       "by_code": {
-        "incomplete_entries": 15,
-        "midclass_page_dropout": 2
+        "incomplete_entries": 7,
+        "midclass_page_dropout": 1
       },
       "samples": [
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "PRE-Novice PUPPIES                                                               | places=2/6 | Novice (Puppies)                                            "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "Bitch Pups, 6 up to 12 months, 10-12-12\" Entries: 5 | places=0/5 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 4 up to 6 months                         Entries: 7 | places=3/6 | Chiid Handler                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "California Bred                                                                  | places=3/6 | JRTCA Working Terrier                                       "
         },
         {
           "code": "incomplete_entries",
@@ -276,32 +196,7 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months                                                   En | places=3/6 | Bitch Pups, 6 up to 12 months                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                            Entr | places=3/6 | Mike Bales, J.C. Chambers, Go-to-Ground"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 9 up to 12 months                                               Entr | places=3/6 | Bitches, 1 yr & ov"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
           "line": "NTAIL BEAR, owned by Susan McRae \u2013 Entries: 9 | places=0/6 | OPEN (Adults)                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=2/4 | Dog Pups, 6 up to 12 months, 12-1/2--15\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 10--12-1/2\" Entries: 4 | places=2/4 | Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 5"
         },
         {
           "code": "incomplete_entries",
@@ -312,11 +207,6 @@
           "code": "midclass_page_dropout",
           "catalog": "C1",
           "line": "Bitch Pups, 6 up to 9 months                                                  En | after page got 2th expected 7 | 2nd: Heaven Hill"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Entries: 11 | after page got 2th expected 1 | 2nd: Sunset Valley Sadie, owned by Ann Ingram"
         }
       ],
       "reocr_required": true,
@@ -327,9 +217,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_2\\Document_2026-11-04_002601_ocr_hqmax.txt",
-      "chars_before": 2436,
-      "chars_after": 2436,
-      "cleaned": false,
+      "chars_before": 2454,
+      "chars_after": 2445,
+      "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
       "warn_hits": 0,
