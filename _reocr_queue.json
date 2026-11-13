@@ -772,26 +772,6 @@
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
-    "year": 1990,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries"
-    ],
-    "fail_hits": 7,
-    "top_catalog": "C1/C6\u00d77",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 1990,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_200401_ocr_hqmax.txt",
-    "codes": [
-      "incomplete_entries"
-    ],
-    "fail_hits": 4,
-    "top_catalog": "C1/C6\u00d74",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
     "year": 1993,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
     "codes": [

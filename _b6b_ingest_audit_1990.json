@@ -1,6 +1,6 @@
 {
   "year": 1990,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990\\scan_ocr_hqmax.txt",
@@ -19,98 +19,33 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
-      "chars_before": 152398,
-      "chars_after": 152329,
+      "chars_before": 152408,
+      "chars_after": 152338,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 7,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77",
-      "top_catalog": "C1/C6\u00d77",
-      "by_code": {
-        "incomplete_entries": 7
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch Pups, 6 up to 12 months, 12-1/2--15\" Entries: 3 | places=0/3 | Dogs, 1 yr & over, 10--12-1/2\" Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1yr & over, 12-1 12-1 5\", smooth Entries: 10 | places=0/6 | Dogs, 1 yr & over, 10--12-1/2\", br/r                        "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice (Puppies)                                                          Entrie | places=0/6 | Novice (Adults)                                             "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "fp ye id Ky: Fir ade hry |                  boy Pups, 6 up to 12 months          | places=0/6 | py \u00a9 4    Wel ANE     I we if             :         Dogs, 1 "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "rane YT ey oo.                    Dogs, 1 yr & over, 12:1/2-15\" Entries: 6 | places=0/6 | I'L Fut FTN Ma a Bitches, 1 yr & over, 10--12-1/2\" Entries: "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "AS 4 io 3 { TT                           OPEN (Puppies)                          | places=0/6 | F                               A           ue              "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 9 months                                                       | places=0/6 | Go-to-Ground CHAMPIONS & RESERVES (Continued)"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_200401_ocr_hqmax.txt",
-      "chars_before": 178740,
-      "chars_after": 178740,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "chars_before": 178746,
+      "chars_after": 178385,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d74",
-      "top_catalog": "C1/C6\u00d74",
-      "by_code": {
-        "incomplete_entries": 4
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Pups, 4 up to 6 months \u2013 Entries: 11 | places=0/6 | Child Handler"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "JRTCA Working Terrier Bitch                                                      | places=0/5 | Open Class"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over, 12-1/2-15\" Entries: 10 | places=0/6 | DIVISION A, CONFORMATION"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12-1/2--15\" Entries: 6 | places=0/6 | Open Class"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_2\\Document_2026-11-03_201432_ocr_hqmax.txt",
