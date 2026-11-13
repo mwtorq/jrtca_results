@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=3  PASS=3  WARN=9  FAIL=2
+Volumes: 14  cleaned=4  PASS=3  WARN=10  FAIL=1
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -26,7 +26,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | WARN | False | 0 | 2 | ?/4th_then_2nd×1,S4/O×1 | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
 | WARN | False | 0 | 1 | S4/O×1 | `2001 PNWJRTN_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | C6/O1×2,C6×2 | `2001 Summer Celebration_ocr_hqmax.txt` |
-| FAIL | False | 27 | 30 | C1×25,C6×19,S4/O×8,?/4th_then_2nd×2,O6×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
+| WARN | True | 0 | 30 | C6×19,S4/O×8,?/4th_then_2nd×2,?/cutoff_racing×1 | `2001 Vol II pt 1_ocr_hqmax.txt` |
 | WARN | False | 0 | 17 | S4/O×8,C6×8,C6/O1×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
 | WARN | False | 0 | 4 | S4/O×3,S4×1 | `2001 Yankee_ocr_hqmax.txt` |
 | WARN | True | 0 | 12 | C6×6,S4/O×4,?/4th_then_2nd×1,?/4th_then_6th_no_5×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
@@ -72,11 +72,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 18
 - `C6` / `orphan_entry_count`: 12
 
-### `2001 Vol II pt 1_ocr_hqmax.txt` (FAIL)
+### `2001 Vol II pt 1_ocr_hqmax.txt` (WARN)
 - `?` / `cutoff_racing`: ACING DIVISION
 - `?` / `4th_then_2nd`: 4th: jth: Jake Man, owned by Steve & Sandy Langheld
 2nd: Priscilla, owned by Kathy Hartsfield
-- `O6` / `owner_tail_trunc`: 1st: istt Little Eden Exile, owned by lan Hughes & S
 - `S4/O` / `missing_owned_by`: 2nd: J&J Miniva, Judie Baker & Janice Freimark
 - `S4/O` / `missing_owned_by`: 4th: Sweetgrass Nelson, Rodger & Caryn Funk
 - `S4/O` / `missing_owned_by`: 2nd: Farmcliff Holland, owried Dy Doug & Sue Tack
@@ -86,6 +85,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 - `C6` / `orphan_entry_count`: 11
 - `C6` / `orphan_entry_count`: 10
 - `C6` / `orphan_entry_count`: 13
+- `C6` / `orphan_entry_count`: 1
 
 ### `2001 Vol II pt 2_ocr_hqmax.txt` (WARN)
 - `S4/O` / `missing_owned_by`: 6th: Prestige Farms Oliver, owned b J. Gilligan/S. Geroux
