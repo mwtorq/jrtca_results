@@ -28,6 +28,30 @@ YEARS_9096 = ("1990", "1991", "1992", "1993", "1994", "1995", "1996")
 YEARS_EARLY = ("1984", "1985", "1986", "1987", "1988", "1989", "1990")
 # Full B6b table span (parked early years show as pending / no audit yet)
 YEARS_B6B_ALL = tuple(str(y) for y in range(1984, 2002))
+# Active yearbook strip shown as live year cards (eras + years_summary)
+YEARS_ACTIVE = YEARS_9096 + YEARS
+
+# Former WARN residuals demoted to FAIL (must clear before SQL apply).
+B6B_DEMOTED_TO_FAIL = (
+    "missing_owned_by",
+    "orphan_entry_count",
+    "bare_entries",
+    "mangled_by",
+    "cutoff_racing",
+    "4th_then_2nd",
+    "4th_then_6th_no_5",
+)
+# Detector-widen FAIL codes (page/header/dropout coverage).
+B6B_DETECTOR_WIDEN = (
+    "incomplete_entries",
+    "midclass_page_dropout",
+    "best_reserve_missing_header",
+    "post_page_missing_header",
+    "champ_abbrev",
+    "class_header_gap",
+    "two_column_smash",
+    "owner_tail_trunc",
+)
 
 STEP_META = [
     ("A1", "Force HQ re-OCR 1997–2001 into baseline v2", ["1997", "1998", "1999", "2000", "2001"]),
@@ -36,7 +60,10 @@ STEP_META = [
     ("A4", "HQ baseline 1990–96 yearbook volumes", ["1990", "1991", "1992", "1993", "1994", "1995", "1996"]),
     ("A5", "HQ OCR 1984–90 non-yearbook (early packs)", ["1984", "1985", "1986", "1987", "1988", "1989", "1990"]),
     ("B6", "Re-harvest cert sections from baseline v2", ["1997", "1998", "1999", "2000", "2001"]),
-    ("B6b", "Catalog cleanup + ingest audit gate", ["1997", "1998", "1999", "2000", "2001"]),
+    ("B6b", "Catalog cleanup + ingest audit gate", [
+        "1990", "1991", "1992", "1993", "1994", "1995", "1996",
+        "1997", "1998", "1999", "2000", "2001",
+    ]),
     ("B7", "Tighten NHC + TrialCertificates parsers", []),
     ("B8", "Ingest NHC / TrialCertificates with Dog links", []),
     ("B9", "Spot-check certs; fix orphans", []),
@@ -490,32 +517,57 @@ def gather_eras(
     handoff: dict[str, dict],
     years_summary: dict[str, dict],
 ) -> dict:
-    """Prep UI data for live 1997–2001 + parked A4/A5 eras (do not pretend running)."""
+    """Prep UI data for live 1997–2001 + 1990–96 B6b clears + parked A5."""
     a4_status, a4_detail = _handoff_step_status(handoff, "A4")
     a5_status, a5_detail = _handoff_step_status(handoff, "A5")
 
     y9096: dict[str, dict] = {}
+    fail_yrs: list[str] = []
     for y in YEARS_9096:
-        hq = count_hqmax(y)
-        if hq > 0:
+        row = dict(years_summary.get(y) or {})
+        hq = row.get("hqmax_count")
+        if hq is None:
+            hq = count_hqmax(y)
+            row["hqmax_count"] = hq
+        fail_n = int(row.get("b6b_fail") or 0)
+        verd = str(row.get("b6b_verdict") or row.get("b6b") or "").upper()
+        if fail_n > 0 or verd == "FAIL":
+            y_status = "fail"
+            fail_yrs.append(y)
+        elif verd == "PASS" and row.get("b6b_unlocked"):
+            y_status = "pass"
+        elif verd in ("PASS", "WARN", "DONE") or (row.get("b6b_pass") or 0) > 0:
+            y_status = "partial"
+        elif hq and int(hq) > 0:
             y_status = "partial"
         elif a4_status.upper() in ("PENDING", "BLOCKED"):
             y_status = "parked"
         else:
             y_status = a4_status.lower().replace(" ", "_")
-        y9096[y] = {
-            "year": y,
-            "hqmax_count": hq,
-            "status": y_status,
-        }
+        row["year"] = y
+        row["status"] = y_status
+        y9096[y] = row
 
     era9096_status = "parked"
-    if any(r["hqmax_count"] > 0 for r in y9096.values()):
+    if any(int(r.get("hqmax_count") or 0) > 0 for r in y9096.values()):
         era9096_status = "partial"
-    if a4_status.upper() == "IN PROGRESS":
+    if fail_yrs:
         era9096_status = "in_progress"
-    elif a4_status.upper() == "DONE":
+    elif a4_status.upper() == "IN PROGRESS":
+        era9096_status = "in_progress"
+    elif a4_status.upper() == "DONE" and not fail_yrs:
         era9096_status = "done"
+
+    if fail_yrs:
+        note_9096 = (
+            f"B6b surgical / clear lane · FAIL years: {', '.join(fail_yrs)} "
+            "(live audit F/W/P on year cards)."
+        )
+    else:
+        note_9096 = (
+            "1990–1996 yearbook · B6b live audit on year cards "
+            "(not A4-parked-only placeholders)."
+        )
 
     nonyb = _shallow_present(OCR_V2 / "nonyearbook_1984_1990")
     certs = _shallow_present(OCR_V2 / "certs")
@@ -538,17 +590,19 @@ def gather_eras(
         "remediation_1997_2001": {
             "label": "1997–2001 remediation",
             "status": "live",
-            "note": "Active remediation strip (manifest years).",
+            "note": "Active remediation strip with live B6b audit counts.",
             "years": {y: years_summary[y] for y in YEARS if y in years_summary},
         },
         "yearbook_1990_1996": {
             "label": "1990–1996 yearbook",
             "status": era9096_status,
-            "plan_step": "A4",
+            "plan_step": "A4/B6b",
             "plan_status": a4_status,
             "detail": a4_detail,
-            "note": "A4 parked — placeholders from hqmax under yearbook_1990_2001/{year}.",
+            "note": note_9096,
+            "fail_years": fail_yrs,
             "years": y9096,
+            "card_mode": "live",
         },
         "early_1984_1990": {
             "label": "1984–1990 early / non-yearbook",
@@ -932,6 +986,10 @@ def _b6b_verdict_from_audit_md(year: str) -> dict:
     out: dict = {}
     if not path.is_file():
         return out
+    try:
+        out["audit_mtime_epoch"] = path.stat().st_mtime
+    except OSError:
+        pass
     text = _read_text(path, max_bytes=80_000)
     for line in text.splitlines()[:30]:
         if "Year verdict" in line:
@@ -954,6 +1012,123 @@ def _b6b_verdict_from_audit_md(year: str) -> dict:
     if path.is_file() and "b6b_done" not in out:
         out["b6b_done"] = _mtime_local(path)
     return out
+
+
+def _b6b_summary_from_audit_json(year: str) -> dict:
+    """PASS/WARN/FAIL tallies + year verdict from ``_b6b_ingest_audit_{year}.json``."""
+    path = ROOT / f"_b6b_ingest_audit_{year}.json"
+    out: dict = {}
+    if not path.is_file():
+        return out
+    try:
+        out["audit_mtime_epoch"] = path.stat().st_mtime
+        out["b6b_done"] = _mtime_local(path)
+        raw = json.loads(path.read_text(encoding="utf-8", errors="replace"))
+    except (OSError, json.JSONDecodeError):
+        return out
+    if not isinstance(raw, dict):
+        return out
+    verd = raw.get("year_verdict") or raw.get("verdict")
+    if verd:
+        out["b6b_verdict"] = str(verd).upper()
+    if "unlocked" in raw:
+        out["b6b_unlocked"] = bool(raw.get("unlocked"))
+    elif "sql_apply_unlock" in raw:
+        out["b6b_unlocked"] = bool(raw.get("sql_apply_unlock"))
+    f = w = p = 0
+    for vol in raw.get("volumes") or []:
+        if not isinstance(vol, dict):
+            continue
+        v = str(vol.get("verdict") or "").upper()
+        if v == "FAIL":
+            f += 1
+        elif v == "WARN":
+            w += 1
+        elif v == "PASS":
+            p += 1
+    if raw.get("volumes") is not None:
+        out["b6b_fail"] = f
+        out["b6b_warn"] = w
+        out["b6b_pass"] = p
+        out["b6b"] = "done"
+        if not out.get("b6b_verdict"):
+            out["b6b_verdict"] = "FAIL" if f else ("WARN" if w else "PASS")
+    return out
+
+
+def _b6b_live_fields(year: str, yinfo: dict) -> dict:
+    """Live B6b gate fields: prefer on-disk audit over stale manifest mid-clear.
+
+    ``assess_ingest_quality_audit`` writes md/json first; manifest can lag until
+    ``update_manifest`` finishes. Mid-clear FAIL/PASS must follow the audit files.
+    """
+    md = _b6b_verdict_from_audit_md(year)
+    js = _b6b_summary_from_audit_json(year)
+    # Prefer json tallies when present (exact vol counts); md for unlock wording.
+    file_bits: dict = {}
+    for src in (md, js):
+        for k, v in src.items():
+            if v is None:
+                continue
+            if k == "audit_mtime_epoch":
+                prev = file_bits.get(k)
+                file_bits[k] = max(prev, v) if isinstance(prev, (int, float)) else v
+                continue
+            # json overwrites md for numeric tallies / verdict when both exist
+            if k in ("b6b_fail", "b6b_warn", "b6b_pass", "b6b_verdict", "b6b") and k in js:
+                file_bits[k] = js[k]
+            elif k not in file_bits:
+                file_bits[k] = v
+            elif k in js and k in ("b6b_unlocked", "b6b_done"):
+                file_bits[k] = js[k]
+
+    has_audit = bool(
+        file_bits.get("b6b_verdict")
+        or file_bits.get("b6b_fail") is not None
+        or file_bits.get("b6b_pass") is not None
+    )
+    if has_audit:
+        verd = file_bits.get("b6b_verdict") or yinfo.get("b6b_verdict")
+        b6b = file_bits.get("b6b") or yinfo.get("b6b") or "done"
+        unlocked = (
+            file_bits["b6b_unlocked"]
+            if "b6b_unlocked" in file_bits
+            else yinfo.get("b6b_unlocked")
+        )
+        fail = file_bits["b6b_fail"] if "b6b_fail" in file_bits else yinfo.get("b6b_fail")
+        warn = file_bits["b6b_warn"] if "b6b_warn" in file_bits else yinfo.get("b6b_warn")
+        pas = file_bits["b6b_pass"] if "b6b_pass" in file_bits else yinfo.get("b6b_pass")
+        done = file_bits.get("b6b_done") or _iso_to_local(
+            (yinfo.get("timestamps") or {}).get("b6b_done")
+        )
+        source = "audit_file"
+    else:
+        verd = yinfo.get("b6b_verdict")
+        b6b = yinfo.get("b6b")
+        unlocked = yinfo.get("b6b_unlocked")
+        fail = yinfo.get("b6b_fail")
+        warn = yinfo.get("b6b_warn")
+        pas = yinfo.get("b6b_pass")
+        done = _iso_to_local((yinfo.get("timestamps") or {}).get("b6b_done"))
+        source = "manifest"
+
+    audit_mtime = None
+    epoch = file_bits.get("audit_mtime_epoch")
+    if isinstance(epoch, (int, float)) and epoch > 0:
+        audit_mtime = _fmt_local(datetime.fromtimestamp(epoch, timezone.utc))
+
+    return {
+        "b6b": b6b,
+        "b6b_verdict": verd,
+        "b6b_unlocked": unlocked,
+        "b6b_fail": fail,
+        "b6b_warn": warn,
+        "b6b_pass": pas,
+        "b6b_done": done,
+        "b6b_source": source,
+        "audit_mtime": audit_mtime,
+        "has_audit": has_audit,
+    }
 
 
 def _b6b_detail_from_audit_json(year: str, *, max_samples_per_vol: int = 8) -> dict:
@@ -1057,13 +1232,12 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
     audit_proc = assess_ingest_audit_alive()
     years_out: dict[str, dict] = {}
     details: list[dict] = []
+    fail_years: list[str] = []
     for y in YEARS_B6B_ALL:
         yinfo = myears.get(y) or {}
-        ts = yinfo.get("timestamps") or {}
-        file_bits = _b6b_verdict_from_audit_md(y)
-        # Manifest wins when present; audit md fills gaps / early years
-        verdict = yinfo.get("b6b_verdict") or file_bits.get("b6b_verdict")
-        b6b = yinfo.get("b6b") or file_bits.get("b6b")
+        live = _b6b_live_fields(y, yinfo)
+        verdict = live.get("b6b_verdict")
+        b6b = live.get("b6b")
         if y < "1997" and not b6b and not verdict:
             b6b = "parked"
             era = "early" if y < "1990" else "yearbook_9096"
@@ -1072,29 +1246,30 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
             era = "remediation"
         else:
             era = "remediation" if y >= "1997" else ("early" if y < "1990" else "yearbook_9096")
-        detail = _b6b_detail_from_audit_json(y) if verdict in ("FAIL", "WARN") or (
-            (file_bits.get("b6b_fail") or 0) > 0 or (file_bits.get("b6b_warn") or 0) > 0
+        fail_n = int(live.get("b6b_fail") or 0)
+        warn_n = int(live.get("b6b_warn") or 0)
+        detail = _b6b_detail_from_audit_json(y) if (
+            (verdict in ("FAIL", "WARN"))
+            or fail_n > 0
+            or warn_n > 0
+            or live.get("has_audit")
         ) else {"volumes": [], "by_catalog": {}, "fail_samples": [], "warn_samples": []}
         years_out[y] = {
             "b6b": b6b,
             "b6b_verdict": verdict,
-            "b6b_unlocked": yinfo.get("b6b_unlocked")
-            if "b6b_unlocked" in yinfo
-            else file_bits.get("b6b_unlocked"),
-            "b6b_fail": yinfo.get("b6b_fail")
-            if yinfo.get("b6b_fail") is not None
-            else file_bits.get("b6b_fail"),
-            "b6b_warn": yinfo.get("b6b_warn")
-            if yinfo.get("b6b_warn") is not None
-            else file_bits.get("b6b_warn"),
-            "b6b_pass": yinfo.get("b6b_pass")
-            if yinfo.get("b6b_pass") is not None
-            else file_bits.get("b6b_pass"),
-            "b6b_done": _iso_to_local(ts.get("b6b_done")) or file_bits.get("b6b_done"),
+            "b6b_unlocked": live.get("b6b_unlocked"),
+            "b6b_fail": live.get("b6b_fail"),
+            "b6b_warn": live.get("b6b_warn"),
+            "b6b_pass": live.get("b6b_pass"),
+            "b6b_done": live.get("b6b_done"),
+            "b6b_source": live.get("b6b_source"),
+            "audit_mtime": live.get("audit_mtime"),
             "era": era,
             "by_catalog": detail.get("by_catalog") or {},
             "volumes": detail.get("volumes") or [],
         }
+        if fail_n > 0 or (str(verdict or "").upper() == "FAIL"):
+            fail_years.append(y)
         if detail.get("volumes"):
             details.append(
                 {
@@ -1109,7 +1284,7 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
 
     if audit_proc["alive"]:
         state = "running"
-        note = "assess_ingest_quality_audit process alive"
+        note = "assess_ingest_quality_audit process alive · polling audit files live"
     elif recover_running:
         state = "pending_rerun"
         note = "C1/O6 recover still running -> B6b re-run pending (not executing now)"
@@ -1119,7 +1294,13 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
             for v in years_out.values()
         )
         state = "idle_with_results" if any_done else "idle"
-        note = "Years 1984–2001 · early/parked until remediation reaches them"
+        if fail_years:
+            note = (
+                f"Years 1984–2001 · FAIL residual on {', '.join(fail_years)} "
+                "(audit-file live counts)"
+            )
+        else:
+            note = "Years 1984–2001 · audit-file live counts (manifest lag ignored)"
 
     return {
         "kind": "b6b_ingest_audit",
@@ -1128,6 +1309,7 @@ def b6b_ingest_audit_status(myears: dict, recover_running: bool) -> dict:
         "pids": audit_proc["pids"],
         "recover_still_running": recover_running,
         "note": note,
+        "fail_years": fail_years,
         "years": years_out,
         "details": details,
     }
@@ -1519,12 +1701,20 @@ def surgical_reocr_live() -> dict:
     if dest_hqmax is not None:
         # Prefer pre-job backup (complete prior OCR); else live hqmax if present.
         for cand in (
+            Path(str(dest_hqmax) + ".pre_1999_volii_pt1_c1"),
+            Path(str(dest_hqmax) + ".pre_1997_voli_pt1_c1"),
+            Path(str(dest_hqmax) + ".pre_1997_volii_pt2_c1"),
+            Path(str(dest_hqmax) + ".pre_1997_volii_pt1_c1"),
             Path(str(dest_hqmax) + ".pre_1997_voli_pt2_c1"),
             Path(str(dest_hqmax) + ".pre_voliii_pt2_c1"),
             Path(str(dest_hqmax) + ".pre_voliii_pt1_c1"),
             Path(str(dest_hqmax) + ".pre_volii_pt2_c1"),
             Path(str(dest_hqmax) + ".pre_volii_pt1_c1"),
             Path(str(dest_hqmax) + ".pre_voli_pt1_c1"),
+            dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_1999_volii_pt1_c1"),
+            dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_1997_voli_pt1_c1"),
+            dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_1997_volii_pt2_c1"),
+            dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_1997_volii_pt1_c1"),
             dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_1997_voli_pt2_c1"),
             dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_voliii_pt2_c1"),
             dest_hqmax.with_suffix(dest_hqmax.suffix + ".pre_voliii_pt1_c1"),
@@ -1696,12 +1886,19 @@ def other_targeted_recoveries(c1o6_pids: list[int] | None = None) -> dict:
 
 def year_pipeline_row(year: str, yinfo: dict, hqmax: int) -> dict:
     a2_detail = _a2_detail_from_csv(year)
+    live = _b6b_live_fields(year, yinfo)
     b6b_json = _b6b_detail_from_audit_json(year) if (
-        yinfo.get("b6b_verdict") in ("FAIL", "WARN")
-        or (yinfo.get("b6b_fail") or 0) > 0
-        or (yinfo.get("b6b_warn") or 0) > 0
-        or yinfo.get("b6b") == "done"
+        live.get("b6b_verdict") in ("FAIL", "WARN")
+        or (live.get("b6b_fail") or 0) > 0
+        or (live.get("b6b_warn") or 0) > 0
+        or live.get("b6b") == "done"
+        or live.get("has_audit")
     ) else {"volumes": [], "by_catalog": {}}
+    # Prefer audit-file done stamp when present (mid-clear freshness).
+    merged_yinfo = dict(yinfo)
+    for k in ("b6b", "b6b_verdict", "b6b_unlocked", "b6b_fail", "b6b_warn", "b6b_pass"):
+        if live.get(k) is not None:
+            merged_yinfo[k] = live.get(k)
     return {
         "year": year,
         "a1": yinfo.get("a1", "pending"),
@@ -1716,25 +1913,188 @@ def year_pipeline_row(year: str, yinfo: dict, hqmax: int) -> dict:
         "a2_detail": a2_detail,
         "b6": yinfo.get("b6", "pending"),
         "b6_sections": yinfo.get("b6_sections"),
-        "b6b": yinfo.get("b6b", "pending"),
-        "b6b_verdict": yinfo.get("b6b_verdict"),
-        "b6b_unlocked": yinfo.get("b6b_unlocked"),
-        "b6b_fail": yinfo.get("b6b_fail"),
-        "b6b_warn": yinfo.get("b6b_warn"),
-        "b6b_pass": yinfo.get("b6b_pass"),
-        "b6b_done": _iso_to_local(
-            (yinfo.get("timestamps") or {}).get("b6b_done")
-        ),
+        "b6b": live.get("b6b") or yinfo.get("b6b", "pending"),
+        "b6b_verdict": live.get("b6b_verdict"),
+        "b6b_unlocked": live.get("b6b_unlocked"),
+        "b6b_fail": live.get("b6b_fail"),
+        "b6b_warn": live.get("b6b_warn"),
+        "b6b_pass": live.get("b6b_pass"),
+        "b6b_done": live.get("b6b_done"),
+        "b6b_source": live.get("b6b_source"),
+        "audit_mtime": live.get("audit_mtime"),
         "b6b_by_catalog": b6b_json.get("by_catalog") or {},
         "b6b_volumes": b6b_json.get("volumes") or [],
         "c10": yinfo.get("c10", "pending"),
         "hqmax_count": hqmax,
-        "b6b_detail": b6b_year_detail(year, yinfo),
+        "b6b_detail": b6b_year_detail(year, merged_yinfo),
         "timestamps_local": {
             k: _iso_to_local(v)
             for k, v in ((yinfo.get("timestamps") or {}).items())
             if v
         },
+    }
+
+
+def updated_vs_baseline_status() -> dict:
+    """Shallow Updated Yearbook Scans dirs vs baseline hqmax counts (1990–2001)."""
+    updated_root = ROOT / "Updated Yearbook Scans"
+    years_out: dict[str, dict] = {}
+    try:
+        upd_dirs = (
+            [p for p in updated_root.iterdir() if p.is_dir()]
+            if updated_root.is_dir()
+            else []
+        )
+    except OSError:
+        upd_dirs = []
+    for y in YEARS_ACTIVE:
+        matches = [p.name for p in upd_dirs if y in p.name]
+        years_out[y] = {
+            "year": y,
+            "baseline_hqmax": count_hqmax(y),
+            "updated_dir_count": len(matches),
+            "updated_dirs": matches[:10],
+        }
+    return {
+        "kind": "updated_vs_baseline",
+        "updated_root_present": updated_root.is_dir(),
+        "baseline_root": str(OCR_BASE.relative_to(ROOT)) if OCR_BASE.is_dir() else None,
+        "years": years_out,
+        "note": "Updated Yearbook Scans (source scans) vs _ocr_baseline_v2 hqmax counts",
+    }
+
+
+def _year_fail_code_hits(year: str) -> dict[str, int]:
+    """Aggregate by_code hit counts across FAIL volumes for one year."""
+    path = ROOT / f"_b6b_ingest_audit_{year}.json"
+    totals: dict[str, int] = {}
+    if not path.is_file():
+        return totals
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8", errors="replace"))
+    except (OSError, json.JSONDecodeError):
+        return totals
+    if not isinstance(raw, dict):
+        return totals
+    for vol in raw.get("volumes") or []:
+        if not isinstance(vol, dict):
+            continue
+        if str(vol.get("verdict") or "").upper() != "FAIL":
+            continue
+        by = vol.get("by_code") if isinstance(vol.get("by_code"), dict) else {}
+        for code, n in by.items():
+            try:
+                totals[str(code)] = totals.get(str(code), 0) + int(n)
+            except (TypeError, ValueError):
+                pass
+    return totals
+
+
+def workstreams_status(b6b: dict, surgical: dict, myears: dict) -> dict:
+    """Surface mid-clear / demotion / detector-widen / Updated-tree lanes."""
+    years = b6b.get("years") or {}
+    fail_years = list(b6b.get("fail_years") or [])
+    if not fail_years:
+        fail_years = [
+            y
+            for y, r in years.items()
+            if (r.get("b6b_fail") or 0) > 0
+            or str(r.get("b6b_verdict") or "").upper() == "FAIL"
+        ]
+
+    demotion_years: list[dict] = []
+    widen_years: list[dict] = []
+    for y in YEARS_ACTIVE:
+        hits = _year_fail_code_hits(y)
+        if not hits:
+            continue
+        dem = {c: hits[c] for c in B6B_DEMOTED_TO_FAIL if c in hits}
+        wid = {c: hits[c] for c in B6B_DETECTOR_WIDEN if c in hits}
+        live = years.get(y) or {}
+        if dem:
+            demotion_years.append(
+                {
+                    "year": y,
+                    "codes": dem,
+                    "b6b_fail": live.get("b6b_fail"),
+                    "b6b_pass": live.get("b6b_pass"),
+                }
+            )
+        if wid:
+            widen_years.append(
+                {
+                    "year": y,
+                    "codes": wid,
+                    "b6b_fail": live.get("b6b_fail"),
+                    "b6b_pass": live.get("b6b_pass"),
+                }
+            )
+
+    mid_clear = {
+        "kind": "mid_clear_fail",
+        "state": "in_progress" if fail_years else "clear",
+        "fail_years": fail_years,
+        "rows": [
+            {
+                "year": y,
+                "verdict": (years.get(y) or {}).get("b6b_verdict"),
+                "fail": (years.get(y) or {}).get("b6b_fail"),
+                "warn": (years.get(y) or {}).get("b6b_warn"),
+                "pass": (years.get(y) or {}).get("b6b_pass"),
+                "audit_mtime": (years.get(y) or {}).get("audit_mtime"),
+                "source": (years.get(y) or {}).get("b6b_source"),
+            }
+            for y in fail_years
+        ],
+        "note": (
+            "Years with live B6b FAIL>0 (audit-file counts refresh on each status poll)"
+            if fail_years
+            else "No FAIL residual on 1990–2001 audit files"
+        ),
+    }
+
+    surg_state = surgical.get("state") or "idle"
+    surgical_ws = {
+        "kind": "surgical_clears",
+        "state": surg_state,
+        "running": bool(surgical.get("running")),
+        "pids": surgical.get("pids") or [],
+        "script": surgical.get("script"),
+        "active_log": surgical.get("active_log"),
+        "progress_label": surgical.get("progress_label"),
+        "job_line": surgical.get("job_line"),
+        "page_line": surgical.get("page_line"),
+        "note": surgical.get("note")
+        or "Single-vol / prove-slice force re-OCR (sibling OCR lane)",
+    }
+
+    return {
+        "mid_clear_fail": mid_clear,
+        "surgical_clears": surgical_ws,
+        "b6b_demotion": {
+            "kind": "b6b_demotion",
+            "state": "active" if demotion_years else "idle",
+            "codes": list(B6B_DEMOTED_TO_FAIL),
+            "years": demotion_years,
+            "note": (
+                "Former WARN residuals now FAIL; years still hitting demoted codes"
+                if demotion_years
+                else "No demoted-code FAIL hits on current audits"
+            ),
+        },
+        "detector_widen": {
+            "kind": "detector_widen",
+            "state": "active" if widen_years else "idle",
+            "codes": list(B6B_DETECTOR_WIDEN),
+            "years": widen_years,
+            "note": (
+                "Detector-widen FAIL codes still firing (header/dropout/smash/trunc)"
+                if widen_years
+                else "No detector-widen FAIL hits on current audits"
+            ),
+        },
+        "updated_vs_baseline": updated_vs_baseline_status(),
+        "audit_proc_running": bool(b6b.get("running")),
     }
 
 
@@ -2109,9 +2469,9 @@ def gather() -> dict:
     handoff = parse_handoff_statuses()
     manifest = load_manifest()
     myears = manifest.get("years") or {}
-    hq = {y: count_hqmax(y) for y in YEARS}
+    hq = {y: count_hqmax(y) for y in YEARS_ACTIVE}
     years_summary = {
-        y: year_pipeline_row(y, myears.get(y) or {}, hq[y]) for y in YEARS
+        y: year_pipeline_row(y, myears.get(y) or {}, hq[y]) for y in YEARS_ACTIVE
     }
     def _newest_track_log(label: str) -> str:
         """Prefer live A4/A5 logs over finished A1 9701 logs when newer."""
@@ -2178,13 +2538,15 @@ def gather() -> dict:
     c1o6 = c1o6_recover_live()
     reocr = reocr_queue_live()
     surgical = surgical_reocr_live()
+    b6b = b6b_ingest_audit_status(myears, bool(c1o6.get("running")))
     targeted_ocr = {
         "c1_o6": c1o6,
-        "b6b": b6b_ingest_audit_status(myears, bool(c1o6.get("running"))),
+        "b6b": b6b,
         "reocr": reocr,
         "surgical": surgical,
         "other": other_targeted_recoveries(c1o6.get("pids") or []),
     }
+    workstreams = workstreams_status(b6b, surgical, myears)
     a2_summary = a2_rollup_summary()
     eras = gather_eras(handoff, years_summary)
     steps = [
@@ -2205,11 +2567,13 @@ def gather() -> dict:
         "eras": eras,
         "ocr_live": ocr_live,
         "targeted_ocr": targeted_ocr,
+        "workstreams": workstreams,
         "a2_rollup": a2_summary,
         "summary": {
             "counts": counts,
             "total_steps": len(steps),
             "hqmax_by_year": hq,
+            "b6b_fail_years": b6b.get("fail_years") or [],
         },
     }
 

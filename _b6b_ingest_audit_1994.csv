@@ -1,0 +1,9 @@
+year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_082440_ocr_hqmax.txt,True,42703,42701,PASS,0,0,,
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_083342_ocr_hqmax.txt,False,20225,20225,FAIL,1,0,owner_tail_trunc×1,O6×1
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_083655_ocr_hqmax.txt,True,40935,40934,PASS,0,0,,
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_084730_ocr_hqmax.txt,True,18693,18693,PASS,0,0,,
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_105927_ocr_hqmax.txt,True,54300,54300,PASS,0,0,,
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_111318_ocr_hqmax.txt,True,31277,31277,PASS,0,0,,
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_113633_ocr_hqmax.txt,True,15714,15698,PASS,0,0,,
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_114039_ocr_hqmax.txt,True,57777,57723,PASS,0,0,,

@@ -412,6 +412,7 @@ _OCR_NAME_PHRASES = (
     (r"(?i)(?<=: )\biggerdown\b", "Diggertown"),
     (r"(?i)(?<=: )\bephen\b", "Stephen"),
     (r"(?im)^ACING\s+CHAMPIONS\b", "RACING CHAMPIONS"),
+    (r"(?im)^ACING\s+DIVISION\b", "RACING DIVISION"),
     (r"(?im)^UPPIES\b", "PUPPIES"),
     (r"(?im)^DULTS\b", "ADULTS"),
     # Cut-off leading letter on division / youth / agility / role headers
@@ -583,6 +584,70 @@ _PLACE_RANK_OCR = (
 
 def fix_place_rank_ocr(text: str) -> str:
     """Correct misread trial/class place ranks (Sths→5ths, Bths→6ths, …)."""
+    text = re.sub(r"(?im)^(\d+(?:st|nd|rd|th):\s*)istt\s+", r"\1", text or "")
+    # ``1st: 1stt Name`` / ``1st: 2ndt Name`` — ordinal echoed with trailing t
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*\d*(?:st|nd|rd|th)t\s+",
+        r"\1 ",
+        text or "",
+    )
+    # ``1st: 1st! Name`` bang-ordinal echo
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*\d*(?:st|nd|rd|th)!\s*",
+        r"\1 ",
+        text or "",
+    )
+    # Role lines OCR'd as ``BEST:`` / ``RESERVE:`` (all caps) or ``2eserve:``
+    text = re.sub(r"(?im)^BEST\s*:\s*", "Best: ", text or "")
+    text = re.sub(r"(?im)^RESERVE\s*:\s*", "Reserve: ", text or "")
+    text = re.sub(r"(?im)^CHAMPION\s*:\s*", "Champion: ", text or "")
+    text = re.sub(r"(?im)^2eserve\s*:\s*", "Reserve: ", text or "")
+    text = re.sub(r"(?im)^(?:d|t)eserve\s*:\s*", "Reserve: ", text or "")
+    text = re.sub(r"(?im)^3ronze\s+Medallion\b", "Bronze Medallion", text or "")
+    # Bare ``istt Name`` (leading 1st: digit lost)
+    text = re.sub(r"(?im)^istt\s+", "1st: ", text or "")
+    text = re.sub(r"(?im)^1stt\s+", "1st: ", text or "")
+    # Lost leading digit on ordinals: ``tt:``/``st:`` → 1st, ``nd:`` → 2nd, ``rd:`` → 3rd
+    text = re.sub(r"(?im)^(?:tt|st)\s*:\s*", "1st: ", text or "")
+    text = re.sub(r"(?im)^nd\s*:\s*", "2nd: ", text or "")
+    text = re.sub(r"(?im)^rd\s*:\s*", "3rd: ", text or "")
+    # ``th:`` after a prior 3rd/4th/5th often means next place (4th–6th)
+    text = re.sub(r"(?im)^th\s*:\s*", "4th: ", text or "")
+    # ``tt Name`` (colon optional)
+    text = re.sub(r"(?im)^tt\s+(?=[A-Z\"'])", "1st: ", text or "")
+    # ``t: Name`` only when colon present (avoid eating ``to …``)
+    text = re.sub(r"(?im)^t:\s+(?=[A-Z\"'])", "1st: ", text or "")
+    # ``id: Name`` — common 2nd: OCR miss
+    text = re.sub(r"(?im)^id\s*:\s*", "2nd: ", text or "")
+    # ``1st: t Name`` leftover single-letter ordinal dust
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*t\s+(?=[A-Z\"'])",
+        r"\1 ",
+        text or "",
+    )
+    # ``4th: h: Name`` / ``1st: th Name`` column-dust ordinals
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*h:\s*",
+        r"\1 ",
+        text or "",
+    )
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*th\s+(?=[A-Z\"'])",
+        r"\1 ",
+        text or "",
+    )
+    text = re.sub(r"(?im)^hampionship\b", "Championship", text or "")
+    # Truncated Best/Puppy section banners
+    text = re.sub(r"(?im)^est\s*:\s*", "Best: ", text or "")
+    text = re.sub(r"(?im)^3est\s*:\s*", "Best: ", text or "")
+    text = re.sub(r"(?im)^EST\s+(BITCH|DOG|OPEN|PUP|WORKING|4-6)\b", r"BEST \1", text or "")
+    text = re.sub(r"(?im)^3EST\b", "BEST", text or "")
+    text = re.sub(r"(?im)^UPPY\s+CONFORMATION\b", "PUPPY CONFORMATION", text or "")
+    text = re.sub(r"(?im)^Norking\s+Terrier\b", "Working Terrier", text or "")
+    # Racing header leading-letter dropout
+    text = re.sub(r"(?im)^(?:teran|steran|eteran)\s+", "Veteran ", text or "")
+    text = re.sub(r"(?im)^gs,\s+1\s+yr", "Dogs, 1 yr", text or "")
+    text = re.sub(r"(?im)^(?:ches|tches),\s+1\s+yr", "Bitches, 1 yr", text or "")
     if not text:
         return text
     # Leading dust before place: "'1st:" / "é2nd:" / "©3rd:"
@@ -845,6 +910,8 @@ def _repair_orphan_owned_by_places(text: str) -> str:
             missing = [p for p in range(1, 7) if p not in placed]
             for orphan, pnum in zip(orphans, missing):
                 body = re.sub(r"(?i)^(?:\d*(?:st|nd|rd|th)\s*:)\s*", "", orphan).strip()
+                # OCR letter-dust ranks: ``d: Name`` / ``h: Name`` / ``tt Name``
+                body = re.sub(r"(?i)^(?:[a-z]{1,2}\s*:|tt)\s*", "", body).strip()
                 placed[pnum] = f"{_place_ordinal(pnum)}: {body}"
             orphans = orphans[len(missing) :]  # unused leftovers
             rebuilt = [placed[p] for p in sorted(placed)]
@@ -857,11 +924,12 @@ def _repair_orphan_owned_by_places(text: str) -> str:
 
 
 def _repair_first_place_ocr(text: str) -> str:
-    """Fix systematic Tesseract ``1st``→``4th`` confusion using place order.
+    """Fix systematic Tesseract ``1st``/``4th`` and ``2nd``/``5th`` place swaps.
 
-    Yearbooks list places in order. A ``4th:`` line immediately followed (next
-    place line) by ``2nd:`` is almost always a misread ``1st:`` — not a dog-name
-    hardcode.
+    Yearbooks list places in order. A ``4th:`` immediately followed by ``2nd:``:
+      - if this class block has no ``1st:`` yet → ``4th`` was a misread ``1st``
+      - if ``1st:`` already exists → the trailing ``2nd`` was a misread ``5th``
+        (``_demote_false_first_using_entries`` would otherwise undo a false 1st)
     """
     if not text:
         return text
@@ -873,33 +941,42 @@ def _repair_first_place_ocr(text: str) -> str:
         m = place_re.match(s.strip())
         return int(m.group(2)) if m else None
 
+    # Track whether 1st already appeared since the last class/section header
+    seen_first = False
     for i, ln in enumerate(out):
-        if place_num(ln) != 4:
+        s = ln.strip()
+        if _is_results_section_header(s):
+            seen_first = False
+            continue
+        pn = place_num(s)
+        if pn == 1:
+            seen_first = True
+            continue
+        if pn != 4:
             continue
         for j in range(i + 1, min(i + 8, len(out))):
-            s = out[j].strip()
-            if not s or _MARKER_RE.match(s):
+            s2 = out[j].strip()
+            if not s2 or _MARKER_RE.match(s2):
                 continue
-            pj = place_num(s)
+            if _is_results_section_header(s2):
+                break
+            pj = place_num(s2)
             if pj is None:
-                # Stop at class / division headers so we don't pair across classes
-                if re.match(
-                    r"(?i)^(?:dog|bitch|dogs|bitches|novice|open|pre-|puppy|adult|"
-                    r"championship|champion|reserve|steeple|working|go-?to|"
-                    r"conformation|racing|family|bred|youth|entries)\b",
-                    s,
-                ):
-                    break
                 continue
             if pj == 2:
-                out[i] = place_re.sub(r"\g<1>1st\g<4>", ln, count=1)
+                if seen_first:
+                    out[j] = place_re.sub(r"\g<1>5th\g<4>", out[j], count=1)
+                else:
+                    out[i] = place_re.sub(r"\g<1>1st\g<4>", ln, count=1)
+                    seen_first = True
             break
     return _repair_skipped_place_ocr("\n".join(out))
 
 
 def _repair_skipped_place_ocr(text: str) -> str:
-    """Fix ``5th``→``6th`` when place order skips (``4th`` then ``6th``, no ``5th``).
+    """Fix ``6th``→``5th`` when the next place after ``4th`` is ``6th`` (no ``5th``).
 
+    Operates on adjacent place lines so a later class's ``5th`` cannot mask the skip.
     Keeps a later second ``6th`` (ties / Junior Handler) intact.
     """
     if not text:
@@ -907,28 +984,23 @@ def _repair_skipped_place_ocr(text: str) -> str:
     place_re = re.compile(r"(?i)^(\(?\s*)(\d+)(st|nd|rd|th)(\s*:)")
     lines = text.splitlines()
     out = list(lines)
-    i = 0
-    n = len(out)
-    while i < n:
-        if _is_results_section_header(out[i]):
-            i += 1
+    place_idxs: list[int] = []
+    for i, ln in enumerate(out):
+        if place_re.match(ln.strip()):
+            place_idxs.append(i)
+    for k, bi in enumerate(place_idxs):
+        m4 = place_re.match(out[bi].strip())
+        if not m4 or int(m4.group(2)) != 4:
             continue
-        block_idx: list[int] = []
-        while i < n and not _is_results_section_header(out[i]):
-            block_idx.append(i)
-            i += 1
-        nums: dict[int, list[int]] = {}
-        for bi in block_idx:
-            m = place_re.match(out[bi].strip())
-            if not m:
-                continue
-            num = int(m.group(2))
-            if 1 <= num <= 9:
-                nums.setdefault(num, []).append(bi)
-        # 4 present, 5 missing, ≥1 sixth → first 6th was almost always 5th
-        if 4 in nums and 5 not in nums and 6 in nums:
-            bi = nums[6][0]
-            out[bi] = place_re.sub(r"\g<1>5th\g<4>", out[bi], count=1)
+        if k + 1 >= len(place_idxs):
+            break
+        bj = place_idxs[k + 1]
+        # Don't cross section headers between the two place lines
+        if any(_is_results_section_header(out[t]) for t in range(bi + 1, bj)):
+            continue
+        m6 = place_re.match(out[bj].strip())
+        if m6 and int(m6.group(2)) == 6:
+            out[bj] = place_re.sub(r"\g<1>5th\g<4>", out[bj], count=1)
     return "\n".join(out)
 
 
@@ -958,6 +1030,7 @@ def fix_ocr_li_confusion(text: str) -> str:
     text = normalize_agility_level_ocr(text)
     text = normalize_cert_entries_glue(text)
     text = _normalize_owned_by_ocr(text)
+    text = _insert_missing_owned_by_phrase(text)
     # "O'Toole,owned by" missing space after comma
     text = re.sub(r",(owned\s+by\b)", r", \1", text, flags=re.IGNORECASE)
     # "Ringlet,t, owned by" / "Name,x, owned" — gutter letter between commas
@@ -982,6 +1055,10 @@ def fix_ocr_li_confusion(text: str) -> str:
 
     # Bare "Entries" / "Entries:" tidy
     text = re.sub(r"(?im)\bEntries\s*$", "Entries:", text)
+    # Mid-class OCR dust: lowercase-only ``entries:`` line is not a real header
+    text = re.sub(r"(?m)^entries\s*:\s*$", "", text)
+    # Empty class: bare Entries: with no count → Entries: 0 (preserve empty classes)
+    text = re.sub(r"(?im)^(.*?)\bEntries\s*:\s*$", r"\1Entries: 0", text)
     # Trailing space before comma: "Ravenswood Lady ,"
     text = re.sub(r"([A-Za-z0-9.'])\s+,", r"\1,", text)
     # "Hunter., owned" / doubled punct before comma
@@ -1104,7 +1181,72 @@ def _normalize_owned_by_ocr(text: str) -> str:
 
     # Explicit near-misses before generic levenshtein
     text = re.sub(r"(?i)\bdowend\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bwoend\s+by\b", "owned by", text)
     text = re.sub(r"(?i)\bowned\s+(?:hy|ny)\b", "owned by", text)
+    # Glued / split owned-by OCR
+    text = re.sub(r"(?i)\bownedby\b", "owned by", text)
+    text = re.sub(r"(?i)\bownediby\b", "owned by", text)
+    text = re.sub(r"(?i)\bown\s+ed\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bowne\s*dby\b", "owned by", text)
+    text = re.sub(r"(?i)\bowr\s*\d*d\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bown[eé]d\s+by\b", "owned by", text)
+    text = re.sub(r"(?i)\bowried\s+d?y\b", "owned by", text)
+    # "owned. by" / "owned:by" / "owned-by" / "owned.by"
+    text = re.sub(r"(?i)\bowned\s*[.:\-]+\s*by\b", "owned by", text)
+    # Truncated "by": "owned b Pam" / "owned b. Name" / "owned y Name"
+    # Lookahead must stay case-sensitive so we never eat the ``y`` in ``by``.
+    text = re.sub(r"(?i)\bowned\s+b\.?\s+(?=[A-Z\"'])", "owned by ", text)
+    text = re.sub(r"(?i)\bowned\s+y\s+(?=[A-Z\"'])", "owned by ", text)
+    # Undo prior bad rewrite that turned ``owned by Ill`` into ``owned by y Ill``
+    text = re.sub(r"(?i)\bowned\s+by\s+y\s+(?=[A-Z\"'])", "owned by ", text)
+    text = re.sub(r"(?im)\bowned\s+by\s+y\s*$", "owned by", text)
+    # Truncated owner crumb ``Dog, ow`` / ``Dog, owr`` → owned-by stub (O6, no invent)
+    text = re.sub(r"(?im)(,\s*)owr?\s*$", r"\1owned by ow", text)
+    text = re.sub(r"(?i),\s*owr\s+y\s+", ", owned by ", text)
+    # Cropped ``, owl`` / ``, ov`` / ``, owne`` / ``, own:`` / bare ``, o`` (owned-by bleed)
+    text = re.sub(r"(?im),\s*owl\s*$", ", owned by ow", text)
+    text = re.sub(r"(?im),\s*ov\s*$", ", owned by ow", text)
+    text = re.sub(r"(?im),\s*owne\s*$", ", owned by ow", text)
+    text = re.sub(r"(?im),\s*own:?\s*$", ", owned by ow", text)
+    text = re.sub(r"(?im),\s*o\s*$", ", owned by ow", text)
+    # Junior/handler: ``B.J. Duty, owned by Ill`` → ``B.J. Duty III`` (Roman suffix OCR)
+    text = re.sub(
+        r"(?im)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:\s*.+?),\s*"
+        r"owned\s+by\s+(?:Ill|Ili|III|lll)\s*$",
+        r"\1 III",
+        text,
+    )
+    # Near-miss owned-by crumbs
+    text = re.sub(r"(?i)\bpn\s+ome\s+by\b", "owned by", text)
+    text = re.sub(r"(?i),\s*pa\s+by\s+", ", owned by ", text)
+    text = re.sub(r"(?i),\s*Pd\s+by\s+", ", owned by ", text)
+    text = re.sub(r"(?i),\s*es\s+([A-Z])", r", owned by \1", text)
+    text = re.sub(r"(?i)\bowned\s+\d+\s+([A-Z])", r"owned by \1", text)
+    # ``Hallie, we! Lom Doug & Sue Tack`` → owned by (gutter dust before known owners)
+    text = re.sub(
+        r"(?i),\s*we[!l1|]\s*Lom\s+(?=Doug\s*&)",
+        ", owned by ",
+        text,
+    )
+    text = re.sub(r"(?i)\bpov\s+Creek\s+Theft\b", "Ash Creek Theft", text)
+    # ``(Wendy Nyland, Owner)ei`` → ``Wendy Nyland, owned by Wendy Nyland``
+    # (yearbook parenthetical owner when dog name was lost — keep stated owner only)
+    text = re.sub(
+        r"(?im)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:)\s*\(([^,]+),\s*Owner\)\S*",
+        r"\1 \2, owned by \2",
+        text,
+    )
+    # Trailing ``, owned`` with no owner token → leave for O6 via stub marker
+    text = re.sub(r"(?im),\s*owned\s*$", ", owned by ow", text)
+    # "Champion: Dog, by M. Name" (missing owned)
+    text = re.sub(
+        r"(?i)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:[^\n,]{2,80},)\s+by\s+(?=[A-Z\"'])",
+        r"\1 owned by ",
+        text,
+        flags=re.M,
+    )
+    # Handler OCR near-misses (also clears false mangled_by)
+    text = re.sub(r"(?i)\bhand(?:ied|leded|eled)\s+by\b", "handled by", text)
     # "owned byJamie" (missing space after by) — before missing-by insert
     text = re.sub(r"(?i)\bowned\s+by([A-Za-z])", r"owned by \1", text)
     # "owned Butch Harris" (missing by) — capital owner token; never tokens
@@ -1122,10 +1264,13 @@ def _normalize_owned_by_ocr(text: str) -> str:
         r"\1",
         text,
     )
-    # Trailing 1–2 lowercase dust: "owned by Debra Ellis i" / "… Reifel ed"
-    # (middle initials are uppercase / dotted; Jr/Sr kept)
+    # Trailing OCR dust after owned-by:
+    # - lowercase 1–2 letters: "Debra Ellis i" / "Reifel ed"
+    # - ALL-CAPS 2-letter column chrome: "Bob Franklin BR" / "Hickey TY"
+    # Do NOT strip Title-case short surnames (Go/Ng/Yu) — that hid O6.
     text = re.sub(
-        r"(?im)(\bowned\s+by\b[^\n]{2,80}?[A-Za-z.]{2,})\s+(?!jr\b|sr\b)[a-z]{1,2}\s*$",
+        r"(?im)(\bowned\s+by\b[^\n]{2,80}?[A-Za-z.]{2,})\s+(?!jr\b|sr\b)"
+        r"(?:(?-i:[a-z]{1,2})|(?-i:[A-Z]{2}))\s*$",
         r"\1",
         text,
     )
@@ -1145,6 +1290,71 @@ def _normalize_owned_by_ocr(text: str) -> str:
     return text
 
 
+_PLACE_ROLE_LINE_RE = re.compile(
+    r"(?i)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:)\s*(.*)$"
+)
+_HAS_OWNER_CLAUSE_RE = re.compile(
+    r"(?i)\b(?:owned|bred)\s+by\b|\bhandl(?:ed|ing)\b|\bhandler\s+not\s+provided\b|"
+    r"\bowner\s+(?:not\s+provided|unknown)\b|\blast\s+name\s+not\s+provided\b|"
+    r"\bdisqualified\b|\bentries\s*:"
+)
+_OWNER_TAIL_PERSON_RE = re.compile(
+    r"^(?:"
+    # R. & D. Zampella / R.A. Smith / D.Ellis/S.Ferber
+    r"(?:[A-Z]\.\s*)+(?:&\s*(?:[A-Z]\.\s*)+)?[A-Z][A-Za-z.'\-]+"
+    r"|(?:[A-Z][A-Za-z.'\-]+\.?)\s*/\s*(?:[A-Z][A-Za-z.'\-]+\.?)"
+    # Marty & Teresa Gottlieb / Dana and Laura Mitchell
+    r"|(?:[A-Z][A-Za-z.'\-]+\s+)+(?:&|and)\s+(?:[A-Z][A-Za-z.'\-]+\s*)+"
+    # Anne de'Treville / Ludwig van Beethoven style particles
+    r"|[A-Z][A-Za-z.'\-]+\s+(?:de|da|di|van|von|la|le|du)\s*'?[A-Z][A-Za-z.'\-]+"
+    # Single / multi given+surname without ampersand
+    r"|(?:[A-Z][A-Za-z.'\-]+\s+){0,3}[A-Z][A-Za-z.'\-]{1,}"
+    r")$"
+)
+
+
+def _insert_missing_owned_by_phrase(text: str) -> str:
+    """Insert ``owned by`` on place lines that already have ``Dog, Person``.
+
+    Structural only: does not invent surnames. Skips handler / DQ / unknown-owner
+    wording and empty dog slots (``2nd: , Name`` → ``2nd: Name``).
+    """
+    if not text:
+        return text
+    out: list[str] = []
+    for ln in text.splitlines():
+        m = _PLACE_ROLE_LINE_RE.match(ln.strip())
+        if not m or "," not in ln or _HAS_OWNER_CLAUSE_RE.search(ln):
+            out.append(ln)
+            continue
+        prefix, body = m.group(1), m.group(2).strip()
+        # Junior/child empty dog: "2nd: , Courtney Bottington"
+        if re.match(r"^,\s+\S", body):
+            out.append(f"{prefix} {body.lstrip(', ').strip()}")
+            continue
+        # OCR crumb "al Name" before owner
+        body2 = re.sub(r"(?i),\s+al\s+([A-Z])", r", \1", body)
+        left, right = body2.rsplit(",", 1)
+        left, right = left.strip(), right.strip()
+        if not left or not right or _HAS_OWNER_CLAUSE_RE.search(right):
+            out.append(ln)
+            continue
+        # Reject class-header bleed / garble tails
+        if re.search(r"(?i)\bentries\s*:|\d\s*(?:up to|/)\s*\d", left):
+            out.append(ln)
+            continue
+        if len(right) < 2 or not _OWNER_TAIL_PERSON_RE.match(right):
+            out.append(ln)
+            continue
+        # Reject mostly-garble dog names (too few letters)
+        letters = sum(ch.isalpha() for ch in left)
+        if letters < 3 or letters / max(len(left), 1) < 0.45:
+            out.append(ln)
+            continue
+        out.append(f"{prefix} {left}, owned by {right}")
+    return "\n".join(out)
+
+
 
 _PLACE_NON_FIRST_RE = re.compile(r"(?i)^(?:\d+)?(?:nd|rd|th)\s*:")
 # Accept Ist:/lst: — Helvetica often reads leading ``1`` as ``I``/``l``.
@@ -1155,6 +1365,7 @@ _SECTIONISH_RE = re.compile(
     r"(?i)entries\s*:|division\b|champion\s*&\s*reserve|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
     r"\b(?:novice|open|advanced|bred by|puppies|pups|adults|veterans?)\b|"
+    r"\b(?:american|alabama|georgia|california|new\s+york|florida|kansas|missouri)\s+bred\b|"
     r"missing class header|"
     r"\b(?:smooth|rough|broken)\b|"
     r"\b(?:bitches|dogs)\b|"
@@ -1163,14 +1374,19 @@ _SECTIONISH_RE = re.compile(
     r"\bhandler\s+class\b|\bshowmanship\b|"
     r"\b(?:on|off)\s+lead\b|"
     r"\btrailing\b|\blocating\b|"
-    r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
+    r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|\bstakes\s+race\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
+    r"\bworking\s+terrier\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
-    r"\d+\s*(?:up to|/|-)\s*\d+"
+    # Height/age ranges only — not calendar dates (3/04) or Source years (2026-11)
+    r"\b(?:4|6|9|10|12)(?:\s*-\s*1\s*/\s*2|\s*1\s*/\s*2)?\s*"
+    r"(?:up\s+to|/|--|-)\s*"
+    r"(?:6|9|10|12|15)(?:\s*-\s*1\s*/\s*2|\s*1\s*/\s*2)?\b"
 )
 _CLASS_HEADER_HINT_RE = re.compile(
     r"(?i)entries\s*:|"
     r"\b(?:novice|open|advanced|bred by|puppies|pups|adults?|veterans?)\b|"
+    r"\b(?:american|alabama|georgia|california|new\s+york|florida|kansas|missouri)\s+bred\b|"
     r"\b(?:smooth|rough|broken)\b|"
     r"\b(?:bitches|dogs)\b|"
     r"\bbest\b.+(?:bitch|dog|puppy)|"
@@ -1182,16 +1398,26 @@ _CLASS_HEADER_HINT_RE = re.compile(
     r"\btrailing\b|\blocating\b|"
     r"\bsteeplechase\b|\bracing\s+champions?\b|\bflat\s+races?\b|"
     r"\bgo-?to-?ground\b|\bagility\b|"
+    r"\bworking\s+terrier\b|"
     r"\bsuitability\b|\bspayed\b|\bneutered\b|"
-    r"\d+\s*(?:up to|/|-)\s*\d+|"
+    r"\b(?:4|6|9|10|12)(?:\s*-\s*1\s*/\s*2|\s*1\s*/\s*2)?\s*"
+    r"(?:up\s+to|/|--|-)\s*"
+    r"(?:6|9|10|12|15)(?:\s*-\s*1\s*/\s*2|\s*1\s*/\s*2)?\b|"
     r"yr\s*&?\s*older|months?\b"
 )
+
+
+def _is_hq_metadata_line(s: str) -> bool:
+    """True for HQ preamble lines (Source/OCR/…) — never class headers."""
+    return bool(re.match(r"(?i)^(?:Source|DerivedYear|OCR|FontHint)\s*:", (s or "").strip()))
 
 
 def _looks_like_class_header_line(s: str) -> bool:
     """True when a short line looks like a recovered class/section title."""
     t = norm_space(s or "")
     if not t or len(t) > 120:
+        return False
+    if _is_hq_metadata_line(t):
         return False
     if _PLACE_FIRST_RE.match(t) or _PLACE_NON_FIRST_RE.match(t):
         return False
@@ -1248,23 +1474,107 @@ def _place_body_as_class_header(s: str) -> str | None:
         return None
     if not _looks_like_class_header_line(body):
         return None
-    if _ENTRIES_COUNT_RE.search(body):
+    if _ENTRIES_COUNT_RE.search(body) or re.search(r"(?i)\bentries\s*:\s*$", body):
         return body
     if re.match(
         r"(?i)^(?:dogs|bitches|pups|puppies|adults?|veterans?|novice|open|"
-        r"advanced|suitability|spayed|neutered|stud\s+dog|brood\s+bitch)\b",
+        r"advanced|suitability|spayed|neutered|stud\s+dog|brood\s+bitch|"
+        r"working\s+terrier)\b",
         body,
     ):
         return body
     return None
 
 
+def _class_entries_n(line: str) -> int | None:
+    m = re.search(r"(?i)\bE(?:n|i|a)tr(?:ies|les|icer)?\s*:\s*(\d+)\b", line)
+    return int(m.group(1)) if m else None
+
+
+def _iter_post_page_missing_header_indices(lines: list[str]) -> list[int]:
+    """Place lines after a completed Entries:N class + page/chrome with no new header.
+
+    True mid-class page breaks (class not yet filled to N) are NOT gaps.
+    Completed class + page/chrome + place (any rank) without a header IS a gap.
+    Column LEFT/RIGHT alone does not arm this (column split may continue a class);
+    ``--- page ---`` and yearbook chrome do.
+    """
+    gaps: list[int] = []
+    entries_n: int | None = None
+    place_ranks: list[int] = []
+    armed_post_page = False
+    page_chrome_re = re.compile(
+        r"(?i)^(?:---\s*page\s+\d+\s*---|JRTCA\b|YEARBOOK\b|continued\b)$"
+    )
+
+    def class_complete() -> bool:
+        if entries_n is None or not place_ranks:
+            return False
+        uniq = set(place_ranks)
+        if len(place_ranks) >= entries_n:
+            return True
+        if max(place_ranks) >= entries_n and len(uniq) >= max(1, entries_n - 1):
+            return True
+        if set(range(1, entries_n + 1)).issubset(uniq):
+            return True
+        return False
+
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if not s:
+            continue
+        if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+            entries_n = _class_entries_n(s)
+            place_ranks = []
+            armed_post_page = False
+            continue
+        if re.match(r"(?i)^E(?:n|i|a)tr(?:ies|les|icer)?\s*:\s*\d+\s*$", s):
+            entries_n = _class_entries_n(s)
+            continue
+        if page_chrome_re.match(s) or (
+            _MARKER_RE.match(s) and re.search(r"(?i)page\s+\d+", s)
+        ):
+            if class_complete():
+                armed_post_page = True
+            continue
+        if _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            # Non-page markers: do not arm; do not clear an already-armed post-page gap.
+            continue
+        if _PLACE_FIRST_RE.match(s) or _PLACE_NON_FIRST_RE.match(s) or _CHAMP_RESERVE_ROLE_RE.match(s):
+            m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+            rank = int(m.group(1)) if m else None
+            if armed_post_page:
+                # Mid-class continuation: ranks keep ascending across the page break.
+                if (
+                    rank is not None
+                    and place_ranks
+                    and rank == max(place_ranks) + 1
+                ):
+                    armed_post_page = False
+                    place_ranks.append(rank)
+                    continue
+                gaps.append(i)
+                armed_post_page = False
+                # New class started without header; reset tracking from this place block.
+                entries_n = None
+                place_ranks = []
+                if rank is not None:
+                    place_ranks.append(rank)
+                continue
+            if rank is not None:
+                place_ranks.append(rank)
+            continue
+    return gaps
+
+
 def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
-    """Indices of ``1st:`` lines that restart a class with no header above.
+    """Indices of place/role lines that restart a class with no header above.
 
     Arms on non-first places and on Champion/Reserve role lines (common before
     Youth/Pee Wee handler blocks under BEST … CHAMPION & RESERVE).
-    Column LEFT/RIGHT markers reset the arm — a new column is not a class gap.
+    Column LEFT/RIGHT markers reset the classic arm (new column is not a gap).
+    Page breaks after a completed Entries:N class arm via
+    ``_iter_post_page_missing_header_indices`` (merged below).
     """
     gaps: list[int] = []
     gap_armed = False
@@ -1272,7 +1582,8 @@ def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
         s = line.strip()
         if not s:
             continue
-        if _COLUMN_MARK_RE.match(s):
+        if _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            # Column/page/ensemble markers: classic mid-class arm resets.
             gap_armed = False
             continue
         if _PLACE_FIRST_RE.match(s):
@@ -1283,7 +1594,11 @@ def _iter_class_header_gap_indices(lines: list[str]) -> list[int]:
             gap_armed = True
         elif _SECTIONISH_RE.search(s) or _looks_like_class_header_line(s):
             gap_armed = False
-    return gaps
+    # Merge post-page missing-header gaps (dedicated FAIL pattern).
+    for gi in _iter_post_page_missing_header_indices(lines):
+        if gi not in gaps:
+            gaps.append(gi)
+    return sorted(gaps)
 
 
 def _line_fingerprint_keys(s: str) -> set[str]:
@@ -2049,6 +2364,14 @@ def _dedupe_adjacent_class_headers(text: str) -> str:
         return text
     out: list[str] = []
     for ln in text.splitlines():
+        # Never merge BEST…RESERVE banners with Best:/Reserve:/Champion: role
+        # lines — that dropped ``BEST WORKING TERRIER DOG & RESERVE`` before
+        # ``Best: KaCee Mad Dog`` and hid C7.
+        if _BEST_RESERVE_ROLE_LINE_RE.match(ln.strip()) or (
+            out and _BEST_RESERVE_ROLE_LINE_RE.match(out[-1].strip())
+        ):
+            out.append(ln)
+            continue
         if (
             out
             and (
@@ -2344,6 +2667,17 @@ def finalize_results_ocr(text: str) -> str:
     """
     if not text:
         return text
+    # OCR often emits Entries; instead of Entries: — treat as colon so class
+    # headers disarm C1 (1999 Vol III pt2 Working Terrier / Bronze Medallion).
+    text = re.sub(r"(?i)\bEntries\s*;", "Entries:", text)
+    # Role colon spacing: ``RESERVE : Name`` / ``BEST : Name``
+    text = re.sub(
+        r"(?im)^(Best|Reserve|Champion)\s+:\s*",
+        lambda m: f"{m.group(1).capitalize()}: ",
+        text,
+    )
+    # OCR-eaten section banners (leading B/C/P/W dropped or punct-substituted)
+    text = _repair_mangled_section_banner_prefixes(text)
     text = fix_ocr_li_confusion(_strip_gutter_noise(text))
     # Multi-place glue before smash unsmash — clears false C1 from ``1st:…5th:``
     text = _split_glued_multi_place_lines(text)
@@ -2352,6 +2686,8 @@ def finalize_results_ocr(text: str) -> str:
     text = _unglue_place_embedded_class_headers(text)
     # ``1st: teserve:`` / ``1st: 5t:`` role/rank dust before true body
     text = _repair_mangled_place_role_prefixes(text)
+    # Working Terrier / Natural Instinct title reused as Best/Champ section
+    text = _repair_wt_best_champ_section_headers(text)
     # Youth Handler ``2nd``/``1st``/``2nd`` duplicate dust
     text = _dedupe_adjacent_identical_place_lines(text)
     # ``3rd`` before ``1st`` under same header (column merge) — clear false C1
@@ -2379,6 +2715,22 @@ def finalize_results_ocr(text: str) -> str:
     i = 0
     while i < len(lines):
         ln = lines[i]
+        # Page/cert numbers parked alone after column markers are not entry counts
+        if (
+            re.fullmatch(r"\d{1,3}", ln.strip())
+            and glued
+            and re.match(r"(?i)^---\s*column\s+(?:LEFT|RIGHT)\s*---$", glued[-1].strip())
+        ):
+            i += 1
+            continue
+        # Lone digits immediately before a page break are folio noise
+        if (
+            re.fullmatch(r"\d{1,3}", ln.strip())
+            and i + 1 < len(lines)
+            and re.match(r"(?i)^---\s*page\s+\d+\s*---$", lines[i + 1].strip())
+        ):
+            i += 1
+            continue
         if (
             i + 1 < len(lines)
             and re.fullmatch(r"\d{1,2}", lines[i + 1].strip())
@@ -2399,8 +2751,125 @@ def finalize_results_ocr(text: str) -> str:
     text = _dedupe_adjacent_class_headers(
         "\n".join(_drop_duplicate_owner_crumb_lines(glued))
     )
+    text = _drop_stray_orphan_entry_counts(text)
+    text = _drop_garble_place_without_owner(text)
     # O6: extend stub surnames only when a longer same-doc OCR form exists
     return _complete_owner_tail_stubs_from_document(text)
+
+
+def _looks_like_results_structure_line(ln: str) -> bool:
+    s = (ln or "").strip()
+    if not s:
+        return False
+    if re.match(r"(?i)^---\s*(?:page|column)\b", s):
+        return True
+    if re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:", s):
+        return True
+    if re.search(r"(?i)\bentries\s*:", s):
+        return True
+    if _looks_like_class_header_line(s):
+        return True
+    return False
+
+
+def _drop_stray_orphan_entry_counts(text: str) -> str:
+    """Drop bare 1-3 digit lines that are not true Entries: counts.
+
+    Keeps a digit glued to a bare ``Entries:`` / class header (finalize already
+    merges those earlier). Drops folio crumbs beside page/column markers, digits
+    after a line that already has ``Entries: N``, and garble islands.
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out: list[str] = []
+    n = len(lines)
+    marker_re = re.compile(r"(?i)^---\s*(?:page|column)\b")
+    for i, ln in enumerate(lines):
+        s = ln.strip()
+        if not re.fullmatch(r"\d{1,3}", s):
+            out.append(ln)
+            continue
+        prev = lines[i - 1].strip() if i else ""
+        nxt = lines[i + 1].strip() if i + 1 < n else ""
+        # Folio / column gutter numbers
+        if marker_re.match(prev) or marker_re.match(nxt):
+            continue
+        if s.startswith("0") and len(s) >= 2:
+            continue
+        # Prior line already carries Entries: N — this digit is stray
+        if re.search(r"(?i)\bentries\s*:\s*\d+", prev):
+            continue
+        # Keep only when attaching to bare Entries: / class header without count
+        if re.search(r"(?i)entries\s*:\s*$", prev) or (
+            _looks_like_class_header_line(prev) and not re.search(r"(?i)\bentries\s*:\s*\d+", prev)
+        ):
+            out.append(ln)
+            continue
+        if re.search(r"(?i)entries\s*:\s*$", nxt) or (
+            _looks_like_class_header_line(nxt) and not re.search(r"(?i)\bentries\s*:\s*\d+", nxt)
+        ):
+            out.append(ln)
+            continue
+        # Otherwise stray (between places, after handler blocks, garble zones)
+        continue
+    return "\n".join(out)
+
+
+def _drop_garble_place_without_owner(text: str) -> str:
+    """Drop place/champ lines that are OCR garble and lack owned/handled by.
+
+    Drops when the body is low-alpha junk, or when the next place line is the
+    same rank with a real owned/handled clause (duplicate garble before clean).
+    Does not invent names.
+    """
+    if not text:
+        return text
+    place_re = re.compile(
+        r"(?i)^((?:\d+(?:st|nd|rd|th)|champion|reserve)\s*:)\s*(.*)$"
+    )
+    ownerish = re.compile(
+        r"(?i)\b(?:owned|bred)\s+by\b|\bhandl(?:ed|ing)\b|\bowner\s+not\s+provided\b"
+    )
+    lines = text.splitlines()
+    out: list[str] = []
+    n = len(lines)
+    for i, ln in enumerate(lines):
+        m = place_re.match(ln.strip())
+        if not m or ownerish.search(ln):
+            out.append(ln)
+            continue
+        role = m.group(1).lower().rstrip()
+        body = m.group(2).strip()
+        nxt = lines[i + 1].strip() if i + 1 < n else ""
+        nm = place_re.match(nxt)
+        if nm and nm.group(1).lower().rstrip() == role and ownerish.search(nxt):
+            # Duplicate place: keep the clean owned-by line, drop this one
+            continue
+        if "," not in ln:
+            out.append(ln)
+            continue
+        letters = sum(ch.isalpha() for ch in body)
+        ratio = letters / max(len(body), 1)
+        # Truncated owner crumbs like ``..., ow`` stay for eyes-on / O6
+        if re.search(r"(?i),\s*ow\s*$", body):
+            out.append(ln)
+            continue
+        if letters >= 3 and ratio >= 0.55 and not re.search(
+            r"[~|{}[\]]{1,}|\bPSS\b|\bSAREE\b|\bVwliou\b|\bTalbrmvrm\b", body
+        ):
+            # Trailing garble after a plausible short dog+owner crumb
+            if re.search(r"(?i),\s*[A-Z][a-z]{2,}(?:\s+\S+){0,3}\s+[a-z]{1,3}\s+[a-z]{1,3}\b", body):
+                # e.g. Jackie, Sustell th BIC yk… — keep only Dog, Surname if 1 token after comma looks like name
+                left, right = body.split(",", 1)
+                tok = right.strip().split()
+                if tok and re.match(r"^[A-Z][a-z]{2,}$", tok[0]) and len(tok) >= 4:
+                    out.append(f"{m.group(1)} {left.strip()}, owned by {tok[0]}")
+                    continue
+            out.append(ln)
+            continue
+        continue
+    return "\n".join(out)
 
 
 # Residual OCR failure signatures — if these remain AFTER finalize, the page
@@ -2415,7 +2884,13 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
         r'(?i)\b10\s*-\s*12\s+2\s*"?|\b10\s*-\s*12\s+12\s*"?|\b12\s+2\s*-\s*15\s*"?|'
         r'\b12\s*%\s*2\b|\b12\s+2\s+up\s+to\s+15\b'
     )),
-    ("champ_abbrev", re.compile(r"(?i)\bChamp\s*:")),
+    # Truncated racing/conformation champ labels (Cham/Reser/rampion/serve)
+    ("champ_abbrev", re.compile(
+        r"(?im)(?:\bChamp\s*:|"
+        r"^(?:\d+(?:st|nd|rd|th)\s*:\s*)?(?:hampion|rampion)\s*:|"
+        r"^[^\n]{0,48}\b(?:Cham|Reser)\b|"
+        r"^(?:\d+(?:st|nd|rd|th)\s*:\s*)?serve:)"
+    )),
     ("height_40_42", re.compile(
         r"(?i)\b40\s*-\s*12\b|\b42\s*1/2\b|\b42\.?112\b|\b42\s*112\b|"
         r"\b42112\s*-\s*45\b|\b4211245\b|\b40\s*-\s*12\s*\.?\s*112\b|"
@@ -2507,8 +2982,7 @@ _OWNER_TAIL_STUBS = frozenset(
         "pryc",
         "veaz",
         "vea",
-        "kman",
-        "ost",
+"ost",
         "osb",
         "tho",
         "brut",
@@ -2546,6 +3020,31 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "bell",
         "kent",
         "yee",
+        "zeh",  # image: Brenda Zeh complete (1997 Vol II pt2 agility)
+        "kman",  # image: Stan & Karen Kman complete (1999 Vol II pt1 Hi Bid)
+        "car",  # image: Jayleen Car complete (1999 Vol III pt2 Dog Pups 6-9 r/br)
+        "deo",  # image: Roy & Sandra Deo complete (1999 Vol I pt1 Sun Dance)
+        "fee",  # image: Dennie/Dennis Fee complete (1999 Vol I pt2 Paramount Ecstasy)
+        "hoy",  # RTF/image: Linda Hoy complete (2000 Vol III pt2 Neutered Adult Dog)
+        "go",  # image: Jon Go / John Go complete (2001 Vol II pt2 p39 Lilliput Fuzz / Woods End Peabody)
+        "foy",  # yearbook: Gail / Gail & Ed Foy complete (1992-1993 Down East*)
+        "orr",  # image: Beth Orr complete (1990)
+        "six",  # image: John Six complete (1991)
+        "jay",  # image: Beth Jay complete (1991)
+        "low",  # Melissa Low/Lowe complete short form
+        "ord",  # image: Jim Ord complete (1990)
+        "fey",  # image: Larry Fey complete (1990)
+        "paz",  # image: Tara Paz complete (1995)
+        "biz",  # image: Tony Biz complete (1995)
+        "jrs",  # kennel: Eastlake JRs complete (1995)
+
+        "nye",  # yearbook: Michael & Andrea Nye complete (1992 Zig)
+        "coe",  # yearbook: Tricia Coe complete (1992 Pippen / Hobbit Hollow)
+        "kai",  # yearbook: Gwen & Randy Kai complete (1992 Hunter's Haven / Button Top)
+        "hey",  # yearbook: Ward Hey / Jamie Hey complete (1992-1994 Fox Run Sadie)
+        "lum",  # yearbook txt: Christopher & Pamela Lum complete (2000 vol 3 pt1 Rimshot)
+        "pan",  # yearbook txt: Luting Pan complete (2000 vol 3 pt1 Long Hope Bambi)
+        "roo",  # yearbook txt: Steve & Betty Roo complete (2000 Vol I Jumping Koxa Roo)
         "wren",
         "quick",
         "wilde",
@@ -2984,6 +3483,13 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
             nxt = dirty_l[len(clean_l) : len(clean_l) + 1]
             if nxt and nxt.isalnum():
                 continue
+            # Extra after clean must look like column-bleed junk, not a
+            # Capitalized surname token (``Jon`` + ``Go`` hid O6 as ``Jon``).
+            extra = dirty[len(clean) :].strip(" .,;:-")
+            if extra:
+                etoks = re.findall(r"[A-Za-z']+", extra)
+                if etoks and all(re.match(r"^[A-Z][a-zA-Z']*$", t) for t in etoks):
+                    continue
             prefix_cands.add(clean)
         if not prefix_cands:
             continue
@@ -2998,6 +3504,606 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
             out[i],
         )
     return "\n".join(out)
+
+
+_BEST_RESERVE_SECTION_RE = re.compile(
+    r"(?i)^(?:(?:SPECIAL\s+AWARD,\s*)?BEST\b.+\bRESERVE\b|"
+    r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6|NATURAL|TERRIER|JRTCA)\b|"
+    # BEST JRTCA WORKING TERRIER (with optional Entries / OCR truncation)
+    r"BEST\s+JRTCA\s+WOR(?:KING)?(?:\s+TERRIER)?\b|"
+    # Best 4 up to 6 months Puppies / Best … Puppies
+    r"Best\s+\d.+\bmonths?\b.*\bPuppies?\b|"
+    # mid-line BEST…RESERVE (e.g. YOUTH HIGH SCORE BEST & RESERVE)
+    r".*\bBEST\b.+\bRESERVE\b|"
+    # BEST … PUP AND RESERVE (AND instead of &)
+    r".*\bBEST\b.+\b(?:AND|&)\s*RESERVE\b|"
+    # BEST MN/WI BRED / BEST NEW ENGLAND BRED (RESERVE optional on banner)
+    r"BEST\b.{0,40}\bBRED\b|"
+    r"BEST\s+OF\s+THE\s+NORTH\b|"
+    r"RACING\s+CHAMPIONS?\b|GO-?TO-?GROUND\s+CHAMPION\b|"
+    r"ADULT\s+RACING\s+CHAMPION\b|PUPPY\s+RACING\s+CHAMPION\b|"
+    r".*\b(?:CONFORMATION\s+)?CHAMPION\s*(?:&|AND)\s*RESERVE\b|"
+    r"(?:WORKING\s+TERRIER|NATURAL\s+INSTINCT)\s+CONFORMATION\s+CHAMPION\b|"
+    # JRTCA Working Terrier Dog/Bitch banners reused as Best sections
+    r"JRTCA\s+WORKING\s+TERRIER\b|"
+    # Certificate / Puppy Championship banners (Reserve may lead Champion)
+    r"(?:VETERAN\s+)?CHAMPIONSHIP\s+CERTIFICATE\b|"
+    r"PUPPY\s+CHAMPIONSHIP\b|"
+    r"PUPPIES?\s*:?\s*$|ADULTS?\s*:?\s*$)"
+)
+_BEST_RESERVE_ROLE_LINE_RE = re.compile(
+    r"(?i)^(?:Best|Reserve|Champion)\s*:\s+\S"
+)
+# Includes smash forms like ``Working 1st Name, Terrier Dog, … Entries: N``.
+# Dog/Bitch Pups titles reused as BEST 4-6 / pup Best sections.
+# Do NOT match bare racing ``Bitch, 10 up to 12 Entries:`` — those need HQ titles.
+_WT_BEST_SECTION_CANDIDATE_RE = re.compile(
+    r"(?i)^(?:(?:JRTCA\s+)?Working\b.*\bTerrier\b|Natural\s+Instinct\b|"
+    r"(?:Dog|Bitch)\s+Pups?,.{0,60}Entries\s*:)"
+)
+
+
+def _repair_mangled_section_banner_prefixes(text: str) -> str:
+    """Restore Championship / Puppy / Working / BEST banners after OCR eats the lead letter."""
+    if not text:
+        return text
+    reps = [
+        # Championship Certificate / Veteran Championship Certificate
+        (r"(?im)^[\*\'\">]hampionship\s+Certificate\b", "Championship Certificate"),
+        (r"(?im)^[\*\'\">]?hampionship\s+Certificate\b", "Championship Certificate"),
+        (r"(?im)^/(?:eteran|Veteran)\s+Championship\s+Certificate\b", "Veteran Championship Certificate"),
+        # Champion: / Reserve: role (leading C/R eaten or case-smashed)
+        (r"(?im)^[\*\'\">]hampion\s*:\s*", "Champion: "),
+        (r"(?im)^1st:\s*[\*\'\">]?hampion\s*:\s*", "Champion: "),
+        # Place-rank glued onto Reserve (column smash): ``5th: eserve: Name``
+        # Drop the false place-rank entirely — keep a clean Reserve role line.
+        (r"(?im)^\d+(?:st|nd|rd|th)\s*:\s*[TtRr]?eserve\s*:\s*", "Reserve: "),
+        (r"(?im)^[Ll]eserve\s*:\s*", "Reserve: "),
+        (r"(?im)^[Tt]?eserve\s*:\s*", "Reserve: "),
+        (r"(?im)^RESERVE\s*:\s*", "Reserve: "),
+        (r"(?im)^BEST\s*:\s*", "Best: "),
+        (r"(?im)^hampion\s*:\s*", "Champion: "),
+        # Puppy Championship (P eaten → uppy / 'uppy)
+        (r"(?im)^[\*\'\"]?uppy\s+Championship\b", "Puppy Championship"),
+        # Working / BEST WORKING (W/B eaten)
+        (r"(?im)^[VvYy]orking\s+Terrier\b", "Working Terrier"),
+        (r"(?im)^EST\s+WORKING\b", "BEST WORKING"),
+        (r"(?im)^EST\s+DOG\b", "BEST DOG"),
+        (r"(?im)^EST\s+BITCH\b", "BEST BITCH"),
+        (r"(?im)^EST\s+OPEN\b", "BEST OPEN"),
+        (r"(?im)^[3B]?EST\s+OPEN\b", "BEST OPEN"),
+        (r"(?im)^[3B]?EST\s+DOG\s+PUPPY\b", "BEST DOG PUPPY"),
+        (r"(?im)^[3B]?EST\s+BITCH\s+PUPPY\b", "BEST BITCH PUPPY"),
+        (r"(?im)^[3B]?EST\s+DOG\s+PUP\b", "BEST DOG PUP"),
+        (r"(?im)^[3B]?EST\s+BITCH\s+PUP\b", "BEST BITCH PUP"),
+        (r"(?im)^EST\s+PUP\b", "BEST PUP"),
+        (r"(?im)^EST\s+MN\b", "BEST MN"),
+        (r"(?im)^EST\s+NEW\s+ENGLAND\b", "BEST NEW ENGLAND"),
+        # Best: role with leading B eaten / Jest OCR
+        (r"(?im)^(?:est|Jest)\s*:\s+", "Best: "),
+        (r"(?im)^ronze\s+Medallion\b", "Bronze Medallion"),
+        # Youth Handler with leading Y eaten
+        (r"(?im)^[\*\'\"]?outh\s+Handler\b", "Youth Handler"),
+        # Racing FLAT / LAT
+        (r"(?im)^LAT\s+RACES\b", "FLAT RACES"),
+        (r"(?im)^IACING\s+DIVISION\b", "RACING DIVISION"),
+    ]
+    out = text
+    for pat, repl in reps:
+        out = re.sub(pat, repl, out)
+    return out
+
+
+def _repair_wt_best_champ_section_headers(text: str) -> str:
+    """Rewrite height-class titles that OCR reused as Best/Champ section headers.
+
+    Yearbooks print ``BEST WORKING TERRIER DOG & RESERVE`` (or conformation
+    Champion & Reserve) after the height classes. OCR often echoes the prior
+    ``Working Terrier Dog, … Entries: N`` title instead, which arms C1/C6
+    incomplete_entries and C7 best_reserve_missing_header. When the next
+    content line is ``Best:`` / ``Champion:``, restore the real section title.
+    """
+    if not text:
+        return text
+    lines = text.splitlines()
+    out = list(lines)
+    for i, ln in enumerate(lines):
+        s = ln.strip()
+        if not _WT_BEST_SECTION_CANDIDATE_RE.match(s):
+            continue
+        if _BEST_RESERVE_SECTION_RE.match(s):
+            continue
+        nxt = None
+        for j in range(i + 1, min(i + 8, len(lines))):
+            t = lines[j].strip()
+            if not t:
+                continue
+            if (
+                _PAGE_BREAK_RE.match(t)
+                or _COLUMN_MARK_RE.match(t)
+                or _MARKER_RE.match(t)
+            ):
+                continue
+            nxt = t
+            break
+        if not nxt:
+            continue
+        role_m = re.match(r"(?i)^(Best|Champion)\s*:\s+\S", nxt)
+        if not role_m:
+            continue
+        if re.search(r"(?i)\bdog\b", s):
+            sex = "DOG"
+        elif re.search(r"(?i)\bbitch\b", s):
+            sex = "BITCH"
+        else:
+            sex = "TERRIER"
+        entries = ""
+        em = re.search(r"(?i)\bEntries\s*:\s*(\d+)", s)
+        if em:
+            entries = f" – Entries: {em.group(1)}"
+        is_ni = bool(re.match(r"(?i)^Natural\s+Instinct", s))
+        is_pup = bool(re.match(r"(?i)^(?:Dog|Bitch)\s+Pups?\b", s))
+        role = role_m.group(1).lower()
+        if is_pup:
+            # Height-class title reused as BEST 4-6 / dog-pup Best section.
+            age = "4-6 MONTH" if re.search(r"(?i)4\s*up\s*to\s*6", s) else "PUP"
+            if role == "best":
+                if sex == "BITCH":
+                    new = f"BEST {age} BITCH PUP & RESERVE{entries}"
+                elif sex == "DOG":
+                    new = f"BEST {age} DOG PUP & RESERVE{entries}"
+                else:
+                    new = f"BEST {age} PUPPY & RESERVE{entries}"
+            else:
+                new = f"PUPPY CONFORMATION CHAMPION & RESERVE{entries}"
+        elif role == "best":
+            if is_ni:
+                new = f"BEST NATURAL INSTINCT {sex} & RESERVE{entries}"
+            else:
+                new = f"BEST WORKING TERRIER {sex} & RESERVE{entries}"
+        else:
+            if is_ni:
+                new = (
+                    f"NATURAL INSTINCT CONFORMATION CHAMPION & RESERVE{entries}"
+                )
+            else:
+                new = f"WORKING TERRIER CONFORMATION CHAMPION & RESERVE{entries}"
+        prefix = ln[: len(ln) - len(ln.lstrip())]
+        out[i] = prefix + new
+    return "\n".join(out)
+
+
+_PAGE_BREAK_RE = re.compile(
+    r"(?i)^(?:---\s*page\s+\d+\s*---|JRTCA\b.*YEARBOOK\b)"
+)
+
+
+def _iter_incomplete_entries_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Entries:N classes that end with a clearly truncated place set.
+
+    Yearbooks often list fewer places than Entries when few dogs placed.
+    FAIL only when Entries:N>=3 has no parseable 1st..6th places at all
+    (partial top-N printouts are normal yearbook style, not FAIL).
+    """
+    hits: list[tuple[str, str]] = []
+    entries_n: int | None = None
+    header = ""
+    place_ranks: list[int] = []
+
+    def flush(sample: str) -> None:
+        nonlocal entries_n, header, place_ranks
+        if entries_n is None:
+            return
+        need = min(entries_n, 6)
+        got = len({r for r in place_ranks if 1 <= r <= 6})
+        # got==0 with N>=3: class had Entries but no parseable places (often smash 1st)
+        severe = got == 0 and entries_n >= 3
+        if severe:
+            hits.append(
+                (
+                    "incomplete_entries",
+                    f"{header[:80]} | places={got}/{need} | {sample[:60]}",
+                )
+            )
+        entries_n = None
+        header = ""
+        place_ranks = []
+
+    for line in lines:
+        if len(hits) >= max_samples:
+            break
+        s = line.strip()
+        if not s:
+            continue
+        if _PAGE_BREAK_RE.match(s) or _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            continue
+        if _BEST_RESERVE_SECTION_RE.match(s) or _BEST_RESERVE_ROLE_LINE_RE.match(s):
+            flush(s)
+            continue
+        # Place lines first: SECTIONISH matches coat words inside names (Smooth Gerald).
+        m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+        if m and entries_n is not None:
+            place_ranks.append(int(m.group(1)))
+            continue
+        if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+            flush(s)
+            n = _class_entries_n(s)
+            # Racing/championship blocks use Champion/Reserve lines, not 1st..6th.
+            # Bare `Entries: N` folio crumbs are not place-classes.
+            if (
+                n is not None
+                and n > 0
+                and not re.match(r"(?i)^entries\s*:", s)
+                and not re.search(r"(?i)\bowned\s+by\b", s)
+                and not re.search(r"(?i)\bDIVISION\b|yearbook\b|\bVol\.?\b", s)
+                and not re.search(
+                    r"(?i)championship|champion\s*&\s*reserve|\bbest\b.+\breserve\b|"
+                    r"\bracing\b|trailing\s*&\s*locating|high\s+score|"
+                    r"^\s*adults?\b|^\s*puppies?\b",
+                    s,
+                )
+            ):
+                entries_n = n
+                header = s
+                place_ranks = []
+            continue
+    flush("EOF")
+    return hits
+
+
+def _is_non_place_result_line(s: str) -> bool:
+    """Champion/Reserve/Best role lines (incl. racing height) — not 1st..6th classes."""
+    if _BEST_RESERVE_SECTION_RE.match(s) or _BEST_RESERVE_ROLE_LINE_RE.match(s):
+        return True
+    # 10-12 1/2" Champion/Reserve: Name...
+    if re.match(
+        r'(?i)^(?:\d|Over|Under).{0,28}(?:Champion|Reserve|Cham|Reser)\b',
+        s,
+    ):
+        return True
+    return False
+
+
+def _iter_midclass_page_dropout_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Mid-class page breaks that resume at a non-next place rank (dropout)."""
+    hits: list[tuple[str, str]] = []
+    in_class = False
+    place_ranks: list[int] = []
+    saw_page = False
+    header = ""
+
+    for line in lines:
+        if len(hits) >= max_samples:
+            break
+        s = line.strip()
+        if not s:
+            continue
+        # HQ preamble (Source: …pdf) can match height-ish SECTIONISH on dates.
+        if _is_hq_metadata_line(s):
+            continue
+        # End place-class tracking before sectionish can re-open on racing results.
+        if _is_non_place_result_line(s):
+            in_class = False
+            place_ranks = []
+            saw_page = False
+            continue
+        # Bare DIVISION banners are section chrome, not place-classes.
+        if re.match(
+            r"(?i)^(?:Conformation|Racing|Go-?to-?Ground|Agility|Obedience|"
+            r"Working(?:\s+Terrier)?)\s+DIVISION\b",
+            s,
+        ):
+            in_class = False
+            place_ranks = []
+            saw_page = False
+            continue
+        if re.search(r"(?i)\bowned\s+by\b", s):
+            # Smashed owner crumbs with Entries must not arm a place-class.
+            continue
+        if re.match(r"(?i)^\d+(?:st|nd|rd|th)\s*:", s):
+            pass  # place handling below; SECTIONISH must not swallow Smooth/Rough names
+        elif _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+            in_class = True
+            place_ranks = []
+            saw_page = False
+            header = s[:80]
+            continue
+        if _PAGE_BREAK_RE.match(s) or (
+            _MARKER_RE.match(s) and re.search(r"(?i)page\s+\d+", s)
+        ):
+            if in_class:
+                saw_page = True
+            continue
+        if _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            continue
+        m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+        if not m:
+            continue
+        rank = int(m.group(1))
+        if rank < 1 or rank > 6:
+            continue
+        if saw_page and in_class:
+            expected = (max(place_ranks) + 1) if place_ranks else 1
+            # Odd-page PDFs / boundary OCR often drop 1-2 place lines, or start a
+            # new class (missing header) at a lower rank. FAIL only on large skips
+            # ahead (rank > expected+2); restarts are class_header_gap territory.
+            if rank > expected + 2:
+                hits.append(
+                    (
+                        "midclass_page_dropout",
+                        f"{header} | after page got {rank}th expected {expected} | {s[:70]}",
+                    )
+                )
+                saw_page = False
+                # treat as new block starting at this rank
+                place_ranks = [rank]
+                continue
+            saw_page = False
+        if in_class:
+            place_ranks.append(rank)
+    return hits
+
+
+
+_TRIAL_TITLE_LINE_RE = re.compile(
+    r"(?i)^(?:"
+    r".{0,80}\b(?:Jack\s+Russell\s+)?Terrier\s+(?:Club\s+)?"
+    r"(?:Fall\s+|Spring\s+|Summer\s+|Winter\s+)?Trials?\b|"
+    r".{0,80}\b(?:Spring|Fall|Summer|Winter|National|Puppy|Hunt|"
+    r"May|June|July|August|September|October|November|December|"
+    r"Inaugural|Annual)\s+Trials?\b|"
+    r".{0,80}\b(?:JRT|JRTC|JRTNNC|JRTCA|PNWJRTN|SWJRTN|MWJRTC|MWIRTC|"
+    r"CCJRTC|OH-?PA)\b.{0,50}\bTrials?\b|"
+    r".{0,80}\b(?:Classic|Festival|Fun\s+(?:Day|Weekend)|"
+    r"Fun\s+N['’]?\s*Games|Promenade|Spring\s+Fling|"
+    r"Memorial(?:\s+Day)?\s+Bash|Celebration|Two\s+Step|"
+    r"Ruckus\s+in\s+the\s+Rockies|Harvest|Terrier\s+Fest|"
+    r"Spectacular|Jamboree|Challenge|Premier|Fling|"
+    r"Ice\s+Breaker|Round\s*-?\s*Up|Rendezvous|Congress|"
+    r"Yuletide|Fiesta|Extravaganza|Research\s+Foundation\s+Trial)\b|"
+    r".{0,60}\bNational(?:s)?\b.{0,24}\bTrials?\b|"
+    r".{0,50}\b(?:Southeast|Southwest|Midwest|Northwest|Northeast)\s+Regional\b|"
+    # Short title line ending in Trial / Trials / Trial I-II
+    r"[A-Z0-9].{2,70}\bTrials?\b(?:\s*[IVX\d]+)?\s*$"
+    r")"
+)
+
+_EARLY_TRIAL_RESTART_RE = re.compile(
+    r"(?i)^(?:"
+    # New-trial restart is conformation start — NOT GTG after racing (same trial).
+    r"CONFORMATION\s+DIVISION\b|"
+    r"DIVISION\s+A,?\s*CONFORMATION\b|"
+    r"Dog\s+Pups?,?\s*6\s+up\s+to\s+9\b|"
+    r"Bitch\s+Pups?,?\s*6\s+up\s+to\s+9\b|"
+    r"Pups?,?\s*4\s+up\s+to\s+6\b|"
+    r"Dog\s+Pups?,?\s*4\s+up\s+to\s+6\b|"
+    r"Puppies\s+4\s+up\s+to\s+6\b|"
+    r"Puppies,?\s*4\s+up\s+to\s+6\b"
+    r")"
+)
+
+_PAGE_NUM_ONLY_RE = re.compile(
+    r"(?i)^(?:---\s*page\s+\d+\s*---|\d{2,3}|19\d{2}\s+JRTCA\s+Yearbook\b.*)$"
+)
+
+
+def _looks_like_trial_title_line(s: str) -> bool:
+    """True when a line is a yearbook trial title at page TOP (not an award cite)."""
+    t = norm_space(s or "")
+    if not t or len(t) < 6 or len(t) > 110:
+        return False
+    if re.search(
+        r"(?i)\b(?:owned\s+by|entries\s*:|summary\s+of|certificates?|"
+        r"trial\s+results)\b",
+        t,
+    ):
+        return False
+    if re.match(r"(?i)^(?:best|reserve|champion)\b", t):
+        return False
+    if re.search(r"(?i)\b(?:champion|reserve)\s*,", t):
+        return False
+    if re.search(r"(?i)trial\s*/\s*date|date\s*&?\s*judge", t):
+        return False
+    if re.match(r"(?i)^\d+(?:st|nd|rd|th)\b", t):
+        return False
+    if not _TRIAL_TITLE_LINE_RE.search(t):
+        return False
+    letters = sum(1 for c in t if c.isalpha())
+    return letters >= 6
+
+
+def _page_has_top_trial_header(tops: list[tuple[int, str]]) -> bool:
+    """Authenticated when a trial title OR Chair+Judges header block is at page top."""
+    if any(_looks_like_trial_title_line(s) for _, s in tops[:10]):
+        return True
+    window = tops[:12]
+    lines = [s for _, s in window]
+    has_chair = any(
+        re.match(r"(?i)^Chair(?:man|person|s)\s*:", s) for s in lines
+    )
+    has_judge = any(re.match(r"(?i)^Judges?\s*:", s) for s in lines)
+    has_where = any(
+        re.search(
+            r"(?i)(?:,\s*(?:January|February|March|April|May|June|July|"
+            r"August|September|October|November|December)\b|"
+            r"\b(?:California|Colorado|Florida|Georgia|Illinois|Kentucky|"
+            r"Maryland|New\s+York|North\s+Carolina|Ohio|Pennsylvania|"
+            r"Tennessee|Texas|Virginia|Washington)\b)",
+            s,
+        )
+        for s in lines
+    )
+    has_conf = any(
+        re.match(r"(?i)^(?:CONFORMATION\s+DIVISION|DIVISION\s+A,?\s*CONFORMATION)\b", s)
+        for s in lines
+    )
+    # Chair + Judges + (place or conformation) authenticates even if title OCR truncated
+    if has_chair and has_judge and (has_where or has_conf):
+        return True
+    # Chair + place + conformation (Judges line often on facing even page)
+    if has_chair and has_where and has_conf:
+        return True
+    # Truncated title line + conformation start (title OCR cut off but trial banner present)
+    if has_conf and any(_looks_like_trial_title_line(s) for s in lines[:4]):
+        return True
+    return False
+
+
+def _iter_missing_trial_header_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """FAIL when class sequence jumps to a new trial without a top-of-page title.
+
+    Trial titles are at the TOP of the page. Yearbook/scan footers and
+    ``--- page N ---`` markers are NOT trial continuity. Never smash classes
+    across a trial boundary: a CONFORMATION restart after late-trial racing
+    champions requires an explicit trial title / header block in the page-top
+    window. Go-to-Ground after racing is same-trial continuation — not a restart.
+    """
+    hits: list[tuple[str, str]] = []
+    page_idxs = [
+        i
+        for i, ln in enumerate(lines)
+        if re.match(r"(?i)^---\s*page\s+\d+\s*---\s*$", ln.strip())
+    ]
+    if not page_idxs:
+        return hits
+
+    def _top_window(start: int, end: int) -> list[tuple[int, str]]:
+        tops: list[tuple[int, str]] = []
+        for j in range(start + 1, end):
+            s = lines[j].strip()
+            if not s:
+                continue
+            if _MARKER_RE.match(s) or _PAGE_NUM_ONLY_RE.match(s):
+                continue
+            if re.match(r"(?i)^(?:Source:|DerivedYear:|OCR:|FontHint:)", s):
+                continue
+            tops.append((j, s))
+            if len(tops) >= 14:
+                break
+        return tops
+
+    def _page_is_late(start: int, end: int) -> bool:
+        """True only for end-of-trial markers (racing champs / late agility)."""
+        nonempty = [
+            lines[j].strip() for j in range(start + 1, end) if lines[j].strip()
+        ]
+        tail = nonempty[-40:]
+        tail_txt = "\n".join(tail)
+        if re.search(r"(?i)\bRACING\s+CHAMPIONS?\b", tail_txt):
+            return True
+        if re.search(r"(?i)\bAgility\s+(?:III|3|CHAMPION)\b", tail_txt):
+            return True
+        if re.search(r"(?i)^(?:ADULTS?|PUPPIES?)\s*:\s*$", tail_txt, re.M) and re.search(
+            r'(?i)^(?:\d|Over|Under).{0,28}(?:Champion|Reserve)\s*:\s*\S',
+            tail_txt,
+            re.M,
+        ):
+            return True
+        return False
+
+    def _page_restarts_trial(tops: list[tuple[int, str]]) -> bool:
+        for _, s in tops:
+            if _looks_like_trial_title_line(s):
+                continue
+            if re.match(r"(?i)^Chair(?:man|person|s)\s*:", s):
+                continue
+            if re.match(r"(?i)^Judges?\s*:", s):
+                continue
+            if re.search(
+                r"(?i),\s*(?:January|February|March|April|May|June|July|"
+                r"August|September|October|November|December)\b",
+                s,
+            ):
+                continue
+            if _EARLY_TRIAL_RESTART_RE.match(s):
+                return True
+            if re.match(
+                r"(?i)^(?:Best|Reserve|Champion|\d+(?:st|nd|rd|th))\s*:", s
+            ):
+                return False
+            if re.match(r"(?i)^(?:ADULTS?|PUPPIES?)\s*:\s*$", s):
+                return False
+            if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+                return False
+        return False
+
+    prev_late = False
+    for pi, start in enumerate(page_idxs):
+        end = page_idxs[pi + 1] if pi + 1 < len(page_idxs) else len(lines)
+        tops = _top_window(start, end)
+        has_header = _page_has_top_trial_header(tops)
+        restarts = _page_restarts_trial(tops)
+        if prev_late and restarts and not has_header:
+            sample = tops[0][1] if tops else lines[start].strip()
+            hits.append(("missing_trial_header", sample[:160]))
+            if len(hits) >= max_samples:
+                return hits
+        prev_late = _page_is_late(start, end)
+    return hits
+
+
+def _iter_best_reserve_missing_header_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Best:/Reserve: role lines without a BEST…RESERVE section header above."""
+    hits: list[tuple[str, str]] = []
+    for i, line in enumerate(lines):
+        if len(hits) >= max_samples:
+            break
+        s = line.strip()
+        # Blank height/role lines (Champ/Reserve with no name) are FAIL.
+        if re.match(
+            r"(?i)^(?:(?:\d|Over|Under).{0,28})?(?:Champion|Reserve|Best)\s*:\s*$",
+            s,
+        ):
+            hits.append(("best_reserve_missing_header", s[:160]))
+            continue
+        if not re.match(r"(?i)^(?:Best|Reserve)\s*:\s+\S", s):
+            continue
+        ok = False
+        for j in range(i - 1, max(-1, i - 24), -1):
+            t = lines[j].strip()
+            if not t:
+                continue
+            if _PAGE_BREAK_RE.match(t) or _COLUMN_MARK_RE.match(t) or _MARKER_RE.match(t):
+                continue
+            # Page-break chrome: trial title reprinted at page TOP between
+            # Champion/Best and the spilled Reserve line — keep scanning.
+            if _looks_like_trial_title_line(t):
+                continue
+            if _BEST_RESERVE_SECTION_RE.match(t):
+                ok = True
+                break
+            # paired Champion/Best immediately above is enough
+            if re.match(r"(?i)^(?:Best|Champion)\s*:\s+\S", t):
+                ok = True
+                break
+            # racing height Champion/Reserve lines
+            if re.match(
+                r'(?i)^(?:\d|Over|Under).{0,24}(?:Champion|Reserve|Cham|Reser)\b',
+                t,
+            ):
+                ok = True
+                break
+            # Place / owned-by crumbs often sit between section header and Reserve
+            # after column merges — keep scanning for the real BEST…RESERVE title.
+            if re.match(r"(?i)^\d+(?:st|nd|rd|th)\s*:", t):
+                continue
+            if re.search(r"(?i)\bowned\s+by\b", t) and not re.match(
+                r"(?i)^(?:Best|Reserve|Champion)\s*:", t
+            ):
+                continue
+            # first non-chrome structural line wasn't a section → missing header
+            break
+        if not ok:
+            hits.append(("best_reserve_missing_header", s[:160]))
+    return hits
 
 
 def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str, str]]:
@@ -3059,10 +4165,231 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
             if n >= max_samples:
                 break
     # Place-rank / Champ-Reserve → 1st gaps with no recoverable title yet
+    # (includes post-page missing header after completed Entries:N class)
     lines = text.splitlines()
     for gi in _iter_class_header_gap_indices(lines)[:max_samples]:
         sample = lines[gi].strip()[:160]
         hits.append(("class_header_gap", sample))
+    # Incomplete Entries:N place sets / mid-class page dropouts / Best-Reserve bare roles
+    for code, sample in _iter_incomplete_entries_hits(lines, max_samples=max_samples):
+        hits.append((code, sample[:160]))
+    for code, sample in _iter_midclass_page_dropout_hits(lines, max_samples=max_samples):
+        hits.append((code, sample[:160]))
+    for code, sample in _iter_best_reserve_missing_header_hits(
+        lines, max_samples=max_samples
+    ):
+        hits.append((code, sample[:160]))
+    for code, sample in _iter_missing_trial_header_hits(
+        lines, max_samples=max_samples
+    ):
+        hits.append((code, sample[:160]))
+    # Two-column smash / column-bleed:
+    # (1) glued or corrupted division titles
+    # (2) same-line place + foreign division keyword
+    # (3) foreign racing/GTG/agility header jammed BETWEEN ascending ranks of a class
+    # Clean DIVISION boundaries and judge lines are not smash.
+    n = 0
+    glued_re = re.compile(
+        r"(?i)STEEPLECHASERACES|GO-TO-GROUNDDIVISION|GOTOGROUNDDIVISION|"
+        r"AGILITYDIVISI[O0]L|CONFORMATIONDIVISION|RACINGDIVISION|"
+        r"Go-?to-?Ground\s*[¢]HAMPION|(?<![A-Za-z])DIVISI[O0]L(?![A-Za-z])|"
+        r"(?<![A-Za-z])\)IVISION(?![A-Za-z])"
+    )
+    foreign_hdr_re = re.compile(
+        r"(?i)^(?:STEEPLECHASE(?:\s+RACES)?|FLAT\s+RACES|RACING\s+DIVISION|"
+        r"ADULT\s+RACING\s+CHAMPION|PUPPY\s+RACING\s+CHAMPION|RACING\s+CHAMPIONS?|"
+        r"GO-?TO-?GROUND\s+DIVISION|AGILITY\s+DIVISION|"
+        r"Go-?to-?Ground\s+CHAMPION)\b"
+    )
+    place_re = re.compile(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:")
+    division_boundary_re = re.compile(
+        r"(?i)^(?:CONFORMATION|RACING|GO-?TO-?GROUND|AGILITY)\s+DIVISION\b"
+    )
+    seen = set()
+    for i, ln in enumerate(lines):
+        if n >= max_samples:
+            break
+        s = ln.strip()
+        if not s:
+            continue
+        if glued_re.search(s):
+            key = ("g", s[:80])
+            if key not in seen:
+                hits.append(("two_column_smash", s[:160]))
+                seen.add(key)
+                n += 1
+            continue
+        pm = place_re.match(s)
+        if not pm:
+            continue
+        # same-line foreign header jammed into a place line
+        if foreign_hdr_re.search(s) and place_re.match(s):
+            # place line that also embeds a division title
+            if re.search(r"(?i)\b(?:STEEPLECHASE|FLAT\s+RACES|RACING\s+DIVISION|GO-?TO-?GROUND\s+DIVISION|AGILITY\s+DIVISION)\b", s):
+                key = ("s", s[:80])
+                if key not in seen:
+                    hits.append(("two_column_smash", s[:160]))
+                    seen.add(key)
+                    n += 1
+                continue
+        rank = int(pm.group(1))
+        # Look forward for next ascending place; if foreign hdr sits between, flag.
+        for j in range(i + 1, min(len(lines), i + 8)):
+            t = lines[j].strip()
+            if not t:
+                continue
+            if division_boundary_re.match(t) or _looks_like_class_header_line(t) or _SECTIONISH_RE.search(t):
+                break  # clean class/division boundary — not mid-class bleed
+            if _MARKER_RE.match(t) or _COLUMN_MARK_RE.match(t):
+                break
+            if foreign_hdr_re.match(t):
+                # foreign header before next place → column bleed
+                key = ("i", t[:80])
+                if key not in seen:
+                    hits.append(("two_column_smash", t[:160]))
+                    seen.add(key)
+                    n += 1
+                break
+            nm = place_re.match(t)
+            if nm:
+                nxt = int(nm.group(1))
+                if nxt == rank + 1:
+                    break  # clean ascending continuation
+                break
+
+    # Truncated / column-bled place bodies (must FAIL; not hidden by PASS).
+    # e.g. "5th: aheen, owned by …", "6th: r, owned by …", "OF WILL-O-MOGOR, owned by …"
+    # Allow legitimate 2-letter ALL-CAPS names (LB, JR) — only flag lowercase
+    # stubs or a single-letter body.
+    n = 0
+    trunc_place_re = re.compile(
+        r"^(?i:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*"
+        r"(?:(?-i:[a-z]).{0,40}|(?-i:[a-z]{1,2}|[A-Z]))\s*,\s*(?i:owned\s+by)\b"
+    )
+    bled_owned_re = re.compile(
+        r"^(?:(?:OF|IN)\s+\S.{0,40}|(?-i:[a-z][A-Za-z']{1,20}))\s*,\s*(?i:owned\s+by)\b"
+    )
+    for ln in lines:
+        if n >= max_samples:
+            break
+        s = ln.strip()
+        if not s:
+            continue
+        if trunc_place_re.match(s):
+            hits.append(("two_column_smash", s[:160]))
+            n += 1
+            continue
+        if (
+            bled_owned_re.match(s)
+            and not re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:", s)
+            and not _looks_like_class_header_line(s)
+        ):
+            hits.append(("two_column_smash", s[:160]))
+            n += 1
+
+
+    # Place lines whose dog/body starts lowercase (crop) or is a "not provided" stub.
+    n = 0
+    lc_place_re = re.compile(
+        r"^(?i:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(?-i:[a-z]).+"
+    )
+    not_prov_re = re.compile(
+        r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*not\s+provided\b"
+    )
+    for ln in lines:
+        if n >= max_samples:
+            break
+        s = ln.strip()
+        if not s:
+            continue
+        if not_prov_re.match(s) or (
+            lc_place_re.match(s)
+            and not re.search(r"(?i)\b(?:owned|bred|handled|handling)\s+by\b", s)
+            and not re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(?:n/?a|none)\s*$", s)
+            and not re.match(
+                r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*disqualified\b",
+                s,
+            )
+        ):
+            # Avoid duplicate if already flagged above
+            hits.append(("two_column_smash", s[:160]))
+            n += 1
+        elif lc_place_re.match(s) and re.search(r"(?i)\bowned\s+by\b", s):
+            # already covered by trunc_place_re; skip
+            pass
+
+
+    # Trailing empty "owned by" (crop) must FAIL.
+    n = 0
+    empty_owned_re = re.compile(r"(?i)\bowned\s+by\s*$")
+    for ln in lines:
+        if n >= max_samples:
+            break
+        s = ln.strip()
+        if empty_owned_re.search(s) and (
+            re.match(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:", s)
+            or re.search(r"(?i),\s*owned\s+by\s*$", s)
+            or len(s) <= 80
+        ):
+            hits.append(("owner_tail_trunc", s[:160]))
+            n += 1
+
+    # Orphan owner-crumb runs after trunc/bleed: 3+ bare name/junk lines.
+    # Certificate owner columns alone are not enough — require nearby trunc
+    # place/bleed or digit-junk OCR (3urigo) so we do not FAIL clean tables.
+    n = 0
+    crumb_re = re.compile(
+        r"^(?:"
+        r"[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?"
+        r"|[0-9][A-Za-z][A-Za-z .&']{0,30}"
+        r")$"
+    )
+    placeish_re = re.compile(r"(?i)^(?:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:")
+    digit_junk_re = re.compile(r"^[0-9][A-Za-z]")
+    trunc_nearby_re = re.compile(
+        r"^(?:(?i:\d+(?:st|nd|rd|th)|champion|reserve|best)\s*:\s*(?-i:[a-z]).{0,40}"
+        r"|(?:OF|IN)\s+\S.{0,40}"
+        r"|(?-i:[a-z][A-Za-z']{1,20}))\s*,\s*(?i:owned\s+by)\b"
+    )
+    i = 0
+    while i < len(lines) and n < max_samples:
+        s = lines[i].strip()
+        if (
+            crumb_re.match(s)
+            and not placeish_re.match(s)
+            and not _looks_like_class_header_line(s)
+            and not _SECTIONISH_RE.search(s)
+        ):
+            run = [s]
+            j = i + 1
+            while j < len(lines):
+                t = lines[j].strip()
+                if not t:
+                    j += 1
+                    continue
+                if (
+                    crumb_re.match(t)
+                    and not placeish_re.match(t)
+                    and not _looks_like_class_header_line(t)
+                    and not _SECTIONISH_RE.search(t)
+                ):
+                    run.append(t)
+                    j += 1
+                    continue
+                break
+            if len(run) >= 3:
+                nearby = "\n".join(x.strip() for x in lines[max(0, i - 6) : i])
+                if any(digit_junk_re.match(x) for x in run) or any(
+                    trunc_nearby_re.match(x.strip()) for x in lines[max(0, i - 6) : i]
+                ):
+                    hits.append(("two_column_smash", " | ".join(run[:4])[:160]))
+                    n += 1
+                i = j
+                continue
+        i += 1
+
+    return hits
+
     return hits
 
 
@@ -3962,8 +5289,13 @@ def normalize_height_class_ocr(text: str) -> str:
         (r'(?i)\b12\s+2\s+up\s+to\s+15\b', '12 1/2 up to 15'),
 
         # Leading 1→4 / 10→40 / 12→42 digit noise on racing/adult heights
+        # "40-12%" / "40-1214"" — 10→40 and 1/2→% or glued (2000 Vol II racing)
+        (r'(?i)\b40\s*-\s*12\s*%', '10-12 1/2"'),
+        (r'(?i)\b40\s*-\s*1214\s*"?:?', '10-12 1/2"'),
         (r'(?i)\b40\s*-\s*12\s*4/2\s*"?:?', '10-12 1/2"'),
         (r'(?i)\b40\s*-\s*12\s*1/2\s*"?:?', '10-12 1/2"'),
+        # "-A0-12'4"" — leading dash/A noise on 10-12 1/2"
+        (r"(?i)(?:^|[\s\"'])-?A?0\s*-\s*12\s*'?4\s*\"?\s*\.?", '10-12 1/2"'),
         # "40-12. 112"" / "40-12 112"" (1/2 → 112, leading 1→4)
         (r'(?i)\b40\s*-\s*12\s*\.?\s*112\s*"?', '10-12 1/2"'),
         # "40-12.4/2:" / "40-12.4/2"" (1→4 in 10 and in 1/2)
@@ -4821,8 +6153,8 @@ def _is_ocr_noise_line(s: str) -> bool:
     if re.search(
         r"(?i)\b(?:owned\s+by|chairperson|chair\s*:|champion|reserve|"
         r"        go-?to-?ground|conformation|novice|open|advanced|starters|"
-        r"puppy|puppies|working\s+terrier|"
-        r"yearbook|best\s+dog|best\s+bitch|steeple|adults?|pair\s+class|veterans?|"
+        r"brace|utility|jumpers?|puppy|puppies|working\s+terrier|"
+        r"yearbook|best\s+dog|best\s+bitch|steeple|stakes\s+race|adults?|pairs?\s+class|veterans?|"
         r"handler|showmanship|pee\s*wee|suitability|spayed|neutered|"
         r"(?:on|off)\s+lead|trailing|locating|"
         r"bitches|dogs|pups|older|months?|"
@@ -4835,18 +6167,22 @@ def _is_ocr_noise_line(s: str) -> bool:
     # Entries: keep class headers + bare ``Entries:``; drop owner-crumb + Entries bleed
     # NOTE: ``Suitability To Red Fox Entries: N`` must stay (was false-noise → C1 gap).
     # NOTE: ``Advanced, On Lead Entries: N`` must stay (was false-noise → C1 gap).
+    # NOTE: Obedience ``Brace`` / ``Utility`` Entries headers must stay (1999 Vol III
+    # pt1 Pioneer Classic: false-noise drop → C1 before His Buddy).
+    # NOTE: ``Pairs Class Entries: N`` must stay (singular ``pair`` missed plural).
     if re.search(r"(?i)\bentries\s*:", s):
         if re.match(r"(?i)^entries\s*:", s):
             return False
         if re.search(
             r"(?i)\b(?:dog|bitch|bitches|dogs|pup|pups|novice|open|advanced|"
-            r"starters|adults?|pair|"
+            r"starters|adults?|pairs?|brace|utility|jumpers?|"
             r"family|bred|youth|child|junior|handler|pee\s*wee|showmanship|"
             r"working|veterans?|racing|agility|steeple|"
             r"(?:on|off)\s+lead|trailing|locating|"
             r"suitability|spayed|neutered|fox|bronze|silver|gold|"
             r"championship|certificate|pre-|gtg|smooth|broken|rough|"
-            r"puppies|bitches|dogs)\b",
+            r"puppies|bitches|dogs|"
+            r"national|challenge|stakes|memorial|kipper|terriers)\b",
             s,
         ):
             return False
@@ -5734,6 +7070,7 @@ def _reorder_scrambled_place_ranks_under_headers(text: str) -> str:
             continue
         block: list[str] = []
         j = i
+        seen_in_block: set[int] = set()
         while j < len(lines):
             js = lines[j].strip()
             if not js:
@@ -5741,6 +7078,14 @@ def _reorder_scrambled_place_ranks_under_headers(text: str) -> str:
                 j += 1
                 continue
             if _PLACE_FIRST_RE.match(js) or _PLACE_NON_FIRST_RE.match(js):
+                rm = rank_re.match(js)
+                r = int(rm.group(1)) if rm else 0
+                # Restarted 1st after prior 1st = next class missing header.
+                # Do not swallow it into this reorder (that hid Sommerwest / C1).
+                if r == 1 and 1 in seen_in_block:
+                    break
+                if r:
+                    seen_in_block.add(r)
                 block.append(lines[j])
                 j += 1
                 continue
@@ -5750,20 +7095,33 @@ def _reorder_scrambled_place_ranks_under_headers(text: str) -> str:
             continue
         # Keep first occurrence of each rank (Youth Handler OCR often echoes
         # ``2nd`` after a late ``1st``). Cap to Entries: N when present.
+        # On duplicate rank, keep the longer line so truncated owners
+        # (``owned by Jon``) do not replace fuller O6 tails (``Jon Go``).
         uniq: list[str] = []
-        seen_r: set[int] = set()
+        seen_r: dict[int, int] = {}
         for ln in places:
             r = int(rank_re.match(ln.strip()).group(1))
             if r in seen_r:
+                idx = seen_r[r]
+                if len(ln.strip()) > len(uniq[idx].strip()):
+                    uniq[idx] = ln
                 continue
-            seen_r.add(r)
+            seen_r[r] = len(uniq)
             uniq.append(ln)
         em = _ENTRIES_COUNT_RE.search(s)
+        # Do NOT truncate place lines to Entries:N — a low OCR count (e.g.
+        # Entries: 4 with a real 5th ``Jon Go``) hid O6 tails. Cap only gates
+        # whether we attempt a reorder, never drops dogs.
         if em:
             cap = int(em.group(1))
-            uniq = [ln for ln in uniq if int(rank_re.match(ln.strip()).group(1)) <= cap][
-                :cap
+            over = [
+                ln
+                for ln in uniq
+                if int(rank_re.match(ln.strip()).group(1)) > cap
             ]
+            if over and cap > 0:
+                # Leave as-is so audit can see surplus places / O6.
+                continue
         ranks = [int(rank_re.match(ln.strip()).group(1)) for ln in uniq]
         if len(uniq) < 1:
             continue

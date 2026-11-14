@@ -1,400 +1,66 @@
 {
   "year": 1997,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
-      "chars_before": 361020,
-      "chars_after": 354971,
+      "chars_before": 355044,
+      "chars_after": 354713,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 20,
-      "warn_hits": 6,
-      "top_codes": "owner_tail_trunc\u00d711,class_header_gap\u00d79,orphan_entry_count\u00d73,missing_owned_by\u00d72,4th_then_2nd\u00d71",
-      "top_catalog": "O6\u00d711,C1\u00d79,C6\u00d73,S4/O\u00d72,?/4th_then_2nd\u00d71",
-      "by_code": {
-        "4th_then_2nd": 1,
-        "owner_tail_trunc": 11,
-        "missing_owned_by": 2,
-        "orphan_entry_count": 3,
-        "class_header_gap": 9
-      },
-      "samples": [
-        {
-          "code": "4th_then_2nd",
-          "catalog": "?",
-          "line": "4th: Farmdliff Justin, owned by Kelly Morander oa rx tf \u00ab{ 1 ELL 4. I LC RTI ad. D1 Ye\n2nd: Farmcliff Snow Flake, owned by Genie Franklin"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Foxy Roxy, owned by Dave & Vincent Ste"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Heaven Hill Foxy, owned by Doug Steph"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "6th: Camerton Hall Peggy Sue, owned by Alte"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Rustler's Camilla Moon, owned by Tony"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "2nd: Rustler's Emma Peel, owned by Tony & Lir"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "6th: Heaven Hill Cody, owned by George & Linc"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "6th: Camerton Hall Peggy Sue, owned by Alta"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "12 1/2-15\" Champion: Bamber, owned by Martha Ler"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Scamper Tally Ho, owned by Brenda Zah"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Farmcliff Monet, owned by Charles & Sally Hickey Tl: Eroclr lace stressed Bir BAA"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Long Hope Mickey, owned by Bob Frankiin ~1 AN tT od RA a 8 i ism Lear Tareas KAArae Ase"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Kingmont Harlaquin, owr 3d by Lynda Banducci"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Buster, ownedby Tim & Wendy Griffith"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "26"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "23"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "1"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Lickity Split Nifty, owned by Darlene McInnes"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Lickity Split Lexus, owned by Darlene Mclnnes"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Heaven Hill Cody, owned by Linda & George Louden"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: R.A. Dixie, owned by Arnaldo Mellado"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Farmcliff Fred, owned by J. Bjorkland & R. Staten"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: ith. Wild Remain Ready, owned by Brenda Roberts"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Foxfield Garth, owned by Debbie McWilliams"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Farmcliff Holland, owned by Douglas & Susan Tack"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Farmciff Ben, owned by Bob Franklin"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc"
-      ]
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
-      "chars_before": 205065,
-      "chars_after": 205064,
+      "chars_before": 209556,
+      "chars_after": 205552,
       "cleaned": true,
-      "verdict": "WARN",
+      "verdict": "PASS",
       "fail_hits": 0,
-      "warn_hits": 2,
-      "top_codes": "missing_owned_by\u00d72",
-      "top_catalog": "S4/O\u00d72",
-      "by_code": {
-        "missing_owned_by": 2
-      },
-      "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: High Mountain Lucy, Karen Vernon"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: , Courtney Bottington"
-        }
-      ],
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
       "reocr_required": false,
       "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 318381,
-      "chars_after": 310643,
+      "chars_before": 328908,
+      "chars_after": 317793,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 8,
-      "warn_hits": 13,
-      "top_codes": "class_header_gap\u00d78,missing_owned_by\u00d77,orphan_entry_count\u00d76",
-      "top_catalog": "C1\u00d78,S4/O\u00d77,C6\u00d76",
-      "by_code": {
-        "missing_owned_by": 7,
-        "orphan_entry_count": 6,
-        "class_header_gap": 8
-      },
-      "samples": [
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Blue Barns Tracker, R. & D. Zampella"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "4th: Timber DiAd~s heameomr, mctim mA Le. OL PY 1"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Katlin Cortenbach, handling Little Orbit of Cortenbach"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "3rd: Kari Carlsen, handling Westgate Ruffian"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "1st: Ali Mae Hop, handling Hopdiggity Checkers"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Pat Martin, handling Bar-C Abilene Rose"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "2nd: Matisse, Ruth Evans"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "8"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "31"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "16"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "17"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "5"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: The Larches Fuego, owned by Joan & Donald LaPlace"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Lost Creek Diesel, owned by H.King/D.McWilliams"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Lickity Split Sassy, owned by Bob Franklin"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Farmcliff Sugar, owned by Genie Franklin"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Hedgerow Mustang Sally, owned by Rhonda Rebhorn"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Lost Creek MacGarthRRR, owned by Mikel Bushman"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: The Larking Lot's Minnie Might, owned by Tina Stafford"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Lost Creek Filly, owned by Rex & Karen Hamblin"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap"
-      ]
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 289240,
-      "chars_after": 280374,
+      "chars_before": 280752,
+      "chars_after": 280833,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 8,
-      "warn_hits": 6,
-      "top_codes": "class_header_gap\u00d75,owner_tail_trunc\u00d73,missing_owned_by\u00d73,orphan_entry_count\u00d73",
-      "top_catalog": "C1\u00d75,O6\u00d73,S4/O\u00d73,C6\u00d73",
-      "by_code": {
-        "owner_tail_trunc": 3,
-        "missing_owned_by": 3,
-        "orphan_entry_count": 3,
-        "class_header_gap": 5
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Scamper Tally-Ho, owned by Brenda Zeh"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "4th: Rainland Hy Type, owned by Forrest & Ann Walling Tie"
-        },
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "1st: Farmcliff Becky, owned by D. Sturz/J.McCoy Ind Eav Bin Inf Airis bar Vialaria WA Ace"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "Champion: Blue Jeans, Donna Pierce"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "5th: Button Top Jim Winston, Joel Pritchet"
-        },
-        {
-          "code": "missing_owned_by",
-          "catalog": "S4/O",
-          "line": "6th: Showbizz Fizz, al Darlene Irvine"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "03"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "10"
-        },
-        {
-          "code": "orphan_entry_count",
-          "catalog": "C6",
-          "line": "12"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Long Hope Minnie, owned by Nellie Niewola"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Sass N' Dash Darby, owned by Michael & Sally Murphy"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Mineral Springs Indiana Bones, owned by Marieliyn Zeock"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Freedom's Striker, owned by Escobedo/D.Sinderud"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "class_header_gap",
-        "owner_tail_trunc"
-      ]
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }
