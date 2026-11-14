@@ -1,26 +1,70 @@
 {
   "year": 1998,
-  "verdict": "PASS",
+  "verdict": "FAIL",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_I\\1998 Vol I, pt 1_ocr_hqmax.txt",
-      "chars_before": 336365,
-      "chars_after": 336365,
-      "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "chars_before": 336413,
+      "chars_after": 336540,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 7,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "best_reserve_missing_header\u00d75,incomplete_entries\u00d71,midclass_page_dropout\u00d71",
+      "top_catalog": "C7\u00d75,C1/C6\u00d71,C1\u00d71",
+      "by_code": {
+        "incomplete_entries": 1,
+        "midclass_page_dropout": 1,
+        "best_reserve_missing_header": 5
+      },
+      "samples": [
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Dogs, 1 yr & older, over 12 1/2-15\" Entries: 19 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
+        },
+        {
+          "code": "midclass_page_dropout",
+          "catalog": "C1",
+          "line": "Bitch Pups, 9 up to 12 months, sm                Entries: 7 | after page got 4th expected 1 | 4th: Eox Run Adlih cwnadbhuDohiloadal"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: The Hollow Kite, owned by Bob & Nancy Lundmark"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "12 %.-15\" Reserve:"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Arrowhead Margarita, owned by Scott"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Mike To Cory, owned by Rudy Mullis"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Tortilla Flat Crunch, owned by Deborah Holly"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "best_reserve_missing_header",
+        "incomplete_entries",
+        "midclass_page_dropout"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_I\\1998 Vol I, pt 2_ocr_hqmax.txt",
-      "chars_before": 11628,
-      "chars_after": 11628,
+      "chars_before": 11518,
+      "chars_after": 11518,
       "cleaned": false,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -34,9 +78,9 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_I\\1998 Vol I, pt 3_ocr_hqmax.txt",
-      "chars_before": 18609,
-      "chars_after": 18609,
-      "cleaned": false,
+      "chars_before": 18567,
+      "chars_after": 18568,
+      "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
       "warn_hits": 0,
@@ -50,62 +94,183 @@
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_II\\1998 Vol II, pt 1_ocr_hqmax.txt",
       "chars_before": 186130,
-      "chars_after": 186130,
-      "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "chars_after": 186112,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 2,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "best_reserve_missing_header\u00d72",
+      "top_catalog": "C7\u00d72",
+      "by_code": {
+        "best_reserve_missing_header": 2
+      },
+      "samples": [
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Katie Clover, owned by Natalene Lamming"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Best: Token Jones, owned by Nancy Adamson"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "best_reserve_missing_header"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_II\\1998 Vol II, pt 2_ocr_hqmax.txt",
       "chars_before": 170079,
-      "chars_after": 170079,
-      "cleaned": false,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "chars_after": 170180,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 4,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "best_reserve_missing_header\u00d73,incomplete_entries\u00d71",
+      "top_catalog": "C7\u00d73,C1/C6\u00d71",
+      "by_code": {
+        "incomplete_entries": 1,
+        "best_reserve_missing_header": 3
+      },
+      "samples": [
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitches, 1 yr & older, 10 up to 12 12\" Entries: 15 | places=0/6 | 10-12 5\" Champion: Lickity Split Sassy, owned by Bob Frankli"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Jeffrey Finkernagel"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Farmcliff Wendy, owned by Bob Franklin 1 4) amir MHA] ow wre. mr tt. CC dk: BE ole ml PN. rumea Baa"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Best: Northwood Simon, owned by Linda Cranford"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "best_reserve_missing_header",
+        "incomplete_entries"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_III\\1998 Vol III, pt 1_ocr_hqmax.txt",
       "chars_before": 227667,
-      "chars_after": 227663,
+      "chars_after": 227714,
       "cleaned": true,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 7,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "best_reserve_missing_header\u00d74,incomplete_entries\u00d73",
+      "top_catalog": "C7\u00d74,C1/C6\u00d73",
+      "by_code": {
+        "incomplete_entries": 3,
+        "best_reserve_missing_header": 4
+      },
+      "samples": [
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Veteran Entries: 7 | places=0/6 | Family Class                                              En"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "YOUTH Agility                                             Entries: 4 | places=0/4 | CONFORMATION DIVISION"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Veteran Entries: 8 | places=0/6 | Family Class                                              En"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Hedgerow Mustang Sally, owned by Rhonda Rebhorn"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Rolling Rock Mia Diamond, owned by Carol Voyles"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Rainland Rae, owned by Robert & Linda Fleck"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: Rainier Jasper, owned by Ann Heneghan"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "best_reserve_missing_header",
+        "incomplete_entries"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_III\\1998 Vol III, pt 2_ocr_hqmax.txt",
       "chars_before": 216493,
-      "chars_after": 216490,
+      "chars_after": 216638,
       "cleaned": true,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 6,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "incomplete_entries\u00d73,best_reserve_missing_header\u00d73",
+      "top_catalog": "C1/C6\u00d73,C7\u00d73",
+      "by_code": {
+        "incomplete_entries": 3,
+        "best_reserve_missing_header": 3
+      },
+      "samples": [
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "ced, On Lead Entries: 5 | places=0/5 | s Agility, Off Lead, 10 up to 12 1\" Entries: 5"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "s Agility, Off Lead, 10 up to 12 1\" Entries: 5 | places=0/5 | I Certificate, Off Lead, 10up to 12%.\" Entries: 1"
+        },
+        {
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "AALEADR ATIAM DIVICION                                                           | places=0/6 | Dog Pups, 4 up to 6 months, smooth             Entries: 2"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Reserve: White Zoo Gyp, owned by Roger & Tabitha Shury"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Best: Copper Horse Salty Dog, owned by David & Lisa McKinney"
+        },
+        {
+          "code": "best_reserve_missing_header",
+          "catalog": "C7",
+          "line": "Best: Fox Run Rigby, owned by Dub & Jan Dale"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "best_reserve_missing_header",
+        "incomplete_entries"
+      ]
     }
   ]
 }
