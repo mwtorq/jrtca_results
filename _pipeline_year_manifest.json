@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T22:23:28Z",
+  "updated": "2026-11-14T18:21:25Z",
   "years": {
     "1997": {
       "a1": "done",
@@ -21,16 +21,19 @@
         "a1_done": "2026-11-07T17:22:23Z",
         "a2_done": "2026-11-07T17:22:48Z",
         "b6_done": "2026-11-07T17:23:16Z",
-        "b6b_done": "2026-11-13T21:48:24Z",
+        "b6b_done": "2026-11-14T04:43:11Z",
         "c10_staged": "2026-11-08T02:19:20Z"
       },
       "b6b": "done",
-      "b6b_verdict": "FAIL",
-      "b6b_unlocked": false,
-      "b6b_fail": 4,
+      "b6b_verdict": "PASS",
+      "b6b_unlocked": true,
+      "b6b_fail": 0,
       "b6b_warn": 0,
-      "b6b_pass": 0,
-      "b6b_cleaned_vols": 4
+      "b6b_pass": 4,
+      "b6b_cleaned_vols": 4,
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "1998": {
       "a1": "done",
@@ -52,16 +55,19 @@
         "a1_done": "2026-11-07T17:22:23Z",
         "a2_done": "2026-11-07T17:24:03Z",
         "b6_done": "2026-11-07T17:24:15Z",
-        "b6b_done": "2026-11-13T21:48:47Z",
+        "b6b_done": "2026-11-14T04:44:00Z",
         "c10_staged": "2026-11-08T02:21:20Z"
       },
       "b6b": "done",
-      "b6b_verdict": "FAIL",
-      "b6b_unlocked": false,
-      "b6b_fail": 7,
+      "b6b_verdict": "PASS",
+      "b6b_unlocked": true,
+      "b6b_fail": 0,
       "b6b_warn": 0,
-      "b6b_pass": 0,
-      "b6b_cleaned_vols": 3
+      "b6b_pass": 7,
+      "b6b_cleaned_vols": 6,
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "1999": {
       "a1": "done",
@@ -83,16 +89,19 @@
         "a1_done": "2026-11-08T15:47:35Z",
         "a2_done": "2026-11-08T15:48:08Z",
         "b6_done": "2026-11-08T15:48:14Z",
-        "b6b_done": "2026-11-13T21:49:12Z",
+        "b6b_done": "2026-11-14T04:44:50Z",
         "c10_staged": "2026-11-08T15:58:54Z"
       },
       "b6b": "done",
-      "b6b_verdict": "FAIL",
-      "b6b_unlocked": false,
-      "b6b_fail": 6,
+      "b6b_verdict": "PASS",
+      "b6b_unlocked": true,
+      "b6b_fail": 0,
       "b6b_warn": 0,
-      "b6b_pass": 0,
-      "b6b_cleaned_vols": 1
+      "b6b_pass": 6,
+      "b6b_cleaned_vols": 6,
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "2000": {
       "a1": "done",
@@ -114,16 +123,19 @@
         "a1_done": "2026-11-08T15:47:35Z",
         "a2_done": "2026-11-08T15:48:53Z",
         "b6_done": "2026-11-08T15:48:55Z",
-        "b6b_done": "2026-11-13T21:49:53Z",
+        "b6b_done": "2026-11-14T04:46:27Z",
         "c10_staged": "2026-11-08T15:58:54Z"
       },
       "b6b": "done",
-      "b6b_verdict": "FAIL",
-      "b6b_unlocked": false,
-      "b6b_fail": 5,
+      "b6b_verdict": "PASS",
+      "b6b_unlocked": true,
+      "b6b_fail": 0,
       "b6b_warn": 0,
-      "b6b_pass": 0,
-      "b6b_cleaned_vols": 1
+      "b6b_pass": 5,
+      "b6b_cleaned_vols": 5,
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "2001": {
       "a1": "done",
@@ -145,16 +157,19 @@
         "a1_done": "2026-11-08T15:47:35Z",
         "a2_done": "2026-11-08T15:49:59Z",
         "b6_done": "2026-11-08T15:50:01Z",
-        "b6b_done": "2026-11-13T21:50:45Z",
+        "b6b_done": "2026-11-14T16:37:32Z",
         "c10_staged": "2026-11-08T15:58:54Z"
       },
       "b6b": "done",
-      "b6b_verdict": "FAIL",
-      "b6b_unlocked": false,
-      "b6b_fail": 14,
+      "b6b_verdict": "PASS",
+      "b6b_unlocked": true,
+      "b6b_fail": 0,
       "b6b_warn": 0,
-      "b6b_pass": 0,
-      "b6b_cleaned_vols": 2
+      "b6b_pass": 14,
+      "b6b_cleaned_vols": 14,
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "1990": {
       "b6b": "done",
@@ -163,10 +178,13 @@
       "b6b_fail": 0,
       "b6b_warn": 0,
       "b6b_pass": 5,
-      "b6b_cleaned_vols": 3,
+      "b6b_cleaned_vols": 5,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:23:28Z"
-      }
+        "b6b_done": "2026-11-14T04:40:07Z"
+      },
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "1991": {
       "b6b": "done",
@@ -175,10 +193,13 @@
       "b6b_fail": 0,
       "b6b_warn": 0,
       "b6b_pass": 4,
-      "b6b_cleaned_vols": 1,
+      "b6b_cleaned_vols": 4,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:21:47Z"
-      }
+        "b6b_done": "2026-11-14T04:40:16Z"
+      },
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "1992": {
       "b6b": "done",
@@ -187,10 +208,13 @@
       "b6b_fail": 0,
       "b6b_warn": 0,
       "b6b_pass": 6,
-      "b6b_cleaned_vols": 4,
+      "b6b_cleaned_vols": 6,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:21:52Z"
-      }
+        "b6b_done": "2026-11-14T04:40:27Z"
+      },
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "1993": {
       "b6b": "done",
@@ -199,10 +223,23 @@
       "b6b_fail": 1,
       "b6b_warn": 0,
       "b6b_pass": 4,
-      "b6b_cleaned_vols": 3,
+      "b6b_cleaned_vols": 5,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:21:57Z"
-      }
+        "b6b_done": "2026-11-14T15:32:46Z"
+      },
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": true,
+      "primary_exceptions": [
+        {
+          "year": 1993,
+          "file": "Document_2026-11-03_224445_ocr_hqmax.txt",
+          "code": "O6",
+          "line": "2nd: Wyndhaven Lonestar, owned by",
+          "reason": "Print owner field blank after force re-OCR; user accepted PRIMARY exception 2026-11-14"
+        }
+      ],
+      "b6b_unlocked_exception": true
     },
     "1994": {
       "b6b": "done",
@@ -211,10 +248,23 @@
       "b6b_fail": 1,
       "b6b_warn": 0,
       "b6b_pass": 7,
-      "b6b_cleaned_vols": 3,
+      "b6b_cleaned_vols": 7,
       "timestamps": {
-        "b6b_done": "2026-11-13T18:15:31Z"
-      }
+        "b6b_done": "2026-11-14T15:38:40Z"
+      },
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": true,
+      "primary_exceptions": [
+        {
+          "year": 1994,
+          "file": "Document_2026-11-04_083342_ocr_hqmax.txt",
+          "code": "O6",
+          "line": "5th: Raheen Doc Holiday, owned by Coffey & Cur",
+          "reason": "Print-edge co-owner trunc after force re-OCR; user accepted PRIMARY exception 2026-11-14"
+        }
+      ],
+      "b6b_unlocked_exception": true
     },
     "1995": {
       "b6b": "done",
@@ -223,22 +273,65 @@
       "b6b_fail": 0,
       "b6b_warn": 0,
       "b6b_pass": 5,
-      "b6b_cleaned_vols": 3,
+      "b6b_cleaned_vols": 5,
       "timestamps": {
-        "b6b_done": "2026-11-13T22:22:03Z"
-      }
+        "b6b_done": "2026-11-14T04:41:02Z"
+      },
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     },
     "1996": {
       "b6b": "done",
-      "b6b_verdict": "FAIL",
-      "b6b_unlocked": false,
-      "b6b_fail": 28,
+      "b6b_verdict": "PASS",
+      "b6b_unlocked": true,
+      "b6b_fail": 0,
       "b6b_warn": 0,
-      "b6b_pass": 2,
-      "b6b_cleaned_vols": 21,
+      "b6b_pass": 30,
+      "b6b_cleaned_vols": 27,
       "timestamps": {
-        "b6b_done": "2026-11-13T21:48:03Z"
-      }
+        "b6b_done": "2026-11-14T04:42:23Z"
+      },
+      "primary": "eligible",
+      "primary_at": "2026-11-14T18:21:25Z",
+      "primary_exception": false
     }
+  },
+  "d17": {
+    "status": "DONE",
+    "cutover_at": "2026-11-14T18:21:25Z",
+    "primary_path": "Updated Yearbook Scans/**/*_ocr_hqmax.txt",
+    "baseline_mirror": "_ocr_baseline_v2/",
+    "scope_years": [
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001
+    ],
+    "primary_exceptions": [
+      {
+        "year": 1993,
+        "file": "Document_2026-11-03_224445_ocr_hqmax.txt",
+        "code": "O6",
+        "line": "2nd: Wyndhaven Lonestar, owned by",
+        "reason": "Print owner field blank after force re-OCR; user accepted PRIMARY exception 2026-11-14"
+      },
+      {
+        "year": 1994,
+        "file": "Document_2026-11-04_083342_ocr_hqmax.txt",
+        "code": "O6",
+        "line": "5th: Raheen Doc Holiday, owned by Coffey & Cur",
+        "reason": "Print-edge co-owner trunc after force re-OCR; user accepted PRIMARY exception 2026-11-14"
+      }
+    ],
+    "note": "Jon Go (2001) cleared; not an exception. No surname invention."
   }
 }

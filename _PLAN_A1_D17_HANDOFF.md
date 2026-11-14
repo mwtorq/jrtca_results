@@ -151,24 +151,23 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 **Exit:** Short consistency report; known issues filed.
 
 ### D17 — Handoff note PRIMARY vs REFERENCE
-**Status:** BLOCKED on 2 honest O6 (Lonestar blank, Coffey trunc)  
-**Intent:** Document what is **PRIMARY** (baseline v2 + rebuilt rows) vs **REFERENCE** (legacy sidecars, old fills, True Grit, archive HTML).  
-**Prep (2026-11-13):** B6b 1990–2001 FAIL=0 except parked O6. No surname invention.  
-**Force re-OCR (2026-11-14, workers=15, page_workers=2):**  
-- **Lonestar (1993):** HQ force (~889s/27p). Page-24 owner field blank — kept FAIL=1.  
-- **Coffey (1994):** HQ force (~543s/26p). Print still `Coffey & Cur` — kept FAIL=1.  
-- **Jon Go (2001 Vol II pt2):** HQ force (~3000s/66p) + p39 band: surname is complete **Go**. Allowlisted + restored dust-stripped lines; B6b 2001 **FAIL=0**.  
-**PRIMARY (draft):** `Updated Yearbook Scans/**/*_ocr_hqmax.txt` + `finalize_results_ocr`; `_ocr_baseline_v2/` audit mirror.  
-**REFERENCE (draft):** legacy sidecars, True Grit/archive HTML; Lonestar/Coffey parked O6 until source has surnames.  
-**Exit:** D17 cutover blocked while 1993+1994 FAIL>0 unless user accepts those two as PRIMARY exceptions.
+**Status:** DONE (2026-11-14) — 1990–2001 cutover with 2 explicit PRIMARY exceptions  
+**Intent:** Document what is **PRIMARY** (ingest/rebuild truth) vs **REFERENCE** (cite only).  
+**PRIMARY:** `Updated Yearbook Scans/**/*_ocr_hqmax.txt` after `finalize_results_ocr`; `_ocr_baseline_v2/` = local audit mirror (gitignored). Manifest: `_pipeline_year_manifest.json` `d17.status=DONE`, years 1990–2001 `primary=eligible`.  
+**REFERENCE:** legacy scan-folder sidecars, True Grit/archive HTML, old fills — never overwrite PRIMARY.  
+**Force re-OCR (2026-11-14, workers=15, page_workers=2):** Lonestar blank; Coffey trunc; Jon Go cleared (complete **Go**).  
+**PRIMARY exceptions (user accepted 2026-11-14 — no surname invention):**  
+1. **1993 Lonestar** — `Document_2026-11-03_224445_ocr_hqmax.txt` — `2nd: Wyndhaven Lonestar, owned by` (print blank).  
+2. **1994 Coffey** — `Document_2026-11-04_083342_ocr_hqmax.txt` — `5th: Raheen Doc Holiday, owned by Coffey & Cur` (print-edge trunc).  
+**Exit met:** Checked-in doctrine in `OCR_PIPELINE.md` §D17 + this section + manifest `d17` stamp; used by all future ingest.
 
 ---
 
 ## Suggested next-session order
-1. Let **A4** 1990–96 tracks finish (`_ocr_a4_trackA/B.log`); then kick **A5** (`--phase a5`).  
-2. Year-pipeline A2→B6→B6b→C10 for each unlocked A4/A5 year.  
-3. **B7** polish (owner/dog column swaps on some trial_cert rows) + **B8** when harvest is enough.  
-4. **C11** anchors; then **C12+** / **D15–D17**.
+1. **D17 DONE** for 1990–2001 — ingest from PRIMARY only; honor Lonestar/Coffey exceptions.  
+2. Year-by-year B6b `--apply` / remount for FAIL=0 years; 1993/1994 only under documented PRIMARY exceptions.  
+3. **A5** (`--phase a5`) for 1984–90 non-yearbook when tess free; then pipeline those years.  
+4. **B7** polish + **B8** when harvest is enough; **C11** anchors; **C12+** / **D15–D16**.
 
 ## Key CLIs / modules
 | Role | Path |

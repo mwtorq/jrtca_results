@@ -45,14 +45,38 @@ Manifest: `_pipeline_year_manifest.json`. Log: `_pipeline_advance.log`.
 
 Output stays under `_ocr_baseline_v2/` (data dir name unchanged). Legacy `_yearbook_meta_strict.py` and `_ocr_baseline_v2_yearbook_9701.py` are deprecation shims only.
 
-## D17 — PRIMARY vs REFERENCE (draft)
+## D17 — PRIMARY vs REFERENCE (DONE 2026-11-14)
 
-**PRIMARY (ingest / rebuild):** committed `Updated Yearbook Scans/**/*_ocr_hqmax.txt` after `finalize_results_ocr`; local `_ocr_baseline_v2/` is the audit mirror (gitignored).
+**Status:** Cutover for **1990–2001**. Future ingest / rebuild / remount MUST use PRIMARY only.
 
-**REFERENCE only:** legacy scan-folder sidecars, True Grit / archive HTML, old fills, and parked O6 owner lines until image evidence recovers surnames (no invention).
+### PRIMARY (source of truth)
 
-**B6b 1990–2001:** FAIL=0 except parked O6 — Lonestar (1993), Coffey (1994). Jon Go (2001) cleared.
+- Committed `Updated Yearbook Scans/**/*_ocr_hqmax.txt` after `finalize_results_ocr`
+- Local audit mirror: `_ocr_baseline_v2/` (gitignored; keep in sync; do not treat as the commit path)
+- Manifest stamp: `_pipeline_year_manifest.json` → `d17.status=DONE`, per-year `primary=eligible`
 
-**Force re-OCR (2026-11-14):** Lonestar blank `owned by` (FAIL=1); Coffey `Coffey & Cur` trunc (FAIL=1); Jon Go page-39 surname complete **Go** → allowlisted, 2001 FAIL=0. D17 blocked on the two remaining honest FAIL unless explicitly accepted.
+### REFERENCE only (cite; never overwrite PRIMARY)
+
+- Legacy scan-folder OCR sidecars / pre-baseline text
+- True Grit / archive HTML / old fills
+- Non-hqmax or pre-finalize dumps
+
+### PRIMARY exceptions (accepted 2026-11-14 — do not invent surnames)
+
+These volumes stay **PRIMARY**. B6b still reports FAIL=1 on the residual line; cutover proceeds with the hole documented. SQL apply for that year may proceed under this exception; do not fabricate the missing owner text.
+
+| Year | File | Residual | Evidence |
+|------|------|----------|----------|
+| **1993** | `Document_2026-11-03_224445_ocr_hqmax.txt` | `2nd: Wyndhaven Lonestar, owned by` (blank) | Force re-OCR + page-24 band: print owner field empty |
+| **1994** | `Document_2026-11-04_083342_ocr_hqmax.txt` | `5th: Raheen Doc Holiday, owned by Coffey & Cur` | Force re-OCR + page-2 band: print-edge trunc |
+
+**Cleared (not an exception):** 2001 Jon Go / John Go — page-39 surname **Go** is complete; allowlisted; B6b 2001 FAIL=0.
+
+### Operator rules after cutover
+
+1. Ingest/rebuild from PRIMARY hqmax only.
+2. Never copy REFERENCE sidecars over PRIMARY.
+3. Do not “fix” Lonestar/Coffey by inventing surnames; only replace if new PDF/page evidence appears.
+4. Year-by-year B6b `--apply` is allowed for FAIL=0 years; for 1993/1994 only under the exceptions above.
 
 See `_PLAN_A1_D17_HANDOFF.md` §D17.
