@@ -625,6 +625,18 @@ def fix_place_rank_ocr(text: str) -> str:
         r"\1 ",
         text or "",
     )
+    # ``4th: h: Name`` / ``1st: th Name`` column-dust ordinals
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*h:\s*",
+        r"\1 ",
+        text or "",
+    )
+    text = re.sub(
+        r"(?im)^(\d+(?:st|nd|rd|th)\s*:)\s*th\s+(?=[A-Z\"'])",
+        r"\1 ",
+        text or "",
+    )
+    text = re.sub(r"(?im)^hampionship\b", "Championship", text or "")
     # Truncated Best/Puppy section banners
     text = re.sub(r"(?im)^est\s*:\s*", "Best: ", text or "")
     text = re.sub(r"(?im)^3est\s*:\s*", "Best: ", text or "")
@@ -898,6 +910,8 @@ def _repair_orphan_owned_by_places(text: str) -> str:
             missing = [p for p in range(1, 7) if p not in placed]
             for orphan, pnum in zip(orphans, missing):
                 body = re.sub(r"(?i)^(?:\d*(?:st|nd|rd|th)\s*:)\s*", "", orphan).strip()
+                # OCR letter-dust ranks: ``d: Name`` / ``h: Name`` / ``tt Name``
+                body = re.sub(r"(?i)^(?:[a-z]{1,2}\s*:|tt)\s*", "", body).strip()
                 placed[pnum] = f"{_place_ordinal(pnum)}: {body}"
             orphans = orphans[len(missing) :]  # unused leftovers
             rebuilt = [placed[p] for p in sorted(placed)]
