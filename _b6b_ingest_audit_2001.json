@@ -1,6 +1,6 @@
 {
   "year": 2001,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Coal Tree Farm_ocr_hqmax.txt",
@@ -154,28 +154,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 333330,
-      "chars_after": 333064,
+      "chars_before": 333340,
+      "chars_after": 333074,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71",
-      "top_catalog": "O6\u00d71",
-      "by_code": {
-        "owner_tail_trunc": 1
-      },
-      "samples": [
-        {
-          "code": "owner_tail_trunc",
-          "catalog": "O6",
-          "line": "5th: Lilliput Fuzz, owned by Jon Go"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "owner_tail_trunc"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Yankee_ocr_hqmax.txt",

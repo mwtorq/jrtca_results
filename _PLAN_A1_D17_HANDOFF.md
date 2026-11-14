@@ -151,16 +151,16 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 **Exit:** Short consistency report; known issues filed.
 
 ### D17 — Handoff note PRIMARY vs REFERENCE
-**Status:** IN PROGRESS (force re-OCR of 3 parked O6 in flight / partial)  
+**Status:** BLOCKED on 2 honest O6 (Lonestar blank, Coffey trunc)  
 **Intent:** Document what is **PRIMARY** (baseline v2 + rebuilt rows) vs **REFERENCE** (legacy sidecars, old fills, True Grit, archive HTML).  
-**Prep (2026-11-13):** B6b 1990–2001 FAIL=0 except parked O6 — Lonestar (1993), Coffey (1994), Jon Go (2001 Vol II pt2). No surname invention.  
+**Prep (2026-11-13):** B6b 1990–2001 FAIL=0 except parked O6. No surname invention.  
 **Force re-OCR (2026-11-14, workers=15, page_workers=2):**  
-- **Lonestar (1993):** HQ force done (~889s/27p). Page-24 band shows blank after `owned by` (1st/3rd Kris Mackay are neighbors — do not copy). Restored cleaned LFS text; B6b 1993 **FAIL=1** O6.  
-- **Coffey (1994):** HQ force done (~543s/26p). Print still ends `Coffey & Cur`; B6b 1994 **FAIL=1** O6. Restored cleaned LFS (raw force left many extra residuals).  
-- **Jon Go (2001 Vol II pt2):** force re-OCR running.  
-**PRIMARY (draft):** `Updated Yearbook Scans/**/*_ocr_hqmax.txt` + `finalize_results_ocr` (committed truth); `_ocr_baseline_v2/` local audit mirror.  
-**REFERENCE (draft):** legacy sidecars, True Grit/archive HTML, parked O6 lines with confirmed blank/trunc print.  
-**Exit:** Checked-in note (e.g. `OCR_PIPELINE.md` or expand this file) used by all future ingest. D17 resume only if remaining FAIL=0; else report honest FAIL.
+- **Lonestar (1993):** HQ force (~889s/27p). Page-24 owner field blank — kept FAIL=1.  
+- **Coffey (1994):** HQ force (~543s/26p). Print still `Coffey & Cur` — kept FAIL=1.  
+- **Jon Go (2001 Vol II pt2):** HQ force (~3000s/66p) + p39 band: surname is complete **Go**. Allowlisted + restored dust-stripped lines; B6b 2001 **FAIL=0**.  
+**PRIMARY (draft):** `Updated Yearbook Scans/**/*_ocr_hqmax.txt` + `finalize_results_ocr`; `_ocr_baseline_v2/` audit mirror.  
+**REFERENCE (draft):** legacy sidecars, True Grit/archive HTML; Lonestar/Coffey parked O6 until source has surnames.  
+**Exit:** D17 cutover blocked while 1993+1994 FAIL>0 unless user accepts those two as PRIMARY exceptions.
 
 ---
 
