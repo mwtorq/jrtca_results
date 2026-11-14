@@ -1264,10 +1264,13 @@ def _normalize_owned_by_ocr(text: str) -> str:
         r"\1",
         text,
     )
-    # Trailing 1–2 lowercase dust: "owned by Debra Ellis i" / "… Reifel ed"
-    # (middle initials are uppercase / dotted; Jr/Sr kept)
+    # Trailing OCR dust after owned-by:
+    # - lowercase 1–2 letters: "Debra Ellis i" / "Reifel ed"
+    # - ALL-CAPS 2-letter column chrome: "Bob Franklin BR" / "Hickey TY"
+    # Do NOT strip Title-case short surnames (Go/Ng/Yu) — that hid O6.
     text = re.sub(
-        r"(?im)(\bowned\s+by\b[^\n]{2,80}?[A-Za-z.]{2,})\s+(?!jr\b|sr\b)[a-z]{1,2}\s*$",
+        r"(?im)(\bowned\s+by\b[^\n]{2,80}?[A-Za-z.]{2,})\s+(?!jr\b|sr\b)"
+        r"(?:(?-i:[a-z]{1,2})|(?-i:[A-Z]{2}))\s*$",
         r"\1",
         text,
     )
@@ -2361,6 +2364,14 @@ def _dedupe_adjacent_class_headers(text: str) -> str:
         return text
     out: list[str] = []
     for ln in text.splitlines():
+        # Never merge BEST…RESERVE banners with Best:/Reserve:/Champion: role
+        # lines — that dropped ``BEST WORKING TERRIER DOG & RESERVE`` before
+        # ``Best: KaCee Mad Dog`` and hid C7.
+        if _BEST_RESERVE_ROLE_LINE_RE.match(ln.strip()) or (
+            out and _BEST_RESERVE_ROLE_LINE_RE.match(out[-1].strip())
+        ):
+            out.append(ln)
+            continue
         if (
             out
             and (
@@ -3471,6 +3482,13 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
             nxt = dirty_l[len(clean_l) : len(clean_l) + 1]
             if nxt and nxt.isalnum():
                 continue
+            # Extra after clean must look like column-bleed junk, not a
+            # Capitalized surname token (``Jon`` + ``Go`` hid O6 as ``Jon``).
+            extra = dirty[len(clean) :].strip(" .,;:-")
+            if extra:
+                etoks = re.findall(r"[A-Za-z']+", extra)
+                if etoks and all(re.match(r"^[A-Z][a-zA-Z']*$", t) for t in etoks):
+                    continue
             prefix_cands.add(clean)
         if not prefix_cands:
             continue
@@ -3489,7 +3507,11 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
 
 _BEST_RESERVE_SECTION_RE = re.compile(
     r"(?i)^(?:(?:SPECIAL\s+AWARD,\s*)?BEST\b.+\bRESERVE\b|"
-    r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6|NATURAL|TERRIER)\b|"
+    r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6|NATURAL|TERRIER|JRTCA)\b|"
+    # BEST JRTCA WORKING TERRIER (with optional Entries / OCR truncation)
+    r"BEST\s+JRTCA\s+WOR(?:KING)?(?:\s+TERRIER)?\b|"
+    # Best 4 up to 6 months Puppies / Best … Puppies
+    r"Best\s+\d.+\bmonths?\b.*\bPuppies?\b|"
     # mid-line BEST…RESERVE (e.g. YOUTH HIGH SCORE BEST & RESERVE)
     r".*\bBEST\b.+\bRESERVE\b|"
     # BEST … PUP AND RESERVE (AND instead of &)
@@ -3532,6 +3554,9 @@ def _repair_mangled_section_banner_prefixes(text: str) -> str:
         # Champion: / Reserve: role (leading C/R eaten or case-smashed)
         (r"(?im)^[\*\'\">]hampion\s*:\s*", "Champion: "),
         (r"(?im)^1st:\s*[\*\'\">]?hampion\s*:\s*", "Champion: "),
+        # Place-rank glued onto Reserve (column smash): ``5th: eserve: Name``
+        # Drop the false place-rank entirely — keep a clean Reserve role line.
+        (r"(?im)^\d+(?:st|nd|rd|th)\s*:\s*[TtRr]?eserve\s*:\s*", "Reserve: "),
         (r"(?im)^[Ll]eserve\s*:\s*", "Reserve: "),
         (r"(?im)^[Tt]?eserve\s*:\s*", "Reserve: "),
         (r"(?im)^RESERVE\s*:\s*", "Reserve: "),
@@ -3715,7 +3740,7 @@ def _iter_incomplete_entries_hits(
                 and not re.search(
                     r"(?i)championship|champion\s*&\s*reserve|\bbest\b.+\breserve\b|"
                     r"\bracing\b|trailing\s*&\s*locating|high\s+score|"
-                    r"^\s*adults?\s*:|^\s*puppies?\s*:",
+                    r"^\s*adults?\b|^\s*puppies?\b",
                     s,
                 )
             ):
@@ -7044,6 +7069,7 @@ def _reorder_scrambled_place_ranks_under_headers(text: str) -> str:
             continue
         block: list[str] = []
         j = i
+        seen_in_block: set[int] = set()
         while j < len(lines):
             js = lines[j].strip()
             if not js:
@@ -7051,6 +7077,14 @@ def _reorder_scrambled_place_ranks_under_headers(text: str) -> str:
                 j += 1
                 continue
             if _PLACE_FIRST_RE.match(js) or _PLACE_NON_FIRST_RE.match(js):
+                rm = rank_re.match(js)
+                r = int(rm.group(1)) if rm else 0
+                # Restarted 1st after prior 1st = next class missing header.
+                # Do not swallow it into this reorder (that hid Sommerwest / C1).
+                if r == 1 and 1 in seen_in_block:
+                    break
+                if r:
+                    seen_in_block.add(r)
                 block.append(lines[j])
                 j += 1
                 continue
@@ -7060,20 +7094,33 @@ def _reorder_scrambled_place_ranks_under_headers(text: str) -> str:
             continue
         # Keep first occurrence of each rank (Youth Handler OCR often echoes
         # ``2nd`` after a late ``1st``). Cap to Entries: N when present.
+        # On duplicate rank, keep the longer line so truncated owners
+        # (``owned by Jon``) do not replace fuller O6 tails (``Jon Go``).
         uniq: list[str] = []
-        seen_r: set[int] = set()
+        seen_r: dict[int, int] = {}
         for ln in places:
             r = int(rank_re.match(ln.strip()).group(1))
             if r in seen_r:
+                idx = seen_r[r]
+                if len(ln.strip()) > len(uniq[idx].strip()):
+                    uniq[idx] = ln
                 continue
-            seen_r.add(r)
+            seen_r[r] = len(uniq)
             uniq.append(ln)
         em = _ENTRIES_COUNT_RE.search(s)
+        # Do NOT truncate place lines to Entries:N — a low OCR count (e.g.
+        # Entries: 4 with a real 5th ``Jon Go``) hid O6 tails. Cap only gates
+        # whether we attempt a reorder, never drops dogs.
         if em:
             cap = int(em.group(1))
-            uniq = [ln for ln in uniq if int(rank_re.match(ln.strip()).group(1)) <= cap][
-                :cap
+            over = [
+                ln
+                for ln in uniq
+                if int(rank_re.match(ln.strip()).group(1)) > cap
             ]
+            if over and cap > 0:
+                # Leave as-is so audit can see surplus places / O6.
+                continue
         ranks = [int(rank_re.match(ln.strip()).group(1)) for ln in uniq]
         if len(uniq) < 1:
             continue

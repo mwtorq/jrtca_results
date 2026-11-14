@@ -5,7 +5,7 @@
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
       "chars_before": 355044,
-      "chars_after": 354536,
+      "chars_after": 354713,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -19,8 +19,8 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
-      "chars_before": 209770,
-      "chars_after": 201538,
+      "chars_before": 209556,
+      "chars_after": 205552,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -34,8 +34,8 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 328637,
-      "chars_after": 310997,
+      "chars_before": 328908,
+      "chars_after": 317793,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -50,7 +50,7 @@
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
       "chars_before": 280752,
-      "chars_after": 280888,
+      "chars_after": 280833,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,

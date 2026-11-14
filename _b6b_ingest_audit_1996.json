@@ -34,8 +34,8 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt",
-      "chars_before": 56128,
-      "chars_after": 56081,
+      "chars_before": 56164,
+      "chars_after": 56142,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -275,7 +275,7 @@
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt",
       "chars_before": 81904,
-      "chars_after": 81704,
+      "chars_after": 81756,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,

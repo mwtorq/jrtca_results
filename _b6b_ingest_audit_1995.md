@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1995
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=3  PASS=5  WARN=0  FAIL=0
+Volumes: 5  cleaned=5  PASS=5  WARN=0  FAIL=0
 Year verdict: **PASS**  SQL-apply unlock: YES
 
 ## Intent
@@ -20,7 +20,7 @@ Year verdict: **PASS**  SQL-apply unlock: YES
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_124005_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_124704_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_130318_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-04_134403_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-04_142425_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_134403_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_142425_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)

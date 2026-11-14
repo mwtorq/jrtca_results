@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=14  PASS=14  WARN=0  FAIL=0
-Year verdict: **PASS**  SQL-apply unlock: YES
+Volumes: 14  cleaned=14  PASS=13  WARN=0  FAIL=1
+Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -27,9 +27,12 @@ Year verdict: **PASS**  SQL-apply unlock: YES
 | PASS | True | 0 | 0 | — | `2001 PNWJRTN_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Summer Celebration_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Vol II pt 1_ocr_hqmax.txt` |
-| PASS | True | 0 | 0 | — | `2001 Vol II pt 2_ocr_hqmax.txt` |
+| FAIL | True | 1 | 0 | O6×1 | `2001 Vol II pt 2_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Yankee_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Vol III pt 1_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
+
+### `2001 Vol II pt 2_ocr_hqmax.txt` (FAIL)
+- `O6` / `owner_tail_trunc`: 5th: Lilliput Fuzz, owned by Jon Go

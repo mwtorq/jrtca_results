@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1994
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 8  cleaned=3  PASS=7  WARN=0  FAIL=1
+Volumes: 8  cleaned=7  PASS=7  WARN=0  FAIL=1
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -19,10 +19,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_082440_ocr_hqmax.txt` |
 | FAIL | False | 1 | 0 | O6×1 | `Document_2026-11-04_083342_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-04_083655_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-04_084730_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-04_105927_ocr_hqmax.txt` |
-| PASS | False | 0 | 0 | — | `Document_2026-11-04_111318_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_083655_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_084730_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_105927_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_111318_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_113633_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_114039_ocr_hqmax.txt` |
 
