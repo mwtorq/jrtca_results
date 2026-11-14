@@ -1,634 +1,81 @@
 {
   "year": 2000,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_I\\2000 Vol I_ocr_hqmax.txt",
-      "chars_before": 852379,
-      "chars_after": 852005,
+      "chars_before": 844430,
+      "chars_after": 843169,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 29,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d720,incomplete_entries\u00d78,midclass_page_dropout\u00d71",
-      "top_catalog": "C7\u00d720,C1/C6\u00d78,C1\u00d71",
-      "by_code": {
-        "incomplete_entries": 8,
-        "midclass_page_dropout": 1,
-        "best_reserve_missing_header": 20
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Youth Handler Entries: 5 | places=0/5 | Bitch Pups, 9 up to 12 months, r/br                       En"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Youth Handler Entries: 3 | places=0/3 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 9 months, r/br . Entries: 14 | places=0/6 | Dog Pups, 9 up to 12 months, smooth                  Entries"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Youth Handler Entries: 5 | places=0/5 | Judges: Terri Batzer & Nancy Breakstone, Conformation: Larry"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Champienship Certificate, 12 up to 15\" Entries: 15 | places=0/6 | Champion: Westmorland Best Bet Yet, owned by Allen Whitaker"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr. & older, over 12!-15\" Entries: 13 | places=0/6 | Veterans, 6 years & older, over 12/4-15\" Entries: 2"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice Puppy                                                         Entries: 5 | places=0/5 | Novice Adult                                                "
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Open Puppy                                                           Entries: 10 | after page got 6th expected 1 | 6th: Jake, owner not provided"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Fox Island Remy, owned by Lori Thompson"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Charade Ivory, owned by Jim & Jan Brady"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Terrier-ific Blue Jeans, handled by Danielle Schepman"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Hopdiggity Victor, owned by Wendy Calvert"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Fox Island Grit, owned by Dan Grimmel"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Capitola Jack, owned by Sandi Pensinger"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Tippycanoe Storm, owned by Barb Tyler"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Hart Farms Isaac, owned by Cheryl Hart"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Rainland Raymond, owned by Robert & Linda Fleck"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Little Miss Molly, handled by Garrett Erickson"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Kingmont Tipper, owned by Lyndy Banducci"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Hart Farms Nevvar, owned by Colleen Lapello"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Travis Cockman"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: T.J. Farms Hectic, owned by Joe Shapiro & Brooks Kelley"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: The Larches Liam McGee, owned by Don & Joan LaPlace"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Farmcliff Spencer, owned by Bob Franklin Bronze Medallinn Ritch \" Entripe: 9"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_II\\2000 Vol II_ocr_hqmax.txt",
-      "chars_before": 507960,
-      "chars_after": 508148,
+      "chars_before": 502004,
+      "chars_after": 501395,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 46,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d722,incomplete_entries\u00d720,champ_abbrev\u00d73,two_column_smash\u00d71",
-      "top_catalog": "C7\u00d722,C1/C6\u00d720,H8\u00d73,S1-S3\u00d71",
-      "by_code": {
-        "champ_abbrev": 3,
-        "incomplete_entries": 20,
-        "best_reserve_missing_header": 22,
-        "two_column_smash": 1
-      },
-      "samples": [
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "serve: Shingle Oak Willow, owned by Diane Wright"
-        },
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "serve: Fox Run Skye, owned by S. Ferber"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr. & older, 10 up to 121%\" Entries: 25 | places=0/6 | boorhivvy yi RM VIEL, IVUM ED 1272 Entries: 25 | 1st Farmcli"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Pre-Novice Puppy                                                   Entries: 4 | places=0/4 | Novice Puppy                                                "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & older, over 12 1/2-15\" Entries: 15 | places=0/6 | Reserve: Prestige Farms Oliver, owned by Jennifer Gilligan"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Agility II, Off Lead Entries: 6 | places=0/6 | Novice Adult Entries: 6 1st: Farmcliff Spencer, owned by Gen"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "tch Pups, 6 up to 9 months, r/br Entries: 5 | places=0/5 | ch Pups, 9 up to 12 months, smooth Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ch Pups, 9 up to 12 months, smooth Entries: 3 | places=0/3 | ch Pups, 9 up to 12 months, r/br Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr. & older, 10 up to 12 1/2\" Entries: 9 | places=0/6 | Bitches, 1 yr. & older, over 12 1/2-15\" Entries: 10"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr. & older, over 12 1/2-15\" Entries: 10 | places=0/6 | erans, 6 years & older, 10 up to 1214\" Entries: 2"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "erans, 6 years & older, over 1215-15\" Entries: 5 | places=0/5 | PY RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Youth Handler Entries: 9 | places=0/6 | Bitches, 1 yr. & older, 10 up to 12 1/2\", r/br Entries: 6 2n"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bred by Exhibitor Dog Entries: 4 Working Terrier Bitch, 10 up to 12 1/2\", smooth | places=0/4 | Bred by Exhibitor Dog Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ich Pups, 9 up to 12 months, smooth Entries: 3 | places=0/3 | Bitch Pups, 9 up to 12 months, r/br Entries: 6 5th: Cromwell"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Youth Handler Entries: 9 | places=0/6 | Judges: Michelle Davies, Conformation; Liz Valles, Go-to-Gro"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Prestige Farms Oliver, owned by Jennifer Gilligan"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Conquest Scorch, owned by N. Gaye Redpath"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Brandywine Tumble, owned by Brandywine Terriers"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: James Harakaly"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Black Creek Munch, owned by D. & R. Mayfield"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Sugar Creek Mole, owned by Connie Jones"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Long Creek Bristol, owned by Rebecca & Rick Paff"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Conquest Flame, owned by N.G. Redpath"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Sow's Ear White Russian, owned by Karen McCarthy"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Sow's Ear Solitaire, owned by Karen McCarthy Bitches, 1 yr. & older, 12% up to 15\", r/br Entries: 9"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Floss, owned by Michelle Williams"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Conquest Rebound, owned by Tanja Walter"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Troon Quarry Fancy, handled by Nicole Santos"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Ransom Scanner, owned by J. Galterio/C. Ellsworth"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Sunset Acres Klondike, owned by L.& A. Saldivar"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Fox Run Dagger, owned by Sandra Ferber"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Wyndcroft Tiller, owned by Margaret Minutello"
-        },
-        {
-          "code": "two_column_smash",
-          "catalog": "S1-S3",
-          "line": "1st: ti Floss, owned by Michelle Ward"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "champ_abbrev",
-        "incomplete_entries",
-        "two_column_smash"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 vol 3 pt 1_ocr_hqmax.txt",
-      "chars_before": 244045,
-      "chars_after": 244054,
+      "chars_before": 242039,
+      "chars_after": 241843,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 14,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d78,incomplete_entries\u00d76",
-      "top_catalog": "C7\u00d78,C1/C6\u00d76",
-      "by_code": {
-        "incomplete_entries": 6,
-        "best_reserve_missing_header": 8
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Neutered Adult Dog Entries: 5 | places=0/5 | Spayed Adult Bitch                                          "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr. & older, 10 up to 1212\", smooth         Entries: 14 | places=0/6 | Bitches, 1 yr. & older, 10 up to 121\", r/br              Ent"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice                                                             Entries: 5 | places=0/5 | Open                                                        "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child Handler Go-to-Ground Entries: 6 | places=0/6 | Judges: Martyn & Elizabeth Hulme, Confirmation; Cheryl Hart,"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child Handler Entries: 5 | places=0/5 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Youth Handling Agility, On Lead                        Entries: 3 | places=0/3 | uth Handling Agility, Off Lead                         Entri"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Brandywine Kona, owned by Jim & Sally Saul"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Courtwood Caper, owned by Debbie & Rusty Graydon"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Horsemasters Mick, owned by Paul McWilliams"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Brandywine Swap, owned by Karen Fitzpatrick"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Brandywine Swap, owned by Karen Fitzpatrick"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Two Faces Cheeky, owned by Jan DeWinter"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: White Gate Bomber, owned by Nancy Breakstone"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 Vol III pt 1_ocr_hqmax.txt",
-      "chars_before": 345037,
-      "chars_after": 344957,
+      "chars_before": 340889,
+      "chars_after": 340439,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 35,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d721,best_reserve_missing_header\u00d713,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d721,C7\u00d713,C1\u00d71",
-      "by_code": {
-        "incomplete_entries": 21,
-        "midclass_page_dropout": 1,
-        "best_reserve_missing_header": 13
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "zhampionship Certificate, 10 up to 121.\" Entries: 7 | places=0/6 | Champion: Rainland Flurry, owned by Cathy Hedberg"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Novice                                                             Entries: 5 | places=0/5 | Open                                                        "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child Handler Entries: 5 | places=0/5 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "4 Dogs, 1st 1 Pheasant yr. & older, Hill 10 Rocki, up to owned 12\" by Scott & Su | places=0/6 | 12/15\" Reserve: Whippersnapper Samantha, owned by A. Cassity"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "re-Novice Puppy Entries: 14 | places=0/6 | ovice Puppy                                                 "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Spayed Adult Bitch Entries: 5 | places=0/5 | bility To Red Fox Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "bility To Red Fox Entries: 6 | places=0/6 | vility to Gray Fox Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "vility to Gray Fox Entries: 6 | places=0/6 | ups, 6 up to 9 months, smooth Entries: 2"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ups, 6 up to 9 months, r/br Entries: 8 | places=0/6 | ups, 9 up to 12 months, smooth Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ups, 9 up to 12 months, smooth Entries: 3 | places=0/3 | ups, 9 up to 12 months, r/br Entries: 6"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "6 up to 9 months, 10 up to 12 1/2\" Entries: 8 | places=0/6 | 6 up to 9 months, over 12/15\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "6 up to 9 months, over 12/15\" Entries: 5 | places=0/5 | Tanner, owned by Susan Riley,9 up to 12 months, 10 up to 121"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "9 up to 12 months, over 121-15\" Entries: 9 | places=0/6 | 1 yr. & older, 10 up to 12 1/2\" Entries: 13"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "1 yr. & older, 10 up to 12 1/2\" Entries: 13 | places=0/6 | Tyr. & older, over 12 1/2-15\" Entries: 22"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Tyr. & older, over 12 1/2-15\" Entries: 22 | places=0/6 | es, 1 yr. & older, 10 up to 124\" Entries: 17"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "es, 1 yr. & older, 10 up to 124\" Entries: 17 | places=0/6 | es, 1 yr. & older, over 121-15\" Entries: 17"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "es, 1 yr. & older, over 121-15\" Entries: 17 | places=0/6 | rans, 6 years & older, 10 up to 122\" Entries: 13"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "1 Handling Agility, On Lead Entries: 3 | places=0/3 | 1 Handling Agility, Off Lead Entries: 2"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Agility II, Off Lead Entries: 14 | after page got 5th expected 1 | 5th: Christine Roth"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Natural Instinct Micro, owned by Ken & Kathy Bushell"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Cason Quarters Black Jack, owned by P. & P. McConville"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Cason Quarters Starla, owned by Patrick & Paula McConville"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Courtwood Caper, owned by Debbie & Rusty Graydon"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Brandywine Kona, owned by Jim & Sally Saul"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Rainland Rae, owned by Robert & Linda Fleck"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Horsemasters Mick, owned by Paul McWilliams"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Misty Morning Rules, owned by K. Richards/C. Reese"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Springwood Tanner, owned by Susan Reilly"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Skytop Opry, owned by Chris Levine & Stephanie Tay!"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 Vol III pt 2_ocr_hqmax.txt",
-      "chars_before": 244787,
-      "chars_after": 244819,
+      "chars_before": 243332,
+      "chars_after": 243064,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d72,incomplete_entries\u00d71",
-      "top_catalog": "C7\u00d72,C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1,
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Agility I Entries: 3 | places=0/3 | Champion: Fox Chase Maddy, owned by Linda Knowles"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Gathering Storm Krakerjak, owned by J. Thole"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Adam Conrad"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

@@ -1,186 +1,51 @@
 {
   "year": 1996,
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt",
-      "chars_before": 61530,
-      "chars_after": 61448,
+      "chars_before": 61012,
+      "chars_after": 60930,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 9,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77,best_reserve_missing_header\u00d72",
-      "top_catalog": "C1/C6\u00d77,C7\u00d72",
-      "by_code": {
-        "incomplete_entries": 7,
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "RIER AND RESERVE \u2013 Entries: 15 | places=0/6 | tch Solomon, owned by Terry Wellman \u2013 Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to12 months, 10-12 1/2\" \u2013 Entries: 4 | places=0/4 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "6 months                                                                         | places=0/6 | 6 months                                                    "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ths Puppies \u2013 Entries: 10 | places=0/6 | Dog                                                         "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "6 months                                      Entries: 4 | places=0/4 | o 6 months                                                  "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "rrier Dog, 12 1/2-15\" Entries: 3 | places=0/3 | rrier Bitch, 10-12 1/2\" Entries: 4"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "rrier Bitch, 10-12 1/2\" Entries: 4 | places=0/4 | rrier Bitch, 12 1/2-15\" Entries: 1"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Disqualified"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Harfield Jill of Or"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
-      "chars_before": 61437,
-      "chars_after": 61435,
+      "chars_before": 61362,
+      "chars_after": 61360,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d73,best_reserve_missing_header\u00d71",
-      "top_catalog": "C1/C6\u00d73,C7\u00d71",
-      "by_code": {
-        "incomplete_entries": 3,
-        "best_reserve_missing_header": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Junior Handler \u2013 Entries: 14 | places=0/6 | RACING DIVISION"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "MPION AND RESERVE \u2013 Entries: 9 | places=0/6 | Entries: 2"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to12 months, 10-12 1/2\" Entries: 4 | places=0/4 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Vagabond Vsodoo of Little Eden, owned by Michelle Ward"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt",
-      "chars_before": 56722,
-      "chars_after": 56697,
+      "chars_before": 56128,
+      "chars_after": 56081,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 11,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d75,champ_abbrev\u00d73,incomplete_entries\u00d72,class_header_gap\u00d71",
-      "top_catalog": "C7\u00d75,H8\u00d73,C1/C6\u00d72,C1\u00d71",
-      "by_code": {
-        "champ_abbrev": 3,
-        "class_header_gap": 1,
-        "incomplete_entries": 2,
-        "best_reserve_missing_header": 5
-      },
-      "samples": [
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "BEST BITCH & RESER"
-        },
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "BEST BITCH & RESER!"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: White Gate Johnn"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ION & RESERVE \u2013 Entries: 13 | places=0/6 | Dog Pups, 6 up to 12 months, 12 1/2-15\" Entries: 7"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ON & RESERVE \u2013 Entries: 19 | places=0/6 | OBEDIENCE DIVISION"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: White Gate Bom!"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Quarrystone Pit:"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Ash Creek Ghillie"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Windermere Sizz"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "champ_abbrev",
-        "class_header_gap",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt",
@@ -229,120 +94,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt",
-      "chars_before": 49376,
-      "chars_after": 49306,
+      "chars_before": 49291,
+      "chars_after": 49221,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 20,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d718,best_reserve_missing_header\u00d72",
-      "top_catalog": "C1/C6\u00d718,C7\u00d72",
-      "by_code": {
-        "incomplete_entries": 18,
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "6 months                                                    Entries: 15 | places=0/6 | 5 PUPPY CHAMPION & RESERVE \u2013 Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "9 months,r/br                                                  Entries: 9 | places=0/6 | 12 months, smooth                                          E"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "12 months, smooth                                          Entries: 3 | places=0/3 | 12 months, ribnr                                            "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "12 months, ribnr                                               Entries: 9 | places=0/6 | ATION CHAMPION AND RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "smooth                                                  Entries: 10 | places=0/6 | 12\", smooth                                                 "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "'months, 10\" to 12 2            :              Entries: 7 | places=0/6 | 'months, 12 1/2\" to 15\" Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "'months, 12 1/2\" to 15\" Entries: 3 | places=0/3 | Dog Pups, 4 up to 6 m"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "9 months, rough/broken                                    Entries: 6 | places=0/6 | 12months, smooth                                          En"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "12months, smooth                                          Entries: 4 | places=0/4 | 12months, rough/broken                                   Ent"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "5\", rough/broken                                             Entries: 16 | places=0/6 | 1/2\", smooth                                                "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "1/2\", smooth                                                      Entries: 6 | places=0/6 | Novice Adults                                               "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "5 months, smooth                                        Entries: 10 | places=0/6 | 6 months, r/br                                              "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "6 months, r/br                                                   Entries: 8 | places=0/6 | 6 months, smooth                                            "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "6 months, smooth                                            Entries: 11 | places=0/6 | 6 months, r/br                                              "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "9 months, smooth                                                  Entries: 11 | places=0/6 | 9 months, r/br                                              "
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "9 months, r/br                                               Entries: 16 | places=0/6 | 12 months, smooth                                         En"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "12 months, smooth                                         Entries: 6 | places=0/6 | 12 months, r/br                                             "
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Tortilla Flat Crisp"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Button TopTilly"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt",
@@ -361,55 +124,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 front_ocr_hqmax.txt",
-      "chars_before": 46466,
-      "chars_after": 46455,
+      "chars_before": 46265,
+      "chars_after": 46222,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 6,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d74,best_reserve_missing_header\u00d72",
-      "top_catalog": "C1/C6\u00d74,C7\u00d72",
-      "by_code": {
-        "incomplete_entries": 4,
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, 10-12 1/2\" Entries: 4 | places=0/4 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Agility, Off Lead                                                                | places=0/6 | Dog Pups, 6 up to 12 months"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "12 1/2\", smooth \u2013 Entries: 11 | places=0/6 | JRTCA Working Terrier"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ON & RESERVE \u2013 Entries: 3 | places=0/3 | Entries: 20"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Beano of Ravens:"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Foxfield Sprig, owned by Rusty & Debbie Graydon"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt",
@@ -443,715 +169,183 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt",
-      "chars_before": 59885,
-      "chars_after": 59879,
+      "chars_before": 59448,
+      "chars_after": 59403,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 8,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d77,incomplete_entries\u00d71",
-      "top_catalog": "C7\u00d77,C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1,
-        "best_reserve_missing_header": 7
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Sub Novice                                                                       | places=0/6 | AGILITY DIVISION"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Shenanigans Will, owned by Mary Abbc"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Windermere Witewitch of Sow's Ear"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Bowery Bart, owned by Gene Foster"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Foxport Laser of Little Eden, owned by Michelle Ward"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Com Row Tyler, owned by Pam Simmons"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Rustler Billy the Kid, owned by Brenda Swanson"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Button Top Bill, owned by Flo Clark"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt",
-      "chars_before": 71322,
-      "chars_after": 71314,
+      "chars_before": 70571,
+      "chars_after": 70464,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 13,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d77,best_reserve_missing_header\u00d76",
-      "top_catalog": "C1/C6\u00d77,C7\u00d76",
-      "by_code": {
-        "incomplete_entries": 7,
-        "best_reserve_missing_header": 6
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppy Champiorship                                              Entries: 7 | places=0/6 | Champion: Hunter's Run Abigail, owned by Billie & Jackie Kel"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog                                                            Entries: 3 | places=0/3 | Bitch                                                      E"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch                                                      Entries: 7 | places=0/6 | Reserve: Badget, owned by Sandra Ferber & Judy Galterio"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppy Champicmship                                                               | places=0/6 | Champion: Smyky Mountain Scout, owned by Debby Calloway"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Pre-Novice Puppies                                                               | places=0/6 | Reserve: High& Low Hellion, owned by Melissa C. Lowe"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over 12 1/2-15\" Entries: 8 | places=0/6 | Judges: Conformation: Liz Littman; Go-to-Ground: Lynn May Me"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "JRTCA WORKINS TERRIER CONFORMATION CHAI \u2013 Entries: 6 | places=0/6 | Best: Beano of Favenswood, owned by Ben & Jane"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Badget, owned by Sandra Ferber & Judy Galterio"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Maven's Tailor of Briarpatch, owned by Jack & Terri Batzer"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: High& Low Hellion, owned by Melissa C. Lowe"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Beano of Favenswood, owned by Ben & Jane"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Disqualified"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back_ocr_hqmax.txt",
-      "chars_before": 71516,
-      "chars_after": 71516,
+      "chars_before": 70953,
+      "chars_after": 70853,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 8,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d74,best_reserve_missing_header\u00d73,midclass_page_dropout\u00d71",
-      "top_catalog": "C1/C6\u00d74,C7\u00d73,C1\u00d71",
-      "by_code": {
-        "incomplete_entries": 4,
-        "midclass_page_dropout": 1,
-        "best_reserve_missing_header": 3
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over 12 1/2-15\" \u2013 Entries: 8 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppy Champicship                                                                | places=0/6 | Champion: Smuky Mountain Scout, owned by Debby Calloway"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "HAMPION & RESERVE \u2013 Entries: 15 | places=0/6 | Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppy Champiorship                                                   Entries: 6 | places=0/6 | Champion: Dogwood Noisey, owned by L.B. Combs"
-        },
-        {
-          "code": "midclass_page_dropout",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 10-12 1/2\", r/br                                              | after page got 6th expected 1 | 6th: Ashley Zenos"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: High& Low Hellion, owned by Melissa C. Lowe"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Maven's Tailor of Briarpatch, owned by Jack & Terri Batzer"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Briarpatch Soot, owned by Terri Batzer"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries",
-        "midclass_page_dropout"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
-      "chars_before": 63645,
-      "chars_after": 63643,
+      "chars_before": 63336,
+      "chars_after": 63235,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 7,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d74,champ_abbrev\u00d71,class_header_gap\u00d71,incomplete_entries\u00d71",
-      "top_catalog": "C7\u00d74,H8\u00d71,C1\u00d71,C1/C6\u00d71",
-      "by_code": {
-        "champ_abbrev": 1,
-        "class_header_gap": 1,
-        "incomplete_entries": 1,
-        "best_reserve_missing_header": 4
-      },
-      "samples": [
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "PUPPY CONFORMATION CHAMPION AND RESER"
-        },
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "4th: Courtwood Chili, owned by Janet Nugen"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "AMPION & RESERVE \u2013 Entries: 37 | places=0/6 | Bitch Pups, 6 up to 12 months, over 12 1/2"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Wesworld Chaps, owned by Christy Parkinson"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Ash Creek Banshee, owned by Martin & Teresa Gottlieb"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Briarpatch Soot, owned by Jack & Terri"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Baybriar Rudie, owned by Jeannette Hutchison"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "champ_abbrev",
-        "class_header_gap",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
-      "chars_before": 87176,
-      "chars_after": 87165,
+      "chars_before": 86707,
+      "chars_after": 86696,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 6,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d75,champ_abbrev\u00d71",
-      "top_catalog": "C7\u00d75,H8\u00d71",
-      "by_code": {
-        "champ_abbrev": 1,
-        "best_reserve_missing_header": 5
-      },
-      "samples": [
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "BEST 4 - 6 MCNTHS PUPPY CHAMPION & RESER"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Vagabond Voor"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Quarrysbne P"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Vagabord Voo"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Conquest Minute, owned by Gaye Redpath"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Maefield Oliver, owned by Elizabeth Gleaso"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "champ_abbrev"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back_ocr_hqmax.txt",
-      "chars_before": 86079,
-      "chars_after": 86079,
+      "chars_before": 86124,
+      "chars_after": 86124,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d71",
-      "top_catalog": "C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Open Puppies                                                  Entries: 3 | places=0/3 | Open Adults                                                 "
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt",
-      "chars_before": 84470,
-      "chars_after": 84468,
+      "chars_before": 84178,
+      "chars_after": 84118,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 5,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d73,incomplete_entries\u00d72",
-      "top_catalog": "C7\u00d73,C1/C6\u00d72",
-      "by_code": {
-        "incomplete_entries": 2,
-        "best_reserve_missing_header": 3
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, up to 12 1/2\" Entries: 4 | places=0/4 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12 1/2-15\" Entries: 16 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Sows Ear Liberty, owned by Paul Hartman & Karen McCarthy"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Vagabond Voodoo"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Meadowlake Haley:"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt",
-      "chars_before": 82220,
-      "chars_after": 82156,
+      "chars_before": 81904,
+      "chars_after": 81704,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 7,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d75,incomplete_entries\u00d72",
-      "top_catalog": "C7\u00d75,C1/C6\u00d72",
-      "by_code": {
-        "incomplete_entries": 2,
-        "best_reserve_missing_header": 5
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, up to 12 1/2\" Entries: 4 | places=0/4 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12 1/2-15\" Entries: 16 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Sows Ear Liberty, owned by Paul Hartman & Karen McCarthy"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: The Larches Liam McGee"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: The Hollow Blanca, owned by The Holl"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "12 1/2-15\" Champion:"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: RA Piker, owned by George & Linda Louden"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front_ocr_hqmax.txt",
-      "chars_before": 83790,
-      "chars_after": 83791,
+      "chars_before": 83656,
+      "chars_after": 83570,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 5,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d73,best_reserve_missing_header\u00d72",
-      "top_catalog": "C1/C6\u00d73,C7\u00d72",
-      "by_code": {
-        "incomplete_entries": 3,
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dog Pups, 6 up to 12 months, up to 12 1/2\" Entries: 4 | places=0/4 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "12 1/2-15\" Reserve: Rynwards Teasel, ow \u2013 Entries: 10 | places=0/6 | Entries: 3, owned by Sue Hardin"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitches, 1 yr & over, 12 1/2-15\" Entries: 16 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Vagabond Voodoo of Little Eden, owned by Michelle Ward"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Sows Laurel Ear Liberty, Run Orry, owned by by Paul Kate Hartman Bomberger & Karen McCarthy"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt",
-      "chars_before": 87922,
-      "chars_after": 87885,
+      "chars_before": 87480,
+      "chars_after": 87379,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 19,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d710,best_reserve_missing_header\u00d78,champ_abbrev\u00d71",
-      "top_catalog": "C1/C6\u00d710,C7\u00d78,H8\u00d71",
-      "by_code": {
-        "champ_abbrev": 1,
-        "incomplete_entries": 10,
-        "best_reserve_missing_header": 8
-      },
-      "samples": [
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "10-12 1/2\" Reser: Miller Time, owned by Laura O'Leary"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & ovr, 10-12 1/2\", tlbr \u2013 Entries: 5 | places=0/5 | Dogs, yr & over, 12 1/2-15\", smooth"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "12 1/2-15\", smooth                                Entries: 8 | places=0/6 | BEST JRTCA WORKING TERRIER DOG AND RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppy Champiynship                                                   Entries: 3 | places=0/3 | Champion: Jatholes Wild Oats Odie, owned by David Krakow"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "'errier Dog                                                     Entries: 8 | places=0/6 | errier Bitch, 10-12 1/2\" Entries: 5"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "errier Bitch, 10-12 1/2\" Entries: 5 | places=0/5 | errier Bitch, 12 1/2-15\" Entries: 3"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Sub Novice Entries: 9 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "errier Bitch, 12 1/2-15\", r/br                                Entries: 3 | places=0/3 | TERRIER CONFORMATION CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppy Champiotship                                                Entries: 7 | places=0/6 | Champion: Foxport Ivanhoe, owned by Lois Clough"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over 12 1/2-15\" Entries: 12 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "PUPPIES \u2013 Entries: 6 | places=0/6 | 10-12 1/2\" Champion: Farmcliff Spencer, owned by Bob Frankli"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Farmcliff Fied of"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: T.F. Just-A-Flirt"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Foxnorton Tyke"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Windermee We"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: FoxnortonTyke"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Vagabond Vooc"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Fox Run Sly, owned by Sandra Ferber"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "champ_abbrev",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back_ocr_hqmax.txt",
-      "chars_before": 79620,
-      "chars_after": 79619,
+      "chars_before": 79594,
+      "chars_after": 79561,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 5,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d74,champ_abbrev\u00d71",
-      "top_catalog": "C1/C6\u00d74,H8\u00d71",
-      "by_code": {
-        "champ_abbrev": 1,
-        "incomplete_entries": 4
-      },
-      "samples": [
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "10-12 1/2\" Reser: Miller Time, owned by Laura O'Leary"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "PUPPIES \u2013 Entries: 6 | places=0/6 | 10-12 1/2\" Champidn: Farmcliff Spencer, owned by Bob Frankli"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Puppy Champioi ship                                                   Entries: 7 | places=0/6 | Champion: Foxprt lvanhoe, owned by Lois Clough"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & ove: 12 1/2-15\" Entries: 12 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "IAMPION & RESERVE \u2013 Entries: 9 | places=0/6 | Entries: 8"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "champ_abbrev",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 front_ocr_hqmax.txt",
-      "chars_before": 81531,
-      "chars_after": 81527,
+      "chars_before": 81485,
+      "chars_after": 81417,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 6,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d73,best_reserve_missing_header\u00d72,class_header_gap\u00d71",
-      "top_catalog": "C1/C6\u00d73,C7\u00d72,C1\u00d71",
-      "by_code": {
-        "class_header_gap": 1,
-        "incomplete_entries": 3,
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "class_header_gap",
-          "catalog": "C1",
-          "line": "1st: Long Hope Mickey, owned by Bob Franklin"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "ADULTS \u2013 Entries: 5 | places=0/5 | 10-12 1/2\" Champion:  Sparks Will Fly, owned by Patricia Cas"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Bitch \u2013 Entries: 23 | places=0/6 | Entries: 28"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Child Handler                                                               Entr | places=0/3 | Champion: Foxport Keeper, owned by Michelle Ward"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Smokey Mountain Scout, owned by Debby Galloway"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Over 12 1/2\" Champion:"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "class_header_gap",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144208_ocr_hqmax.txt",
@@ -1170,33 +364,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144530_ocr_hqmax.txt",
-      "chars_before": 53696,
-      "chars_after": 53625,
+      "chars_before": 53628,
+      "chars_after": 53557,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d72",
-      "top_catalog": "C7\u00d72",
-      "by_code": {
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Foxport Laser of Little Eden, owned by Michelle Ward"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Reserve: Corn Row Tyler, owned by Pam Simmons"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_145355_ocr_hqmax.txt",
@@ -1245,89 +424,33 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_152834_ocr_hqmax.txt",
-      "chars_before": 48348,
-      "chars_after": 48348,
-      "cleaned": false,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "chars_before": 48212,
+      "chars_after": 48145,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "best_reserve_missing_header\u00d72,incomplete_entries\u00d71",
-      "top_catalog": "C7\u00d72,C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1,
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Dogs, 1 yr & over 12 1/2-15\" Entries: 15 | places=0/6 | ADULT RACING CHAMPION & RESERVE"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Crosswinds Trask, owned by Will Hahn"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Loblolly Scandle, owned by Debra Ellis"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_153208_ocr_hqmax.txt",
-      "chars_before": 33615,
-      "chars_after": 33612,
+      "chars_before": 33312,
+      "chars_after": 33226,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 5,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d72,best_reserve_missing_header\u00d72,champ_abbrev\u00d71",
-      "top_catalog": "C1/C6\u00d72,C7\u00d72,H8\u00d71",
-      "by_code": {
-        "champ_abbrev": 1,
-        "incomplete_entries": 2,
-        "best_reserve_missing_header": 2
-      },
-      "samples": [
-        {
-          "code": "champ_abbrev",
-          "catalog": "H8",
-          "line": "Working Terier Cham"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Best Family                                                                      | places=0/4 | Best: Ash Creek Banshee, owned by Martin & Teresa Gottlieb"
-        },
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "Reserve Open Terrier-North American  Entries: 3 | places=0/3 | EOF"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Ash Creek Banshee, owned by Martin & Teresa Gottlieb"
-        },
-        {
-          "code": "best_reserve_missing_header",
-          "catalog": "C7",
-          "line": "Best: Baybriar Rudie, owned by Jeannette Hutchison"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "best_reserve_missing_header",
-        "champ_abbrev",
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }
