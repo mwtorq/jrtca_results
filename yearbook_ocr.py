@@ -3489,9 +3489,11 @@ def _complete_owner_tail_stubs_from_document(text: str) -> str:
 
 _BEST_RESERVE_SECTION_RE = re.compile(
     r"(?i)^(?:(?:SPECIAL\s+AWARD,\s*)?BEST\b.+\bRESERVE\b|"
-    r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6|NATURAL)\b|"
+    r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6|NATURAL|TERRIER)\b|"
     # mid-line BEST…RESERVE (e.g. YOUTH HIGH SCORE BEST & RESERVE)
     r".*\bBEST\b.+\bRESERVE\b|"
+    # BEST … PUP AND RESERVE (AND instead of &)
+    r".*\bBEST\b.+\b(?:AND|&)\s*RESERVE\b|"
     # BEST MN/WI BRED / BEST NEW ENGLAND BRED (RESERVE optional on banner)
     r"BEST\b.{0,40}\bBRED\b|"
     r"BEST\s+OF\s+THE\s+NORTH\b|"
@@ -3499,6 +3501,8 @@ _BEST_RESERVE_SECTION_RE = re.compile(
     r"ADULT\s+RACING\s+CHAMPION\b|PUPPY\s+RACING\s+CHAMPION\b|"
     r".*\b(?:CONFORMATION\s+)?CHAMPION\s*(?:&|AND)\s*RESERVE\b|"
     r"(?:WORKING\s+TERRIER|NATURAL\s+INSTINCT)\s+CONFORMATION\s+CHAMPION\b|"
+    # JRTCA Working Terrier Dog/Bitch banners reused as Best sections
+    r"JRTCA\s+WORKING\s+TERRIER\b|"
     # Certificate / Puppy Championship banners (Reserve may lead Champion)
     r"(?:VETERAN\s+)?CHAMPIONSHIP\s+CERTIFICATE\b|"
     r"PUPPY\s+CHAMPIONSHIP\b|"
@@ -3511,7 +3515,7 @@ _BEST_RESERVE_ROLE_LINE_RE = re.compile(
 # Dog/Bitch Pups titles reused as BEST 4-6 / pup Best sections.
 # Do NOT match bare racing ``Bitch, 10 up to 12 Entries:`` — those need HQ titles.
 _WT_BEST_SECTION_CANDIDATE_RE = re.compile(
-    r"(?i)^(?:Working\b.*\bTerrier\b|Natural\s+Instinct\b|"
+    r"(?i)^(?:(?:JRTCA\s+)?Working\b.*\bTerrier\b|Natural\s+Instinct\b|"
     r"(?:Dog|Bitch)\s+Pups?,.{0,60}Entries\s*:)"
 )
 
@@ -3529,8 +3533,10 @@ def _repair_mangled_section_banner_prefixes(text: str) -> str:
         (r"(?im)^[\*\'\">]hampion\s*:\s*", "Champion: "),
         (r"(?im)^1st:\s*[\*\'\">]?hampion\s*:\s*", "Champion: "),
         (r"(?im)^[Ll]eserve\s*:\s*", "Reserve: "),
+        (r"(?im)^[Tt]?eserve\s*:\s*", "Reserve: "),
         (r"(?im)^RESERVE\s*:\s*", "Reserve: "),
         (r"(?im)^BEST\s*:\s*", "Best: "),
+        (r"(?im)^hampion\s*:\s*", "Champion: "),
         # Puppy Championship (P eaten → uppy / 'uppy)
         (r"(?im)^[\*\'\"]?uppy\s+Championship\b", "Puppy Championship"),
         # Working / BEST WORKING (W/B eaten)
@@ -3540,6 +3546,10 @@ def _repair_mangled_section_banner_prefixes(text: str) -> str:
         (r"(?im)^EST\s+BITCH\b", "BEST BITCH"),
         (r"(?im)^EST\s+OPEN\b", "BEST OPEN"),
         (r"(?im)^[3B]?EST\s+OPEN\b", "BEST OPEN"),
+        (r"(?im)^[3B]?EST\s+DOG\s+PUPPY\b", "BEST DOG PUPPY"),
+        (r"(?im)^[3B]?EST\s+BITCH\s+PUPPY\b", "BEST BITCH PUPPY"),
+        (r"(?im)^[3B]?EST\s+DOG\s+PUP\b", "BEST DOG PUP"),
+        (r"(?im)^[3B]?EST\s+BITCH\s+PUP\b", "BEST BITCH PUP"),
         (r"(?im)^EST\s+PUP\b", "BEST PUP"),
         (r"(?im)^EST\s+MN\b", "BEST MN"),
         (r"(?im)^EST\s+NEW\s+ENGLAND\b", "BEST NEW ENGLAND"),
