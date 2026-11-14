@@ -44,3 +44,13 @@ cd "c:\Users\mw\OneDrive - timberwilde.net\repos\jrtca_results"
 Manifest: `_pipeline_year_manifest.json`. Log: `_pipeline_advance.log`.
 
 Output stays under `_ocr_baseline_v2/` (data dir name unchanged). Legacy `_yearbook_meta_strict.py` and `_ocr_baseline_v2_yearbook_9701.py` are deprecation shims only.
+
+## D17 — PRIMARY vs REFERENCE (draft)
+
+**PRIMARY (ingest / rebuild):** committed `Updated Yearbook Scans/**/*_ocr_hqmax.txt` after `finalize_results_ocr`; local `_ocr_baseline_v2/` is the audit mirror (gitignored).
+
+**REFERENCE only:** legacy scan-folder sidecars, True Grit / archive HTML, old fills, and parked O6 owner lines until image evidence recovers surnames (no invention).
+
+**B6b 1990–2001 (post false-PASS sweep):** FAIL=0 except parked O6 — Lonestar (1993), Coffey (1994), Jon Go (2001 Vol II pt2). User decision: accept those as PRIMARY exceptions or force re-OCR before SQL apply / cutover.
+
+See `_PLAN_A1_D17_HANDOFF.md` §D17.

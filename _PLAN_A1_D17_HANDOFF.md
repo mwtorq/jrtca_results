@@ -151,8 +151,12 @@ Do **not** wait for all of 1999–2001 before advancing completed years. Tess: A
 **Exit:** Short consistency report; known issues filed.
 
 ### D17 — Handoff note PRIMARY vs REFERENCE
-**Status:** PENDING (this doc is operational; D17 is product doctrine)  
+**Status:** IN PROGRESS (prep after 1990–2001 false-PASS sweep)  
 **Intent:** Document what is **PRIMARY** (baseline v2 + rebuilt rows) vs **REFERENCE** (legacy sidecars, old fills, True Grit, archive HTML).  
+**Prep (2026-11-13):** B6b 1990–2001 FAIL=0 except parked O6 — Lonestar (1993), Coffey (1994), Jon Go (2001 Vol II pt2). No surname invention.  
+**PRIMARY (draft):** `Updated Yearbook Scans/**/*_ocr_hqmax.txt` + `finalize_results_ocr` (committed truth); `_ocr_baseline_v2/` local audit mirror.  
+**REFERENCE (draft):** legacy sidecars, True Grit/archive HTML, parked O6 lines until image evidence.  
+**User decision needed:** accept 3 parked O6 as PRIMARY exceptions vs require force re-OCR before cutover/SQL apply.  
 **Exit:** Checked-in note (e.g. `OCR_PIPELINE.md` or expand this file) used by all future ingest.
 
 ---
