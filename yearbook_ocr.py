@@ -2665,6 +2665,8 @@ def finalize_results_ocr(text: str) -> str:
         lambda m: f"{m.group(1).capitalize()}: ",
         text,
     )
+    # OCR-eaten section banners (leading B/C/P/W dropped or punct-substituted)
+    text = _repair_mangled_section_banner_prefixes(text)
     text = fix_ocr_li_confusion(_strip_gutter_noise(text))
     # Multi-place glue before smash unsmash — clears false C1 from ``1st:…5th:``
     text = _split_glued_multi_place_lines(text)
@@ -3490,11 +3492,16 @@ _BEST_RESERVE_SECTION_RE = re.compile(
     r"BEST\s+(?:DOG|BITCH|PUP|WORKING|OPEN|4-6|NATURAL)\b|"
     # mid-line BEST…RESERVE (e.g. YOUTH HIGH SCORE BEST & RESERVE)
     r".*\bBEST\b.+\bRESERVE\b|"
+    # BEST MN/WI BRED / BEST NEW ENGLAND BRED (RESERVE optional on banner)
+    r"BEST\b.{0,40}\bBRED\b|"
     r"BEST\s+OF\s+THE\s+NORTH\b|"
     r"RACING\s+CHAMPIONS?\b|GO-?TO-?GROUND\s+CHAMPION\b|"
     r"ADULT\s+RACING\s+CHAMPION\b|PUPPY\s+RACING\s+CHAMPION\b|"
     r".*\b(?:CONFORMATION\s+)?CHAMPION\s*(?:&|AND)\s*RESERVE\b|"
     r"(?:WORKING\s+TERRIER|NATURAL\s+INSTINCT)\s+CONFORMATION\s+CHAMPION\b|"
+    # Certificate / Puppy Championship banners (Reserve may lead Champion)
+    r"(?:VETERAN\s+)?CHAMPIONSHIP\s+CERTIFICATE\b|"
+    r"PUPPY\s+CHAMPIONSHIP\b|"
     r"PUPPIES?\s*:?\s*$|ADULTS?\s*:?\s*$)"
 )
 _BEST_RESERVE_ROLE_LINE_RE = re.compile(
@@ -3507,6 +3514,39 @@ _WT_BEST_SECTION_CANDIDATE_RE = re.compile(
     r"(?i)^(?:Working\b.*\bTerrier\b|Natural\s+Instinct\b|"
     r"(?:Dog|Bitch)\s+Pups?,.{0,60}Entries\s*:)"
 )
+
+
+def _repair_mangled_section_banner_prefixes(text: str) -> str:
+    """Restore Championship / Puppy / Working / BEST banners after OCR eats the lead letter."""
+    if not text:
+        return text
+    reps = [
+        # Championship Certificate / Veteran Championship Certificate
+        (r"(?im)^[\*\'\">]hampionship\s+Certificate\b", "Championship Certificate"),
+        (r"(?im)^[\*\'\">]?hampionship\s+Certificate\b", "Championship Certificate"),
+        (r"(?im)^/(?:eteran|Veteran)\s+Championship\s+Certificate\b", "Veteran Championship Certificate"),
+        # Champion: role (leading C eaten)
+        (r"(?im)^[\*\'\">]hampion\s*:\s*", "Champion: "),
+        (r"(?im)^1st:\s*[\*\'\">]?hampion\s*:\s*", "Champion: "),
+        # Puppy Championship (P eaten → uppy / 'uppy)
+        (r"(?im)^[\*\'\"]?uppy\s+Championship\b", "Puppy Championship"),
+        # Working / BEST WORKING (W/B eaten)
+        (r"(?im)^[VvYy]orking\s+Terrier\b", "Working Terrier"),
+        (r"(?im)^EST\s+WORKING\b", "BEST WORKING"),
+        (r"(?im)^EST\s+DOG\b", "BEST DOG"),
+        (r"(?im)^EST\s+BITCH\b", "BEST BITCH"),
+        (r"(?im)^EST\s+OPEN\b", "BEST OPEN"),
+        (r"(?im)^EST\s+PUP\b", "BEST PUP"),
+        (r"(?im)^EST\s+MN\b", "BEST MN"),
+        (r"(?im)^EST\s+NEW\s+ENGLAND\b", "BEST NEW ENGLAND"),
+        # Racing FLAT / LAT
+        (r"(?im)^LAT\s+RACES\b", "FLAT RACES"),
+        (r"(?im)^IACING\s+DIVISION\b", "RACING DIVISION"),
+    ]
+    out = text
+    for pat, repl in reps:
+        out = re.sub(pat, repl, out)
+    return out
 
 
 def _repair_wt_best_champ_section_headers(text: str) -> str:
@@ -3771,7 +3811,7 @@ _TRIAL_TITLE_LINE_RE = re.compile(
     r".{0,80}\b(?:Spring|Fall|Summer|Winter|National|Puppy|Hunt|"
     r"May|June|July|August|September|October|November|December|"
     r"Inaugural|Annual)\s+Trials?\b|"
-    r".{0,80}\b(?:JRT|JRTC|JRTNNC|JRTCA|PNWJRTN|SWJRTN|MWJRTC|"
+    r".{0,80}\b(?:JRT|JRTC|JRTNNC|JRTCA|PNWJRTN|SWJRTN|MWJRTC|MWIRTC|"
     r"CCJRTC|OH-?PA)\b.{0,50}\bTrials?\b|"
     r".{0,80}\b(?:Classic|Festival|Fun\s+(?:Day|Weekend)|"
     r"Fun\s+N['’]?\s*Games|Promenade|Spring\s+Fling|"
@@ -3987,6 +4027,10 @@ def _iter_best_reserve_missing_header_hits(
             if not t:
                 continue
             if _PAGE_BREAK_RE.match(t) or _COLUMN_MARK_RE.match(t) or _MARKER_RE.match(t):
+                continue
+            # Page-break chrome: trial title reprinted at page TOP between
+            # Champion/Best and the spilled Reserve line — keep scanning.
+            if _looks_like_trial_title_line(t):
                 continue
             if _BEST_RESERVE_SECTION_RE.match(t):
                 ok = True
