@@ -3525,9 +3525,12 @@ def _repair_mangled_section_banner_prefixes(text: str) -> str:
         (r"(?im)^[\*\'\">]hampionship\s+Certificate\b", "Championship Certificate"),
         (r"(?im)^[\*\'\">]?hampionship\s+Certificate\b", "Championship Certificate"),
         (r"(?im)^/(?:eteran|Veteran)\s+Championship\s+Certificate\b", "Veteran Championship Certificate"),
-        # Champion: role (leading C eaten)
+        # Champion: / Reserve: role (leading C/R eaten or case-smashed)
         (r"(?im)^[\*\'\">]hampion\s*:\s*", "Champion: "),
         (r"(?im)^1st:\s*[\*\'\">]?hampion\s*:\s*", "Champion: "),
+        (r"(?im)^[Ll]eserve\s*:\s*", "Reserve: "),
+        (r"(?im)^RESERVE\s*:\s*", "Reserve: "),
+        (r"(?im)^BEST\s*:\s*", "Best: "),
         # Puppy Championship (P eaten → uppy / 'uppy)
         (r"(?im)^[\*\'\"]?uppy\s+Championship\b", "Puppy Championship"),
         # Working / BEST WORKING (W/B eaten)
@@ -3536,9 +3539,14 @@ def _repair_mangled_section_banner_prefixes(text: str) -> str:
         (r"(?im)^EST\s+DOG\b", "BEST DOG"),
         (r"(?im)^EST\s+BITCH\b", "BEST BITCH"),
         (r"(?im)^EST\s+OPEN\b", "BEST OPEN"),
+        (r"(?im)^[3B]?EST\s+OPEN\b", "BEST OPEN"),
         (r"(?im)^EST\s+PUP\b", "BEST PUP"),
         (r"(?im)^EST\s+MN\b", "BEST MN"),
         (r"(?im)^EST\s+NEW\s+ENGLAND\b", "BEST NEW ENGLAND"),
+        # Best: role with leading B eaten
+        (r"(?im)^est\s*:\s+", "Best: "),
+        # Youth Handler with leading Y eaten
+        (r"(?im)^[\*\'\"]?outh\s+Handler\b", "Youth Handler"),
         # Racing FLAT / LAT
         (r"(?im)^LAT\s+RACES\b", "FLAT RACES"),
         (r"(?im)^IACING\s+DIVISION\b", "RACING DIVISION"),
