@@ -51,6 +51,8 @@ Output stays under `_ocr_baseline_v2/` (data dir name unchanged). Legacy `_yearb
 
 **REFERENCE only:** legacy scan-folder sidecars, True Grit / archive HTML, old fills, and parked O6 owner lines until image evidence recovers surnames (no invention).
 
-**B6b 1990–2001 (post false-PASS sweep):** FAIL=0 except parked O6 — Lonestar (1993), Coffey (1994), Jon Go (2001 Vol II pt2). User decision: accept those as PRIMARY exceptions or force re-OCR before SQL apply / cutover.
+**B6b 1990–2001 (post false-PASS sweep):** FAIL=0 except parked O6 — Lonestar (1993), Coffey (1994), Jon Go (2001 Vol II pt2).
+
+**Force re-OCR (2026-11-14):** Lonestar page owner field blank (kept FAIL=1); Coffey still `Coffey & Cur` (kept FAIL=1); Jon Go force in progress. No surname invention. D17 cutover only after FAIL=0 or explicit accept of remaining honest FAIL.
 
 See `_PLAN_A1_D17_HANDOFF.md` §D17.

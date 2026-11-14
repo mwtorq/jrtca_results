@@ -1,5 +1,15 @@
 [
   {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 2_ocr_hqmax.txt",
+    "codes": [
+      "owner_tail_trunc"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "O6\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
     "year": 1993,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
     "codes": [
@@ -12,16 +22,6 @@
   {
     "year": 1994,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083342_ocr_hqmax.txt",
-    "codes": [
-      "owner_tail_trunc"
-    ],
-    "fail_hits": 1,
-    "top_catalog": "O6\u00d71",
-    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
-  },
-  {
-    "year": 2001,
-    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 2_ocr_hqmax.txt",
     "codes": [
       "owner_tail_trunc"
     ],
