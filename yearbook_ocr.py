@@ -3543,8 +3543,9 @@ def _repair_mangled_section_banner_prefixes(text: str) -> str:
         (r"(?im)^EST\s+PUP\b", "BEST PUP"),
         (r"(?im)^EST\s+MN\b", "BEST MN"),
         (r"(?im)^EST\s+NEW\s+ENGLAND\b", "BEST NEW ENGLAND"),
-        # Best: role with leading B eaten
-        (r"(?im)^est\s*:\s+", "Best: "),
+        # Best: role with leading B eaten / Jest OCR
+        (r"(?im)^(?:est|Jest)\s*:\s+", "Best: "),
+        (r"(?im)^ronze\s+Medallion\b", "Bronze Medallion"),
         # Youth Handler with leading Y eaten
         (r"(?im)^[\*\'\"]?outh\s+Handler\b", "Youth Handler"),
         # Racing FLAT / LAT
