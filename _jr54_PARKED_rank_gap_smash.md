@@ -173,3 +173,11 @@ High-res column/strip OCR (fitz 3.5–4x + Tesseract) still missing owned-by lin
 - Agility II Off Lead: missing 4th between Bella and Sugar (p45)
 - Bitches 10–12.5" r/br: missing 5th between Natasha and Adins/Arlins Trax (p47)
 - Veterans 10–12.5" (later trial): missing 3rd between Revion and Jiminy (p49)
+
+## 2000 Vol I � residual place_rank_gap (post 78cbdca+)
+High-res OCR still missing/ambiguous owned-by:
+- p45 Oak Grove Lucky 6th orphan across page break (p44/45)
+- p118 Bracken 5th after R.A Legacy column mash
+- p126 Crossruff Tayana missing 3rd/4th in Revue/Frankie class
+- p140 Sows Ear Anaman 6th orphan (Red Fox column)
+- p142 Texas Star Braveheart 3->5 (PDF order conflicts with HQ Mustang lead-in)
