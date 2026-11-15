@@ -2959,6 +2959,9 @@ _OCR_AUDIT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("entriess", re.compile(r"(?i)\bEntriess\b|\bEntries\s+\d+\b")),
     ("4th_then_2nd", re.compile(r"(?im)^4th\s*:.*\n2nd\s*:")),
     ("4th_then_6th_no_5", re.compile(r"(?im)^4th\s*:.*\n6th\s*:")),
+    ("3rd_then_5th_no_4", re.compile(r"(?im)^3rd\s*:.*\n5th\s*:")),
+    ("2nd_then_4th_no_3", re.compile(r"(?im)^2nd\s*:.*\n4th\s*:")),
+    ("1st_then_3rd_no_2", re.compile(r"(?im)^1st\s*:.*\n3rd\s*:")),
     ("ree_oaks", re.compile(r"(?i)\bree\s+Oaks\b")),
 )
 
@@ -4106,6 +4109,259 @@ def _iter_best_reserve_missing_header_hits(
     return hits
 
 
+
+def _iter_place_rank_gap_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Ascending place holes inside a class (e.g. 3rd then 5th, missing 4th).
+
+    Trailing short lists (1st..3rd only) are normal yearbook style and OK.
+    Holes in the middle of an ascending run always FAIL.
+    """
+    hits: list[tuple[str, str]] = []
+    place_ranks: list[tuple[int, str]] = []
+    header = ""
+
+    def flush() -> None:
+        nonlocal place_ranks, header
+        if len(place_ranks) >= 2:
+            for (a, sa), (b, sb) in zip(place_ranks, place_ranks[1:]):
+                if b > a + 1:
+                    hits.append(
+                        (
+                            "place_rank_gap",
+                            f"{header[:60]} | {a}th then {b}th | {sb[:70]}",
+                        )
+                    )
+                    if len(hits) >= max_samples:
+                        break
+        place_ranks = []
+
+    for line in lines:
+        if len(hits) >= max_samples:
+            break
+        s = line.strip()
+        if not s:
+            continue
+        if _PAGE_BREAK_RE.match(s) or _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            continue
+        if _is_hq_metadata_line(s):
+            continue
+        if _is_non_place_result_line(s) or _BEST_RESERVE_SECTION_RE.match(s):
+            flush()
+            header = ""
+            continue
+        if re.match(
+            r"(?i)^(?:Conformation|Racing|Go-?to-?Ground|Agility|Obedience|"
+            r"Working(?:\s+Terrier)?)\s+DIVISION\b",
+            s,
+        ):
+            flush()
+            header = ""
+            continue
+        m = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", s)
+        if m:
+            rank = int(m.group(1))
+            if 1 <= rank <= 12:
+                # restart at lower/equal rank without header = new block
+                if place_ranks and rank <= place_ranks[-1][0]:
+                    flush()
+                place_ranks.append((rank, s))
+            continue
+        if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+            flush()
+            header = s[:80]
+            continue
+    flush()
+    return hits
+
+
+_AGILITY_CLASS_LINE_RE = re.compile(
+    r"(?i)^(?:(?:Starters\s+)?Agility\b|(?:Novice|Open|Advanced)\s+Agility\b|"
+    r"Agility\s+(?:I{1,3}|ll|lll|[Il1-3]|IV)\b)"
+)
+_AGILITY_SMASH_FOLLOW_RE = re.compile(
+    r"(?i)^(?:"
+    r"Go-?to-?Ground\s+CHAMPION(?:\s*&\s*RESERVE)?|"
+    r"GO-?TO-?GROUND\s+CHAMPION(?:\s*&\s*RESERVE)?|"
+    r"RACING\s+DIVISION|"
+    r"FLAT\s+RACES|"
+    r"STEEPLECHASE(?:\s+RACES)?"
+    r")\b"
+)
+_GTG_CHAMP_HEADER_RE = re.compile(
+    r"(?i)^(?:Go-?to-?Ground|GO-?TO-?GROUND)\s+CHAMPION(?:\s*&\s*RESERVE)?\s*$"
+)
+_RACING_FOLLOW_RE = re.compile(
+    r"(?i)^(?:RACING\s+DIVISION|FLAT\s+RACES|STEEPLECHASE(?:\s+RACES)?)\b"
+)
+
+
+def _iter_agility_racing_smash_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Agility → GTG Champion / Racing smash, and empty GTG Champ → Racing.
+
+    Tight lookahead from Agility headers. A completed Agility place run
+    (reached 6th) before GTG/Racing is OK. Lone/sparse Agility then GTG/Racing
+    always FAIL. Empty GTG Champion header into Racing/Flat always FAIL.
+    """
+    hits: list[tuple[str, str]] = []
+    seen: set[str] = set()
+
+    def _add(sample: str) -> None:
+        key = sample[:120]
+        if key in seen or len(hits) >= max_samples:
+            return
+        seen.add(key)
+        hits.append(("agility_racing_smash", sample[:160]))
+
+    i = 0
+    while i < len(lines) and len(hits) < max_samples:
+        s = lines[i].strip()
+        if (
+            not s
+            or _PAGE_BREAK_RE.match(s)
+            or _COLUMN_MARK_RE.match(s)
+            or _MARKER_RE.match(s)
+            or _is_hq_metadata_line(s)
+        ):
+            i += 1
+            continue
+        is_agility = bool(_AGILITY_CLASS_LINE_RE.match(s)) or (
+            bool(_AGILITY_LEVEL_TITLE_RE.match(s))
+            and bool(re.search(r"(?i)agility|on\s+lead|off\s+lead", s))
+        )
+        if is_agility:
+            header = s[:80]
+            max_rank = 0
+            place_n = 0
+            saw_first = False
+            for j in range(i + 1, min(len(lines), i + 30)):
+                t = lines[j].strip()
+                if not t:
+                    continue
+                if (
+                    _PAGE_BREAK_RE.match(t)
+                    or _COLUMN_MARK_RE.match(t)
+                    or _MARKER_RE.match(t)
+                    or _is_hq_metadata_line(t)
+                ):
+                    continue
+                if _AGILITY_SMASH_FOLLOW_RE.match(t):
+                    # Real Agility class (started at 1st, reached 6th) then
+                    # later GTG/Racing is a clean boundary — not a smash.
+                    if saw_first and place_n >= 4 and max_rank >= 6:
+                        break
+                    _add(f"{header[:50]} -> {t[:90]}")
+                    break
+                pm = re.match(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:", t)
+                if pm:
+                    rank = int(pm.group(1))
+                    place_n += 1
+                    max_rank = max(max_rank, rank)
+                    if rank == 1:
+                        saw_first = True
+                    continue
+                if _looks_like_class_header_line(t) or _SECTIONISH_RE.search(t):
+                    if not re.search(r"(?i)agility", t):
+                        break
+                    continue
+                if re.match(r"(?i)^(?:Conformation|Obedience)\s+DIVISION\b", t):
+                    break
+                if place_n >= 12:
+                    break
+            i += 1
+            continue
+        # Empty GTG Champion & Reserve smashed straight into Racing/Flat.
+        if _GTG_CHAMP_HEADER_RE.match(s):
+            for j in range(i + 1, min(len(lines), i + 6)):
+                t = lines[j].strip()
+                if not t:
+                    continue
+                if (
+                    _PAGE_BREAK_RE.match(t)
+                    or _COLUMN_MARK_RE.match(t)
+                    or _MARKER_RE.match(t)
+                ):
+                    continue
+                if re.match(
+                    r"(?i)^(?:\d[\d\s\-/]*1/2|\d+\s*-\s*\d+).*(?:Champion|Reserve)\s*:",
+                    t,
+                ) or re.match(r"(?i)^(?:Champion|Reserve)\s*:", t):
+                    break
+                if _RACING_FOLLOW_RE.match(t):
+                    _add(f"{s[:50]} -> {t[:90]}")
+                break
+        i += 1
+    return hits
+
+
+
+
+def _iter_place_before_section_smash_hits(
+    lines: list[str], *, max_samples: int = 40
+) -> list[tuple[str, str]]:
+    """Page-top orphan place before GTG Champ / Racing / Flat / Steeple = smash.
+
+    Always FAIL. Mid-page class endings (6th then Go-to-Ground CHAMPION) are OK.
+    Orphans right after a page marker with no class header are real smash.
+    """
+    hits: list[tuple[str, str]] = []
+    place_re = re.compile(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:")
+    after_page = False
+    for i, line in enumerate(lines):
+        if len(hits) >= max_samples:
+            break
+        s = line.strip()
+        if not s:
+            continue
+        if _PAGE_BREAK_RE.match(s) or (
+            _MARKER_RE.match(s) and re.search(r"(?i)page\s+\d+", s)
+        ):
+            after_page = True
+            continue
+        if _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
+            continue
+        if _is_hq_metadata_line(s):
+            continue
+        if not after_page:
+            continue
+        if _looks_like_trial_title_line(s):
+            continue
+        if (
+            _looks_like_class_header_line(s)
+            or _SECTIONISH_RE.search(s)
+            or _BEST_RESERVE_SECTION_RE.match(s)
+        ):
+            after_page = False
+            continue
+        if place_re.match(s):
+            for j in range(i + 1, min(len(lines), i + 8)):
+                t = lines[j].strip()
+                if not t:
+                    continue
+                if (
+                    _PAGE_BREAK_RE.match(t)
+                    or _COLUMN_MARK_RE.match(t)
+                    or _MARKER_RE.match(t)
+                ):
+                    continue
+                if _AGILITY_SMASH_FOLLOW_RE.match(t):
+                    hits.append(
+                        (
+                            "agility_racing_smash",
+                            f"{s[:70]} -> {t[:70]}",
+                        )
+                    )
+                break
+            after_page = False
+            continue
+        after_page = False
+    return hits
+
+
+
 def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str, str]]:
     """Return residual audit hits ``(code, sample_line)`` after finalize."""
     if not text:
@@ -4175,6 +4431,12 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
         hits.append((code, sample[:160]))
     for code, sample in _iter_midclass_page_dropout_hits(lines, max_samples=max_samples):
         hits.append((code, sample[:160]))
+    for code, sample in _iter_place_rank_gap_hits(lines, max_samples=max_samples):
+        hits.append((code, sample[:160]))
+    for code, sample in _iter_agility_racing_smash_hits(lines, max_samples=max_samples):
+        hits.append((code, sample[:160]))
+    for code, sample in _iter_place_before_section_smash_hits(lines, max_samples=max_samples):
+        hits.append((code, sample[:160]))
     for code, sample in _iter_best_reserve_missing_header_hits(
         lines, max_samples=max_samples
     ):
@@ -4239,11 +4501,11 @@ def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str
             if not t:
                 continue
             if division_boundary_re.match(t) or _looks_like_class_header_line(t) or _SECTIONISH_RE.search(t):
-                break  # clean class/division boundary — not mid-class bleed
+                break  # clean class/division boundary - not mid-class bleed
             if _MARKER_RE.match(t) or _COLUMN_MARK_RE.match(t):
                 break
             if foreign_hdr_re.match(t):
-                # foreign header before next place → column bleed
+                # foreign header before next place -> column bleed
                 key = ("i", t[:80])
                 if key not in seen:
                     hits.append(("two_column_smash", t[:160]))
@@ -5390,6 +5652,22 @@ def normalize_agility_level_ocr(text: str) -> str:
         r"\1 III",
         text,
     )
+    # Bare level titles: ``Agility ll`` / ``Agility lll`` (no comma / Off Lead)
+    text = re.sub(
+        r"(?im)\b(Agility)\s+lll(?=\s*$)",
+        r"\1 III",
+        text,
+    )
+    text = re.sub(
+        r"(?im)\b(Agility)\s+ll(?=\s*$)",
+        r"\1 II",
+        text,
+    )
+    text = re.sub(
+        r"(?im)\b(Agility)\s+l(?=\s*$)",
+        r"\1 I",
+        text,
+    )
     return text
 
 
@@ -5866,6 +6144,12 @@ def _rehome_orphan_adult_height_champs(lines: list[str]) -> list[str]:
                 j -= 1
                 continue
             if _ADULT_RACING_CR_HEADER_RE.match(s):
+                already_homed = True
+            elif re.match(
+                r"(?i)^(?:Go-?to-?Ground|GO-?TO-?GROUND)\s+CHAMPION(?:\s*&\s*RESERVE)?\s*$",
+                s,
+            ):
+                # GTG Champion & Reserve height bands are not racing orphans
                 already_homed = True
             elif re.match(
                 r"(?i)^(?:racing\s+champions?|steeplechase\s+races?|flat\s+races?|"

@@ -69,6 +69,8 @@ CODE_TO_CATALOG: dict[str, str] = {
     "post_page_missing_header": "C1",
     "incomplete_entries": "C1/C6",
     "midclass_page_dropout": "C1",
+    "place_rank_gap": "C1",
+    "agility_racing_smash": "S1-S3",
     "best_reserve_missing_header": "C7",
     "trial_bleed": "C5",
     "missing_trial_header": "C5",
@@ -79,6 +81,9 @@ CODE_TO_CATALOG: dict[str, str] = {
     "cert_entries_glue": "C6",
     "owner_tail_trunc": "O6",
     "agility_pipe": "G4",
+    "3rd_then_5th_no_4": "C1",
+    "2nd_then_4th_no_3": "C1",
+    "1st_then_3rd_no_2": "C1",
     "judges_junk": "G5",
     "juqges": "G5",
     "juages": "G5",
@@ -110,6 +115,8 @@ FAIL_CODES = {
     "post_page_missing_header",
     "incomplete_entries",
     "midclass_page_dropout",
+    "place_rank_gap",
+    "agility_racing_smash",
     "best_reserve_missing_header",
     "missing_trial_header",
     # Former WARN-tier residuals — now FAIL; must clear before SQL apply (2026-11-13)
@@ -120,6 +127,9 @@ FAIL_CODES = {
     "cutoff_racing",
     "4th_then_2nd",
     "4th_then_6th_no_5",
+    "3rd_then_5th_no_4",
+    "2nd_then_4th_no_3",
+    "1st_then_3rd_no_2",
 }
 
 # Codes that require image re-OCR / targeted recover (not finalize-only)
@@ -138,9 +148,14 @@ REOCR_CODES = {
     "height_trunc_paren",
     "incomplete_entries",
     "midclass_page_dropout",
+    "place_rank_gap",
+    "agility_racing_smash",
     "best_reserve_missing_header",
     "missing_trial_header",
     "champ_abbrev",
+    "3rd_then_5th_no_4",
+    "2nd_then_4th_no_3",
+    "1st_then_3rd_no_2",
 }
 
 PLACEHOLDER_RE = re.compile(r"(?i)\[missing class header\]")

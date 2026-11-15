@@ -18,5 +18,39 @@
     "fail_hits": 1,
     "top_catalog": "O6\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1995,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_1\\Document_2026-11-04_124704_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1995,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_134403_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "agility_racing_smash",
+      "place_rank_gap"
+    ],
+    "fail_hits": 9,
+    "top_catalog": "C1\u00d78,S1-S3\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1995,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_142425_ocr_hqmax.txt",
+    "codes": [
+      "agility_racing_smash",
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d71,S1-S3\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]
