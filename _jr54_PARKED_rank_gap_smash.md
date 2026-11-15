@@ -123,3 +123,6 @@
 
 ## 1999 Vol III pt 1 — Dogs/Certificate 4th before Mustang Sally
 - 3rd Colton Ricci Rocket then 5th Brown's Valley Mustang Sally; PDF OCR did not yield owned-by 4th. True unscannable for now.
+
+## 2001 Vol III pt 1 — Veteran Bitches over 12.5 Heidi Ho→Abby
+- 3rd Whispering Winds Heidi Ho then 5th Abby; PDF p18 shows a 4th Farmcliff line but surname unscannable (gutter). No invention. True unscannable.
