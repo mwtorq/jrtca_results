@@ -78,3 +78,7 @@
 - Handler gaps cleared from National PDF. Dog Pups 4→6 and Sub Novice 2→5 still gutter.
 ## 1996 Document_2026-11-04_145925 — Advanced Certificate 3–5 gutter
 - After 2nd Redwood Tyke page break to 6th Tortilla Flat Ivy.
+
+## 1996 Document_2026-11-04_152834 — Championship Certificate 10-12 1/2" places 1–4
+- Detached Zenith/Petey from Working Terrier (PDF: WT Dog 12.5 Entries:1 Voodoo only). Zenith/Petey are Cert 10-12.5" 5th/6th; 1–4 unscannable across page break. Agility I/II/Youth recovered from PDF p18.
+## 1996 Document_2026-11-04_145925 — CLEARED Championship Certificate 12.5-15"
