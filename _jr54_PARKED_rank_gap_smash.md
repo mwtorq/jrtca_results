@@ -181,3 +181,19 @@ High-res OCR still missing/ambiguous owned-by:
 - p126 Crossruff Tayana missing 3rd/4th in Revue/Frankie class
 - p140 Sows Ear Anaman 6th orphan (Red Fox column)
 - p142 Texas Star Braveheart 3->5 (PDF order conflicts with HQ Mustang lead-in)
+
+## 2000 Vol II — residual place_rank_gap (8 left after surgical pass)
+HQ: `Updated Yearbook Scans/2000 Yearbook Vol 2/2000 Vol II_ocr_hqmax.txt`
+Cleared ~63→8 via PDF column OCR (batches 1–6). No surname invention.
+
+### Parked / unscannable (PDF+column OCR confirm missing owned-by)
+- Crossewinds veterans Jade→Jessie: 3rd between Farmcliff Sugar (2nd) and Jessie (4th) absent (PDF p19; dup block ~7500).
+- Hi-Bid Youth Agility On Lead: 5th between Ralph Bassett (4th) and Jessica Pancoast (6th) absent (PDF p46).
+- PNW Obedience Novice: 2nd/3rd between Wood Creek Ardboe (1st) and Simply Skyler (4th) absent (PDF p77 scan garble).
+- Dogs 10–12.5" Tackle→Spanky: 2nd absent (PDF p87).
+- Dogs 10–12.5" Hutch→Stokes: 2nd absent (PDF p91).
+- Dutchess Dog Pups 9–12mo: 4th/5th between T.J. Farms Ricochet (3rd) and Muscle Russell Hustle (6th) absent (PDF p93).
+- Dutchess steeplechase pups Solitaire→Dudley→Hustle: 3rd absent (PDF p95).
+
+### Recovered highlights this pass
+- Satin/Token column unsmash; Carley flat 3–5; Syber+Pringle/Targa; Micro+Hudson; Gromit Megabyte/Rockefeller/Kirby (GUID was OCR misread); JoJo/Shamu/Kitti/Codi; Reba/Avery unsmash; Annie VCC Champion/Reserve; Killare+Spencer; Petey+Hutch; Covergirl/Jiminy detach; Rolex/Jackpot unsmash.
