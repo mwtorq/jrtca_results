@@ -117,3 +117,6 @@
 
 ## 1996 Document 153208 — Sub Novice places 3–4 (Baybriar Tucker)
 - Page break after 2nd Patches; next page opens 5th Baybriar Tucker. Places 3–4 absent from PDF OCR. True unscannable.
+
+## 1998 Vol II pt 1 — Dog Pups / Donny column smash
+- Dog Pups 9-12 Entries:3 is complete (Wild Child/Lucky/Edgar). Right-column 2nd Sassy / 4th Donny (Kristen Tracy) is cross-column pollution; PDF search did not yield a clean owned-by reconstruction for the missing 3rd between Sassy and Donny. Parked pending better sibling evidence.
