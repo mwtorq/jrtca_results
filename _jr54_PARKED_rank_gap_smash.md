@@ -120,3 +120,6 @@
 
 ## 1998 Vol II pt 1 — Dog Pups / Donny column smash
 - Dog Pups 9-12 Entries:3 is complete (Wild Child/Lucky/Edgar). Right-column 2nd Sassy / 4th Donny (Kristen Tracy) is cross-column pollution; PDF search did not yield a clean owned-by reconstruction for the missing 3rd between Sassy and Donny. Parked pending better sibling evidence.
+
+## 1999 Vol III pt 1 — Dogs/Certificate 4th before Mustang Sally
+- 3rd Colton Ricci Rocket then 5th Brown's Valley Mustang Sally; PDF OCR did not yield owned-by 4th. True unscannable for now.
