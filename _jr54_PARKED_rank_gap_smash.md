@@ -111,3 +111,9 @@
 
 ## 1996 Vol II pg 163-220 back — Bitches 12.5-15" 2nd (R.A. Annie)
 - RECOVERED: 2nd R.A. Dixie (PDF OCR).
+
+## 1996 Document 153208 — Dog Pups 9-12 r/br 5th (Cotton Eyed Joe)
+- Page break after 4th Coldwater Chaplin; next page opens 6th Green Acres Cotton Eyed Joe. 5th absent from PDF OCR. True unscannable.
+
+## 1996 Document 153208 — Sub Novice places 3–4 (Baybriar Tucker)
+- Page break after 2nd Patches; next page opens 5th Baybriar Tucker. Places 3–4 absent from PDF OCR. True unscannable.
