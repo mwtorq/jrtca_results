@@ -69,3 +69,12 @@
 ## 1995 Document_2026-11-04_142425 — Dogs 10-12 1/2" r/br missing 2nd
 - After 1st Loblolly Jim page break to 3rd Camerton Hall Echo. 2nd unscannable.
 - GTG champions recovered from PDF p3.
+
+## 1996 Document_2026-11-04_144530 — Working Terrier Dog missing 3–4 (Susie)
+- After 2nd Whirlwind Polo page break to 5th Susie. Park pending PDF 3rd/4th.
+## 1996 Document_2026-11-04_144208 — Novice/Open page-break Lexus ordinal smash
+- Novice Puppies 1–4 then p16 opens 3rd Tortilla Flat Vato / 4th Lexus (likely Open Adults continuation). Needs class-header detach; not inventing.
+## 1996 Document_2026-11-04_153208 — Dog Pups / Sub Novice gutters remain
+- Handler gaps cleared from National PDF. Dog Pups 4→6 and Sub Novice 2→5 still gutter.
+## 1996 Document_2026-11-04_145925 — Advanced Certificate 3–5 gutter
+- After 2nd Redwood Tyke page break to 6th Tortilla Flat Ivy.
