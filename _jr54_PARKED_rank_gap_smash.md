@@ -130,3 +130,7 @@
 
 ## 2001 Summer Celebration — Child Handler 4th between Emily Fincher/Reese
 - PDF p4 lists 3rd Emily Fincher then 5th Emily Reese; 4th absent from scan. True unscannable.
+
+
+## 2001 Wheatland — Suitability to Groundhog 4th (Kingmont Fable trial)
+- 3rd Lickity Split Spice Girl then 5th Kingmont Fable; PDF column OCR did not yield owned-by 4th. True unscannable.
