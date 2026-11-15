@@ -23,3 +23,49 @@
 
 ## Sync
 - Verified HQ mirrored to `Updated Yearbook Scans` (year-matched paths only).
+
+## 1991 Document_2026-11-03_205014 — Nashoba Valley Bitches 10--12-1/2" places 1–4
+- Evidence: PDF/OCR page break after Dogs 12-1/2--15" 3rd Woodluck Gallahad; next page opens at Bitches 5th Fox Hollow Squiggy / 6th Raheen Lilac Magpie.
+- HQ corrected ordinals for Squiggy/Magpie from OCR; places 1–4 absent from scan gutter (PDF text + high-res OCR + baseline). True unscannable.
+- Working Terrier Bitch 3rd/4th recovered from PDF p11 (Pippa / Guenevere).
+
+## 1992 Document_2026-11-03_213104 — Peach State Dogs 12-1/2--15" br/r places 3–4
+- Evidence: page break after 2nd Cottonwood Corky; next page opens 5th Katy Scarlett / 6th Tuppence.
+- PDF text + high-res OCR + baseline: no owned-by lines for 3rd/4th. True unscannable (sidecar already notes missing [3,4]).
+
+## 1990 Document_2026-11-03_192526 — American Bred Bitch missing 3rd
+- Evidence: 2nd then 4th Punky; high-res OCR / PDF confirm 3rd absent from scan. True unscannable (Clipper Ship partials recovered earlier).
+
+## 1994 Document_2026-11-04_084730 — Brood Bitch missing 5th / Maggie bleed
+- PDF p23 Brood lists 1–4 (typo 4rd→4th fixed); Entries:5 but 5th absent from scan.
+- p24 opens with 6th Highline Maggie then BEST BITCH PUP — bitch-pup continuation, not Brood. Header inserted to detach. Brood 5th unscannable.
+
+## 1994 Document_2026-11-04_083342 — Dogs 12 1/2-15" 2nd/3rd + GTG smash
+- Page break after 1st Woodruff; next page opens 4th Fox Run Contender. 2nd/3rd absent (PDF+OCR).
+- GTG CHAMPION header then page break into unrelated Working Terrier bleed — smash; champions not on adjacent pages of this HQ slice.
+
+## 1994 Document_2026-11-04_083655 — Dog Pups 9-12mo 10-12 1/2" places 3–5
+- After 2nd Crabtree Petey Q page break to 6th Briarpatch Pepper. 3–5 unscannable (PDF+OCR).
+
+## 1994 Document_2026-11-04_114039 — Stud Dog and Get places 3–5
+- After 2nd Ravenswood Reflex page break to 6th Button Top Dudley. 3–5 unscannable (PDF+OCR).
+
+## 1994 Document_2026-11-04_111318 — Class 20 Obedience Novice place 5
+- After 4th THE FOX page break to 6th THIMBLE FARM TARGET. 5th unscannable. Other FAILs are Ch/Res / class-bleed false structure — needs separate surgical pass.
+
+## 1994 Document_2026-11-04_105927 — Novice Adults / Dog Pups gutters
+- Novice Adults Entries:8: places 1–4 then page break to 6th Tree Top Huey (5th missing).
+- Dog Pups r/br Entries:5: 1st De Verdon Razor then page break to 4th Corky of Shenandoah (2–3 missing).
+
+## 1995 Document_2026-11-04_124704 — Dogs 12 1/2-15" places 2–3
+- After 1st Golden Hills Rush page break to 4th Westwood Sparkle. 2nd/3rd unscannable (PDF+OCR).
+
+## 1995 Document_2026-11-04_134403 — remaining place gaps after GTG fill
+- Bitch Pups 9-12 10-12 1/2": missing 2nd between Thimble Farm Clever and Live Wire Mayhem.
+- Bitches 12 1/2-15" r/br: missing 2nd after Witewitch before Max (page break).
+- Novice Agility I On-Lead: missing 2nd after Too Boot before Courtland Moo Cow (page break).
+- GTG champions recovered from PDF p2.
+
+## 1995 Document_2026-11-04_142425 — Dogs 10-12 1/2" r/br missing 2nd
+- After 1st Loblolly Jim page break to 3rd Camerton Hall Echo. 2nd unscannable.
+- GTG champions recovered from PDF p3.
