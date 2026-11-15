@@ -126,3 +126,7 @@
 
 ## 2001 Vol III pt 1 — Veteran Bitches over 12.5 Heidi Ho→Abby
 - 3rd Whispering Winds Heidi Ho then 5th Abby; PDF p18 shows a 4th Farmcliff line but surname unscannable (gutter). No invention. True unscannable.
+
+
+## 2001 Summer Celebration — Child Handler 4th between Emily Fincher/Reese
+- PDF p4 lists 3rd Emily Fincher then 5th Emily Reese; 4th absent from scan. True unscannable.
