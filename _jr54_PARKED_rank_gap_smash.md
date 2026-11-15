@@ -118,11 +118,11 @@
 ## 1996 Document 153208 — Sub Novice places 3–4 (Baybriar Tucker)
 - Page break after 2nd Patches; next page opens 5th Baybriar Tucker. Places 3–4 absent from PDF OCR. True unscannable.
 
-## 1998 Vol II pt 1 — Dog Pups / Donny column smash
-- Dog Pups 9-12 Entries:3 is complete (Wild Child/Lucky/Edgar). Right-column 2nd Sassy / 4th Donny (Kristen Tracy) is cross-column pollution; PDF search did not yield a clean owned-by reconstruction for the missing 3rd between Sassy and Donny. Parked pending better sibling evidence.
+## 1998 Vol II pt 1 — Dog Pups / Donny column smash — CLEARED
+- Rebuilt Foxcatcher flat-race RIGHT column from PDF (Wendy 3rd; Dogs with Donny 4th; Bitches with Sassy 2nd / Annie 3rd).
 
-## 1999 Vol III pt 1 — Dogs/Certificate 4th before Mustang Sally
-- 3rd Colton Ricci Rocket then 5th Brown's Valley Mustang Sally; PDF OCR did not yield owned-by 4th. True unscannable for now.
+## 1999 Vol III pt 1 — Certificate before Mustang Sally — CLEARED
+- Duplicate OCR 3rd on Colton Ricci Rocket renumbered to 4th (Champ Jake / Reserve Sassy / 3rd Spencer / 4th Colton / 5th Sally / 6th Jeanette).
 
 ## 2001 Vol III pt 1 — Veteran Bitches over 12.5 Heidi Ho→Abby
 - 3rd Whispering Winds Heidi Ho then 5th Abby; PDF p18 shows a 4th Farmcliff line but surname unscannable (gutter). No invention. True unscannable.
