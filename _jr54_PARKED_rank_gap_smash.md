@@ -145,3 +145,7 @@
 
 ## 2000 Vol III pt2 — Groundhog Schatzie 3rd missing
 - 1st Hart Farms Spiceitup / 2nd Sueshi then 4th Thistle Ridge Schatzie; 3rd absent across column seam (PDF+OCR). True unscannable.
+
+
+## 2001 Troon Quarry — Dogs 10-12.5" 4th (Blackfoot)
+- 3rd Salt Valley Charlie then page-break 5th Lone Cactus Blackfoot; PDF+OCR no owned-by 4th. True unscannable.
