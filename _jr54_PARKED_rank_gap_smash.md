@@ -153,5 +153,5 @@
 ## 1998 Vol II pt 2 — residual after PDF pass
 - Agility I Certificate: 2nd Fox Run Jackie (Sustell) then 4th Moosemor Scarlet; high-res OCR did not yield owned-by 3rd. Parked.
 - Veterans 10-12.5 Entries:3: 1st Big Sky Annie then 3rd Chelsea Rose; 2nd unscannable on PDF.
-- Dogs over 12.5-15 Entries:16: ordinal smash around Windy View Questor (2nd then 5th); needs surgical rebuild — parked pending focused pass.
+- Dogs over 12.5 Questor class — CLEARED: PDF p34 Mickey 2nd->4th (Julian/Sully/Mustang/Mickey/Questor/Dublin).
 - NY State Bred places 5–6: page-foot cutoff after Snippet 4th (Moose was false RIGHT-column Dogs 3rd). Parked unscannable 5–6.
