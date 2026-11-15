@@ -134,3 +134,10 @@
 
 ## 2001 Wheatland — Suitability to Groundhog 4th (Kingmont Fable trial)
 - 3rd Lickity Split Spice Girl then 5th Kingmont Fable; PDF column OCR did not yield owned-by 4th. True unscannable.
+
+
+## 2000 Vol III pt2 — Raccoon/Badger Adonis column smash
+- 1st Rushill Rusty then right-column 4th Natural Instinct Adonis; 2nd/3rd absent across seam (PDF+OCR). True unscannable.
+
+## 2000 Vol III pt2 — Dogs over 12.5 Farriers Point Racer X false 4th
+- Entries:2 lists Willie Blue Boy / Sulley's Quest then right-column 4th Farriers Point Racer X from next class bleed. Detach not done without clean header; parked as seam smash.
