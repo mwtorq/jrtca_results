@@ -141,3 +141,7 @@
 
 ## 2000 Vol III pt2 — Dogs over 12.5 Farriers Point Racer X false 4th
 - Entries:2 lists Willie Blue Boy / Sulley's Quest then right-column 4th Farriers Point Racer X from next class bleed. Detach not done without clean header; parked as seam smash.
+
+
+## 2000 Vol III pt2 — Groundhog Schatzie 3rd missing
+- 1st Hart Farms Spiceitup / 2nd Sueshi then 4th Thistle Ridge Schatzie; 3rd absent across column seam (PDF+OCR). True unscannable.
