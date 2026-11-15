@@ -82,3 +82,32 @@
 ## 1996 Document_2026-11-04_152834 — Championship Certificate 10-12 1/2" places 1–4
 - Detached Zenith/Petey from Working Terrier (PDF: WT Dog 12.5 Entries:1 Voodoo only). Zenith/Petey are Cert 10-12.5" 5th/6th; 1–4 unscannable across page break. Agility I/II/Youth recovered from PDF p18.
 ## 1996 Document_2026-11-04_145925 — CLEARED Championship Certificate 12.5-15"
+
+## 1996 Vol I pg 161-178 front — Starters Agility I Off Lead places 4–5
+- Evidence: PDF/OCR p169 Starters Agility I Off Lead Entries: 6 with 1–3 (Orbit/Tillie/Braque); Agility I Off Lead Entries: 1 (His Buddy only).
+- HQ had Dog-Pups mislabel + Ghillie smashed under Agility; corrected. Page 170 opens 6th Ash Creek Ghillie (Starters).
+- Places 4–5 absent from page seam (PDF + multi-PSM OCR). True unscannable.
+
+## 1996 Vol I pg 161-178 back reversed — Championship Certificate 3rd (Questor)
+- Page break after 2nd Petey; next page opens 4th Windy View Questor. 3rd absent from PDF/OCR/siblings. True unscannable.
+
+## 1996 Vol I pg 21-60 back reversed — Racing 9mo 10-12.5" 2nd (Bernard)
+- 1st Foxwarren Raider then 3rd Show-Me Bernard; 2nd absent (Entries OCR 0). True unscannable.
+
+## 1994 Vol II 114636 — Pups 12.5-15" places 2–3 (Banshee)
+- Page break after 1st Rambling Rose; next page opens 4th Ash Creek Banshee. Places 2–3 absent. True unscannable.
+
+## 1996 Vol I pg 111-160 front — Dogs smooth 12.5-15" 2nd (Snapshot)
+- Page break after 1st Vagabond Voodoo; next page opens 3rd Briarpatch Snapshot. 2nd absent from PDF OCR. True unscannable.
+
+## 1996 Vol I pg 111-160 front — Bitch Pups 6-9 r/br 2nd (Kellie)
+- Page break after 1st Farmstead Bramble; next page opens 3rd Larkswood Kellie. 2nd absent. True unscannable.
+
+## 1996 Vol II pg 23-92 front — NY State Bred places 3–4 (Elsie)
+- Page break after 2nd Round the Bend Quest; next page opens 5th Farmcliff Elsie. Places 3–4 absent at seam. True unscannable pending PDF miss confirmation.
+
+## 1996 Vol II pg 163-220 back — Dogs smooth 12.5-15" places 3–4 (Murphy)
+- Page break after 2nd Fox Run Topper; next page opens 5th Fox Run Murphy. Places 3–4 absent. True unscannable pending PDF miss confirmation.
+
+## 1996 Vol II pg 163-220 back — Bitches 12.5-15" 2nd (R.A. Annie)
+- 1st Foxy Rosy then 3rd R.A. Annie; 2nd absent in HQ. Parked pending PDF recovery attempt.
