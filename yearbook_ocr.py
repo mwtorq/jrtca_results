@@ -4302,14 +4302,16 @@ def _iter_agility_racing_smash_hits(
 def _iter_place_before_section_smash_hits(
     lines: list[str], *, max_samples: int = 40
 ) -> list[tuple[str, str]]:
-    """Page-top orphan place before GTG Champ / Racing / Flat / Steeple = smash.
+    """Page-top orphan place into Racing/Flat, or into GTG Champ after Agility.
 
-    Always FAIL. Mid-page class endings (6th then Go-to-Ground CHAMPION) are OK.
-    Orphans right after a page marker with no class header are real smash.
+    Always FAIL for those cases. Mid-page GTG class endings (6th then
+    Go-to-Ground CHAMPION) are OK. Page-top 6th then GTG Champ after a GTG
+    class is normal spill; after an Agility class it is smash.
     """
     hits: list[tuple[str, str]] = []
     place_re = re.compile(r"(?i)^(\d+)(?:st|nd|rd|th)\s*:")
     after_page = False
+    last_was_agility = False
     for i, line in enumerate(lines):
         if len(hits) >= max_samples:
             break
@@ -4325,18 +4327,31 @@ def _iter_place_before_section_smash_hits(
             continue
         if _is_hq_metadata_line(s):
             continue
-        if not after_page:
-            continue
-        if _looks_like_trial_title_line(s):
-            continue
-        if (
-            _looks_like_class_header_line(s)
-            or _SECTIONISH_RE.search(s)
-            or _BEST_RESERVE_SECTION_RE.match(s)
+        # Track latest class family for cross-page smash decisions.
+        if _AGILITY_CLASS_LINE_RE.match(s) or (
+            _AGILITY_LEVEL_TITLE_RE.match(s)
+            and re.search(r"(?i)agility|on\s+lead|off\s+lead", s)
         ):
+            last_was_agility = True
             after_page = False
             continue
-        if place_re.match(s):
+        if _looks_like_class_header_line(s) or _SECTIONISH_RE.search(s):
+            if not re.search(r"(?i)agility", s):
+                last_was_agility = False
+            else:
+                last_was_agility = True
+            if after_page:
+                after_page = False
+            continue
+        if _BEST_RESERVE_SECTION_RE.match(s):
+            if after_page:
+                after_page = False
+            if not re.search(r"(?i)agility", s):
+                last_was_agility = False
+            continue
+        if after_page and _looks_like_trial_title_line(s):
+            continue
+        if after_page and place_re.match(s):
             for j in range(i + 1, min(len(lines), i + 8)):
                 t = lines[j].strip()
                 if not t:
@@ -4347,7 +4362,18 @@ def _iter_place_before_section_smash_hits(
                     or _MARKER_RE.match(t)
                 ):
                     continue
-                if _AGILITY_SMASH_FOLLOW_RE.match(t):
+                if not _AGILITY_SMASH_FOLLOW_RE.match(t):
+                    break
+                racingish = bool(
+                    re.match(
+                        r"(?i)^(?:RACING\s+DIVISION|FLAT\s+RACES|STEEPLECHASE(?:\s+RACES)?)\b",
+                        t,
+                    )
+                )
+                gtg_champ = bool(
+                    re.match(r"(?i)^(?:Go-?to-?Ground|GO-?TO-?GROUND)\s+CHAMPION", t)
+                )
+                if racingish or (gtg_champ and last_was_agility):
                     hits.append(
                         (
                             "agility_racing_smash",
@@ -4357,9 +4383,9 @@ def _iter_place_before_section_smash_hits(
                 break
             after_page = False
             continue
-        after_page = False
+        if after_page:
+            after_page = False
     return hits
-
 
 
 def audit_results_ocr_page(text: str, *, max_samples: int = 3) -> list[tuple[str, str]]:
