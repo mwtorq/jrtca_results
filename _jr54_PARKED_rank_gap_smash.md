@@ -106,8 +106,8 @@
 ## 1996 Vol II pg 23-92 front — NY State Bred places 3–4 (Elsie)
 - Page break after 2nd Round the Bend Quest; next page opens 5th Farmcliff Elsie. Places 3–4 absent at seam. True unscannable pending PDF miss confirmation.
 
-## 1996 Vol II pg 163-220 back — Dogs smooth 12.5-15" places 3–4 (Murphy)
-- Page break after 2nd Fox Run Topper; next page opens 5th Fox Run Murphy. Places 3–4 absent. True unscannable pending PDF miss confirmation.
+## 1996 Vol II pg 163-220 back — Dogs smooth Murphy/Tack
+- Smithtown Dogs Entries:4 ends Calvin/Topper; page 186 Plum Run opens 5th Murphy/6th Tack (detached under new Dogs header). Plum Run places 1–4 unscannable at prior seam.
 
 ## 1996 Vol II pg 163-220 back — Bitches 12.5-15" 2nd (R.A. Annie)
-- 1st Foxy Rosy then 3rd R.A. Annie; 2nd absent in HQ. Parked pending PDF recovery attempt.
+- RECOVERED: 2nd R.A. Dixie (PDF OCR).
