@@ -234,3 +234,21 @@ Cleared 51→~26 via PDF OCR. Remaining are mid-class holes / page-break orphans
 ## 2001 Vol III pt2 — residual place_rank_gap (~21 after batch fills)
 HQ: `Updated Yearbook Scans/2001 Yearbook Vol 3/2001 Vol III pt 2_ocr_hqmax.txt`
 Cleared 52→21 via 9th→6th + PDF OCR. Remaining mid-class holes (Soot 3rd, Bearette 3rd, Hutch/My Ty 3rd, Tomba 2nd, Chaos 3rd, Maddy Agility I 2nd, Erin Tack youth, Dabble 3–4, etc.) — PDF+OCR confirm missing owned-by or garbled only.
+
+## 2001 Vol II pt2 — residual place_rank_gap (42→12)
+HQ: `Updated Yearbook Scans/2001 Yearbook Vol 2/2001 Vol II pt 2_ocr_hqmax.txt`
+Cleared 42→12 via PDF column OCR + page redos (batches 1–6). No surname invention.
+
+### Cleared this stretch
+- Paumanok Advanced On Lead 4–6 Karl/Donny/Jasmine; Agility II Questor 2nd Spencer
+- Magnum 2nd Sow's Ear Tuck; Midlands Blaze 5th; Open Adult Bulldozer/Kiwi; Champ Cert Windsor reorder; Agility II Munchie/Stinkie/Bowery; Liz 3rd; Wheatland Groundhog Spice Girl + full II list
+- Farmstead Groundhog Tea Cup; Taltos/Diva; Veteran Cert Scout/Sassy; Relentless/Tuck; bitches Holland/Piper/Liz; vets Annie/Sugar; Chas/McSorley
+- Dutchess Pepsi/Sassy/Mickey; Duckett/Taltos; Comet→2nd; Champ Token reorder; Hallie/Hanna; Jaggar→6th over-12.5
+
+### Parked / unscannable (PDF+column OCR still missing owned-by)
+- Dutchess Agility II Spencer 1st→Fuego 5th (odd page 83 not in even-page PDF set)
+- Paumanok Rollback 1st→Theft 3rd (2nd garbled Farmcliff *)
+- Steeple Clementine→Terra Fox Bella missing 4th
+- Farmstead Sieko→Baltazar missing 4th; Theft→Rollback missing 2nd (Joe/Joey garbled)
+- Farmstead Questor→Scout / Holland→Zena / Revlon→Carley / Mustang→Tiller mid holes
+- Dutchess Crush→Brass missing 2nd; Coyy→Sensation missing 2nd; Calico→Riot missing 4th
