@@ -226,3 +226,7 @@ Cleared ~55→5 via PDF column OCR (batches 1–5). No surname invention.
 - Youth GTG (dup ~p2/~p43): 3rd between Divito 2nd and Nicholas Stoecklein 4th garbled (`en Lavender`/blank) — x2 HQ blocks
 - Mason-Dixon dog pups 4-6 smooth (p31 + dup p101): 4th between Striker 3rd and Milton 5th absent (Entries:6)
 - Jiminy veterans (p64): 2nd Coty/Cody name only; owner unscanned — not invented
+
+## 2001 Vol III pt1 — residual after batches 1-4 (~26 left)
+HQ: `Updated Yearbook Scans/2001 Yearbook Vol 3/2001 Vol III pt 1_ocr_hqmax.txt`
+Cleared 51→~26 via PDF OCR. Remaining are mid-class holes / page-break orphans (Dinah, Twigg 2nd, Questor 3rd, Teeni 4th, Tomba 2nd, Chanel smash, etc.) — continue or park after another PDF pass.
