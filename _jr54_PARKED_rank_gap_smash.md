@@ -282,3 +282,13 @@ PDF: `Yearbook Scans/2000 Vol III/2000 Vol III pt 1.pdf` (69 pages).
 - Diamond E Ruffian 2→5; Seabee/Birdie/Rose 3→5; Simon 1→3; Pleasant Hill Hawk 1→4
 - Folly Deuce / Satin Doll / Calico / Audra Thompson smashes
 - Duplicate trial blocks of the above
+
+## 2001 Paumanok/Farmstead/Dutchess extract — residual (25→16)
+HQ: `Updated Yearbook Scans/2001 Yearbook Vol 2/2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt`
+Cleared via same OCR as Vol II pt2 (Relentless/Tuck, Groundhog Tea Cup, Pepsi/Sassy/Mickey, Magnum/Tuck, Scout/Sassy cert, Holland/Liz, Sugar 5th, Token cert, Candycane block).
+
+### Parked mid-class (same holes as Vol II pt2 / OCR blank)
+- Rollback→Theft 2nd; Annie→Sugar missing 4–5; Clementine→Bella 4th; Wyndcroft smash; Pepsi 1→3
+- Sieko→Baltazar 4th; Theft→Rollback 2nd; Tally Ho cert 4th; Questor→Scout 4th
+- Hale→Hutch 2nd; Holland→Zena 4th; Revlon→Carley 2nd; Crush→Brass 2nd; Coyy→Sensation 2nd
+- Tiller→Deuce 2nd; Millie→? 3–4
