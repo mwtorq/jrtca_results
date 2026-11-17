@@ -265,3 +265,20 @@ PDF: `Yearbook Scans/2001 Vol II/2001 Yankee.pdf` (8 pages, column OCR).
 - Champ Cert Tally→Luke missing 4th; Theft flat missing 2–3; Holland/Sydney missing 2nd (x2)
 - Bugsy veterans missing 2nd; Maximillion steeple missing 2–3; Czar→Stokes missing 4th; Luther→Chester missing 5th
 - Agility I missing 3rd; second-trial duplicate holes (Rogue/Miner/Hallie/Natasha/Revlon)
+
+## 2000 Vol III pt1 — residual place_rank_gap (32→21)
+HQ: `Updated Yearbook Scans/2000 Yearbook Vol 3/2000 Vol III pt 1_ocr_hqmax.txt`
+PDF: `Yearbook Scans/2000 Vol III/2000 Vol III pt 1.pdf` (69 pages).
+
+### Cleared
+- Youth GTG: Ashley Boyd 5th / James Andors 6th (was 9th)
+- Rocky Mountain IV AliHop youth unsmash (Handler/GTG/Obedience/Agility)
+- Champ Cert 10-12.5: Winslow/Spaz + Munchkin–Badger 3–6 (Badger was false 1st)
+- Youth High Score false 3rd/4th removed (orphaned next-page 6th)
+
+### Parked / need better OCR (PDF keyword search miss / mid-class holes)
+- Briar Patch Molly→Fiesta missing 3rd; Advanced Crackerjak→Cricket missing 3–4
+- Groundhog Scatter→Georgia missing 4–5; Button Top Stinger 1→3; Bella/Chelsea/Wee Won 3→5
+- Diamond E Ruffian 2→5; Seabee/Birdie/Rose 3→5; Simon 1→3; Pleasant Hill Hawk 1→4
+- Folly Deuce / Satin Doll / Calico / Audra Thompson smashes
+- Duplicate trial blocks of the above
