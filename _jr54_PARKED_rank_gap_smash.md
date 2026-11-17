@@ -197,3 +197,14 @@ Cleared ~63→8 via PDF column OCR (batches 1–6). No surname invention.
 
 ### Recovered highlights this pass
 - Satin/Token column unsmash; Carley flat 3–5; Syber+Pringle/Targa; Micro+Hudson; Gromit Megabyte/Rockefeller/Kirby (GUID was OCR misread); JoJo/Shamu/Kitti/Codi; Reba/Avery unsmash; Annie VCC Champion/Reserve; Killare+Spencer; Petey+Hutch; Covergirl/Jiminy detach; Rolex/Jackpot unsmash.
+
+## 2001 Vol I — residual place_rank_gap (~13 after batches 1-3)
+HQ: `Updated Yearbook Scans/2001 Yearbook Vol 1/2001 Vol I_ocr_hqmax.txt`
+Cleared ~55→13 via PDF column OCR. No surname invention.
+
+### Parked / unscannable (PDF+column OCR)
+- Youth GTG: 3rd between Michael Divito (2nd) and Nicholas Stoecklein (4th) blank on PDF p43.
+- Mason-Dixon dog pups: 4th between Smilin Jack Striker (3rd) and Milton (5th) unscanned (PDF p31).
+- Trixie cert: 5th between Wild Child (4th) and Trixie (6th) unscanned (PDF p48).
+- Jiminy veterans: 2nd Cody/Coty name visible but owner unscanned (PDF p64) — not invented.
+- Remaining mid-class holes (Ike/Kolby, Sally/Tailor, Albert/Presley, RJ/Snapdragon, Beezer/Snaffles, Calumet/Coco Pop, etc.) need further PDF passes or park.
