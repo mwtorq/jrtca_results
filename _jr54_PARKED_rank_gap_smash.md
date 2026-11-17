@@ -252,3 +252,16 @@ Cleared 42→12 via PDF column OCR + page redos (batches 1–6). No surname inve
 - Farmstead Sieko→Baltazar missing 4th; Theft→Rollback missing 2nd (Joe/Joey garbled)
 - Farmstead Questor→Scout / Holland→Zena / Revlon→Carley / Mustang→Tiller mid holes
 - Dutchess Crush→Brass missing 2nd; Coyy→Sensation missing 2nd; Calico→Riot missing 4th
+
+## 2001 Yankee — residual place_rank_gap (28→23 in progress)
+HQ: `Updated Yearbook Scans/2001 Yearbook Vol 2/2001 Yankee_ocr_hqmax.txt`
+PDF: `Yearbook Scans/2001 Vol II/2001 Yankee.pdf` (8 pages, column OCR).
+
+### Cleared
+- NE Bred Bitch Thelma 2nd; dog/bitch pup Dart/Joe/Spirit/Tuck/George; Liz 3rd; Jewel/Fiddle; Agility II Spencer/Sugar; Agility III Spencer 1st; Theft+Ting 4th; Champ Cert Fiddle
+
+### Still mid-class (OCR also blank / garbled)
+- Veteran Bitch Annie→Sugar missing 2nd; NE Bred Dog Ricochet→Mr.B missing 2nd
+- Champ Cert Tally→Luke missing 4th; Theft flat missing 2–3; Holland/Sydney missing 2nd (x2)
+- Bugsy veterans missing 2nd; Maximillion steeple missing 2–3; Czar→Stokes missing 4th; Luther→Chester missing 5th
+- Agility I missing 3rd; second-trial duplicate holes (Rogue/Miner/Hallie/Natasha/Revlon)
