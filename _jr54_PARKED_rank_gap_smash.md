@@ -208,3 +208,21 @@ Cleared ~55→13 via PDF column OCR. No surname invention.
 - Trixie cert: 5th between Wild Child (4th) and Trixie (6th) unscanned (PDF p48).
 - Jiminy veterans: 2nd Cody/Coty name visible but owner unscanned (PDF p64) — not invented.
 - Remaining mid-class holes (Ike/Kolby, Sally/Tailor, Albert/Presley, RJ/Snapdragon, Beezer/Snaffles, Calumet/Coco Pop, etc.) need further PDF passes or park.
+
+## 2001 Vol I — residual place_rank_gap (post batches 1-5) → 5 parked
+HQ: `Updated Yearbook Scans/2001 Yearbook Vol 1/2001 Vol I_ocr_hqmax.txt`
+Cleared ~55→5 via PDF column OCR (batches 1–5). No surname invention.
+
+### Cleared this stretch (batches 4–5)
+- Trixie cert: Hailey 5th / Trixie 6th order (PDF p48)
+- Albert BBE: J&J Mocha Pudge 4th before Presley 5th (PDF p77/78)
+- Ike class: header→6-9mo smooth + Jack 2nd (Bettyann Senf) + Kolby (PDF p70)
+- Sally class: Lucy Lou 4th (PDF p70)
+- Pre-Novice: Snapdragon 4th (PDF p82)
+- Novice Adult: Snaffles 4 / Foxster 5 / Hooha 6 (PDF p82)
+- Dogs 10-12.5 smooth: Calumet 3rd (remove smashed BBE header) (PDF p90)
+
+### Parked / unscannable (PDF+column OCR)
+- Youth GTG (dup ~p2/~p43): 3rd between Divito 2nd and Nicholas Stoecklein 4th garbled (`en Lavender`/blank) — x2 HQ blocks
+- Mason-Dixon dog pups 4-6 smooth (p31 + dup p101): 4th between Striker 3rd and Milton 5th absent (Entries:6)
+- Jiminy veterans (p64): 2nd Coty/Cody name only; owner unscanned — not invented
