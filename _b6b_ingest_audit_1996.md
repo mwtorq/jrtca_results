@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=28  PASS=28  WARN=0  FAIL=2
+Volumes: 30  cleaned=28  PASS=29  WARN=0  FAIL=1
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -22,7 +22,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | PASS | True | 0 | 0 | — | `1996 Vol 1 pg 111-160 front_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | C1/C6×1 | `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` |
 | FAIL | True | 1 | 0 | C1/C6×1 | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
@@ -50,8 +50,5 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Sample residual hits (after cleanup)
 
-### `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: PARKED jr54: Starters Agility Entries: 6 missing 4th-5th after Braque (OCR blank | places=0/6 | Agility I, Off Lead                                         
-
 ### `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: # PARKED jr54: Arizona Bred 5th not printed on PDF (Entries: 7) | places=0/6 | PARKED jr54: Dog Pups 6-9 smooth 1st-5th on prior yearbook p
+- `C1/C6` / `incomplete_entries`: PARKED jr54: Arizona Bred 5th-7th not printed on PDF after Tortilla Flat Streak  | places=0/6 | PARKED jr54: Dog Pups 6-9 smooth 1st-5th absent from scan (n

@@ -25,4 +25,4 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 ## Sample residual hits (after cleanup)
 
 ### `1997 Vol I pt 2_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: PARKED jr54: Bitch Pups 6-9 under 12.5 6th-7th not recovered on PDF (Entries: 7) | places=0/6 | Bitch Pups, 9 up to 12 months, up to 12 1/2" Entries: 6
+- `C1/C6` / `incomplete_entries`: PARKED jr54: Bitch Pups 6-9 under 12.5 6th-7th not printed on PDF after Spring G | places=0/6 | Bitch Pups, 9 up to 12 months, up to 12 1/2" Entries: 6

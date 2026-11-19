@@ -79,33 +79,23 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 front_ocr_hqmax.txt",
-      "chars_before": 20205,
-      "chars_after": 20203,
+      "chars_before": 20216,
+      "chars_after": 20116,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "incomplete_entries\u00d71",
-      "top_catalog": "C1/C6\u00d71",
-      "by_code": {
-        "incomplete_entries": 1
-      },
-      "samples": [
-        {
-          "code": "incomplete_entries",
-          "catalog": "C1/C6",
-          "line": "PARKED jr54: Starters Agility Entries: 6 missing 4th-5th after Braque (OCR blank | places=0/6 | Agility I, Off Lead                                         "
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "incomplete_entries"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt",
-      "chars_before": 52941,
-      "chars_after": 51142,
+      "chars_before": 52962,
+      "chars_after": 51235,
       "cleaned": true,
       "verdict": "FAIL",
       "fail_hits": 1,
@@ -119,7 +109,7 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "# PARKED jr54: Arizona Bred 5th not printed on PDF (Entries: 7) | places=0/6 | PARKED jr54: Dog Pups 6-9 smooth 1st-5th on prior yearbook p"
+          "line": "PARKED jr54: Arizona Bred 5th-7th not printed on PDF after Tortilla Flat Streak  | places=0/6 | PARKED jr54: Dog Pups 6-9 smooth 1st-5th absent from scan (n"
         }
       ],
       "reocr_required": true,

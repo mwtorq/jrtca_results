@@ -19,8 +19,8 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
-      "chars_before": 210194,
-      "chars_after": 206408,
+      "chars_before": 210237,
+      "chars_after": 206451,
       "cleaned": true,
       "verdict": "FAIL",
       "fail_hits": 1,
@@ -34,7 +34,7 @@
         {
           "code": "incomplete_entries",
           "catalog": "C1/C6",
-          "line": "PARKED jr54: Bitch Pups 6-9 under 12.5 6th-7th not recovered on PDF (Entries: 7) | places=0/6 | Bitch Pups, 9 up to 12 months, up to 12 1/2\" Entries: 6"
+          "line": "PARKED jr54: Bitch Pups 6-9 under 12.5 6th-7th not printed on PDF after Spring G | places=0/6 | Bitch Pups, 9 up to 12 months, up to 12 1/2\" Entries: 6"
         }
       ],
       "reocr_required": true,
