@@ -1,0 +1,136 @@
+{
+  "year": 1994,
+  "verdict": "FAIL",
+  "volumes": [
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_082440_ocr_hqmax.txt",
+      "chars_before": 42672,
+      "chars_after": 42570,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083342_ocr_hqmax.txt",
+      "chars_before": 20584,
+      "chars_after": 20583,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 1,
+      "warn_hits": 0,
+      "top_codes": "owner_tail_trunc\u00d71",
+      "top_catalog": "O6\u00d71",
+      "by_code": {
+        "owner_tail_trunc": 1
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "5th: Raheen Doc Holiday, owned by Coffey & Cur"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083655_ocr_hqmax.txt",
+      "chars_before": 41101,
+      "chars_after": 41099,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_084730_ocr_hqmax.txt",
+      "chars_before": 18765,
+      "chars_after": 18764,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_105927_ocr_hqmax.txt",
+      "chars_before": 56317,
+      "chars_after": 56075,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_111318_ocr_hqmax.txt",
+      "chars_before": 31569,
+      "chars_after": 31522,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_113633_ocr_hqmax.txt",
+      "chars_before": 15979,
+      "chars_after": 15962,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_114039_ocr_hqmax.txt",
+      "chars_before": 57846,
+      "chars_after": 57792,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    }
+  ]
+}

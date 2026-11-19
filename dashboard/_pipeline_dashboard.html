@@ -514,6 +514,11 @@
   </section>
 
   <section>
+    <h2>Workstreams</h2>
+    <div class="targeted-grid" id="workstreams"></div>
+  </section>
+
+  <section>
     <h2>Re-OCR queue (FAIL → force rework)</h2>
     <div class="targeted-grid" id="reocr"></div>
   </section>
@@ -627,10 +632,14 @@
     const counts = (data.summary && data.summary.counts) || {};
     const order = ["DONE", "IN PROGRESS", "PARTIAL", "WARN", "PENDING", "BLOCKED", "FAIL"];
     const keys = order.filter((k) => counts[k]).concat(Object.keys(counts).filter((k) => !order.includes(k)));
+    const failYears = (data.summary && data.summary.b6b_fail_years) || [];
     $("summary").innerHTML = keys.map((k) =>
       `<span class="pill ${esc(statusClass(k))}">${esc(k)} ${esc(counts[k])}</span>`
     ).join("") +
-      `<span class="pill">steps ${esc((data.summary && data.summary.total_steps) || (data.steps || []).length)}</span>`;
+      `<span class="pill">steps ${esc((data.summary && data.summary.total_steps) || (data.steps || []).length)}</span>` +
+      (failYears.length
+        ? `<span class="pill FAIL">B6b FAIL ${esc(failYears.join(", "))}</span>`
+        : `<span class="pill DONE">B6b FAIL none</span>`);
 
     const ocr = data.ocr_live || {};
     const proc = ocr.processes || {};
@@ -691,6 +700,75 @@
     const reocr = tgt.reocr || data.reocr || {};
     const surgical = tgt.surgical || {};
     const other = tgt.other || {};
+    const ws = data.workstreams || {};
+
+    function codeMapLine(codes) {
+      if (!codes || !Object.keys(codes).length) return "—";
+      return Object.entries(codes)
+        .sort((a, b) => (b[1] || 0) - (a[1] || 0))
+        .slice(0, 8)
+        .map(([k, n]) => `${esc(k)}×${esc(n)}`)
+        .join(" · ");
+    }
+    function wsYearRows(rows) {
+      return (rows || []).map((r) => {
+        const codes = r.codes ? codeMapLine(r.codes) : "";
+        return `<tr>
+          <td>${esc(r.year)}</td>
+          <td class="flag-bad">F${esc(r.b6b_fail != null ? r.b6b_fail : r.fail != null ? r.fail : "—")}</td>
+          <td>P${esc(r.b6b_pass != null ? r.b6b_pass : r.pass != null ? r.pass : "—")}</td>
+          <td class="meta">${codes || esc(r.verdict || "")}${r.audit_mtime ? ` · ${esc(fmtTs(r.audit_mtime))}` : ""}${r.source ? ` · ${esc(r.source)}` : ""}</td>
+        </tr>`;
+      }).join("") || `<tr><td colspan="4">none</td></tr>`;
+    }
+    const mid = ws.mid_clear_fail || {};
+    const dem = ws.b6b_demotion || {};
+    const wid = ws.detector_widen || {};
+    const uvb = ws.updated_vs_baseline || {};
+    const surgWs = ws.surgical_clears || surgical || {};
+    const uvbRows = Object.keys(uvb.years || {}).sort().map((y) => {
+      const r = (uvb.years || {})[y] || {};
+      return `<tr><td>${esc(y)}</td>
+        <td>${esc(r.baseline_hqmax != null ? r.baseline_hqmax : "—")}</td>
+        <td>${esc(r.updated_dir_count != null ? r.updated_dir_count : 0)}</td>
+        <td class="meta" title="${esc((r.updated_dirs || []).join(", "))}">${esc((r.updated_dirs || []).slice(0, 3).join(", ") || "—")}</td></tr>`;
+    }).join("");
+    $("workstreams").innerHTML = `
+      <div class="ocr-card b6b-card" style="border-left:4px solid var(--fail)">
+        <strong>Mid-clear B6b FAIL</strong>${stateBadge(mid.state || "idle")}
+        <div class="line meta">${esc(mid.note || "Live audit FAIL years")}</div>
+        <table class="mini-table"><thead><tr><th>Year</th><th>FAIL</th><th>PASS</th><th>Audit</th></tr></thead>
+        <tbody>${wsYearRows(mid.rows)}</tbody></table>
+      </div>
+      <div class="ocr-card b6b-card" style="border-left:4px solid var(--warn)">
+        <strong>Surgical clears</strong>${stateBadge(surgWs.state || "idle")}
+        <div class="line meta">${esc(surgWs.note || "")}</div>
+        ${surgWs.running
+          ? `<div class="line alive">PIDs ${(surgWs.pids || []).join(", ")}${surgWs.script ? ` · ${esc(surgWs.script)}` : ""}</div>`
+          : `<div class="line dead">no surgical process</div>`}
+        <div class="line job-line">${esc(surgWs.job_line || "—")}</div>
+        ${surgWs.progress_label ? `<div class="line"><strong>${esc(surgWs.progress_label)}</strong></div>` : ""}
+        <div class="line meta">log ${esc(surgWs.active_log || "—")}</div>
+      </div>
+      <div class="ocr-card">
+        <strong>B6b demotion (WARN→FAIL)</strong>${stateBadge(dem.state || "idle")}
+        <div class="line meta">${esc(dem.note || "")}</div>
+        <div class="line meta">codes: ${esc((dem.codes || []).join(", ") || "—")}</div>
+        <table class="mini-table"><thead><tr><th>Year</th><th>FAIL</th><th>PASS</th><th>Demoted hits</th></tr></thead>
+        <tbody>${wsYearRows(dem.years)}</tbody></table>
+      </div>
+      <div class="ocr-card">
+        <strong>Detector widen</strong>${stateBadge(wid.state || "idle")}
+        <div class="line meta">${esc(wid.note || "")}</div>
+        <table class="mini-table"><thead><tr><th>Year</th><th>FAIL</th><th>PASS</th><th>Widen hits</th></tr></thead>
+        <tbody>${wsYearRows(wid.years)}</tbody></table>
+      </div>
+      <div class="ocr-card" style="grid-column:1/-1">
+        <strong>Updated tree vs baseline</strong>
+        <div class="line meta">${esc(uvb.note || "")}${uvb.updated_root_present ? "" : " · Updated root missing"}</div>
+        <table class="mini-table"><thead><tr><th>Year</th><th>Baseline hqmax</th><th>Updated dirs</th><th>Sample</th></tr></thead>
+        <tbody>${uvbRows || `<tr><td colspan="4">no year data</td></tr>`}</tbody></table>
+      </div>`;
 
     const reocrRows = (reocr.entries || []).map((e) => {
       const codes = (e.codes || []).join(", ") || "—";
@@ -802,10 +880,12 @@
       const cats = r.by_catalog && Object.keys(r.by_catalog).length
         ? " · " + Object.entries(r.by_catalog).slice(0, 6).map(([k, n]) => `${k}×${n}`).join(" ")
         : "";
-      return `<tr title="${esc((r.era || "") + cats)}"><td>${esc(y)}</td>
+      const src = r.b6b_source ? ` · ${r.b6b_source}` : "";
+      const am = r.audit_mtime ? ` audit ${fmtTs(r.audit_mtime)}` : "";
+      return `<tr title="${esc((r.era || "") + cats + src + am)}"><td>${esc(y)}</td>
         <td class="${flagClass(verd)}">${esc(verd)}${r.b6b_unlocked ? " ✓" : ""}</td>
-        <td title="${esc(cats.trim())}">${esc(fw)}</td>
-        <td>${esc(fmtTs(r.b6b_done))}</td></tr>`;
+        <td title="${esc(cats.trim() + src + am)}">${esc(fw)}</td>
+        <td>${esc(fmtTs(r.b6b_done || r.audit_mtime))}</td></tr>`;
     }).join("");
     const b6bDetails = (b6b.details || []).map((d) => {
       const catLine = d.by_catalog && Object.keys(d.by_catalog).length
@@ -891,9 +971,11 @@
           <span>A1</span><span class="${flagClass(r.a1)}">${esc(r.a1)}${r.a1_done != null ? ` (${esc(r.a1_done)}/${esc(r.a1_jobs)})` : ""}</span>
           <span>A2</span><span class="${flagClass(r.a2)}">${esc(r.a2)}${r.a2_fail != null ? ` F${esc(r.a2_fail)} W${esc(r.a2_warn)}` : ""}${r.a2_unlocked ? " ✓" : ""}</span>
           <span>B6</span><span class="${flagClass(r.b6)}">${esc(r.b6)}${r.b6_sections != null ? ` s${esc(r.b6_sections)}` : ""}</span>
-          <span>B6b</span><span class="${flagClass(r.b6b_verdict || r.b6b)}">${esc(r.b6b_verdict || r.b6b || "pending")}${r.b6b_unlocked ? " unlock" : ""} F${esc(r.b6b_fail != null ? r.b6b_fail : "—")} W${esc(r.b6b_warn != null ? r.b6b_warn : "—")}</span>
+          <span>B6b</span><span class="${flagClass(r.b6b_verdict || r.b6b)}">${esc(r.b6b_verdict || r.b6b || "pending")}${r.b6b_unlocked ? " unlock" : ""} F${esc(r.b6b_fail != null ? r.b6b_fail : "—")} W${esc(r.b6b_warn != null ? r.b6b_warn : "—")} P${esc(r.b6b_pass != null ? r.b6b_pass : "—")}</span>
           <span>C10</span><span class="${flagClass(r.c10)}">${esc(r.c10)}</span>
-        </div>${detail}</div>`;
+        </div>
+        ${r.audit_mtime || r.b6b_source ? `<div class="meta">audit ${esc(fmtTs(r.audit_mtime) || "—")}${r.b6b_source ? ` · ${esc(r.b6b_source)}` : ""}</div>` : ""}
+        ${detail}</div>`;
     }
 
     function yearCardParked(y, r) {
@@ -925,10 +1007,15 @@
       <div class="years">${Object.keys(liveYears).sort().map((y) => yearCardLive(y, liveYears[y])).join("")}</div>
     </div>`;
 
+    const y9096Live = String(y9096.card_mode || "").toLowerCase() === "live"
+      || (y9096.fail_years && y9096.fail_years.length)
+      || Object.values(parkedYears).some((r) => r && (r.b6b_verdict || r.b6b_fail != null));
     erasHtml += `<div class="era-block ${esc(String(y9096.status || "parked").toLowerCase())}">
       <h3>${esc(y9096.label || "1990–1996 yearbook")}${eraBadge(y9096.status || "parked")}</h3>
-      <div class="era-meta">${esc(y9096.note || "A4 parked")}${y9096.plan_status ? ` · plan ${esc(y9096.plan_step || "A4")}: ${esc(y9096.plan_status)}` : ""}</div>
-      <div class="years">${Object.keys(parkedYears).sort().map((y) => yearCardParked(y, parkedYears[y])).join("") || "<div class='meta'>No year placeholders</div>"}</div>
+      <div class="era-meta">${esc(y9096.note || "B6b live")}${y9096.plan_status ? ` · plan ${esc(y9096.plan_step || "A4/B6b")}: ${esc(y9096.plan_status)}` : ""}${y9096.fail_years && y9096.fail_years.length ? ` · FAIL ${esc(y9096.fail_years.join(", "))}` : ""}</div>
+      <div class="years">${Object.keys(parkedYears).sort().map((y) =>
+        y9096Live ? yearCardLive(y, parkedYears[y]) : yearCardParked(y, parkedYears[y])
+      ).join("") || "<div class='meta'>No year placeholders</div>"}</div>
     </div>`;
 
     const earlyKeys = early.years_keys || ["1984","1985","1986","1987","1988","1989","1990"];

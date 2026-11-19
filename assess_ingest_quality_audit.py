@@ -8,13 +8,15 @@ baseline text, **writes cleaned text back**, then audits residuals against
 Intent: scrub OCR issues we already know how to fix so SQL ingest sees cleaner
 text — **do not re-OCR** unless cleanup cannot clear FAIL defects.
 
-Policy (2026-11-08 — user):
+Policy (2026-11-08 — user; FAIL set expanded 2026-11-13):
   - FAIL (blocks unlock / ``--apply``): smash, placeholders, height/place garble,
-    **owner_tail_trunc (O6)**, **class_header_gap (C1)**, and other catalog residuals
-    that remain *after* cleanup. Eyes-on WARN is not an unlock path for these.
+    **owner_tail_trunc (O6)**, **class_header_gap (C1)**, **missing_owned_by**,
+    **orphan_entry_count**, **bare_entries**, **mangled_by**, **cutoff_racing**,
+    **4th_then_2nd**, **4th_then_6th_no_5**, and other catalog residuals after cleanup.
   - Re-OCR: any FAIL class that finalize cannot invent (O6 right-edge cutoff, C1
     missing titles, residual smash/height) must be queued for force/targeted re-OCR.
-  - Handler ``handled by`` lines are not scored as mangled_by / missing_owned_by.
+    Structural S4/O / C6 / place-order FAILs are cleared in text (no invented surnames).
+  - Handler ``handled by`` / ``handling`` lines are not scored as mangled_by / missing_owned_by.
 
 Usage:
   python -u assess_ingest_quality_audit.py --years 1997 1998
@@ -63,7 +65,15 @@ CODE_TO_CATALOG: dict[str, str] = {
     "missing_owned_by": "S4/O",
     "owend_by": "O5",
     "class_header_gap": "C1",
+    "two_column_smash": "S1-S3",
+    "post_page_missing_header": "C1",
+    "incomplete_entries": "C1/C6",
+    "midclass_page_dropout": "C1",
+    "place_rank_gap": "C1",
+    "agility_racing_smash": "S1-S3",
+    "best_reserve_missing_header": "C7",
     "trial_bleed": "C5",
+    "missing_trial_header": "C5",
     "bare_entries": "C6/O1",
     "orphan_entry_count": "C6",
     "champ_reserve_split": "C7",
@@ -71,6 +81,9 @@ CODE_TO_CATALOG: dict[str, str] = {
     "cert_entries_glue": "C6",
     "owner_tail_trunc": "O6",
     "agility_pipe": "G4",
+    "3rd_then_5th_no_4": "C1",
+    "2nd_then_4th_no_3": "C1",
+    "1st_then_3rd_no_2": "C1",
     "judges_junk": "G5",
     "juqges": "G5",
     "juages": "G5",
@@ -97,12 +110,33 @@ FAIL_CODES = {
     # User paste / catalog — must FAIL and schedule re-OCR (not inventable)
     "owner_tail_trunc",
     "class_header_gap",
+    "two_column_smash",
+    "two_column_smash",
+    "post_page_missing_header",
+    "incomplete_entries",
+    "midclass_page_dropout",
+    "place_rank_gap",
+    "agility_racing_smash",
+    "best_reserve_missing_header",
+    "missing_trial_header",
+    # Former WARN-tier residuals — now FAIL; must clear before SQL apply (2026-11-13)
+    "missing_owned_by",
+    "orphan_entry_count",
+    "bare_entries",
+    "mangled_by",
+    "cutoff_racing",
+    "4th_then_2nd",
+    "4th_then_6th_no_5",
+    "3rd_then_5th_no_4",
+    "2nd_then_4th_no_3",
+    "1st_then_3rd_no_2",
 }
 
 # Codes that require image re-OCR / targeted recover (not finalize-only)
 REOCR_CODES = {
     "owner_tail_trunc",
     "class_header_gap",
+    "two_column_smash",
     "placeholder",
     "place_smash",
     "height_pct",
@@ -112,10 +146,27 @@ REOCR_CODES = {
     "height_40_42",
     "height_glued",
     "height_trunc_paren",
+    "incomplete_entries",
+    "midclass_page_dropout",
+    "place_rank_gap",
+    "agility_racing_smash",
+    "best_reserve_missing_header",
+    "missing_trial_header",
+    "champ_abbrev",
+    "3rd_then_5th_no_4",
+    "2nd_then_4th_no_3",
+    "1st_then_3rd_no_2",
 }
 
 PLACEHOLDER_RE = re.compile(r"(?i)\[missing class header\]")
-HANDLED_BY_RE = re.compile(r"(?i)\bhandled\s+by\b")
+HANDLED_BY_RE = re.compile(r"(?i)\bhandled\s+by\b|\bhandling\b")
+_OWNER_UNKNOWN_RE = re.compile(r"(?i)\bowner\s+unknown\b")
+_LAST_NAME_NOT_PROVIDED_RE = re.compile(r"(?i)\blast\s+name\s+not\s+provided\b")
+_HANDLER_NOT_PROVIDED_RE = re.compile(r"(?i)\bhandler\s+not\s+provided\b")
+_DISQUALIFIED_RE = re.compile(r"(?i)\bdisqualified\b")
+_OWNER_NAMED_WITHOUT_OWNED_RE = re.compile(
+    r"(?i),\s*owner\s+[A-Z]"  # "Terrier not provided, owner Pam Williams"
+)
 
 
 def _now() -> str:
@@ -130,10 +181,13 @@ def year_from_path(p: Path) -> int | None:
 
 
 _NOT_PROVIDED_BY_RE = re.compile(
-    r"(?i)\b(?:not\s+provided|owner\s+not\s+provided)\s+by\b|"
-    r"\bprovided\s+by\s+(?:trial\s+)?(?:chair|chairman|chairperson)\b"
+    r"(?i)\b(?:not\s+provided|owner\s+not\s+provided|not\s+reported)\s+by\b|"
+    r"\b(?:provided|reported)\s+by\s+(?:trial\s+)?(?:chair|chairman|chairperson)\b"
 )
-_OWNER_NOT_PROVIDED_RE = re.compile(r"(?i)\bowner\s+not\s+provided\b")
+# Yearbook may omit "owned by" when the owner was not given; treat as intentional.
+_OWNER_NOT_PROVIDED_RE = re.compile(
+    r"(?i)\b(?:name\s+of\s+)?owner(?:\'s)?\s+(?:name\s+)?not\s+(?:provided|furnished|reported|available)\b"
+)
 _PROPER_OWNED_BY_RE = re.compile(r"(?i)\bowned\s+by\b")
 
 
@@ -149,6 +203,14 @@ def filter_handler_false_positives(
             continue
         # Intentional yearbook wording, not an OCR defect
         if code == "missing_owned_by" and _OWNER_NOT_PROVIDED_RE.search(line):
+            continue
+        if code == "missing_owned_by" and (
+            _OWNER_UNKNOWN_RE.search(line)
+            or _LAST_NAME_NOT_PROVIDED_RE.search(line)
+            or _HANDLER_NOT_PROVIDED_RE.search(line)
+            or _DISQUALIFIED_RE.search(line)
+            or _OWNER_NAMED_WITHOUT_OWNED_RE.search(line)
+        ):
             continue
         # Dog name contains "… Bad by," but line also has a real owned-by clause
         if code == "mangled_by" and _PROPER_OWNED_BY_RE.search(line):
@@ -306,9 +368,9 @@ def write_reports(year: int, rows: list[dict]) -> tuple[Path, Path]:
         "- Re-OCR only if FAIL remains after cleanup — not as the default path.",
         "",
         "## Policy",
-        "- FAIL (blocks apply/unlock): smash, height/place garble, **O6 owner_tail_trunc**, **C1 class_header_gap**, placeholders",
-        "- Re-OCR queued when FAIL includes REOCR_CODES (O6/C1/smash/height) — do not invent surnames/titles",
-        "- `handled by` lines excluded from mangled_by / missing_owned_by",
+        "- FAIL (blocks apply/unlock): smash, height/place, O6, C1, placeholders, **missing_owned_by**, **orphan_entry_count**, **bare_entries**, **mangled_by**, **cutoff_racing**, **4th_then_2nd**, **4th_then_6th_no_5**",
+        "- Re-OCR queued when FAIL includes REOCR_CODES (O6/C1/smash/height) — structural S4/O/C6 cleared in text; do not invent surnames/titles",
+        "- `handled by` / `handling` lines excluded from mangled_by / missing_owned_by",
         "",
         "## Per volume",
         "",
