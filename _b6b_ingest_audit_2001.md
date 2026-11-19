@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 2001
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 14  cleaned=14  PASS=11  WARN=0  FAIL=3
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 14  cleaned=14  PASS=14  WARN=0  FAIL=0
+Year verdict: **PASS**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -26,19 +26,10 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | PASS | True | 0 | 0 | — | `2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 PNWJRTN_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Summer Celebration_ocr_hqmax.txt` |
-| FAIL | True | 2 | 0 | S4×2 | `2001 Vol II pt 1_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2001 Vol II pt 1_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Vol II pt 2_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2001 Yankee_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | C1×1 | `2001 Vol III pt 1_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | S1-S3×1 | `2001 Vol III pt 2_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2001 Vol III pt 1_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2001 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
-
-### `2001 Vol II pt 1_ocr_hqmax.txt` (FAIL)
-- `S4` / `mangled_by`: 4th: Not reported by Trial Chairperson
-
-### `2001 Vol III pt 1_ocr_hqmax.txt` (FAIL)
-- `C1` / `class_header_gap`: 5th: Rushill Max, owned by Jerry & Eileen Stoecklein
-
-### `2001 Vol III pt 2_ocr_hqmax.txt` (FAIL)
-- `S1-S3` / `two_column_smash`: 5th: iz:-S0 ws EarTuck, owned by,B A Genie brand n iG

@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 1995
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=5  PASS=4  WARN=0  FAIL=1
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 5  cleaned=5  PASS=5  WARN=0  FAIL=0
+Year verdict: **PASS**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -20,11 +20,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_124005_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_124704_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_130318_ocr_hqmax.txt` |
-| FAIL | True | 2 | 0 | O6×2 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_134403_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_142425_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
-
-### `Document_2026-11-04_134403_ocr_hqmax.txt` (FAIL)
-- `O6` / `owner_tail_trunc`: 3rd: Tortilla Flat Streak, owned by Dylan Van Dam
-- `O6` / `owner_tail_trunc`: 6th: Tortilla Flat Streak, owned by Dylan Van Dam

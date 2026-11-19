@@ -1339,6 +1339,11 @@ def _insert_missing_owned_by_phrase(text: str) -> str:
         if not left or not right or _HAS_OWNER_CLAUSE_RE.search(right):
             out.append(ln)
             continue
+        # Roman suffix OCR on handler/exhibitor lines: ``Bobby Duty, Ill`` → ``Bobby Duty III``
+        # (must not become ``owned by Ill``, which falsely trips O6).
+        if re.fullmatch(r"(?i)(?:Ill|Ili|Iii|III|lll)", right):
+            out.append(f"{prefix} {left} III")
+            continue
         # Reject class-header bleed / garble tails
         if re.search(r"(?i)\bentries\s*:|\d\s*(?:up to|/)\s*\d", left):
             out.append(ln)
@@ -1392,6 +1397,7 @@ _CLASS_HEADER_HINT_RE = re.compile(
     r"\bbest\b.+(?:bitch|dog|puppy)|"
     r"champion\s*&\s*reserve|"
     r"family\s+class|brace\b|stud\s+dog|brood\s+bitch|"
+    r"\bbronze\s+medallion(?:\s+class)?\b|"
     r"\b(?:youth|junior|child|pee\s*wee)\s+handler\b|"
     r"\bhandler\b|\bshowmanship\b|"
     r"\b(?:on|off)\s+lead\b|"
@@ -3050,6 +3056,8 @@ _OWNER_TAIL_COMPLETE = frozenset(
         "paz",  # image: Tara Paz complete (1995)
         "biz",  # image: Tony Biz complete (1995)
         "jrs",  # kennel: Eastlake JRs complete (1995)
+        "dam",  # yearbook: Dylan Van Dam complete (1995 Tortilla Flat Streak)
+        "utz",  # yearbook: Suzi Utz complete (1996 Wesworld Hamilton co-owner)
 
         "nye",  # yearbook: Michael & Andrea Nye complete (1992 Zig)
         "coe",  # yearbook: Tricia Coe complete (1992 Pippen / Hobbit Hollow)
@@ -3230,7 +3238,8 @@ _OWNER_TAIL_COMPLETE = frozenset(
 )
 
 _OWNER_TAIL_SUFFIX_RE = re.compile(
-    r"(?i)\s+(?:Jr\.?|Sr\.?|II|III|IV|2nd|3rd|Ill|Ili|Iii|lll)\s*$"
+    # Ill/lil/lI/Il/Hl are OCR roman-III near-misses after Duty/etc.
+    r"(?i)\s+(?:Jr\.?|Sr\.?|II|III|IV|2nd|3rd|Ill|Ili|Iii|lll|lil|lI|Il|Hl)\s*$"
 )
 
 
@@ -3261,21 +3270,54 @@ def is_owner_tail_trunc_line(line: str) -> bool:
     tail = _OWNER_TAIL_SUFFIX_RE.sub("", m.group(1).strip()).strip()
     if not tail:
         return False
-    # Co-owner cut: "... & Lir" / "& Bett" / "& Mi"
-    m_amp = re.search(r"&\s+([A-Za-z']+)\s*$", tail)
-    if m_amp:
-        raw = m_amp.group(1).rstrip(".")
-        hop = _hop_surname_case(raw)
+    _PARTICLES = {"van", "der", "de", "di", "le", "la", "du", "von"}
+
+    def _surname_trunc(last_raw: str) -> bool | None:
+        hop = _hop_surname_case(last_raw)
         if hop is True:
             return False
         if hop is False:
             return True
-        tok = raw.lower()
-        if tok in _OWNER_TAIL_STUBS:
+        last = last_raw.lower()
+        if last in _OWNER_TAIL_STUBS:
             return True
-        if 1 <= len(tok) <= 3 and tok not in _OWNER_TAIL_COMPLETE:
+        if last in _OWNER_TAIL_COMPLETE:
+            return False
+        if last in _PARTICLES:
+            return True
+        if 2 <= len(last) <= 3:
             return True
         return False
+
+    # Co-owner with full Given + Surname after &: ``& Suzi Utz``
+    m_amp_pair = re.search(r"&\s+([A-Z][A-Za-z']+)\s+([A-Z][A-Za-z']+)\s*$", tail)
+    if m_amp_pair:
+        first, last_raw = m_amp_pair.group(1), m_amp_pair.group(2).rstrip(".")
+        if first.lower() in _PARTICLES and len(last_raw) >= 2:
+            return False
+        hit = _surname_trunc(last_raw)
+        return bool(hit) if hit is not None else False
+    # Co-owner cut: "... & Lir" / "& Bett" / "& Mi"
+    m_amp = re.search(r"&\s+([A-Za-z']+)\s*$", tail)
+    if m_amp:
+        raw = m_amp.group(1).rstrip(".")
+        hit = _surname_trunc(raw)
+        if hit is not None:
+            return hit
+        tok = raw.lower()
+        return 1 <= len(tok) <= 3 and tok not in _OWNER_TAIL_COMPLETE
+    # Given + hyphenated surname at EOL (``Willow Hindle-Ren``): complete when
+    # each hyphen part is a real Title-Case stem (>=2 chars), not a crop stub.
+    m_hyphen = re.search(
+        r"\b([A-Z][A-Za-z']+)\s+([A-Z][A-Za-z']+(?:-[A-Z][A-Za-z']+)+)\s*$",
+        tail,
+    )
+    if m_hyphen:
+        parts = m_hyphen.group(2).split("-")
+        if all(len(p) >= 2 for p in parts):
+            if any(p.lower() in _OWNER_TAIL_STUBS for p in parts):
+                return True
+            return False
     # Given + surname at EOL (Title Case)
     m_name = re.search(r"\b([A-Z][A-Za-z']+)\s+([A-Z][A-Za-z']+)\s*$", tail)
     if not m_name:
@@ -3283,19 +3325,15 @@ def is_owner_tail_trunc_line(line: str) -> bool:
         m_one = re.search(r"^([A-Za-z']+)\s*$", tail)
         if m_one:
             raw = m_one.group(1).rstrip(".")
-            hop = _hop_surname_case(raw)
-            if hop is True:
-                return False
-            if hop is False:
-                return True
+            hit = _surname_trunc(raw)
+            if hit is not None:
+                return hit
             tok = raw.lower()
-            if tok in _OWNER_TAIL_STUBS:
-                return True
-            if tok in _OWNER_TAIL_COMPLETE:
-                return False
             # "owned by Jon" alone is incomplete (needs surname), flag
             return len(tok) <= 4
-        # e.g. ``owned by ali mae hop`` (all-lowercase crop) — last token case
+        # e.g. ``owned by ali mae hop`` / ``A. Ri`` / ``Duty, lI`` — last token
+        # only. Length alone is not enough here (initials + OCR Ill variants);
+        # trust hop True/False only, same as pre-residual-clear policy.
         m_last = re.search(r"([A-Za-z']+)\s*$", tail)
         if m_last:
             hop = _hop_surname_case(m_last.group(1))
@@ -3304,24 +3342,14 @@ def is_owner_tail_trunc_line(line: str) -> bool:
             if hop is False:
                 return True
         return False
-    last_raw = m_name.group(2).rstrip(".")
-    hop = _hop_surname_case(last_raw)
-    if hop is True:
+    first, last_raw = m_name.group(1), m_name.group(2).rstrip(".")
+    # Particle + surname present (``Van Dam``): not a right-edge crop of ``Van``.
+    if first.lower() in _PARTICLES and len(last_raw) >= 2:
+        if last_raw.lower() in _OWNER_TAIL_STUBS:
+            return True
         return False
-    if hop is False:
-        return True
-    last = last_raw.lower()
-    if last in _OWNER_TAIL_STUBS:
-        return True
-    if last in _OWNER_TAIL_COMPLETE:
-        return False
-    # Unknown short surname: only 2–3 letters (4-letter unknowns are usually real)
-    # Exception: trailing particle "Van"/"Der" often cut before the rest of the name.
-    if last in {"van", "der", "de", "di", "le", "la", "du"}:
-        return True
-    if 2 <= len(last) <= 3:
-        return True
-    return False
+    hit = _surname_trunc(last_raw)
+    return bool(hit) if hit is not None else False
 
 
 def _owner_tail_prefix_and_last(tail: str) -> tuple[tuple[str, ...], str] | None:

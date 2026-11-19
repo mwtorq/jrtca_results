@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 2000
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=5  PASS=4  WARN=0  FAIL=1
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 5  cleaned=5  PASS=5  WARN=0  FAIL=0
+Year verdict: **PASS**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -19,11 +19,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 |---------|---------|------|------|---------|------|
 | PASS | True | 0 | 0 | — | `2000 Vol I_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2000 Vol II_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | C7×1 | `2000 vol 3 pt 1_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `2000 vol 3 pt 1_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2000 Vol III pt 1_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `2000 Vol III pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
-
-### `2000 vol 3 pt 1_ocr_hqmax.txt` (FAIL)
-- `C7` / `best_reserve_missing_header`: Reserve: Spaz, owned by Melissa Lowe

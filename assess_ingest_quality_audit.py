@@ -181,8 +181,8 @@ def year_from_path(p: Path) -> int | None:
 
 
 _NOT_PROVIDED_BY_RE = re.compile(
-    r"(?i)\b(?:not\s+provided|owner\s+not\s+provided)\s+by\b|"
-    r"\bprovided\s+by\s+(?:trial\s+)?(?:chair|chairman|chairperson)\b"
+    r"(?i)\b(?:not\s+provided|owner\s+not\s+provided|not\s+reported)\s+by\b|"
+    r"\b(?:provided|reported)\s+by\s+(?:trial\s+)?(?:chair|chairman|chairperson)\b"
 )
 # Yearbook may omit "owned by" when the owner was not given; treat as intentional.
 _OWNER_NOT_PROVIDED_RE = re.compile(
