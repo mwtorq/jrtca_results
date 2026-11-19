@@ -1,7 +1,7 @@
 # B6b cleanup + ingest audit — 1995
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 5  cleaned=5  PASS=2  WARN=0  FAIL=3
+Volumes: 5  cleaned=5  PASS=4  WARN=0  FAIL=1
 Year verdict: **FAIL**  SQL-apply unlock: NO
 
 ## Intent
@@ -18,19 +18,13 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_124005_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | C1×1 | `Document_2026-11-04_124704_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_124704_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_130318_ocr_hqmax.txt` |
-| FAIL | True | 2 | 0 | C1×2 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | C1×1 | `Document_2026-11-04_142425_ocr_hqmax.txt` |
+| FAIL | True | 2 | 0 | O6×2 | `Document_2026-11-04_134403_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `Document_2026-11-04_142425_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
 
-### `Document_2026-11-04_124704_ocr_hqmax.txt` (FAIL)
-- `C1` / `place_rank_gap`: Dogs, 1 yr & over, 12 1/2-15" Entries: 8 | 1th then 4th | 4th: Westwood Sparkle, owned by Alice Reynolds
-
 ### `Document_2026-11-04_134403_ocr_hqmax.txt` (FAIL)
-- `C1` / `place_rank_gap`: Bitches, 1 yr & over, 12 1/2-15", r/br                       | 1th then 3th | 3rd: Max, owned by T. Beers
-- `C1` / `place_rank_gap`: Novice Agility I, On-Lead                                    | 1th then 3th | 3rd: Courtland Moo Cow, owned by K. Morander & J. Jankowski
-
-### `Document_2026-11-04_142425_ocr_hqmax.txt` (FAIL)
-- `C1` / `place_rank_gap`: Dogs, 1 yr & over, 10-12 1/2", r/br                          | 1th then 3th | 3rd: Camerton Hall Echo, owned by Jack & Pauline Fawkes
+- `O6` / `owner_tail_trunc`: 3rd: Tortilla Flat Streak, owned by Dylan Van Dam
+- `O6` / `owner_tail_trunc`: 6th: Tortilla Flat Streak, owned by Dylan Van Dam

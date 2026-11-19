@@ -4,8 +4,8 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_082440_ocr_hqmax.txt",
-      "chars_before": 42753,
-      "chars_after": 42750,
+      "chars_before": 42672,
+      "chars_after": 42570,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -19,60 +19,43 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083342_ocr_hqmax.txt",
-      "chars_before": 20495,
-      "chars_after": 20494,
+      "chars_before": 20584,
+      "chars_after": 20583,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 2,
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "owner_tail_trunc\u00d71,place_rank_gap\u00d71",
-      "top_catalog": "O6\u00d71,C1\u00d71",
+      "top_codes": "owner_tail_trunc\u00d71",
+      "top_catalog": "O6\u00d71",
       "by_code": {
-        "owner_tail_trunc": 1,
-        "place_rank_gap": 1
+        "owner_tail_trunc": 1
       },
       "samples": [
         {
           "code": "owner_tail_trunc",
           "catalog": "O6",
           "line": "5th: Raheen Doc Holiday, owned by Coffey & Cur"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12 1/2-15\" Entries: 20 | 1th then 4th | 4th: Fox Run Contender of Kelleen, owned by Kelleen Rossman"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "owner_tail_trunc",
-        "place_rank_gap"
+        "owner_tail_trunc"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083655_ocr_hqmax.txt",
-      "chars_before": 40936,
-      "chars_after": 40934,
+      "chars_before": 41101,
+      "chars_after": 41099,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "place_rank_gap": 1
-      },
-      "samples": [
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, 10-12 1/2\" Entries: 5 | 2th then 6th | 6th: Briarpatch Pepper, owned by Donna Sinderud"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_084730_ocr_hqmax.txt",
@@ -91,62 +74,42 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_105927_ocr_hqmax.txt",
-      "chars_before": 54301,
-      "chars_after": 54300,
+      "chars_before": 56317,
+      "chars_after": 56075,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 3,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d73",
-      "top_catalog": "C1\u00d73",
-      "by_code": {
-        "place_rank_gap": 3
-      },
-      "samples": [
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Puppies                                              En | 1th then 3th | 3rd: Falling Branch Raisin, owned by Phil & Debbie Johnson"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Novice Adults                                                | 4th then 6th | 6th: Tree Top Huey, owned by Bruce & Trish Frankenberg"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, r/br                            | 1th then 4th | 4th: Corky of Shenandoah, owned by Nancy Steele"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_111318_ocr_hqmax.txt",
-      "chars_before": 31340,
-      "chars_after": 31339,
+      "chars_before": 31528,
+      "chars_after": 31482,
       "cleaned": true,
       "verdict": "FAIL",
       "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d71",
-      "top_catalog": "C1\u00d71",
+      "top_codes": "incomplete_entries\u00d71",
+      "top_catalog": "C1/C6\u00d71",
       "by_code": {
-        "place_rank_gap": 1
+        "incomplete_entries": 1
       },
       "samples": [
         {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Class 20: Obedience - Novice                                 | 4th then 6th | 6th: THIMBLE FARM TARGET, owned by Valerie Wasch"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "PARKED jr54: Obedience Novice Entries: 9 missing 5th/6th after THE FOX (twin end | places=0/6 | Class 21: Obedience - Brace"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "place_rank_gap"
+        "incomplete_entries"
       ]
     },
     {
@@ -166,33 +129,18 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_114039_ocr_hqmax.txt",
-      "chars_before": 57777,
-      "chars_after": 57723,
+      "chars_before": 57846,
+      "chars_after": 57792,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d72",
-      "top_catalog": "C1\u00d72",
-      "by_code": {
-        "place_rank_gap": 2
-      },
-      "samples": [
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Stud Dog and Get                                             | 2th then 6th | 6th: Button Top Dudley, owned by Susan Aslop"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, 10-12 1/2\" Entries: 5 | 2th then 4th | 4th: Courtwood Chance of Wit's End, owned by Jane Griffin"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

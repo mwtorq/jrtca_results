@@ -4,8 +4,40 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back reversed_ocr_hqmax.txt",
-      "chars_before": 60968,
-      "chars_after": 60885,
+      "chars_before": 65298,
+      "chars_after": 63514,
+      "cleaned": true,
+      "verdict": "FAIL",
+      "fail_hits": 2,
+      "warn_hits": 0,
+      "top_codes": "owner_tail_trunc\u00d71,class_header_gap\u00d71",
+      "top_catalog": "O6\u00d71,C1\u00d71",
+      "by_code": {
+        "owner_tail_trunc": 1,
+        "class_header_gap": 1
+      },
+      "samples": [
+        {
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "3rd: Wesworld Hamilton, owned by Christi Parkison & Suzi Utz"
+        },
+        {
+          "code": "class_header_gap",
+          "catalog": "C1",
+          "line": "4th: Blue Moon Ena, owned by Anne Davis"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "class_header_gap",
+        "owner_tail_trunc"
+      ]
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
+      "chars_before": 62014,
+      "chars_after": 61950,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -18,116 +50,34 @@
       "reocr_codes": []
     },
     {
-      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
-      "chars_before": 61363,
-      "chars_after": 61360,
-      "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 7,
-      "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d75,1st_then_3rd_no_2\u00d72",
-      "top_catalog": "C1\u00d77",
-      "by_code": {
-        "1st_then_3rd_no_2": 2,
-        "place_rank_gap": 5
-      },
-      "samples": [
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Prestwick Belle, owned by Sally Yancey & Christi Tatum\n3rd: Briarpatch Brash, owned by Jane Griffin"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: The Hollow York, owned by The Hollow Terriers\n3rd: Hillsdale Hanmer, owned by Lynn Eshleman"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Novice, On Leal                                              | 2th then 5th | 5th: Six Pack, owned by Ken & Penny Baker"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Class Entries: 6 | 1th then 3th | 3rd: Briarpatch Brash, owned by Jane Griffin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Class Entries: 6 | 3th then 5th | 5th: Oakfield Annie, owned by Albert & Heather Dickau"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up b 12 months, 10-12 1/2\" Entries: 5 | 2th then 4th | 4th: Blue Moon Ema, owned by Anne Davis"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 4 up te 6 months | 1th then 3th | 3rd: Hillsdale Hanmer, owned by Lynn Eshleman"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "place_rank_gap"
-      ]
-    },
-    {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt",
-      "chars_before": 56414,
-      "chars_after": 56391,
+      "chars_before": 58051,
+      "chars_after": 57511,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d72",
-      "top_catalog": "C1\u00d72",
-      "by_code": {
-        "place_rank_gap": 2
-      },
-      "samples": [
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12 1/2-15\", smooth                        | 1th then 3th | 3rd: Briarpatch Snapshot of Arrow Fork, owned by Clint Clayton"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 9 months, r/br                           | 1th then 3th | 3rd: Larkswood Kellie, owned by Eastlake Terriers"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt",
-      "chars_before": 17603,
-      "chars_after": 17602,
-      "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "chars_before": 17655,
+      "chars_after": 17655,
+      "cleaned": false,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "place_rank_gap": 1
-      },
-      "samples": [
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 2th then 4th | 4th: Windy Viev Questor, owned by William & Guy O'Brien"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back_ocr_hqmax.txt",
@@ -146,107 +96,73 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 front_ocr_hqmax.txt",
-      "chars_before": 20081,
-      "chars_after": 20080,
+      "chars_before": 20205,
+      "chars_after": 20203,
       "cleaned": true,
       "verdict": "FAIL",
       "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d71",
-      "top_catalog": "C1\u00d71",
+      "top_codes": "incomplete_entries\u00d71",
+      "top_catalog": "C1/C6\u00d71",
       "by_code": {
-        "place_rank_gap": 1
+        "incomplete_entries": 1
       },
       "samples": [
         {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Starters Agility I, Off Lead                                 | 3th then 6th | 6th: Ash Creek Ghillie, owned by Marty & Teresa Gollteib"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "PARKED jr54: Starters Agility Entries: 6 missing 4th-5th after Braque (OCR blank | places=0/6 | Agility I, Off Lead                                         "
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "place_rank_gap"
+        "incomplete_entries"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt",
-      "chars_before": 49292,
-      "chars_after": 49221,
+      "chars_before": 52941,
+      "chars_after": 51142,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 2,
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "1st_then_3rd_no_2\u00d71,place_rank_gap\u00d71",
-      "top_catalog": "C1\u00d72",
+      "top_codes": "incomplete_entries\u00d71",
+      "top_catalog": "C1/C6\u00d71",
       "by_code": {
-        "1st_then_3rd_no_2": 1,
-        "place_rank_gap": 1
+        "incomplete_entries": 1
       },
       "samples": [
         {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: FoxwarrenRaider, owned by Joann Vinelli\n3rd: Show-Me Bernard of Heartstone, owned by Lynn Jerome"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "9 months, 10-12 1/2\" Entries: 0 | 1th then 3th | 3rd: Show-Me Bernard of Heartstone, owned by Lynn Jerome"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "# PARKED jr54: Arizona Bred 5th not printed on PDF (Entries: 7) | places=0/6 | PARKED jr54: Dog Pups 6-9 smooth 1st-5th on prior yearbook p"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "place_rank_gap"
+        "incomplete_entries"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt",
-      "chars_before": 47871,
-      "chars_after": 47869,
+      "chars_before": 47929,
+      "chars_after": 47923,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 4,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d73,1st_then_3rd_no_2\u00d71",
-      "top_catalog": "C1\u00d74",
-      "by_code": {
-        "1st_then_3rd_no_2": 1,
-        "place_rank_gap": 3
-      },
-      "samples": [
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Blackland Tirbo, owned by Doris Baylor\n3rd: Bonnie Bee, owned by Gavin Corn"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, r/lbr                           | 3th then 6th | 6th: Pine Hill Jeina, owned by Lisa Drinkwater"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Advanced Certificate Class                                   | 2th then 6th | 6th: Tortilla Fiat Ivy, owned by Mick and Jean Kieselburg"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Adults | 1th then 3th | 3rd: Bonnie Bee, owned by Gavin Corn"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 front_ocr_hqmax.txt",
-      "chars_before": 46551,
-      "chars_after": 46507,
+      "chars_before": 47806,
+      "chars_after": 47416,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -260,363 +176,89 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt",
-      "chars_before": 60918,
-      "chars_after": 60904,
+      "chars_before": 61356,
+      "chars_after": 60908,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 16,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d711,1st_then_3rd_no_2\u00d74,3rd_then_5th_no_4\u00d71",
-      "top_catalog": "C1\u00d716",
-      "by_code": {
-        "3rd_then_5th_no_4": 1,
-        "1st_then_3rd_no_2": 4,
-        "place_rank_gap": 11
-      },
-      "samples": [
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Pully, owned by Sally Gay\n5th: White Rose Gingersnap, owned by Tabby Shury"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Weavwoor Sprout, owned by Cheryl Weaver\n3rd: White Gate Bracelet, owned by Jeanne Huston"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: 0, owned by Janet Nugemt\n3rd: Bluebonnet {naffle, owned by Judy Beard"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Kensington Jaylee of Paradise, owned by Tina Sales\n3rd: Maggie, owned by Kerry Bishop"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Paxton Nick of Lost Creek, owned by Debbie McWilliams\n3rd: Broken Arrow Spooke, owned by Phillip & Lori Aaron"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 5th then 9th | 9th: Cottonwood Too Quick, owned by Ben Seago"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Novice Adults | 1th then 3th | 3rd: White Gate Bracelet, owned by Jeanne Huston"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to \u00a32 months, 10-12 1/2\" Entries: 16 | 5th then 9th | 9th: Duchess of Coliwater, owned by Karen & Robert Seals"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 12 months, 10-12 112\u00b0                    | 5th then 9th | 9th: Button Tep Stinger, owned by Deborah Calloway"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up tc 12 months, 12 1/2-15\" | 2th then 4th | 4th: Petey, owned by Raquel Warner"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 4 w to 6 months, r/br                            | 5th then 9th | 9th: Button Top Molly, owned by Bobby Duty"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pre-Novice Puppits                                           | 1th then 3th | 3rd: Bluebonnet {naffle, owned by Judy Beard"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Novice Adults                                                | 1th then 3th | 3rd: Maggie, owned by Kerry Bishop"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to12 months, 12 1/2-15\" | 1th then 3th | 3rd: Broken Arrow Spooke, owned by Phillip & Lori Aaron"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12 1/2-15\" \u2013 Entries: 22 | 5th then 9th | 9th: Ridgeview Skeeterm, owned by Stehpanie Hagan \u2013 Entries: 25"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pennsylvania Bred \u2013 Entries: 0 | 3th then 5th | 5th: White Rose Gingersnap, owned by Tabby Shury"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "3rd_then_5th_no_4",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt",
-      "chars_before": 61615,
-      "chars_after": 61614,
+      "chars_before": 61807,
+      "chars_after": 61797,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 9,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d75,1st_then_3rd_no_2\u00d74",
-      "top_catalog": "C1\u00d79",
-      "by_code": {
-        "1st_then_3rd_no_2": 4,
-        "place_rank_gap": 5
-      },
-      "samples": [
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: 0, owned by Janet Nugemt\n3rd: Bluebonnet Snaffle, owned by Judy Beard"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Kensington Jaylee of Paradise, owned by Tina Sales\n3rd: Maggie, owned by Kerry Bishop"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Lacey, owned by Margaret Stricklandond: Red Oak Blue Bonnet\n3rd: Crabtree Tally, owned by Rusty Womack"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Weavwoot Sprout, owned by Cheryl Weaver\n3rd: White Gate Bracelet, owned by Jeanne Huston"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pre-Novice Puppits                                           | 1th then 3th | 3rd: Bluebonnet Snaffle, owned by Judy Beard"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Novice Adults                                                | 1th then 3th | 3rd: Maggie, owned by Kerry Bishop"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 1th then 7th | 7nd: Lost CreekSable, owned by Debbie McWilliams"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 12 months, 10-12 1/2\" | 1th then 3th | 3rd: Crabtree Tally, owned by Rusty Womack"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt",
-      "chars_before": 59449,
-      "chars_after": 59403,
+      "chars_before": 60411,
+      "chars_after": 60273,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 23,
+      "fail_hits": 3,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d712,1st_then_3rd_no_2\u00d75,3rd_then_5th_no_4\u00d74,2nd_then_4th_no_3\u00d71,agility_racing_smash\u00d71",
-      "top_catalog": "C1\u00d722,S1-S3\u00d71",
+      "top_codes": "two_column_smash\u00d72,owner_tail_trunc\u00d71",
+      "top_catalog": "S1-S3\u00d72,O6\u00d71",
       "by_code": {
-        "3rd_then_5th_no_4": 4,
-        "2nd_then_4th_no_3": 1,
-        "1st_then_3rd_no_2": 5,
-        "place_rank_gap": 12,
-        "agility_racing_smash": 1
+        "owner_tail_trunc": 1,
+        "two_column_smash": 2
       },
       "samples": [
         {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Three Oaks Double D of Bili Brook, owned by Billy Shores\n5th: Turbo of Ball Creek, owned by Ronnie & Wanda Dyer"
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "2nd: Bobby Duty, owned by Ill"
         },
         {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Three Oaksth: Sukhoi of Good T, owned by Steve Spruill\n5th: Sadie, owned by Chris Advani"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Will-O-Moor Rex, owned by Kim Wentz\n5th: Arlins Troy Built Riley, owned by Alison Linstrum"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Farmcliff Becky, owned by Bob Franklin\n5th: The Hollow Fioana, owned by Missy Kulback"
-        },
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: Frisbee, owned by Dawn Pierson\n4th: Petey, owned by Kathy Hunter"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: S Rimshot, owned by Glenda Lewis\n3rd: Three Oaks Joh, owned by Jason Echols"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Sarah Harsh\n3rd: Luke Hitt"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Camelot Derby of Marksworth, owned by Terry Clower\n3rd: Whirlwind Polo, owned by Terry Wellman"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Long Hope Mickey, owned by Bob Franklin\n3rd: Courtland Moo Cow, owned by Joe Jankows"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Farmcliff Sugar, owned by Bob Franklin\n3rd: Farmcliff Becky, owned by Bob Franklin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12 1/2-15\", smooth                        | 3th then 5th | 5th: Turbo of Ball Creek, owned by Ronnie & Wanda Dyer"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 2th then 5th | 5th:   Susie, owned by Donna Shamp"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "10-12 1/2\" | 3th then 5th | 5th: Sadie, owned by Chris Advani"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "12 1/2-15\" | 1th then 3th | 3rd: Three Oaks Joh, owned by Jason Echols"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to | 2th then 4th | 4th: Petey, owned by Kathy Hunter"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Junior Handler | 1th then 3th | 3rd: Luke Hitt"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 1th then 3th | 3rd: Whirlwind Polo, owned by Terry Wellman"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Youth Agility | 2th then 6th | 6th: Locust Ridge Oakley, owned by Jill Hutchins Murphy"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Will-O-Moor \"Spike\", owned by J. Benintendo \u2013 Entries: 0 | 3th then 5th | 5th: Arlins Troy Built Riley, owned by Alison Linstrum"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 1th then 3th | 3rd: Courtland Moo Cow, owned by Joe Jankows"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over 10-12 1/2\" | 1th then 3th | 3rd: Farmcliff Becky, owned by Bob Franklin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over 10-12 1/2\" | 3th then 5th | 5th: The Hollow Fioana, owned by Missy Kulback"
-        },
-        {
-          "code": "agility_racing_smash",
+          "code": "two_column_smash",
           "catalog": "S1-S3",
-          "line": "Go-to-Ground CHAMPION & RESERVE -> FLAT RACES"
+          "line": "Champion: not reported"
+        },
+        {
+          "code": "two_column_smash",
+          "catalog": "S1-S3",
+          "line": "Reserve: not reported"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "2nd_then_4th_no_3",
-        "3rd_then_5th_no_4",
-        "agility_racing_smash",
-        "place_rank_gap"
+        "owner_tail_trunc",
+        "two_column_smash"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt",
-      "chars_before": 70571,
-      "chars_after": 70464,
+      "chars_before": 70984,
+      "chars_after": 70782,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 5,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d73,1st_then_3rd_no_2\u00d72",
-      "top_catalog": "C1\u00d75",
-      "by_code": {
-        "1st_then_3rd_no_2": 2,
-        "place_rank_gap": 3
-      },
-      "samples": [
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Foxy Rosy, owned by David & Vincent Stephens\n3rd: R.A. Annie, owned by Charline Williams"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Disqualifiedond: Wesmorlard Kallie, owned by Kirk Dickinson\n3rd: RavenswooRed Riddle, owned by Julie Conner"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over 12 1/2-15\" | 1th then 3th | 3rd: R.A. Annie, owned by Charline Williams"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Novice, On Lead                                              | 5th then 9th | 9th: Sir Winston, owned by Charles & Sally Hickey"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & orer, 10-12 1/2\", smooth                     | 1th then 3th | 3rd: RavenswooRed Riddle, owned by Julie Conner"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back_ocr_hqmax.txt",
-      "chars_before": 71044,
+      "chars_before": 71043,
       "chars_after": 70943,
       "cleaned": true,
       "verdict": "PASS",
@@ -631,119 +273,48 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
-      "chars_before": 63828,
-      "chars_after": 63726,
+      "chars_before": 64411,
+      "chars_after": 64309,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 8,
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d76,3rd_then_5th_no_4\u00d71,2nd_then_4th_no_3\u00d71",
-      "top_catalog": "C1\u00d78",
+      "top_codes": "class_header_gap\u00d71",
+      "top_catalog": "C1\u00d71",
       "by_code": {
-        "3rd_then_5th_no_4": 1,
-        "2nd_then_4th_no_3": 1,
-        "place_rank_gap": 6
+        "class_header_gap": 1
       },
       "samples": [
         {
-          "code": "3rd_then_5th_no_4",
+          "code": "class_header_gap",
           "catalog": "C1",
-          "line": "3rd: Moonrunner Courtland My Keeper, owned by Joseph Clay Ackerman\n5th: Violet, owned by Joan Valuzzo & William Bisch"
-        },
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: Farmstead Keswick Itch, owned by Sandy Judy\n4th: Hillside Kismit, owned by Laura Harakaly"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Entries: 7 | 1th then 5th | 5th: Undercover Agent Newton, owned by Lisa Donovan"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Judges: CONFORMATION Nancy Breakstone, DiVISION Conformation | 1th then 4th | 4th: Farmstead Jet, owned by Judy Galterio"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch 1st: Farmcliff Pups, 4 up Holland to 6 months of North | 2th then 4th | 4th: Hillside Kismit, owned by Laura Harakaly"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Novice 1st: The - Folly Kismet, owned by Allison Linstrum En | 3th then 5th | 5th: Violet, owned by Joan Valuzzo & William Bisch"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 9 months, smooth Entries: 4 | 4th then 8th | 8th: Pistol, owned by Sandy LaMantia & Joel McElearney & Sandra Ferber"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, r/br                            | 4th then 6th | 6th: Green Acres Cotton Eyed Joe, owned by Michelle"
+          "line": "3rd: Eyek of Rutgers Creek, owned by M. Storeken & A. Burigo"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "2nd_then_4th_no_3",
-        "3rd_then_5th_no_4",
-        "place_rank_gap"
+        "class_header_gap"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
-      "chars_before": 86708,
-      "chars_after": 86696,
+      "chars_before": 86827,
+      "chars_after": 86454,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 5,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d74,2nd_then_4th_no_3\u00d71",
-      "top_catalog": "C1\u00d75",
-      "by_code": {
-        "2nd_then_4th_no_3": 1,
-        "place_rank_gap": 4
-      },
-      "samples": [
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: Romney Kaz, owned by K. Hunter & J. Hughes\n4th: Bangers ol Blue Barnes, owned by Gary LaValley"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Youth Agility                                                | 1th then 6th | 6th: Farmstead Bubbles, owned by Judy Galterio"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Advanced, On lead | 2th then 4th | 4th: Bangers ol Blue Barnes, owned by Gary LaValley"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Adults                                                  | 5th then 8th | 8th: TJ Farm Chase, owned by Cassandra Appleman"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Brood Bitch &Produce | 3th then 5th | 5th: BriarpatchMohawk, owned by Chuck & Diana Hufnagel"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "2nd_then_4th_no_3",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back_ocr_hqmax.txt",
-      "chars_before": 86229,
-      "chars_after": 86228,
+      "chars_before": 86265,
+      "chars_after": 86262,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -757,174 +328,78 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt",
-      "chars_before": 85236,
-      "chars_after": 85176,
+      "chars_before": 85432,
+      "chars_after": 85372,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 6,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d74,1st_then_3rd_no_2\u00d72",
-      "top_catalog": "C1\u00d76",
-      "by_code": {
-        "1st_then_3rd_no_2": 2,
-        "place_rank_gap": 4
-      },
-      "samples": [
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Amanda Bjorkland\n3rd: Corey Kubber"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Ashley Tomberg\n3rd: Robert Smith"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "New York State Bred                                          | 2th then 5th | 5th: Farmcliff Elsie, owned by Bob Franklin & Chuck Shobert"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Child Handler | 1th then 3th | 3rd: Corey Kubber"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Junior Handler                                       Eitries | 1th then 3th | 3rd: Robert Smith"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Agility II, Off Lead                                         | 2th then 5th | 5th: Lightning, owned by Margaret & David Ashe"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt",
-      "chars_before": 83086,
-      "chars_after": 82937,
+      "chars_before": 84196,
+      "chars_after": 83656,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front_ocr_hqmax.txt",
+      "chars_before": 85353,
+      "chars_after": 85267,
+      "cleaned": true,
+      "verdict": "PASS",
+      "fail_hits": 0,
+      "warn_hits": 0,
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
+    },
+    {
+      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt",
+      "chars_before": 87854,
+      "chars_after": 86225,
       "cleaned": true,
       "verdict": "FAIL",
       "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d71",
+      "top_codes": "class_header_gap\u00d71",
       "top_catalog": "C1\u00d71",
       "by_code": {
-        "place_rank_gap": 1
+        "class_header_gap": 1
       },
       "samples": [
         {
-          "code": "place_rank_gap",
+          "code": "class_header_gap",
           "catalog": "C1",
-          "line": "New York State Bred                                          | 2th then 5th | 5th: Farmcliff Elsie, owned by Bob Franklin & Chuck Shobert"
+          "line": "2nd: Fox Run Sonic, owned by Sandra Ferber"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "place_rank_gap"
-      ]
-    },
-    {
-      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front_ocr_hqmax.txt",
-      "chars_before": 85071,
-      "chars_after": 84985,
-      "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 5,
-      "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d74,3rd_then_5th_no_4\u00d71",
-      "top_catalog": "C1\u00d75",
-      "by_code": {
-        "3rd_then_5th_no_4": 1,
-        "place_rank_gap": 4
-      },
-      "samples": [
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Scooter, owned by Ben & Candace Wright\n5th: Fox Tale Temo, owned by Theresa & Charle Gadoury"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "New York State Bred                                          | 2th then 5th | 5th: Farmcliff Elsie, owned by Bob Franklin & Chuck Shobert"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bred by Exhibitor Bitch Entri:s: 10 | 5th then 8th | 8th: Farmcliff Elsie, owned by Bob Franklin & Chuck Schobert"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pups, 9 up to 12 months, 10-12 1/2\" Entries: 0 | 3th then 5th | 5th: Fox Tale Temo, owned by Theresa & Charle Gadoury"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Advanced, On Lead \u2013 Entries: 2 | 3th then 6th | 6th: K.C, owned by Theresa Gadoury"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "3rd_then_5th_no_4",
-        "place_rank_gap"
-      ]
-    },
-    {
-      "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt",
-      "chars_before": 87743,
-      "chars_after": 87641,
-      "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 4,
-      "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d73,1st_then_3rd_no_2\u00d71",
-      "top_catalog": "C1\u00d74",
-      "by_code": {
-        "1st_then_3rd_no_2": 1,
-        "place_rank_gap": 3
-      },
-      "samples": [
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Lost Acres Revlon of Sow's Ear, owned by Karen McCarthy & Paul Hartman\n3rd: Leewinds Celeste, owned by Terri & Richard Lee"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches 1 yr &over, 12 1/2-15\", smooth \u2013 Entries: 0 | 1th then 3th | 3rd: Leewinds Celeste, owned by Terri & Richard Lee"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Puppy Champitnship                                           | 3th then 6th | 6th: Redstone Rocket, owned by Kris Fierst"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 3th then 5th | 5th: Farmcliff T:ddy, owned by Karin McKnight"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "place_rank_gap"
+        "class_header_gap"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back_ocr_hqmax.txt",
-      "chars_before": 79956,
-      "chars_after": 79922,
+      "chars_before": 79958,
+      "chars_after": 79924,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -938,92 +413,23 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 front_ocr_hqmax.txt",
-      "chars_before": 82029,
-      "chars_after": 81960,
+      "chars_before": 82088,
+      "chars_after": 82012,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 12,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d78,3rd_then_5th_no_4\u00d72,2nd_then_4th_no_3\u00d72",
-      "top_catalog": "C1\u00d712",
-      "by_code": {
-        "3rd_then_5th_no_4": 2,
-        "2nd_then_4th_no_3": 2,
-        "place_rank_gap": 8
-      },
-      "samples": [
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: The Larches Knot Again, owned by Joan & Donald LaPlace\n5th: Desert Fox Jerry Garcia, owned by Twila Decker"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Riverview Calvin, owned by Karen Vernon\n5th: Hillside Chaz, owned by Doug & Noreen Loranger"
-        },
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: Megan Johnson\n4th: Alex Loranger, owned by Christina Wagner"
-        },
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: RuffN Tumble Grizzle, owned by Donald Tait\n4th: Golden Hills Rush, owned by Jeff & Connie McKee"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 9 up to 12 months, r/br                          | 3th then 5th | 5th: Jubilee Jones of Brackenridge, owned by Marilyn Johann"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 4 up to 6 months \u2013 Entries: 13 | 3th then 5th | 5th: Desert Fox Jerry Garcia, owned by Twila Decker"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Junior Handler \u2013 Entries: 6 | 2th then 4th | 4th: Alex Loranger, owned by Christina Wagner"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "American Bred \u2013 Entries: 8 | 3th then 5th | 5th: Hillside Chaz, owned by Doug & Noreen Loranger"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & over, 12 1/2-15\", smooth \u2013 Entries: 7 | 2th then 4th | 4th: Golden Hills Rush, owned by Jeff & Connie McKee"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Class Entries: 2 | 2th then 5th | 5th: Fenton's Powsheik Pirate, owned by Dick & Nancy Fenton"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 4th then 6th | 6th: Joyful Noise Jz, owned by Judy Tuthill"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 2th then 6th | 6th: Farmcliff Tackle, owned by Megan Johnson"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "2nd_then_4th_no_3",
-        "3rd_then_5th_no_4",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144208_ocr_hqmax.txt",
-      "chars_before": 54121,
-      "chars_after": 54119,
+      "chars_before": 54122,
+      "chars_after": 54120,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -1037,33 +443,23 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144530_ocr_hqmax.txt",
-      "chars_before": 54241,
-      "chars_after": 54106,
+      "chars_before": 54330,
+      "chars_after": 54193,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 1,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d71",
-      "top_catalog": "C1\u00d71",
-      "by_code": {
-        "place_rank_gap": 1
-      },
-      "samples": [
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 2th then 5th | 5th: Susie, owned by Donna Shamp"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_145355_ocr_hqmax.txt",
-      "chars_before": 3505,
-      "chars_after": 3502,
+      "chars_before": 3810,
+      "chars_after": 2935,
       "cleaned": true,
       "verdict": "PASS",
       "fail_hits": 0,
@@ -1122,32 +518,27 @@
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_153208_ocr_hqmax.txt",
-      "chars_before": 33321,
-      "chars_after": 33234,
+      "chars_before": 34023,
+      "chars_after": 32250,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 2,
+      "fail_hits": 1,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d72",
-      "top_catalog": "C1\u00d72",
+      "top_codes": "owner_tail_trunc\u00d71",
+      "top_catalog": "O6\u00d71",
       "by_code": {
-        "place_rank_gap": 2
+        "owner_tail_trunc": 1
       },
       "samples": [
         {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, r/br                            | 4th then 6th | 6th: Green Acres Cotton Eyed Joe, owned by Mike & Debbie Fulton"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Sub Novice                                                   | 2th then 5th | 5th: Baybriar Tucker, owned by Jeannette Hutchison"
+          "code": "owner_tail_trunc",
+          "catalog": "O6",
+          "line": "4th: Russell-M-Up Cool Hand Luke, owned by"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "place_rank_gap"
+        "owner_tail_trunc"
       ]
     }
   ]

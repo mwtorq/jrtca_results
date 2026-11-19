@@ -4,633 +4,86 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
-      "chars_before": 357493,
-      "chars_after": 357098,
+      "chars_before": 358405,
+      "chars_after": 357996,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 36,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d720,3rd_then_5th_no_4\u00d712,1st_then_3rd_no_2\u00d73,agility_racing_smash\u00d71",
-      "top_catalog": "C1\u00d735,S1-S3\u00d71",
-      "by_code": {
-        "3rd_then_5th_no_4": 12,
-        "1st_then_3rd_no_2": 3,
-        "place_rank_gap": 20,
-        "agility_racing_smash": 1
-      },
-      "samples": [
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Horsemasters Josey, owned by Linda Cranford\n5th: Full Cry Butch, owned by Christie Tatum"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Briaroaks Star Trekker, owned by Kenneth & Cheryl Wallace\n5th: T.J. Farm Little Guy, owned by Frank & Vickey Hines"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Chubby, owned by Debbie McWilliams\n5th: Broken Arrow Shanna, owned by Phillip & Lori Aaron"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Jennifer Smith\n5th: Ashley Tomberg"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Blackland Lucky, owned by Doug Stephenson\n5th: Cornow Conner, owned by Pam & Mike Malloy"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Bowery Tilly, owned by Cheryl Edwards\n5th: Hollyridge Panda, owned by Will Hahn"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: White Stockings Cork, owned by Pam Molloy\n5th: Gracie, owned by Joe & Mary Colbert"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Xanadu's First Star, owned by Steven Timmons\n5th: Sac-N-Fox Susie Q, owned by Donnie & Rebecca Cox"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Spike, owned by S.W.J.R.T.N. Russell Rescue\n5th: Paradise Rastus, owned by Tina Sales"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Kimberly Robin\n5th: Christopher Nosenzo"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Kimberwicke Hotshot, owned by Joyce Robin\n5th: The Folly Roscoe, owned by Dave Russell"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Farmliff Justin, owned by Kelly Morander F Fe YC ore vic 3rd Li: Chm smile 0 Crim Tan!\n5th: Singletrack Hunter, owned by Mark & Lisa Green"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Seeker, owned by Ken Scarborough & Penny Baker\n3rd: Green Acres Pence, owned by Barbara Mathis"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Buttontop Jo Jo, owned by Florence Clark\n3rd: Lost Creek Sable, owned by Debbie McWilliams"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Emily Hannon\n3rd: Collin Clark"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Veteran                                                  Ent | 3th then 5th | 5th: Full Cry Butch, owned by Christie Tatum"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Puppies Entries: 13 | 1th then 3th | 3rd: Green Acres Pence, owned by Barbara Mathis"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Adults Entries: 19 | 1th then 4th | 4th: White Spirits Apple, owned by Ray & Jean Derrick"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 9 months, smooth           Entries: 18 | 1th then 4th | 4th: Fox Chase Sally, owned by Barbara Adamiec"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 10-12 1/2\", smooth        Entries: 12 | 1th then 3th | 3rd: Lost Creek Sable, owned by Debbie McWilliams"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 12 months, under 12 1/2\" Entries: 5 | 3th then 5th | 5th: T.J. Farm Little Guy, owned by Frank & Vickey Hines"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 12 months, over 12 1/2\" Entries: 10 | 3th then 5th | 5th: Broken Arrow Shanna, owned by Phillip & Lori Aaron"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Junior Handler                                            En | 3th then 5th | 5th: Ashley Tomberg"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 9 months, smooth           Entries: 5 | 3th then 5th | 5th: Cornow Conner, owned by Pam & Mike Malloy"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Junior Handler                                         Entri | 3th then 5th | 5th: Rose Barry"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Child Handler                                         Entrie | 1th then 3th | 3rd: Collin Clark"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Button, owner not provideditch Pups, 9 up to 12 months, r/br | 3th then 5th | 5th: Hollyridge Panda, owned by Will Hahn"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 10-12 1/2\", smooth         Entries: 0 | 3th then 5th | 5th: Gracie, owned by Joe & Mary Colbert"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 9 up to 12 months, under 12 1/2\" Entries: 11 | 3th then 5th | 5th: Sac-N-Fox Susie Q, owned by Donnie & Rebecca Cox"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 9 months                    Entries: 1 | 1th then 5th | 5th: Wild West Little Bitty, owned by Paula Renard"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 12 months, over 12 1/2\" Entries: 8 | 3th then 5th | 5th: Paradise Rastus, owned by Tina Sales"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Class | 2th then 5th | 5th: Katie, owned by H.D. & Ann Hester"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Child Handler                                          Entri | 3th then 5th | 5th: Christopher Nosenzo"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 6 up to 9 months                        Entries: 6 | 3th then 5th | 5th: The Folly Roscoe, owned by Dave Russell"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & older, over 12 1/2-15\" Entries: 17 | 3th then 5th | 5th: Singletrack Hunter, owned by Mark & Lisa Green"
-        },
-        {
-          "code": "agility_racing_smash",
-          "catalog": "S1-S3",
-          "line": "Go-to-Ground CHAMPION & RESERVE -> RACING DIVISION"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "3rd_then_5th_no_4",
-        "agility_racing_smash",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
-      "chars_before": 210064,
-      "chars_after": 206059,
+      "chars_before": 210270,
+      "chars_after": 206474,
       "cleaned": true,
       "verdict": "FAIL",
-      "fail_hits": 29,
+      "fail_hits": 3,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d718,3rd_then_5th_no_4\u00d78,1st_then_3rd_no_2\u00d72,2nd_then_4th_no_3\u00d71",
-      "top_catalog": "C1\u00d729",
+      "top_codes": "mangled_by\u00d71,class_header_gap\u00d71,incomplete_entries\u00d71",
+      "top_catalog": "S4\u00d71,C1\u00d71,C1/C6\u00d71",
       "by_code": {
-        "3rd_then_5th_no_4": 8,
-        "2nd_then_4th_no_3": 1,
-        "1st_then_3rd_no_2": 2,
-        "place_rank_gap": 18
+        "mangled_by": 1,
+        "class_header_gap": 1,
+        "incomplete_entries": 1
       },
       "samples": [
         {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Foxnorton Willow, owned by Karen Reavis Fitzpatrick\n5th: Farmstead Gadget, owned by J. Galterio & S. Ferber"
+          "code": "mangled_by",
+          "catalog": "S4",
+          "line": "4th: Not reported by Trial Chairperson"
         },
         {
-          "code": "3rd_then_5th_no_4",
+          "code": "class_header_gap",
           "catalog": "C1",
-          "line": "3rd: Jane Carrey\n5th: Sabrina Baker"
+          "line": "1st: Little Eden Snap, owned by Michelle Ward"
         },
         {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Hills Dale Eliza, owned by Larry & Linda Morrison\n5th: Farmstead Zoey, owned by Dee Margetis"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Farmoliff Holland, owned by Doug & Sue Tack\n5th: Big Sky Solo, owned by Dan & Karen Kinsley"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Orchard Hill Jodeco, owned by Cheryl & Robby Robson\n5th: Farmcliff Ben, owned by Bob Franklin"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Ridgeview Jefferson, owned by Lynn May Measles\n5th: C. Fred Higgins, owned by Lee & Sherry Crosley"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Ravenswood Blondie, owned by David & Susan Crawford\n5th: Farmcliff Kermit, owned by Bob Franklin"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Foxport Maverick, owned by Mike Dander & Leslie Woodcock\n5th: Sass N' Dash Darby, owned by Michale & Sally Murphy"
-        },
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: Eunice, owned by Cheryl Hart\n4th: Farmliff Ben, owned by Bob Frankiin"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Stephanie Eshleman\n3rd: John Rorsch"
-        },
-        {
-          "code": "1st_then_3rd_no_2",
-          "catalog": "C1",
-          "line": "1st: Lickity Split Sassy, owned by Bob Franklin Tred: alr ey Earn miarrmerd ir 72 Fee cn\"\n3rd: Courtland Mi Girl, owned by Joseph Jankowski"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 12 1/2-15\", r/br              Entries: | 3th then 5th | 5th: Farmstead Gadget, owned by J. Galterio & S. Ferber"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pups, 6 up to 12 months, under 12 1/2\" Entries: 12 | 1th then 5th | 5th: BigSkyAnnie, owned by Doug & Sue Tack"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Child Handler                                          Entri | 3th then 5th | 5th: Sabrina Baker"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 9 up to 12 months, smooth Entries: 7 | 2th then 5th | 5th: Gina, owned by Ann Wendland"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "ennsylvania Bred                                    Entries: | 4th then 7th | 7th: Little Eden Snap, owned by Michelle Ward"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 9 up to 12 months, r/br              Entries: 10 | 3th then 5th | 5th: Farmstead Zoey, owned by Dee Margetis"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & older, 10 up to 12 4\", r/br        Entries:  | 3th then 5th | 5th: Big Sky Solo, owned by Dan & Karen Kinsley"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, r/br               Entries: 10 | 3th then 5th | 5th: Farmcliff Ben, owned by Bob Franklin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 9 months, r/br               Entries: 19 | 2th then 4th | 4th: Farmliff Ben, owned by Bob Frankiin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 4 up to 6 months                       Entries: 5 | 3th then 5th | 5th: C. Fred Higgins, owned by Lee & Sherry Crosley"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Veteran                                                  Ent | 3th then 5th | 5th: Farmcliff Kermit, owned by Bob Franklin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1yr & older, 12 1/2 up to 15\", smooth Entries: 12 | 3th then 5th | 5th: Sass N' Dash Darby, owned by Michale & Sally Murphy"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 1th then 3th | 3rd: Farmcliff Duke, owned by Kim Hunter"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 1th then 3th | 3rd: Courtland Mi Girl, owned by Joseph Jankowski"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 9 up to 12 months, over 12 1/2-15\" Entries: 5 | 1th then 4th | 4th: Farmcliff Kermit, owned by Bob Franklin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 9 up to 12 months, over 12 %:-15\" Entries: 2 | 1th then 7th | 7nd: Earmetoasad Talli sumer Bar BAsvecmremd Eloalbemme: 0 Lode i"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & over, 10-12 1/2\" | 2th then 6th | 6th: Kiinefelters Scarlett, owned by Duane & Lisa Redding"
+          "code": "incomplete_entries",
+          "catalog": "C1/C6",
+          "line": "Bitch Pups, 6 up to 9 months, upto 12%\" Entries: 7 | places=0/6 | Bitch Pups, 9 up to 12 months, upto 12,\" Entries: 6"
         }
       ],
       "reocr_required": true,
       "reocr_codes": [
-        "1st_then_3rd_no_2",
-        "2nd_then_4th_no_3",
-        "3rd_then_5th_no_4",
-        "place_rank_gap"
+        "class_header_gap",
+        "incomplete_entries"
       ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
-      "chars_before": 328996,
-      "chars_after": 318014,
+      "chars_before": 329409,
+      "chars_after": 319198,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 43,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "place_rank_gap\u00d725,3rd_then_5th_no_4\u00d714,2nd_then_4th_no_3\u00d73,agility_racing_smash\u00d71",
-      "top_catalog": "C1\u00d742,S1-S3\u00d71",
-      "by_code": {
-        "3rd_then_5th_no_4": 14,
-        "2nd_then_4th_no_3": 3,
-        "place_rank_gap": 25,
-        "agility_racing_smash": 1
-      },
-      "samples": [
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Woods End Thorn, owned by Doug & Noreen Loranger\n5th: Woods End Sega, owned by Doug & Noreen Loranger"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Woods End Sega, owned by Doug & Noreen Loranger\n5th: Woods End Dutch, owned by Doug & Noreen Loranger"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Farmcliff Donny, owned by Bob Fran hin\n5th: Farmliff Elmo, owned by Bob Franklin"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Long Hope Mickey, owned by Bob Franklin\n5th: Rancho Arnez Sully's Quest, owned by Jill Goodman"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Colton's Ricochet Rocket, owned by John & Anita Phillips\n5th: Brown's Valley Mustang Sally, owned by Ann Wendland"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: DeVerdon Tri Star, owned by Ben & Janet Sutcliffe\n5th: Westwood Fancy, owned by Diane Wright"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Kettle Creek Clipper, owned by Judi Bower\n5th: Falling Branch Zack, owned by D. Calloway & J. Longendorfer"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Good Connections Abigail, owned by Kent Ellsworth\n5th: Seaview Shanghai, owned by Didi Gough"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Puddingston Rooby, owned by Antonio & Barbara Sullo\n5th: Taz, owned by Jonathan & Tracey Lavery"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Farmliff Kermit, owned by Bob Franklin\n5th: Steepe View Stretch, owned by Marcia Eaton"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Evergreen Clover, owned by George Ridler\n5th: Sows Ear Legacy, owned by A .Burigo/M.Stoveken"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: The Folly Zoe, owned by The O'Hallarans\n5th: Live Wire Loch Ness, owned by Charlie & Julie Kemp"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: John Hickey\n5th: Mark Hickey"
-        },
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Long Hope Goofy, owned by Nellie Niewola\n5th: Fox Shadows Sun Kissed, owned by Patricia Cranmer"
-        },
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: Orchard Hill Fern, owned by Kerry Johnson\n4th: Farmcliff Kermit, owned by Bob Franklin - Cth: Bnvibhriar Wats mnavnad Baar WKEAthy Eres lin"
-        },
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: Farmliff Elmo, owned by Bob Frankin\n4th: Farmcliff Effie, owned by Bob Franklin"
-        },
-        {
-          "code": "2nd_then_4th_no_3",
-          "catalog": "C1",
-          "line": "2nd: Brandywine Jolly Mon, owned by Terry & Jan Urbas\n4th: Falling Branch Bolen, owned by L.McKinney/L.Grimsley"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitches, 1 yr & older, 10 up to 12 2\", r/br             Entr | 1th then 4th | 4th: Big Sky Annie, owned by Doug & Sue Tack Nel. I Ya He IY min mtasm"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pups, 6 up to 9 months, over 12 ':-15\" Entries: 8 | 3th then 5th | 5th: Woods End Sega, owned by Doug & Noreen Loranger"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 1th then 4th | 4th: Farmliff Spencer, owned by Bob Franklin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & older, 10 up to 12 2\" Entries: 11 | 2th then 6th | 6th: Farmcliff Spencer, owned by Bob Franklin Navreee A sea TT lel cee"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pups, 6 up to 9 months, over 12 1/2-15\" Entries: 0 | 3th then 5th | 5th: Woods End Dutch, owned by Doug & Noreen Loranger"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & older, 10 up to 12 1/2\" Entries: 9 | 3th then 5th | 5th: Farmliff Elmo, owned by Bob Franklin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & older, over 12 '.-15\" Entries: 17 | 3th then 5th | 5th: Rancho Arnez Sully's Quest, owned by Jill Goodman"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 9 up to 12 months, r/br                   Entrie | 3th then 6th | 6th: Brown's Valley Mustang Sally, owned by Ann Wendland"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": " | 3th then 5th | 5th: Brown's Valley Mustang Sally, owned by Ann Wendland"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 9 months, r/br                      Entr | 3th then 5th | 5th: Westwood Fancy, owned by Diane Wright"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "3red by Exhibitor Dog                                        | 2th then 5th | 5th: Meadowlake Woody, owned by Karen Fitzpatrick"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pups, 9 up to 12 months, up to 12,\" Entries: 0 | 2th then 5th | 5th: Farmcliff Kermit, owned by Bob Frankfin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & older, 10 up to 12 2\" Entries: 7 | 1th then 5th | 5th: Farmcliff EImo, owned by Bob Franklin dle: RAmremr Edie omaaremom"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dog Pups, 4 up to 6 months, r/br                         Ent | 3th then 5th | 5th: Falling Branch Zack, owned by D. Calloway & J. Longendorfer"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 12 months, up to 12 2\" Entries: 0 | 2th then 4th | 4th: Farmcliff Kermit, owned by Bob Franklin - Cth: Bnvibhriar Wats mn"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & older, 10 up to 12 2\" Entries: 0 | 2th then 6th | 6th: Farmcliff Fred, owned by Janice & mark Bjorkiand"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 6 up to 9 months, r/br                    Entrie | 3th then 5th | 5th: Seaview Shanghai, owned by Didi Gough"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Open Adult                                                   | 2th then 5th | 5th: Crossewinds Smitten, owned by David & Alyson Miller"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pups, 6 up to 9 months, up to 12 14\" Entries: 2 | 3th then 5th | 5th: Taz, owned by Jonathan & Tracey Lavery"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Veteran                                                      | 3th then 5th | 5th: Steepe View Stretch, owned by Marcia Eaton"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Bitch Pups, 9 up to 12 months, r/br                  Entries | 3th then 5th | 5th: Live Wire Loch Ness, owned by Charlie & Julie Kemp"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & older, 10 up to 12 ':\", r/br                 En | 2th then 4th | 4th: Farmcliff Effie, owned by Bob Franklin"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Dogs, 1 yr & older, 10 up to 12 1/2\",\" Entries: 0 | 2th then 6th | 6th: Farmcliff Elmo, owned by Bob Franklin"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "2nd_then_4th_no_3",
-        "3rd_then_5th_no_4",
-        "agility_racing_smash",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
-      "chars_before": 281516,
-      "chars_after": 281558,
+      "chars_before": 281508,
+      "chars_after": 281581,
       "cleaned": true,
-      "verdict": "FAIL",
-      "fail_hits": 2,
+      "verdict": "PASS",
+      "fail_hits": 0,
       "warn_hits": 0,
-      "top_codes": "3rd_then_5th_no_4\u00d71,place_rank_gap\u00d71",
-      "top_catalog": "C1\u00d72",
-      "by_code": {
-        "3rd_then_5th_no_4": 1,
-        "place_rank_gap": 1
-      },
-      "samples": [
-        {
-          "code": "3rd_then_5th_no_4",
-          "catalog": "C1",
-          "line": "3rd: Buddy, owned by Kenny & Sherry Cox\n5th: Broken Arrow's Charlsie, owned by Phillip Aaron"
-        },
-        {
-          "code": "place_rank_gap",
-          "catalog": "C1",
-          "line": "Pups, 6 up to 9 months, up to 12 1\" Entries: 6 | 3th then 5th | 5th: Broken Arrow's Charlsie, owned by Phillip Aaron"
-        }
-      ],
-      "reocr_required": true,
-      "reocr_codes": [
-        "3rd_then_5th_no_4",
-        "place_rank_gap"
-      ]
+      "top_codes": "",
+      "top_catalog": "",
+      "by_code": {},
+      "samples": [],
+      "reocr_required": false,
+      "reocr_codes": []
     }
   ]
 }

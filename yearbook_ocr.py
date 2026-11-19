@@ -2362,6 +2362,13 @@ def _dedupe_adjacent_class_headers(text: str) -> str:
     """Collapse duplicated class titles; keep the copy with Entries: N."""
     if not text:
         return text
+
+    def _ordinal_place_line(s: str) -> bool:
+        # Coat tokens in dog names (``Broken Arrow``) match ``_SECTIONISH_RE``;
+        # never treat 1st-6th place bodies as mergeable class headers.
+        t = s.strip()
+        return bool(_PLACE_FIRST_RE.match(t) or _PLACE_NON_FIRST_RE.match(t))
+
     out: list[str] = []
     for ln in text.splitlines():
         # Never merge BEST…RESERVE banners with Best:/Reserve:/Champion: role
@@ -2372,11 +2379,14 @@ def _dedupe_adjacent_class_headers(text: str) -> str:
         ):
             out.append(ln)
             continue
+        if _ordinal_place_line(ln) or (out and _ordinal_place_line(out[-1])):
+            out.append(ln)
+            continue
         if (
             out
             and (
                 _looks_like_class_header_line(ln)
-                or (_SECTIONISH_RE.search(ln) and not _PLACE_FIRST_RE.match(ln.strip()))
+                or _SECTIONISH_RE.search(ln)
             )
             and (
                 _looks_like_class_header_line(out[-1])
