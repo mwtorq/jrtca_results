@@ -1,8 +1,8 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_I\1998 Vol I, pt 1_ocr_hqmax.txt",False,336365,336365,PASS,0,0,,
-1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_I\1998 Vol I, pt 2_ocr_hqmax.txt",False,11628,11628,PASS,0,0,,
-1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_I\1998 Vol I, pt 3_ocr_hqmax.txt",False,18609,18609,PASS,0,0,,
-1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_II\1998 Vol II, pt 1_ocr_hqmax.txt",False,186130,186130,PASS,0,0,,
-1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_II\1998 Vol II, pt 2_ocr_hqmax.txt",False,170079,170079,PASS,0,0,,
-1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_III\1998 Vol III, pt 1_ocr_hqmax.txt",True,227667,227663,PASS,0,0,,
-1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_III\1998 Vol III, pt 2_ocr_hqmax.txt",True,216493,216490,PASS,0,0,,
+1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_I\1998 Vol I, pt 1_ocr_hqmax.txt",True,336815,336906,FAIL,25,0,"place_rank_gap×15,3rd_then_5th_no_4×8,2nd_then_4th_no_3×1,agility_racing_smash×1","C1×24,S1-S3×1"
+1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_I\1998 Vol I, pt 2_ocr_hqmax.txt",True,11504,11503,PASS,0,0,,
+1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_I\1998 Vol I, pt 3_ocr_hqmax.txt",True,18567,18568,PASS,0,0,,
+1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_II\1998 Vol II, pt 1_ocr_hqmax.txt",True,186193,186174,FAIL,2,0,"2nd_then_4th_no_3×1,place_rank_gap×1",C1×2
+1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_II\1998 Vol II, pt 2_ocr_hqmax.txt",True,169965,170065,FAIL,24,0,"place_rank_gap×14,3rd_then_5th_no_4×6,2nd_then_4th_no_3×2,1st_then_3rd_no_2×2",C1×24
+1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_III\1998 Vol III, pt 1_ocr_hqmax.txt",True,227547,227593,FAIL,9,0,"place_rank_gap×6,3rd_then_5th_no_4×2,1st_then_3rd_no_2×1",C1×9
+1998,"_ocr_baseline_v2\yearbook_1990_2001\1998\1998_Vol_III\1998 Vol III, pt 2_ocr_hqmax.txt",True,216352,216496,PASS,0,0,,

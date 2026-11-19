@@ -1,5 +1,25 @@
 [
   {
+    "year": 1990,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1990\\1990_Yearbook_Vol_1\\Document_2026-11-03_192526_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1992,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1992\\1992_Yearbook_Vol_1\\Document_2026-11-03_213104_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
     "year": 1993,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
     "codes": [
@@ -13,10 +33,51 @@
     "year": 1994,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083342_ocr_hqmax.txt",
     "codes": [
-      "owner_tail_trunc"
+      "owner_tail_trunc",
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "O6\u00d71,C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1994,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_1\\Document_2026-11-04_083655_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
     ],
     "fail_hits": 1,
-    "top_catalog": "O6\u00d71",
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1994,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_105927_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 3,
+    "top_catalog": "C1\u00d73",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1994,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_111318_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1994,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1994\\1994_Yearbook_Vol_2\\Document_2026-11-04_114039_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
@@ -33,24 +94,597 @@
     "year": 1995,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_134403_ocr_hqmax.txt",
     "codes": [
-      "1st_then_3rd_no_2",
-      "2nd_then_4th_no_3",
-      "agility_racing_smash",
       "place_rank_gap"
     ],
-    "fail_hits": 9,
-    "top_catalog": "C1\u00d78,S1-S3\u00d71",
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   },
   {
     "year": 1995,
     "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1995\\1995_Yearbook_Vol_2\\Document_2026-11-04_142425_ocr_hqmax.txt",
     "codes": [
-      "agility_racing_smash",
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 back_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "place_rank_gap"
+    ],
+    "fail_hits": 7,
+    "top_catalog": "C1\u00d77",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 111-160 front_ocr_hqmax.txt",
+    "codes": [
       "place_rank_gap"
     ],
     "fail_hits": 2,
-    "top_catalog": "C1\u00d71,S1-S3\u00d71",
+    "top_catalog": "C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 161-178 front_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 21-60 back_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "place_rank_gap"
+    ],
+    "fail_hits": 4,
+    "top_catalog": "C1\u00d74",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 16,
+    "top_catalog": "C1\u00d716",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 back_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "place_rank_gap"
+    ],
+    "fail_hits": 9,
+    "top_catalog": "C1\u00d79",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_I\\1996 Vol 1 pg 61-110 front_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "agility_racing_smash",
+      "place_rank_gap"
+    ],
+    "fail_hits": 23,
+    "top_catalog": "C1\u00d722,S1-S3\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "place_rank_gap"
+    ],
+    "fail_hits": 5,
+    "top_catalog": "C1\u00d75",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 163-220 front_ocr_hqmax.txt",
+    "codes": [
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 8,
+    "top_catalog": "C1\u00d78",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "2nd_then_4th_no_3",
+      "place_rank_gap"
+    ],
+    "fail_hits": 5,
+    "top_catalog": "C1\u00d75",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 1 pgs)_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "place_rank_gap"
+    ],
+    "fail_hits": 6,
+    "top_catalog": "C1\u00d76",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front (missing 2 pgs)_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 23-92 front_ocr_hqmax.txt",
+    "codes": [
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 5,
+    "top_catalog": "C1\u00d75",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 back reversed_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "place_rank_gap"
+    ],
+    "fail_hits": 4,
+    "top_catalog": "C1\u00d74",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Vol_II\\1996 Vol II pg 93-162 front_ocr_hqmax.txt",
+    "codes": [
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 12,
+    "top_catalog": "C1\u00d712",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_1\\Document_2026-11-04_144530_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1996,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1996\\1996_Yearbook_Vol_2\\Document_2026-11-04_153208_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1997,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 1_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "3rd_then_5th_no_4",
+      "agility_racing_smash",
+      "place_rank_gap"
+    ],
+    "fail_hits": 36,
+    "top_catalog": "C1\u00d735,S1-S3\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1997,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_I\\1997 Vol I pt 2_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 29,
+    "top_catalog": "C1\u00d729",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1997,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 1_ocr_hqmax.txt",
+    "codes": [
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "agility_racing_smash",
+      "place_rank_gap"
+    ],
+    "fail_hits": 43,
+    "top_catalog": "C1\u00d742,S1-S3\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1997,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1997\\1997_Vol_II\\1997 Vol II pt 2_ocr_hqmax.txt",
+    "codes": [
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1998,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_I\\1998 Vol I, pt 1_ocr_hqmax.txt",
+    "codes": [
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "agility_racing_smash",
+      "place_rank_gap"
+    ],
+    "fail_hits": 25,
+    "top_catalog": "C1\u00d724,S1-S3\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1998,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_II\\1998 Vol II, pt 1_ocr_hqmax.txt",
+    "codes": [
+      "2nd_then_4th_no_3",
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1998,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_II\\1998 Vol II, pt 2_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 24,
+    "top_catalog": "C1\u00d724",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1998,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1998\\1998_Vol_III\\1998 Vol III, pt 1_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 9,
+    "top_catalog": "C1\u00d79",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1999,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_I\\1999 Vol I, pt 1_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 27,
+    "top_catalog": "C1\u00d727",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1999,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_I\\1999 Vol I, pt 2_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 18,
+    "top_catalog": "C1\u00d718",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1999,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_II\\1999 Vol II, pt 1_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 22,
+    "top_catalog": "C1\u00d722",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1999,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_II\\1999 Vol II, pt 2_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 15,
+    "top_catalog": "C1\u00d715",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1999,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_III\\1999 Vol III, pt 1_ocr_hqmax.txt",
+    "codes": [
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 1999,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\1999\\1999_Vol_III\\1999 Vol III, pt 2_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 32,
+    "top_catalog": "C1\u00d732",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2000,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_I\\2000 Vol I_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 57,
+    "top_catalog": "C1\u00d757",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2000,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_II\\2000 Vol II_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 46,
+    "top_catalog": "C1\u00d746",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2000,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 vol 3 pt 1_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 35,
+    "top_catalog": "C1\u00d735",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2000,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 Vol III pt 1_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 43,
+    "top_catalog": "C1\u00d743",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2000,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 Vol III pt 2_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 3,
+    "top_catalog": "C1\u00d73",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Coal Tree Farm_ocr_hqmax.txt",
+    "codes": [
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 12,
+    "top_catalog": "C1\u00d712",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Troon Quarry_ocr_hqmax.txt",
+    "codes": [
+      "place_rank_gap"
+    ],
+    "fail_hits": 1,
+    "top_catalog": "C1\u00d71",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_I\\2001 Vol I_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 55,
+    "top_catalog": "C1\u00d755",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt",
+    "codes": [
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 40,
+    "top_catalog": "C1\u00d740",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Summer Celebration_ocr_hqmax.txt",
+    "codes": [
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 2,
+    "top_catalog": "C1\u00d72",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 1_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 68,
+    "top_catalog": "C1\u00d768",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Vol II pt 2_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 53,
+    "top_catalog": "C1\u00d753",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_II\\2001 Yankee_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 42,
+    "top_catalog": "C1\u00d742",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_III\\2001 Vol III pt 1_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "place_rank_gap"
+    ],
+    "fail_hits": 47,
+    "top_catalog": "C1\u00d747",
+    "reason": "B6b FAIL after finalize \u2014 re-OCR required"
+  },
+  {
+    "year": 2001,
+    "hqmax": "_ocr_baseline_v2\\yearbook_1990_2001\\2001\\2001_Vol_III\\2001 Vol III pt 2_ocr_hqmax.txt",
+    "codes": [
+      "1st_then_3rd_no_2",
+      "2nd_then_4th_no_3",
+      "3rd_then_5th_no_4",
+      "agility_racing_smash",
+      "place_rank_gap"
+    ],
+    "fail_hits": 55,
+    "top_catalog": "C1\u00d754,S1-S3\u00d71",
     "reason": "B6b FAIL after finalize \u2014 re-OCR required"
   }
 ]

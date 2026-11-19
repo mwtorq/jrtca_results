@@ -4,8 +4,8 @@
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\1993\\1993_Yearbook_Vol_1\\Document_2026-11-03_224445_ocr_hqmax.txt",
-      "chars_before": 48702,
-      "chars_after": 48699,
+      "chars_before": 48993,
+      "chars_after": 48816,
       "cleaned": true,
       "verdict": "FAIL",
       "fail_hits": 1,

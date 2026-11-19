@@ -1,81 +1,858 @@
 {
   "year": 2000,
-  "verdict": "PASS",
+  "verdict": "FAIL",
   "volumes": [
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_I\\2000 Vol I_ocr_hqmax.txt",
-      "chars_before": 844430,
+      "chars_before": 844431,
       "chars_after": 843415,
       "cleaned": true,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 57,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "3rd_then_5th_no_4\u00d725,place_rank_gap\u00d725,1st_then_3rd_no_2\u00d75,2nd_then_4th_no_3\u00d72",
+      "top_catalog": "C1\u00d757",
+      "by_code": {
+        "3rd_then_5th_no_4": 25,
+        "2nd_then_4th_no_3": 2,
+        "1st_then_3rd_no_2": 5,
+        "place_rank_gap": 25
+      },
+      "samples": [
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Hart Farms Ruth, owned by Cheryl Hart\n5th: PointofView Panda, owned by Ken Hart"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Garden Path Frisco, owned by Todd & Cheryl Hart\n5th: Flattridge Banner, owned by Kim DeRossett"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Kensington Tess, owned by Lisa Richards\n5th: Foxwarren Dolly, owned by Flo Clark"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Run Away Farms Shiner, owned by Martha Milligan\n5th: Last Maddox, owned by Rebekah Hawks"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Pepper, owned by Judi Lovell\n5th: Rosie La Rue, owned by Nancy Mitchell"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Westmorland Sparky, owned by Dan Cox\n5th: Rascal, owned by Tim & Melissa Croft"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Quail Oak Montana, owned by Greg Boyland\n5th: Yorick, owned by Sally McKenney"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Highwater Fiddle of FC, owned by Bob Franklin\n5th: Double D Blaze, owned by Dorothy Whiting"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Fox Run Reba, owned by Sherri Rossmiller\n5th: Rocky Mountian Choctaw, owned by Tonya Adams"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Red Hill Rocky, owned by Sherry Faircloth\n5th: R.A. Sundance Kid, owned by Mike & Betty Bilinski"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Bridle Creek Ben, owned by Joe & Linda Hosmer\n5th: Foxwarren Tay, owned by Sundowner Farms"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Springwood Raven, owned by Tonja Walter\n5th: Achin' Acres Gretchen, owned by Janet Sproles"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Del Sol Ouija, owned by Terri Brisco\n5th: Kango Harry, owned by Suzanne Rodriguez"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Luke McTavish, owned by Cheryl Costello\n5th: Conquest Chiquita, owned by Janet Sproles"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Westwood Nugget, owned by Barry & Lillian Leno\n5th: Briarpatch Jezebel, owned by Kelly & Jennifer Noordam"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Hillsdale Caper, owned by Judi Lovell\n5th: Run Away Farms Taylor, owned by Carol Voyles"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Windermere Spice, owned by Linda Cowasjee\n5th: White Rose Dali, owned by Lisa Drinkwater"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Crossruff Frankie, owned by Deborah Holly\n5th: Avalon Kylie, owned by Pat Winsiow"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Big Hickory Beanie Baby, owned by Billie Roach\n5th: Rufi-N-Tumble Ginger, owned by Jean Dunham"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Smokey Mountain Crash, owned by Mary Beth Clark\n5th: Ruff-N-Tumble Murphy, owned by Paul Beatrice"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Millbrook Farms Tristen, handled by Jamie Arjo\n4th: White Stockings Danny Boy, handled by Kayleigh Molloy"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Mark Pagliaro\n4th: Wilkinson"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Copper Horse Salty Dog, owned by David & Lisa McKinney\n3rd: Kerry O'Toole, owned by Fay Craft"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Muscle Russell Hustle, owned by Rick & Mary Thorton\n3rd: Northgate Hark of FC, owned by Bob Franklin Becsaomas MN osem 3m 41\u00b0 em mdlboe dA coe 20 dR1F MN"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: 3T's T.S. Eliot, owned by T.Ebert/T.Toriello\n3rd:      Crossruff Tundra, owned by Laurel Baum"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitch Pups, 4 up to 6 months, r/br                         E | 3th then 5th | 5th: PointofView Panda, owned by Ken Hart"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 9 up to 12 months, r/br                          E | 1th then 3th | 3rd: Strait Gate Bingo, owned by Ed Kennedy"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dogs, 1 yr. & older, 12 up to 15\", r/br                   En | 3th then 5th | 5th: Flattridge Banner, owned by Kim DeRossett"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 12% up to 15\", smooth          Entri | 3th then 5th | 5th: Foxwarren Dolly, owned by Flo Clark"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Suitability to Groundhog                                     | 2th then 4th | 4th: Sassy, owned by Clay & Karen Long"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Suitability to Raccoon/Badger                              E | 1th then 4th | 4th: Marksworth Beau, owned by Catherine Tobias"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitch Pups, 6 up to 9 months, r/br                           | 1th then 3th | 3rd: Tortilla Flat Mi Amiga, owned by Susi Laswell"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dogs, 1 yr. & older, over 12 1/2-15\" Entries: 1\u00a2 | 1th then 3th | 3rd: R.A. George Costanza, owned by Ernest Bilinski"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Carolina Bred                                                | 3th then 5th | 5th: Last Maddox, owned by Rebekah Hawks"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Spayed Adult Bitch                                           | 3th then 5th | 5th: Rosie La Rue, owned by Nancy Mitchell"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 1212\", smooth          Entr | 1th then 4th | 4th: Lonely Oak Honey, owned by Becky Pierce"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Agility Ii, Off Lead, 10 up to 121%\" Entries: 6 | 3th then 5th | 5th: Rascal, owned by Tim & Melissa Croft"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 12 1/2\", smooth          En | 1th then 5th | 5th: Gypsy Rose, owned by Susan Welch"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Novice Adult                                                 | 1th then 4th | 4th: Rocking Horse Scooter, owned by Michael Pierce"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": " | 1th then 3th | 3rd: Kerry O'Toole, owned by Fay Craft"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "1st_then_3rd_no_2",
+        "2nd_then_4th_no_3",
+        "3rd_then_5th_no_4",
+        "place_rank_gap"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_II\\2000 Vol II_ocr_hqmax.txt",
       "chars_before": 502004,
       "chars_after": 501395,
       "cleaned": true,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 46,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "place_rank_gap\u00d725,1st_then_3rd_no_2\u00d79,2nd_then_4th_no_3\u00d78,3rd_then_5th_no_4\u00d74",
+      "top_catalog": "C1\u00d746",
+      "by_code": {
+        "3rd_then_5th_no_4": 4,
+        "2nd_then_4th_no_3": 8,
+        "1st_then_3rd_no_2": 9,
+        "place_rank_gap": 25
+      },
+      "samples": [
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Little Eden Banshee, owned by Rick & Mary Thornton\n5th: Farmstead Holly, owned by Kathy Hunter"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Boggsborough Bizzie, owned by Robert & Linda Fleck\n5th: Sweetgrass Emma, owned by Shirley Kostric"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: North Country Petey, owned by Jack & Mary Lou Mogrovejo\n5th: The Folly Black Jack, owned by Rick Thornton"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Brookside Snowbear, owned by Debbie LaMantia\n4th: Farmcliff Dirk, owned by Bob Franklin"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Rushill Spice, owned by J. Baker/J. Freimark\n4th: Foxport Tex, owned by Tooie Crooks"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Briarpatch A.J, owned by Beverly Hirt\n4th: Katie Clover, owned by Natalene Lamming"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Farmcliff. Fred, owned by Michelle Ward\n4th: Natural Instinct Micro, owned by Ken & Kathy Bushell"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Anne Dalmadgerd: Sarah Cranor\n4th: Taryn Lacy"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Westwood Jade, owned by Rick &Leslie Hemsing\n4th: Risky, owned by Melissa Lowe"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Round the Bend Dudley, owned by Carol Watson\n4th: Muscle Russell Hustle, owned by Rick Thornton"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Fox Run Reba, owned by Sherri Rossmiller\n3rd: Just Avery, owned by Shawn & Kari Gerdes"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Fox Run Skye, owned by Chris Levine\n3rd: Long Hope Satin, owned by Nellie Niewola"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Windstars Winston, owned by Sandy Wolownik\n3rd: Gabe, owned by Janice Irving"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Westwood Jade, owned by Rick & Leslie Hemsing\n3rd:  Farmcliff Sugar, owned by Bob & Genie Franklin"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Lickity Split Carley, owned by S. & L. Erb/D. Gough\n3rd: Foxport Tex, owned by Tooie Crooks"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: i-==Farmcliff.Tackle,.owned by.Megan.Johnson:\n3rd: Spanky, owned by Betty Anne Senf"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Farmcliff Hutch, owned by:Dave McMahon\n3rd: Hunter's Green Stokes, owned by Antonio Sullo"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bred by Exhibitor Dog Entries: 7 | 2th then 4th | 4th: Tymawr Kelly, owned by John Meany"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": " | 2th then 5th | 5th: Windsor Harli, owned by Scott & Susan Aeppli"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 1214\", r/br               E | 3th then 5th | 5th: Farmstead Holly, owned by Kathy Hunter"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 4 up to 6 months, r/br                           E | 2th then 4th | 4th: Farmcliff Dirk, owned by Bob Franklin"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Agility I | 2th then 6th | 6th: Lakeshore Jiminy Cricket, owned by Cathy Larson"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Working Terrier Dog, 12% up to 15\", smooth Entries: 3 3rd: C | 2th then 5th | 5th: The Wild West Jackpot, owned by Joan Stroh"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 1214\", smooth Entries: 8 | 2th then 6th | 6th: North Country Pebbles, owned by Mary Lou Mogrovejo"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Jorking Terrier Bitch, 10 up to 1214\", r/br Entries: 6 | 2th then 4th | 4th: R.A. Stretch, owned by Rhonda Vega Carson 12 1/2-15\""
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Veterans, 6 years & older, 10 up to 1214\" Entries: 8 | 1th then 4th | 4th: Jessie, owned by Sandy Brown"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 12 1/2\", r/br Entries: 2nd: | 1th then 3th | 3rd: Just Avery, owned by Shawn & Kari Gerdes"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Open Adult Entries: 19 | 1th then 6th | 6th: Sweetgrass Emma, owned by Shirley Kostric"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Novice Adult Entries: 11 5th: Long Hope Risley, owned by B.  | 1th then 6th | 6th: R.A. Digby, owned by Mike & Karen DiBernardo"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitch Pups, 9 up to 12 months, r/br Entries: 6 2nd: Windever | 1th then 3th | 3rd: Long Hope Satin, owned by Nellie Niewola"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Open Adult Entries: 14 | 1th then 4th | 4th: Muscle Russell Phantom, owned by Jill Goodman"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 12 1/2\" Entries: 0 | 2th then 6th | 6th: Carley, owned by Marc & Laura Cormier"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": " | 2th then 4th | 4th: Natural Instinct Spike, owned by Ken & Kathy Bushell"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 12 1/2 up to 15\", smooth Entries: 7 | 1th then 5th | 5th: The Folly Moxie, owned by Rick & Mary Thorton"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Novice Adult Entries: 22 2nd: High & Low Hooligan, owned by  | 1th then 3th | 3rd: Gabe, owned by Janice Irving"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 124\" Entries: 25 | 5th then 8th | 8th: Lucy, owned by Brooks Kelley & Joe Shapiro"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dogs, 1 yr. & older, 10 up to 1214\" Entries: 17 5th: Summer  | 1th then 6th | 6th: Skipper, owned by Terri Parrow"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 12/4\" Entries: 23 | 1th then 3th | 3rd: Lickity Split Sassy, owned by Bob Franklin"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "1st_then_3rd_no_2",
+        "2nd_then_4th_no_3",
+        "3rd_then_5th_no_4",
+        "place_rank_gap"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 vol 3 pt 1_ocr_hqmax.txt",
-      "chars_before": 242039,
+      "chars_before": 242040,
       "chars_after": 241887,
       "cleaned": true,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 35,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "place_rank_gap\u00d722,3rd_then_5th_no_4\u00d711,1st_then_3rd_no_2\u00d72",
+      "top_catalog": "C1\u00d735",
+      "by_code": {
+        "3rd_then_5th_no_4": 11,
+        "1st_then_3rd_no_2": 2,
+        "place_rank_gap": 22
+      },
+      "samples": [
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Couriwood Rooter, owned by Debbie & Rusty Graydon\n5th: Easton Point Nipper, owned by Sally Gay"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Kitfox Brillo, owned by Forrest Ann Walling\n5th: Forrestar Phoenix, owned by Forrest Ann Walling"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Killare Birdie, owned by Rachelle Goldsmith\n5th: Tarsia Rattle, owned by Mary Labrosse"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Treesbank Josie, owned by Carmen & Patricia Tosto\n5th: Foxton Locks Annie, owned by Jo Paddison"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: AliHopth: Anne Case-Haefertyth: Shelly Stachursk\n5th: Jennifer Phillips"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Hunter's Moon Eclipse, owned by Charlene Schlueter\n5th: Thistledown Carlie, owned by Sandy Brown"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Chynna Beech, owned by Jim & Jan Brady\n5th: Falling Branch Angus, owned by Tom & Lucy Ramey"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Northgate Hale, owned by Doug & Sue Tack\n5th: Brandywine Rosita, owned by Tom Colmar"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Bent Creek Carley, owned by Marc & Laura Cormier\n5th: Gills Creek Scout, owned by Joe Shapiro/Brooks Kelley"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Nenees Lexie, owned by Anita Herman\n5th: Arrowhead Norma Sue, owned by Jack Phillips"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Meadowlake Fidget, owned by Karen Fitzpatrick\n5th: Kenswick Kayla, owned by Sandy McElearney"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Will-O-Moor Badger, owned by Scott Whittington\n3rd: Munchkin, owned by Melissa Lowe"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: \u00abhu. bidildywilc rato, owned by viane wrignt\n3rd: Pleasant Hill Hawk, owned by Jill Denker"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bred by Exhibitor Dog                                        | 3th then 5th | 5th: Easton Point Nipper, owned by Sally Gay"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": " | 1th then 3th | 3rd: Munchkin, owned by Melissa Lowe"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 4 up to 6 months, r/br                           E | 3th then 5th | 5th: Forrestar Phoenix, owned by Forrest Ann Walling"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 6 up to 9 months, r/br                          En | 1th then 4th | 4th:     Sweetgrass Nelson, owned by Roger & Caryn Funk"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Neutered Adult Dog                                           | 3th then 5th | 5th: Tarsia Rattle, owned by Mary Labrosse"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Veteran Terrier, 6 years & older                             | 3th then 5th | 5th: Foxton Locks Annie, owned by Jo Paddison"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 6 up to 9 months, smooth                     Entri | 2th then 4th | 4th: Jake, owned by Gary Wertz"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Youth Handling Go-to-Ground Entries: 6 | 3th then 5th | 5th: Jennifer Phillips"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 4 up to 6 months, r/br                         Ent | 3th then 6th | 6th: PointofView Ambush, owned by Mary Stevens"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 9 up to 12 months, smooth                    Entri | 1th then 3th | 3rd: Pleasant Hill Hawk, owned by Jill Denker"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Novice Puppy                                                 | 3th then 5th | 5th: Thistledown Carlie, owned by Sandy Brown"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Open Adult                                                   | 3th then 5th | 5th: Falling Branch Angus, owned by Tom & Lucy Ramey"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Pups, 9 up to 12 months, 10 up to 127\" Entries: 9 | 3th then 5th | 5th: Brandywine Rosita, owned by Tom Colmar"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 1215\" Entries: 18 | 3th then 5th | 5th: Gills Creek Scout, owned by Joe Shapiro/Brooks Kelley"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Advanced, On Lead                                     Entrie | 2th then 5th | 5th: Cricket, owned by Christina Granger"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Suitability to Groundhog                                     | 3th then 6th | 6th: Rebel Yelp Georgia, owned by Judith Stuckey"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitch Pups, 9 up to 12 months, smooth                 Entrie | 3th then 6th | 6th: Maefield Briona, owned by Donna Pierce"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Starters Agility, Off Lead, 10 up to 12!\" Entries: 5 | 3th then 5th | 5th: Arrowhead Norma Sue, owned by Jack Phillips"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Youth Handler                                                | 2th then 4th | 4th: Ben Lavender"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Neutered Adult Dog Entries: 3 | 1th then 3th | 3rd: Nick, owned by Carole Nicolson"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to r/br Entries: 18 | 3th then 5th | 5th: Kenswick Kayla, owned by Sandy McElearney"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "1st_then_3rd_no_2",
+        "3rd_then_5th_no_4",
+        "place_rank_gap"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 Vol III pt 1_ocr_hqmax.txt",
-      "chars_before": 340929,
+      "chars_before": 340930,
       "chars_after": 340689,
       "cleaned": true,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 43,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "place_rank_gap\u00d725,3rd_then_5th_no_4\u00d710,1st_then_3rd_no_2\u00d75,2nd_then_4th_no_3\u00d73",
+      "top_catalog": "C1\u00d743",
+      "by_code": {
+        "3rd_then_5th_no_4": 10,
+        "2nd_then_4th_no_3": 3,
+        "1st_then_3rd_no_2": 5,
+        "place_rank_gap": 25
+      },
+      "samples": [
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: AliHopth: Anne Case-Haefertyth: Shelly Stachursk\n5th: Jennifer Phillips"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Shelly Stachursk\n5th: AliHop"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: The Folly Bella, owned by Dorothy Whiting\n5th: Little Eden Folly, owned by George Anderson"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: White Phantom Chelsea, owned by Sandy Kiteley\n5th: Live Wire Noa, owned by C. & J. Kemp"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Long Hope Wee Won, owned by Nellie Niewola\n5th: The Hollow Primrose, owned by Linda St. Quintin"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Sow's Ear Seabee, owned by John Rentro\n5th: Brandywine Truffles, owned by Cathy Hedberg"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Killare Birdie, owned by Rachelle Goldsmith\n5th: Tarsia Rattle, owned by Mary Labrosse"
+        },
+        {
+          "code": "3rd_then_5th_no_4",
+          "catalog": "C1",
+          "line": "3rd: Mockingbird Hills KRKLN Rose, owned by Pam Larson\n5th: Tybalt Cauplet, owned by Julie Anderson"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Briar Patch Molly, owned by Richard & Jan Finnerty\n4th: Tortilla Flat Fiesta, owned by Patti Freemark"
+        },
+        {
+          "code": "2nd_then_4th_no_3",
+          "catalog": "C1",
+          "line": "2nd: Woods End Calico, owned by Doug & Noreen Loranger\n4th: Little Eden Thriller, owned by Michelle Ward"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Will-O-Moor Badger, owned by Scott Whittington\n3rd: Munchkin, owned by Melissa Lowe"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Button Top Stinger, owned by Debby Calloway\n3rd: Anderson Acres Tater Bug, owned by Tony Anderson"
+        },
+        {
+          "code": "1st_then_3rd_no_2",
+          "catalog": "C1",
+          "line": "1st: Audra Thompson 2nd: Mikey Gray Yo\n3rd: Carly Galterio 1st:"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": " | 1th then 3th | 3rd: Munchkin, owned by Melissa Lowe"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Youth Handling Go-to-Ground                         Entries: | 4th then 9th | 9th: James Andors"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 6 up to 9 months, r/br                          En | 1th then 4th | 4th: Sweetgrass Nelson, owned by Roger & Caryn Funk"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 12% up to 15\", r/br Entries: 10 | 2th then 4th | 4th: Tortilla Flat Fiesta, owned by Patti Freemark"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": " | 4th then 6th | 6th: Lost Creek Lindy, owned by G. Downing/B. Oleson"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Youth Handling Go-to-Ground Entries: 6 | 3th then 5th | 5th: Jennifer Phillips"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Youth Handling Agility, On Lead Entries: 7 | 3th then 5th | 5th: AliHop"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Advanced, On Lead                                        Ent | 2th then 5th | 5th: Cricket, owned by Christina Granger"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Suitability to Groundhog Entries: 14 | 3th then 6th | 6th: Rebel Yelp Georgia, owned by Judith Stuckey"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": " | 1th then 3th | 3rd: Anderson Acres Tater Bug, owned by Tony Anderson"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitch Pups, 4 up to 6 months, smooth                   Entri | 3th then 5th | 5th: Little Eden Folly, owned by George Anderson"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitch Pups, 4 up to 6 months, r/br                         E | 3th then 5th | 5th: Live Wire Noa, owned by C. & J. Kemp"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Neutered Adult Dog                                           | 3th then 5th | 5th: The Hollow Primrose, owned by Linda St. Quintin"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 12\", smooth         Entries | 2th then 5th | 5th: Winslow Genevieve, owned by Lisa Fitzgerald"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Bitches, 1 yr. & older, 10 up to 12 1/2\" Entries: 5 | 3th then 5th | 5th: Brandywine Truffles, owned by Cathy Hedberg"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Neutered Adult Dog                 Entries: 0 | 3th then 5th | 5th: Tarsia Rattle, owned by Mary Labrosse"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Suitability to Raccoon/Badger                           Entr | 3th then 5th | 5th: Tybalt Cauplet, owned by Julie Anderson"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dog Pups, 9 up to 12 months, smooth                    Entri | 1th then 4th | 4th: Muscle Russell Flyer, owned by Jill Goodman"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "1st_then_3rd_no_2",
+        "2nd_then_4th_no_3",
+        "3rd_then_5th_no_4",
+        "place_rank_gap"
+      ]
     },
     {
       "file": "_ocr_baseline_v2\\yearbook_1990_2001\\2000\\2000_Vol_III\\2000 Vol III pt 2_ocr_hqmax.txt",
-      "chars_before": 243332,
-      "chars_after": 243064,
+      "chars_before": 243649,
+      "chars_after": 243380,
       "cleaned": true,
-      "verdict": "PASS",
-      "fail_hits": 0,
+      "verdict": "FAIL",
+      "fail_hits": 3,
       "warn_hits": 0,
-      "top_codes": "",
-      "top_catalog": "",
-      "by_code": {},
-      "samples": [],
-      "reocr_required": false,
-      "reocr_codes": []
+      "top_codes": "place_rank_gap\u00d73",
+      "top_catalog": "C1\u00d73",
+      "by_code": {
+        "place_rank_gap": 3
+      },
+      "samples": [
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Suitability to Raccoon/Badger                            Ent | 1th then 4th | 4th: Natural Instinct Adonis, owned by Roxanne Friend"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Dogs, 1 yr. & older, over 12%:-15\" Entries: 2 | 2th then 4th | 4th: Farriers Point Racer X, owned by Paul & Tammie Davis"
+        },
+        {
+          "code": "place_rank_gap",
+          "catalog": "C1",
+          "line": "Suitability to Groundhog                                     | 2th then 4th | 4th: Thistle Ridge Schatzie, owned by Wendy Houtz"
+        }
+      ],
+      "reocr_required": true,
+      "reocr_codes": [
+        "place_rank_gap"
+      ]
     }
   ]
 }

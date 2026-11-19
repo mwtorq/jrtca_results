@@ -1,15 +1,15 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Coal Tree Farm_ocr_hqmax.txt,True,23250,23250,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 South Coast_ocr_hqmax.txt,True,24403,24405,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Troon Quarry_ocr_hqmax.txt,True,48531,48505,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Vol I_ocr_hqmax.txt,True,636667,636750,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt,True,59141,59092,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Coal Tree Farm_ocr_hqmax.txt,True,23251,23250,FAIL,12,0,"place_rank_gap×7,3rd_then_5th_no_4×3,2nd_then_4th_no_3×2",C1×12
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 South Coast_ocr_hqmax.txt,True,24446,24447,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Troon Quarry_ocr_hqmax.txt,True,48571,48544,FAIL,1,0,place_rank_gap×1,C1×1
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_I\2001 Vol I_ocr_hqmax.txt,True,636668,636750,FAIL,55,0,"place_rank_gap×25,3rd_then_5th_no_4×15,1st_then_3rd_no_2×10,2nd_then_4th_no_3×5",C1×55
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 MWJRTC II Wheatland I & II_ocr_hqmax.txt,True,59152,59102,FAIL,2,0,"3rd_then_5th_no_4×1,place_rank_gap×1",C1×2
 2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 OH-PA II_ocr_hqmax.txt,True,17433,17379,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt,True,60762,60716,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Paumanok Farmstead Dutchess County_ocr_hqmax.txt,True,60763,60716,FAIL,40,0,"place_rank_gap×25,1st_then_3rd_no_2×11,3rd_then_5th_no_4×3,2nd_then_4th_no_3×1",C1×40
 2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 PNWJRTN_ocr_hqmax.txt,True,22834,22834,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Summer Celebration_ocr_hqmax.txt,True,41101,41101,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 1_ocr_hqmax.txt,True,370270,370203,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 2_ocr_hqmax.txt,True,333340,333074,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Yankee_ocr_hqmax.txt,True,44023,44017,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 1_ocr_hqmax.txt,True,324342,324402,PASS,0,0,,
-2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 2_ocr_hqmax.txt,True,359879,359915,PASS,0,0,,
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Summer Celebration_ocr_hqmax.txt,True,41217,41216,FAIL,2,0,"3rd_then_5th_no_4×1,place_rank_gap×1",C1×2
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 1_ocr_hqmax.txt,True,370271,370203,FAIL,68,0,"place_rank_gap×25,1st_then_3rd_no_2×21,3rd_then_5th_no_4×16,2nd_then_4th_no_3×6",C1×68
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Vol II pt 2_ocr_hqmax.txt,True,333341,333074,FAIL,53,0,"place_rank_gap×25,3rd_then_5th_no_4×14,1st_then_3rd_no_2×14",C1×53
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_II\2001 Yankee_ocr_hqmax.txt,True,44024,44017,FAIL,42,0,"place_rank_gap×25,1st_then_3rd_no_2×9,2nd_then_4th_no_3×6,3rd_then_5th_no_4×2",C1×42
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 1_ocr_hqmax.txt,True,324422,324433,FAIL,47,0,"place_rank_gap×25,3rd_then_5th_no_4×10,2nd_then_4th_no_3×8,1st_then_3rd_no_2×4",C1×47
+2001,_ocr_baseline_v2\yearbook_1990_2001\2001\2001_Vol_III\2001 Vol III pt 2_ocr_hqmax.txt,True,359880,359915,FAIL,55,0,"place_rank_gap×25,2nd_then_4th_no_3×14,3rd_then_5th_no_4×10,1st_then_3rd_no_2×5,agility_racing_smash×1","C1×54,S1-S3×1"
