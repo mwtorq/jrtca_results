@@ -1414,8 +1414,15 @@ _CLASS_HEADER_HINT_RE = re.compile(
 
 
 def _is_hq_metadata_line(s: str) -> bool:
-    """True for HQ preamble lines (Source/OCR/…) — never class headers."""
-    return bool(re.match(r"(?i)^(?:Source|DerivedYear|OCR|FontHint)\s*:", (s or "").strip()))
+    """True for HQ preamble / park notes — never class headers."""
+    t = (s or "").strip()
+    if re.match(r"(?i)^(?:Source|DerivedYear|OCR|FontHint)\s*:", t):
+        return True
+    # JR-54 PDF-blank annotations (with or without leading #). Must not open
+    # Entries:N classes in incomplete_entries / place-gap detectors.
+    if re.match(r"(?i)^#?\s*PARKED\b", t):
+        return True
+    return False
 
 
 def _looks_like_class_header_line(s: str) -> bool:
@@ -2386,6 +2393,9 @@ def _dedupe_adjacent_class_headers(text: str) -> str:
             out.append(ln)
             continue
         if _ordinal_place_line(ln) or (out and _ordinal_place_line(out[-1])):
+            out.append(ln)
+            continue
+        if _is_hq_metadata_line(ln) or (out and _is_hq_metadata_line(out[-1])):
             out.append(ln)
             continue
         if (
@@ -3760,6 +3770,9 @@ def _iter_incomplete_entries_hits(
             continue
         if _PAGE_BREAK_RE.match(s) or _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
             continue
+        if _is_hq_metadata_line(s):
+            # PARKED / Source notes are not classes; never open Entries:N from them.
+            continue
         if _BEST_RESERVE_SECTION_RE.match(s) or _BEST_RESERVE_ROLE_LINE_RE.match(s):
             flush(s)
             continue
@@ -4184,6 +4197,9 @@ def _iter_place_rank_gap_hits(
         if _PAGE_BREAK_RE.match(s) or _COLUMN_MARK_RE.match(s) or _MARKER_RE.match(s):
             continue
         if _is_hq_metadata_line(s):
+            # PARKED ends the current ascending place run (PDF blank / class break).
+            flush()
+            header = ""
             continue
         if _is_non_place_result_line(s) or _BEST_RESERVE_SECTION_RE.match(s):
             flush()

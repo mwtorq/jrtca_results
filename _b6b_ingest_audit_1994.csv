@@ -1,9 +1,9 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_082440_ocr_hqmax.txt,True,42753,42750,PASS,0,0,,
-1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_083342_ocr_hqmax.txt,True,20495,20494,FAIL,2,0,"owner_tail_trunc×1,place_rank_gap×1","O6×1,C1×1"
-1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_083655_ocr_hqmax.txt,True,40936,40934,FAIL,1,0,place_rank_gap×1,C1×1
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_082440_ocr_hqmax.txt,True,42672,42570,PASS,0,0,,
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_083342_ocr_hqmax.txt,True,20584,20583,FAIL,1,0,owner_tail_trunc×1,O6×1
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_083655_ocr_hqmax.txt,True,41101,41099,PASS,0,0,,
 1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_1\Document_2026-11-04_084730_ocr_hqmax.txt,True,18765,18764,PASS,0,0,,
-1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_105927_ocr_hqmax.txt,True,54301,54300,FAIL,3,0,place_rank_gap×3,C1×3
-1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_111318_ocr_hqmax.txt,True,31340,31339,FAIL,1,0,place_rank_gap×1,C1×1
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_105927_ocr_hqmax.txt,True,56317,56075,PASS,0,0,,
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_111318_ocr_hqmax.txt,True,31569,31522,PASS,0,0,,
 1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_113633_ocr_hqmax.txt,True,15979,15962,PASS,0,0,,
-1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_114039_ocr_hqmax.txt,True,57777,57723,FAIL,2,0,place_rank_gap×2,C1×2
+1994,_ocr_baseline_v2\yearbook_1990_2001\1994\1994_Yearbook_Vol_2\Document_2026-11-04_114039_ocr_hqmax.txt,True,57846,57792,PASS,0,0,,

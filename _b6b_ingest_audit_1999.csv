@@ -1,7 +1,7 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_I\1999 Vol I, pt 1_ocr_hqmax.txt",True,217053,217024,FAIL,27,0,"place_rank_gap×17,3rd_then_5th_no_4×8,1st_then_3rd_no_2×2",C1×27
-1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_I\1999 Vol I, pt 2_ocr_hqmax.txt",True,202537,202104,FAIL,18,0,"place_rank_gap×12,3rd_then_5th_no_4×5,1st_then_3rd_no_2×1",C1×18
-1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_II\1999 Vol II, pt 1_ocr_hqmax.txt",True,170692,170763,FAIL,22,0,"place_rank_gap×14,3rd_then_5th_no_4×3,2nd_then_4th_no_3×3,1st_then_3rd_no_2×2",C1×22
-1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_II\1999 Vol II, pt 2_ocr_hqmax.txt",True,155421,155421,FAIL,15,0,"place_rank_gap×10,3rd_then_5th_no_4×4,1st_then_3rd_no_2×1",C1×15
-1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_III\1999 Vol III, pt 1_ocr_hqmax.txt",True,248997,248988,FAIL,2,0,"3rd_then_5th_no_4×1,place_rank_gap×1",C1×2
-1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_III\1999 Vol III, pt 2_ocr_hqmax.txt",True,292930,292286,FAIL,32,0,"place_rank_gap×22,3rd_then_5th_no_4×5,2nd_then_4th_no_3×3,1st_then_3rd_no_2×2",C1×32
+1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_I\1999 Vol I, pt 1_ocr_hqmax.txt",True,217630,217561,PASS,0,0,,
+1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_I\1999 Vol I, pt 2_ocr_hqmax.txt",True,202961,202471,PASS,0,0,,
+1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_II\1999 Vol II, pt 1_ocr_hqmax.txt",True,171592,171616,PASS,0,0,,
+1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_II\1999 Vol II, pt 2_ocr_hqmax.txt",True,155780,155774,PASS,0,0,,
+1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_III\1999 Vol III, pt 1_ocr_hqmax.txt",True,249037,248995,PASS,0,0,,
+1999,"_ocr_baseline_v2\yearbook_1990_2001\1999\1999_Vol_III\1999 Vol III, pt 2_ocr_hqmax.txt",True,293896,293211,PASS,0,0,,

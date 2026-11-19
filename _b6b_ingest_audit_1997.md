@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 1997
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 4  cleaned=4  PASS=3  WARN=0  FAIL=1
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 4  cleaned=4  PASS=4  WARN=0  FAIL=0
+Year verdict: **PASS**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -18,11 +18,8 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | Verdict | Cleaned | Fail | Warn | Catalog | File |
 |---------|---------|------|------|---------|------|
 | PASS | True | 0 | 0 | — | `1997 Vol I pt 1_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | C1/C6×1 | `1997 Vol I pt 2_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `1997 Vol I pt 2_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1997 Vol II pt 1_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1997 Vol II pt 2_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
-
-### `1997 Vol I pt 2_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: PARKED jr54: Bitch Pups 6-9 under 12.5 6th-7th not printed on PDF after Spring G | places=0/6 | Bitch Pups, 9 up to 12 months, up to 12 1/2" Entries: 6

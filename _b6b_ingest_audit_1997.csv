@@ -1,5 +1,5 @@
 year,file,cleaned,chars_before,chars_after,verdict,fail_hits,warn_hits,top_codes,top_catalog
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 1_ocr_hqmax.txt,True,357493,357098,FAIL,36,0,"place_rank_gap×20,3rd_then_5th_no_4×12,1st_then_3rd_no_2×3,agility_racing_smash×1","C1×35,S1-S3×1"
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 2_ocr_hqmax.txt,True,210064,206059,FAIL,29,0,"place_rank_gap×18,3rd_then_5th_no_4×8,1st_then_3rd_no_2×2,2nd_then_4th_no_3×1",C1×29
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 1_ocr_hqmax.txt,True,328996,318014,FAIL,43,0,"place_rank_gap×25,3rd_then_5th_no_4×14,2nd_then_4th_no_3×3,agility_racing_smash×1","C1×42,S1-S3×1"
-1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 2_ocr_hqmax.txt,True,281516,281558,FAIL,2,0,"3rd_then_5th_no_4×1,place_rank_gap×1",C1×2
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 1_ocr_hqmax.txt,True,358405,357996,PASS,0,0,,
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_I\1997 Vol I pt 2_ocr_hqmax.txt,True,210264,206538,PASS,0,0,,
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 1_ocr_hqmax.txt,True,329409,319198,PASS,0,0,,
+1997,_ocr_baseline_v2\yearbook_1990_2001\1997\1997_Vol_II\1997 Vol II pt 2_ocr_hqmax.txt,True,281508,281581,PASS,0,0,,

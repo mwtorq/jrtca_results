@@ -1,8 +1,8 @@
 # B6b cleanup + ingest audit — 1996
 
 Catalog: `_OCR_CLEANUP_CATALOG_HANDOFF.md`
-Volumes: 30  cleaned=28  PASS=29  WARN=0  FAIL=1
-Year verdict: **FAIL**  SQL-apply unlock: NO
+Volumes: 30  cleaned=28  PASS=30  WARN=0  FAIL=0
+Year verdict: **PASS**  SQL-apply unlock: YES
 
 ## Intent
 - Apply finalize/catalog cleanups to stored HQ text (backup `*.pre_b6b`).
@@ -23,7 +23,7 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back reversed_ocr_hqmax.txt` |
 | PASS | False | 0 | 0 | — | `1996 Vol 1 pg 161-178 back_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol 1 pg 161-178 front_ocr_hqmax.txt` |
-| FAIL | True | 1 | 0 | C1/C6×1 | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
+| PASS | True | 0 | 0 | — | `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol 1 pg 21-60 back_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol 1 pg 21-60 front_ocr_hqmax.txt` |
 | PASS | True | 0 | 0 | — | `1996 Vol 1 pg 61-110 back reversed_ocr_hqmax.txt` |
@@ -49,6 +49,3 @@ Year verdict: **FAIL**  SQL-apply unlock: NO
 | PASS | True | 0 | 0 | — | `Document_2026-11-04_153208_ocr_hqmax.txt` |
 
 ## Sample residual hits (after cleanup)
-
-### `1996 Vol 1 pg 21-60 back reversed_ocr_hqmax.txt` (FAIL)
-- `C1/C6` / `incomplete_entries`: PARKED jr54: Arizona Bred 5th-7th not printed on PDF after Tortilla Flat Streak  | places=0/6 | PARKED jr54: Dog Pups 6-9 smooth 1st-5th absent from scan (n
